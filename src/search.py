@@ -19,11 +19,16 @@ SEARCHES = [
     '"MK Global Kapital" News',
     '"Mikro Kapital" News deutsch',
     
-    # === KEY PEOPLE ===
+    # === KEY PEOPLE (broad - catches guest commentary where brand is only in byline) ===
     '"Johannes Feist" Mikrofinanz',
     '"Johannes Feist" "MK Global"',
     '"Johannes Feist" "Mikro Kapital"',
     '"Johannes Feist" CEO Mikrofinanz Interview',
+    '"Johannes Feist" Gastkommentar OR Kommentar OR Gastbeitrag',
+    '"Johannes Feist" "Private Credit" OR "Private Debt"',
+    '"Johannes Feist" Emerging Markets OR Iran OR Schwellenlaender',
+    '"Johannes Feist" tokenisiert OR Anleihe OR Bond',
+    '"Johannes Feist" Mikrofinanz 2026',
     '"Michele Mattioda" MK Global',
     '"Michele Mattioda" Mikrofinanz',
     
@@ -49,7 +54,7 @@ SEARCHES = [
     '"Mikro Kapital" OR "MK Global" OR "Johannes Feist" site:handelsblatt.com',
     '"Mikro Kapital" OR "MK Global" OR "Johannes Feist" site:finews.ch',
     '"Mikro Kapital" OR "MK Global" OR "Johannes Feist" site:nzz.ch',
-    '"Mikro Kapital" OR "MK Global" site:institutional-money.com',
+    '"Mikro Kapital" OR "MK Global" OR "Johannes Feist" site:institutional-money.com',
     '"Mikro Kapital" OR "MK Global" site:dasinvestment.com',
     '"Mikro Kapital" OR "MK Global" site:fondsprofessionell.de',
     '"Mikro Kapital" OR "MK Global" site:altii.de',
@@ -74,6 +79,10 @@ SEARCHES = [
     '"Mikro Kapital" OR "MK Global" site:boersen-kurier.at',
     '"Mikro Kapital" OR "MK Global" site:kreditwesen.de',
     '"Mikro Kapital" OR "MK Global" site:gruenderkueche.de',
+    '"Mikro Kapital" OR "MK Global" OR "Johannes Feist" site:cash-online.de',
+    '"Mikro Kapital" OR "MK Global" OR "Johannes Feist" site:swissfinanceai.ch',
+    '"Mikro Kapital" OR "MK Global" OR "Johannes Feist" site:platow.de',
+    '"Mikro Kapital" OR "MK Global" OR "Johannes Feist" site:private-banking-magazin.de',
     
     # === BROAD THEMATIC ===
     'Mikrofinanzfonds Deutschland Schweiz 2026',
