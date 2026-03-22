@@ -1,5 +1,16 @@
 [
   {
+    "date": "2026-03-19",
+    "outlet": "Moneycab",
+    "title": "Nicht nur Öl: Wo der Iran-Konflikt Emerging Markets wirklich trifft",
+    "country": "CH",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.moneycab.com/finanz/nicht-nur-oel-wo-der-iran-konflikt-emerging-markets-wirklich-trifft/",
+    "added_at": "2026-03-22T11:00:00",
+    "source": "auto"
+  },
+  {
     "date": "2026-03-16",
     "outlet": "FONDS exklusiv",
     "title": "Private Credit-Debatte entfacht",
@@ -75,6 +86,17 @@
     "link": "https://exxecnews.org/wp-content/uploads/2026/02/Ausgabe-05_2026.pdf",
     "added_at": "2026-03-06T09:00:00",
     "source": "manual"
+  },
+  {
+    "date": "2026-02-18",
+    "outlet": "dfpa.info",
+    "title": "Mikrofinanz: Besonderheit Anleihen mit festem Zins",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.dfpa.info/interview/mikrofinanz-besonderheit-anleihen-mit-festem-zins.html",
+    "added_at": "2026-03-22T11:00:00",
+    "source": "auto"
   },
   {
     "date": "2026-02-16",
@@ -206,6 +228,72 @@
     "tier": 1,
     "link": "https://www.portfolio-institutionell.de/grosse-wirkung-mit-kleinen-krediten/",
     "added_at": "2026-03-22T09:00:00",
+    "source": "auto"
+  },
+  {
+    "date": "2025-12-09",
+    "outlet": "investrends.ch",
+    "title": "Neue Managementgesellschaft für den Impact-Fonds ALTERNATIVE",
+    "country": "CH",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://investrends.ch/aktuell/investments/neue-managementgesellschaft-fur-den-impact-fonds-alternative/",
+    "added_at": "2026-03-22T11:00:00",
+    "source": "auto"
+  },
+  {
+    "date": "2025-12-08",
+    "outlet": "Moneycab",
+    "title": "MK Global Kapital wird per 1. Januar Managementgesellschaft für den Impact-Fonds ALTERNATIVE",
+    "country": "CH",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.moneycab.com/finanz/mk-global-kapital-wird-per-1-januar-managementgesellschaft-fuer-den-impact-fonds-alternative/",
+    "added_at": "2026-03-22T11:00:00",
+    "source": "auto"
+  },
+  {
+    "date": "2025-12-06",
+    "outlet": "bondguide.de",
+    "title": "Mikro Kapital Management: Impact Investing ist kein Charity",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.bondguide.de/topnews/mikro-kapital-management-impact-investing-ist-kein-charity/",
+    "added_at": "2026-03-22T11:00:00",
+    "source": "auto"
+  },
+  {
+    "date": "2025-11-24",
+    "outlet": "Finews",
+    "title": "Johannes Feist über Mikrofinanzen: Sollten vom hohen Ross herunterkommen",
+    "country": "CH",
+    "type": "Online",
+    "tier": 1,
+    "link": "https://www.finews.ch/news/finanzplatz/70147-mikro-capital-johannes-feist-kuenstliche-intelligenz-blockchain-rumaenien-europa-mikrofinanzen-finanzplatz-schweiz",
+    "added_at": "2026-03-22T11:00:00",
+    "source": "auto"
+  },
+  {
+    "date": "2025-11-12",
+    "outlet": "investrends.ch",
+    "title": "Mikrofinanz ist Private Debt mit direkter Verbindung zur Realwirtschaft",
+    "country": "CH",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://investrends.ch/aktuell/investments/mikrofinanz-ist-private-debt-mit-direkter-verbindung-zur-realwirtschaft/",
+    "added_at": "2026-03-22T11:00:00",
+    "source": "auto"
+  },
+  {
+    "date": "2025-07-10",
+    "outlet": "Handelszeitung",
+    "title": "Zwischen ESG-Müdigkeit und Wirkungsanspruch",
+    "country": "CH",
+    "type": "Online",
+    "tier": 1,
+    "link": "https://www.handelszeitung.ch/specials/nachhaltiges-investieren-2024/zwischen-esg-mudigkeit-und-wirkungsanspruch-841576",
+    "added_at": "2026-03-22T11:00:00",
     "source": "auto"
   }
 ]
