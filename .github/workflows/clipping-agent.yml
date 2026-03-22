@@ -1,11 +1,11 @@
 name: MK Clipping Agent
 
 on:
+  push:
+    branches: [main]
   schedule:
-    # Täglich um 07:00 Uhr CET (= 06:00 UTC)
     - cron: '0 6 * * *'
   workflow_dispatch:
-    # Manuell auslösbar über GitHub UI
 
 permissions:
   contents: write
