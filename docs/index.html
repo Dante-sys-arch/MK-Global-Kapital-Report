@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="MK Clippings">
+<title>MK Clipping Agent</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#080e1b;color:#c8d0dc;font-family:'DM Sans',sans-serif;-webkit-text-size-adjust:100%}
+a{color:#60a5fa;text-decoration:none}
+.header{background:linear-gradient(145deg,#0b1828,#101f35);border-bottom:1px solid #18293f;padding:16px 18px 0}
+.hInner{max-width:1060px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+h1{font-size:19px;font-weight:700;color:#fff;letter-spacing:-0.02em}
+.sub{font-size:10px;color:#3a4a5c;font-family:'JetBrains Mono';margin-top:2px}
+.nav{display:flex;gap:0;margin-top:12px;max-width:1060px;margin:12px auto 0}
+.tab{padding:6px 13px;font-size:12px;border:none;cursor:pointer;background:transparent;color:#3a4a5c;border-radius:5px 5px 0 0;font-family:'DM Sans'}
+.tab.active{background:#080e1b;color:#fff;font-weight:600}
+main{max-width:1060px;margin:0 auto;padding:18px}
+.card{background:#0c1525;border-radius:8px;padding:16px;border:1px solid #18293f;margin-bottom:12px}
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:8px;margin-bottom:12px}
+.kpi-val{font-size:28px;font-weight:700;font-family:'JetBrains Mono'}
+.kpi-label{font-size:9px;color:#3a4a5c;text-transform:uppercase;letter-spacing:0.08em;margin-top:2px}
+.h3{margin:0 0 10px;font-size:12px;color:#5a6a80;font-weight:500}
+.tier{font-size:9px;padding:1px 5px;border-radius:3px;font-weight:600}
+.t1{background:#064e3b;color:#6ee7b7}.t2{background:#78350f;color:#fcd34d}
+.btn{background:#2563eb;color:#fff;border:none;border-radius:5px;padding:8px 18px;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans'}
+.ghost{background:#101f35;color:#5a6a80;border:1px solid #18293f;border-radius:5px;padding:5px 12px;font-size:11px;cursor:pointer}
+.inp{width:100%;background:#050a14;border:1px solid #18293f;border-radius:4px;color:#c8d0dc;padding:6px 8px;font-size:12px;outline:none;box-sizing:border-box}
+.lbl{font-size:9px;color:#3a4a5c;text-transform:uppercase;letter-spacing:0.06em;display:block;margin-bottom:2px}
+table{width:100%;border-collapse:collapse}
+th{padding:7px 5px;text-align:left;border-bottom:2px solid #18293f;color:#3a4a5c;font-weight:500;text-transform:uppercase;letter-spacing:0.06em;font-size:9px}
+td{padding:6px 5px;color:#98a8b8;font-size:12px;border-bottom:1px solid #152238}
+.mono{font-family:'JetBrains Mono'}
+.bar{height:14px;background:#1e3a5f;border-radius:3px}
+.msg{background:#064e3b;color:#6ee7b7;padding:8px 12px;border-radius:6px;font-size:12px;margin-bottom:12px}
+.search{width:100%;padding:8px 12px;font-size:13px;margin-bottom:12px}
+.act{background:none;border:none;cursor:pointer;font-size:14px;padding:1px 3px}
+.hidden{display:none}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.form-grid .full{grid-column:1/-1}
+.flex-row{display:flex;gap:8px}
+.flex-row label{flex:1}
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="hInner">
+    <div><h1>MK Clipping Agent</h1><p class="sub">Mikro Kapital Management — DACH Media Monitor</p></div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap">
+      <button class="btn" style="font-size:12px;padding:5px 14px" onclick="showTab('add')">+ Artikel</button>
+      <button class="ghost" onclick="exportCSV()">CSV</button>
+      <button class="ghost" onclick="syncFromGH()">Sync</button>
+    </div>
+  </div>
+  <nav class="nav" id="nav"></nav>
+</div>
+<main id="content"></main>
+
+<script>
+const REPO="https://raw.githubusercontent.com/Dante-sys-arch/MK-Global-Kapital-Report/main/data/clippings.json";
+const LS="mk-page-v1";
+let clips=[];
+let tab="dash";
+let search="";
+
+function load(){
+  try{const d=localStorage.getItem(LS);if(d){clips=JSON.parse(d);return;}}catch(e){}
+  clips=[];
+}
+function save(){
+  clips.sort((a,b)=>(b.date||"").localeCompare(a.date||""));
+  try{localStorage.setItem(LS,JSON.stringify(clips));}catch(e){}
+}
+
+async function syncFromGH(){
+  try{
+    const r=await fetch(REPO+"?t="+Date.now());
+    if(!r.ok) throw new Error("HTTP "+r.status);
+    const data=await r.json();
+    let added=0;
+    for(const a of data){
+      const dup=clips.some(c=>(a.link&&c.link&&a.link===c.link)||(a.title&&c.title&&a.title.toLowerCase()===c.title.toLowerCase()&&a.outlet&&c.outlet&&a.outlet.toLowerCase()===c.outlet.toLowerCase()));
+      if(!dup){clips.push({...a,id:"s-"+Date.now()+Math.random()});added++;}
+    }
+    save();render();
+    alert(added>0?added+" neue Artikel synchronisiert":"Alles aktuell, keine neuen Artikel");
+  }catch(e){alert("Sync-Fehler: "+e.message);}
+}
+
+function fD(d){return d?d.substring(0,10):"";}
+function tierCls(t){return +t===1?"t1":"t2";}
+
+function stats(){
+  const s={total:clips.length,t1:clips.filter(c=>+c.tier===1).length,t2:clips.filter(c=>+c.tier===2).length,
+    online:clips.filter(c=>c.type==="Online").length,print:clips.filter(c=>(c.type||"").includes("Print")).length,
+    outlets:new Set(clips.map(c=>c.outlet).filter(Boolean)).size,
+    byMonth:{},byCountry:{},byOutlet:{}};
+  clips.forEach(c=>{if(c.date){const m=c.date.slice(0,7);s.byMonth[m]=(s.byMonth[m]||0)+1;}
+    if(c.country){s.byCountry[c.country]=(s.byCountry[c.country]||0)+1;}
+    if(c.outlet){s.byOutlet[c.outlet]=(s.byOutlet[c.outlet]||0)+1;}});
+  return s;
+}
+
+function showTab(t){tab=t;render();}
+
+function render(){
+  // Nav
+  const tabs=[["dash","Dashboard"],["list","Clippings"],["analysis","Analyse"],["add","Hinzufügen"]];
+  document.getElementById("nav").innerHTML=tabs.map(([k,l])=>`<button class="tab ${tab===k?"active":""}" onclick="showTab('${k}')">${l}${k==="list"?" ("+clips.length+")":""}</button>`).join("");
+
+  const el=document.getElementById("content");
+  const s=stats();
+  const maxM=Math.max(...Object.values(s.byMonth),1);
+
+  if(tab==="dash"){
+    el.innerHTML=`
+      <div class="kpi-grid">
+        ${[["Total",s.total,"#4f8ff7"],["Tier 1",s.t1,"#34d399"],["Tier 2",s.t2,"#fbbf24"],["Online",s.online,"#a78bfa"],["Print",s.print,"#f472b6"],["Medien",s.outlets,"#22d3ee"]].map(([l,v,c])=>`<div class="card"><div class="kpi-val" style="color:${c}">${v}</div><div class="kpi-label">${l}</div></div>`).join("")}
+      </div>
+      <div class="card"><h3 class="h3">Clippings pro Monat</h3>
+        <div style="display:flex;gap:8px;align-items:flex-end;height:110px">
+          ${Object.entries(s.byMonth).sort().map(([m,c])=>`<div style="flex:1;text-align:center"><div style="height:${Math.max(6,(c/maxM)*85)}px;background:linear-gradient(180deg,#4f8ff7,#2563eb);border-radius:4px 4px 0 0"></div><div style="font-size:9px;color:#4a5a6c;margin-top:3px" class="mono">${m.slice(2).replace("-","/")}</div><div style="font-size:12px;color:#98a8b8;font-weight:600">${c}</div></div>`).join("")}
+        </div>
+      </div>
+      <div class="card" style="margin-top:14px"><h3 class="h3">Neueste Clippings</h3>
+        ${clips.slice(0,5).map((c,i)=>`<div style="padding:8px 0;${i<4?"border-bottom:1px solid #152238":""}">
+          <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
+            <span class="mono" style="font-size:10px;color:#4a5a6c;min-width:68px">${fD(c.date)}</span>
+            <span class="tier ${tierCls(c.tier)}">T${c.tier}</span>
+            <span style="font-size:11px;color:#4a5a6c">${c.outlet||""}</span>
+          </div>
+          <div style="font-size:13px;color:#c8d0dc;margin-top:3px">${c.link?`<a href="${c.link}" target="_blank">${c.title}</a>`:c.title||""}</div>
+        </div>`).join("")}
+      </div>`;
+  }
+
+  else if(tab==="add"){
+    el.innerHTML=`
+      <div class="card"><h3 class="h3" style="color:#fff;font-size:15px">Artikel manuell hinzufügen</h3>
+        <p style="color:#4a5a6c;font-size:12px;margin:0 0 14px">Neue Clippings werden lokal gespeichert. Tippe "Sync" um Daten vom GitHub Agent zu laden.</p>
+        <div id="msg"></div>
+        <div class="form-grid">
+          <label><span class="lbl">Datum</span><input type="date" id="nDate" class="inp"></label>
+          <label><span class="lbl">Medium</span><input id="nOutlet" class="inp" placeholder="z.B. Handelsblatt"></label>
+          <label class="full"><span class="lbl">Titel *</span><input id="nTitle" class="inp" placeholder="Artikeltitel"></label>
+          <label class="full"><span class="lbl">Link</span><input id="nLink" class="inp" placeholder="https://..."></label>
+          <div class="flex-row">
+            <label><span class="lbl">Land</span><select id="nCountry" class="inp"><option>D</option><option>CH</option><option>A</option><option>DACH</option></select></label>
+            <label><span class="lbl">Typ</span><select id="nType" class="inp"><option>Online</option><option>Print</option><option>Print & Online</option></select></label>
+            <label><span class="lbl">Tier</span><select id="nTier" class="inp"><option value="1">1</option><option value="2" selected>2</option></select></label>
+          </div>
+          <div class="full"><button class="btn" style="width:100%" onclick="addArticle()">Artikel hinzufügen</button></div>
+        </div>
+      </div>
+      <div class="card" style="margin-top:14px;background:#0a1220;border-color:#1a3050">
+        <h3 class="h3">Automatische Suche</h3>
+        <p style="color:#4a6a8c;font-size:12px;line-height:1.6">Der GitHub Agent sucht jeden Morgen um 07:00 Uhr automatisch. Tippe oben <b>"Sync"</b> um die neuesten Ergebnisse zu laden.</p>
+      </div>`;
+  }
+
+  else if(tab==="list"){
+    const f=search?clips.filter(c=>`${c.title} ${c.outlet} ${c.country}`.toLowerCase().includes(search.toLowerCase())):clips;
+    el.innerHTML=`
+      <input class="inp search" value="${search}" oninput="search=this.value;render()" placeholder="Suche nach Titel, Medium oder Land...">
+      <div style="overflow-x:auto">
+        <table><thead><tr><th>Datum</th><th>Medium</th><th>Titel</th><th>Land</th><th>Typ</th><th>Tier</th><th></th></tr></thead>
+        <tbody>${f.map((c,i)=>`<tr>
+          <td class="mono" style="color:#4a5a6c;font-size:11px;white-space:nowrap">${fD(c.date)}</td>
+          <td>${c.outlet||""}</td>
+          <td style="max-width:260px">${c.link?`<a href="${c.link}" target="_blank">${c.title}</a>`:c.title||""}</td>
+          <td>${c.country||""}</td>
+          <td>${c.type||""}</td>
+          <td><span class="tier ${tierCls(c.tier)}">T${c.tier}</span></td>
+          <td><button class="act" style="color:#f87171" onclick="delClip(${i})">✕</button></td>
+        </tr>`).join("")}</tbody></table>
+        <div style="text-align:center;padding:8px;font-size:11px;color:#3a4a5c">${f.length} von ${clips.length} Clippings</div>
+      </div>`;
+  }
+
+  else if(tab==="analysis"){
+    const maxO=Math.max(...Object.values(s.byOutlet),1);
+    el.innerHTML=`
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div class="card"><h3 class="h3">Tier-Analyse</h3>
+          <div style="display:flex;gap:2px;margin-bottom:12px">
+            <div style="flex:${s.t1||0.1};height:24px;background:#34d399;border-radius:4px 0 0 4px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#000">${s.t1}</div>
+            <div style="flex:${s.t2||0.1};height:24px;background:#fbbf24;border-radius:0 4px 4px 0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#000">${s.t2}</div>
+          </div>
+          <div style="font-size:12px;color:#5a6a80"><span style="color:#34d399">Tier 1: ${s.t1}</span> (${s.total?Math.round(s.t1/s.total*100):0}%) — <span style="color:#fbbf24">Tier 2: ${s.t2}</span> (${s.total?Math.round(s.t2/s.total*100):0}%)</div>
+        </div>
+        <div class="card"><h3 class="h3">Nach Land</h3>
+          ${Object.entries(s.byCountry).sort((a,b)=>b[1]-a[1]).map(([c,n])=>`<div style="display:flex;justify-content:space-between;padding:3px 0;font-size:12px"><span style="color:#98a8b8">${c}</span><span class="mono" style="color:#4f8ff7;font-weight:600">${n}</span></div>`).join("")}
+        </div>
+      </div>
+      <div class="card" style="margin-top:14px"><h3 class="h3">Top Medien</h3>
+        ${Object.entries(s.byOutlet).sort((a,b)=>b[1]-a[1]).map(([o,n])=>`<div style="display:flex;align-items:center;gap:8px;padding:3px 0"><div class="bar" style="width:${Math.max(4,(n/maxO)*180)}px"></div><span class="mono" style="font-size:11px;color:#98a8b8;min-width:18px">${n}</span><span style="font-size:11px;color:#c8d0dc">${o}</span></div>`).join("")}
+      </div>
+      <div class="card" style="margin-top:14px"><h3 class="h3">Monatliches Detail</h3>
+        <table><thead><tr><th>Monat</th><th>Gesamt</th><th>Tier 1</th><th>Tier 2</th></tr></thead>
+        <tbody>${Object.entries(s.byMonth).sort().map(([m,c])=>{
+          const t1=clips.filter(cl=>cl.date&&cl.date.startsWith(m)&&+cl.tier===1).length;
+          return `<tr><td class="mono">${m}</td><td style="font-weight:600;color:#4f8ff7">${c}</td><td style="color:#34d399">${t1}</td><td style="color:#fbbf24">${c-t1}</td></tr>`;
+        }).join("")}</tbody></table>
+      </div>`;
+  }
+}
+
+function addArticle(){
+  const title=document.getElementById("nTitle").value;
+  if(!title){alert("Titel ist Pflichtfeld");return;}
+  clips.push({date:document.getElementById("nDate").value,outlet:document.getElementById("nOutlet").value,title,
+    link:document.getElementById("nLink").value,country:document.getElementById("nCountry").value,
+    type:document.getElementById("nType").value,tier:+document.getElementById("nTier").value,id:"m-"+Date.now()});
+  save();render();
+  setTimeout(()=>{const m=document.getElementById("msg");if(m)m.innerHTML=`<div class="msg">"${title.slice(0,40)}..." hinzugefügt</div>`;},50);
+}
+
+function delClip(i){
+  const f=search?clips.filter(c=>`${c.title} ${c.outlet} ${c.country}`.toLowerCase().includes(search.toLowerCase())):clips;
+  if(confirm("Löschen?")){const idx=clips.indexOf(f[i]);if(idx>-1)clips.splice(idx,1);save();render();}
+}
+
+function exportCSV(){
+  const h="Publication Date,Media Outlet,Title,Country,Type,Tier,Link";
+  const rows=clips.map(c=>[fD(c.date),c.outlet||"",'"'+(c.title||"").replace(/"/g,'""')+'"',c.country||"",c.type||"",c.tier||"",c.link||""].join(","));
+  const blob=new Blob(["\uFEFF"+h+"\n"+rows.join("\n")],{type:"text/csv;charset=utf-8;"});
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="MK_Clippings_"+fD(new Date().toISOString())+".csv";a.click();
+}
+
+// Init
+load();
+if(!clips.length) syncFromGH().then(()=>render()); else render();
+</script>
+</body>
+</html>
