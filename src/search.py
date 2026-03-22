@@ -1,6 +1,6 @@
 """
 MK Global Kapital - DACH Clipping Agent
-Broad, thorough search for German-language media coverage.
+Ultra-broad search strategy across web, news, and specific outlets.
 """
 import json
 import os
@@ -10,35 +10,75 @@ from datetime import datetime
 from pathlib import Path
 import anthropic
 
+# 40+ search queries for maximum coverage
 SEARCHES = [
-    # Core brand
+    # === CORE BRAND (Web + News) ===
     '"MK Global Kapital"',
     '"Mikro Kapital" Mikrofinanz',
     '"Mikro Kapital Management"',
-    # Key people
-    '"Johannes Feist" Mikrofinanz OR "MK Global" OR "Mikro Kapital"',
-    '"Michele Mattioda" MK OR Mikrofinanz OR Mikro',
-    # Topic combos
-    '"Mikro Kapital" Anleihe OR Bond OR Fonds',
-    '"MK Global Kapital" OR "Mikro Kapital" Private Debt KMU',
-    '"Mikro Kapital" Impact OR ESG OR nachhaltig',
-    '"Mikro Kapital" OR "MK Global" Emerging Markets OR Schwellenlaender',
-    # Per-outlet searches (critical for completeness)
-    '"Mikro Kapital" OR "MK Global" site:handelsblatt.com OR site:faz.net',
-    '"Mikro Kapital" OR "MK Global" site:finews.ch OR site:nzz.ch',
-    '"Mikro Kapital" OR "MK Global" site:institutional-money.com OR site:dasinvestment.com',
-    '"Mikro Kapital" OR "MK Global" site:fondsprofessionell.de OR site:citywire.de',
-    '"Mikro Kapital" OR "MK Global" site:moneycab.com OR site:cash.ch',
-    '"Mikro Kapital" OR "MK Global" site:investrends.ch OR site:payoff.ch',
-    '"Mikro Kapital" OR "MK Global" site:bondguide.de OR site:altii.de',
-    '"Mikro Kapital" OR "MK Global" site:dfpa.info OR site:e-fundresearch.com',
-    '"Mikro Kapital" OR "MK Global" site:markteinblicke.de OR site:finanznachrichten.de',
-    '"Johannes Feist" OR "MK Global" site:fondsprofessionell.de OR site:portfolio-institutionell.de',
-    '"Mikro Kapital" OR "MK Global" site:boersen-zeitung.de OR site:fondsexklusiv.de',
-    # Broader thematic
-    'Mikrofinanz DACH Anleihe 2026 Feist OR "Mikro Kapital"',
-    '"MK Global" OR "Mikro Kapital" Kreditwesen OR geldmeisterin OR Handelszeitung',
-    '"MK Global" OR "Mikro Kapital" exxecnews OR gruenderkueche OR "Boersen-Kurier"',
+    '"MK Global Kapital" News',
+    '"Mikro Kapital" News deutsch',
+    
+    # === KEY PEOPLE ===
+    '"Johannes Feist" Mikrofinanz',
+    '"Johannes Feist" "MK Global"',
+    '"Johannes Feist" "Mikro Kapital"',
+    '"Johannes Feist" CEO Mikrofinanz Interview',
+    '"Michele Mattioda" MK Global',
+    '"Michele Mattioda" Mikrofinanz',
+    
+    # === TOPIC COMBINATIONS ===
+    '"Mikro Kapital" Anleihe',
+    '"Mikro Kapital" "Private Debt"',
+    '"MK Global" Impact Investing',
+    '"Mikro Kapital" ESG nachhaltig',
+    '"Mikro Kapital" Emerging Markets',
+    '"MK Global" OR "Mikro Kapital" KMU Kredit',
+    '"Mikro Kapital" Fonds ALTERNATIVE',
+    '"MK Global" Seidenstrasse OR "Silk Road"',
+    '"Mikro Kapital" Leasing Zentralasien',
+    
+    # === GOOGLE NEWS SPECIFIC ===
+    '"MK Global Kapital" nach:2025-01-01',
+    '"Mikro Kapital" Mikrofinanz nach:2025-06-01',
+    '"Johannes Feist" Mikrofinanz nach:2025-01-01',
+    'Mikrofinanz "Mikro Kapital" Nachrichten 2026',
+    
+    # === PER-OUTLET SEARCHES (Tier 1) ===
+    '"Mikro Kapital" OR "MK Global" OR "Johannes Feist" site:faz.net',
+    '"Mikro Kapital" OR "MK Global" OR "Johannes Feist" site:handelsblatt.com',
+    '"Mikro Kapital" OR "MK Global" OR "Johannes Feist" site:finews.ch',
+    '"Mikro Kapital" OR "MK Global" OR "Johannes Feist" site:nzz.ch',
+    '"Mikro Kapital" OR "MK Global" site:institutional-money.com',
+    '"Mikro Kapital" OR "MK Global" site:dasinvestment.com',
+    '"Mikro Kapital" OR "MK Global" site:fondsprofessionell.de',
+    '"Mikro Kapital" OR "MK Global" site:altii.de',
+    '"Mikro Kapital" OR "MK Global" site:citywire.de',
+    '"Mikro Kapital" OR "MK Global" site:portfolio-institutionell.de',
+    '"Mikro Kapital" OR "MK Global" site:handelszeitung.ch',
+    
+    # === PER-OUTLET SEARCHES (Tier 2) ===
+    '"Mikro Kapital" OR "MK Global" OR "Johannes Feist" site:moneycab.com',
+    '"Mikro Kapital" OR "MK Global" OR "Johannes Feist" site:investrends.ch',
+    '"Mikro Kapital" OR "MK Global" site:bondguide.de',
+    '"Mikro Kapital" OR "MK Global" site:dfpa.info',
+    '"Mikro Kapital" OR "MK Global" site:e-fundresearch.com',
+    '"Mikro Kapital" OR "MK Global" site:markteinblicke.de',
+    '"Mikro Kapital" OR "MK Global" site:finanznachrichten.de',
+    '"Mikro Kapital" OR "MK Global" site:cash.ch',
+    '"Mikro Kapital" OR "MK Global" site:payoff.ch',
+    '"Mikro Kapital" OR "MK Global" site:fondsexklusiv.de',
+    '"Mikro Kapital" OR "MK Global" site:boersen-zeitung.de',
+    '"Mikro Kapital" OR "MK Global" site:geldmeisterin.com',
+    '"Mikro Kapital" OR "MK Global" site:exxecnews.org',
+    '"Mikro Kapital" OR "MK Global" site:boersen-kurier.at',
+    '"Mikro Kapital" OR "MK Global" site:kreditwesen.de',
+    '"Mikro Kapital" OR "MK Global" site:gruenderkueche.de',
+    
+    # === BROAD THEMATIC ===
+    'Mikrofinanzfonds Deutschland Schweiz 2026',
+    'Mikrofinanz Anleihe Impact "Private Debt" DACH 2026',
+    '"Mikro Kapital" OR "Mikrokapital" Presse OR Pressemitteilung',
 ]
 
 TIER1 = [
@@ -52,19 +92,26 @@ TIER1 = [
     "handelszeitung",
 ]
 
-SYSTEM_PROMPT = """Du bist ein gruendlicher Medienanalyse-Assistent fuer MK Global Kapital (ehemals Mikro Kapital Management S.A.).
+SYSTEM_PROMPT = """Du bist ein extrem gruendlicher Medienrecherche-Assistent fuer MK Global Kapital (ehemals Mikro Kapital Management S.A.).
 
-AUFGABE: Finde ALLE deutschsprachigen Medienartikel aus dem DACH-Raum, die eines der folgenden erwaehnen:
+DEINE AUFGABE: Durchsuche das Web und Google News so breit wie moeglich nach ALLEN deutschsprachigen Medienartikeln aus dem DACH-Raum, die folgende Begriffe erwaehnen:
 - MK Global Kapital
 - Mikro Kapital (Management)
-- Dr. Johannes Feist (im Kontext Mikrofinanz/Finance)
+- Dr. Johannes Feist (CEO, im Kontext Finanzen/Mikrofinanz)
 - Michele Mattioda (im Kontext MK Global/Mikrofinanz)
 
-Sei SEHR GRUENDLICH. Auch kurze Erwaehnungen, Gastbeitraege, Interviews, Pressemitteilungen und Kommentare zaehlen.
+SUCHSTRATEGIE:
+- Suche in Nachrichtenportalen, Fachmedien, Blogs, Pressemitteilungen, Interviews, Gastbeitraege
+- Suche auch in Google News
+- Beachte sowohl aktuelle als auch aeltere Artikel (ab 2025)
+- Auch kurze Erwaehnungen und Zitate zaehlen
+- Wenn ein Artikel MK Global Kapital oder Mikro Kapital auch nur am Rande erwaehnt, nimm ihn auf
+- Lieber einen Artikel zu viel als einen zu wenig!
 
 ANTWORTFORMAT: Ausschliesslich ein JSON-Array, kein anderer Text.
-[{"date":"YYYY-MM-DD","outlet":"Medienname","title":"Artikeltitel","country":"D/CH/A/DACH","type":"Online/Print","tier":1 oder 2,"link":"URL"}]
+[{"date":"YYYY-MM-DD","outlet":"Exakter Medienname","title":"Exakter Artikeltitel","country":"D/CH/A/DACH","type":"Online/Print","tier":1 oder 2,"link":"Vollstaendige URL"}]
 
+TIER-ZUORDNUNG:
 Tier 1: FAZ, Handelsblatt, Boersen-Zeitung, NZZ, Finews, Institutional Money, DAS INVESTMENT, FONDS professionell, altii, Citywire, portfolio institutionell, Handelszeitung
 Tier 2: Alle anderen
 
@@ -99,7 +146,7 @@ def is_duplicate(article, existing):
         if title and ct and outlet and co:
             if title == ct and outlet == co:
                 return True
-            if outlet == co and (title in ct or ct in title):
+            if outlet == co and len(title) > 15 and (title in ct or ct in title):
                 return True
     return False
 
@@ -111,11 +158,9 @@ def guess_tier(outlet="", link=""):
 
 def guess_country(outlet="", link=""):
     text = (outlet + " " + link).lower()
-    ch = [".ch", "finews", "payoff", "nzz", "investrends", "handelszeitung", "moneycab", "cash.ch"]
-    at = [".at", "kurier"]
-    if any(k in text for k in ch):
+    if any(k in text for k in [".ch", "finews", "payoff", "nzz", "investrends", "handelszeitung", "moneycab", "cash.ch"]):
         return "CH"
-    if any(k in text for k in at):
+    if any(k in text for k in [".at", "kurier"]):
         return "A"
     return "D"
 
@@ -152,7 +197,7 @@ def run_search():
     new_articles = []
 
     print(f"Loaded {len(existing)} existing clippings")
-    print(f"Running {len(SEARCHES)} broad searches...\n")
+    print(f"Running {len(SEARCHES)} searches (ultra-broad)...\n")
 
     for i, query in enumerate(SEARCHES):
         print(f"[{i+1}/{len(SEARCHES)}] {query[:70]}...")
@@ -163,7 +208,13 @@ def run_search():
                 system=SYSTEM_PROMPT,
                 messages=[{
                     "role": "user",
-                    "content": f"Durchsuche das Web gruendlich nach: {query}\n\nFinde ALLE deutschsprachigen Medienartikel die MK Global Kapital, Mikro Kapital, Johannes Feist oder Michele Mattioda erwaehnen. Gib das Ergebnis als JSON-Array zurueck."
+                    "content": (
+                        f"Durchsuche das Web und Google News extrem gruendlich nach: {query}\n\n"
+                        f"Finde ALLE deutschsprachigen Medienartikel die MK Global Kapital, Mikro Kapital, "
+                        f"Johannes Feist oder Michele Mattioda erwaehnen. Suche breit: Nachrichtenportale, "
+                        f"Fachmedien, Blogs, Pressemitteilungen, Gastbeitraege, Interviews. "
+                        f"Gib das Ergebnis als JSON-Array zurueck."
+                    )
                 }],
                 tools=[{"type": "web_search_20250305", "name": "web_search"}],
             )
