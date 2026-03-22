@@ -202,6 +202,7 @@ def build_report():
 
     # ── Charts ──
     from openpyxl.chart import BarChart, PieChart, Reference
+    from openpyxl.chart.label import DataLabelList
 
     # Chart 1: Clippings by Month (Bar)
     month_data_start = row_start + 2
@@ -220,6 +221,9 @@ def build_report():
         bc.shape = 4
         bc.width = 18
         bc.height = 10
+        bc.dataLabels = DataLabelList()
+        bc.dataLabels.showVal = True
+        bc.dataLabels.showCatName = False
         wa.add_chart(bc, "A" + str(cr + 2 + len(country_counts) + 4))
 
     # Chart 2: Tier Split (Pie)
@@ -232,6 +236,10 @@ def build_report():
     pc.set_categories(tier_cats)
     pc.width = 12
     pc.height = 10
+    pc.dataLabels = DataLabelList()
+    pc.dataLabels.showVal = True
+    pc.dataLabels.showPercent = True
+    pc.dataLabels.showCatName = True
     wa.add_chart(pc, "E" + str(cr + 2 + len(country_counts) + 4))
 
     # Save
