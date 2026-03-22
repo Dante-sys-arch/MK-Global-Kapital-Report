@@ -200,6 +200,40 @@ def build_report():
     wa.column_dimensions["F"].width = 10
     wa.column_dimensions["G"].width = 10
 
+    # ── Charts ──
+    from openpyxl.chart import BarChart, PieChart, Reference
+
+    # Chart 1: Clippings by Month (Bar)
+    month_data_start = row_start + 2
+    month_data_end = month_data_start + len(month_counts) - 1
+    if len(month_counts) > 0:
+        bc = BarChart()
+        bc.type = "col"
+        bc.title = "Clippings pro Monat"
+        bc.style = 10
+        bc.y_axis.title = "Anzahl"
+        bc.x_axis.title = "Monat"
+        data_ref = Reference(wa, min_col=6, min_row=row_start + 1, max_row=month_data_end, max_col=6)
+        cats_ref = Reference(wa, min_col=5, min_row=month_data_start, max_row=month_data_end)
+        bc.add_data(data_ref, titles_from_data=True)
+        bc.set_categories(cats_ref)
+        bc.shape = 4
+        bc.width = 18
+        bc.height = 10
+        wa.add_chart(bc, "A" + str(cr + 2 + len(country_counts) + 4))
+
+    # Chart 2: Tier Split (Pie)
+    pc = PieChart()
+    pc.title = "Tier-Verteilung"
+    pc.style = 10
+    tier_data = Reference(wa, min_col=2, min_row=row_start + 1, max_row=row_start + 3)
+    tier_cats = Reference(wa, min_col=1, min_row=row_start + 2, max_row=row_start + 3)
+    pc.add_data(tier_data, titles_from_data=True)
+    pc.set_categories(tier_cats)
+    pc.width = 12
+    pc.height = 10
+    wa.add_chart(pc, "E" + str(cr + 2 + len(country_counts) + 4))
+
     # Save
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     today = datetime.now().strftime("%Y%m%d")
@@ -207,6 +241,14 @@ def build_report():
     filepath = OUTPUT_DIR / filename
     wb.save(filepath)
     print(f"Report saved: {filepath}")
+
+    # Save a fixed-name copy to docs/ for GitHub Pages download
+    docs_dir = Path(__file__).parent.parent / "docs"
+    docs_dir.mkdir(parents=True, exist_ok=True)
+    latest = docs_dir / "latest_report.xlsx"
+    wb.save(latest)
+    print(f"Latest copy: {latest}")
+
     return filepath
 
 

@@ -22,6 +22,6 @@ jobs:
         run: |
           git config user.name "MK Clipping Agent"
           git config user.email "agent@mk.com"
-          git add data/ output/
+          git add data/ output/ docs/
           git diff --staged --quiet || git commit -m "update"
           git push
