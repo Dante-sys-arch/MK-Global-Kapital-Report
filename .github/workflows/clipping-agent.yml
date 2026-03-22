@@ -7,6 +7,9 @@ on:
   workflow_dispatch:
     # Manuell auslösbar über GitHub UI
 
+permissions:
+  contents: write
+
 jobs:
   clipping-search:
     runs-on: ubuntu-latest
