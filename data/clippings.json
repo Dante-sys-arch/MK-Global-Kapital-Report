@@ -1,5 +1,27 @@
 [
   {
+    "date": "2026-03-21",
+    "outlet": "Der Standard",
+    "title": "Pakistan spart Milliarden an fossilen Importen: Wie hat es das gemacht?",
+    "country": "A",
+    "type": "Online",
+    "tier": 1,
+    "link": "https://www.derstandard.de/story/3000000313347/pakistan-spart-milliarden-an-fossilen-importen-wie-hat-es-das-gemacht",
+    "added_at": "2026-03-23T09:15:00",
+    "source": "manual"
+  },
+  {
+    "date": "2026-03-21",
+    "outlet": "Finews",
+    "title": "Tokenisierung: Louzia Savchenko ueber Innovation und MK Global Kapital",
+    "country": "CH",
+    "type": "Online",
+    "tier": 1,
+    "link": "https://www.finews.ch/news/finanzplatz/71578-finews-first-tokenisierung-louzia-savchenko-finanzplatz-schweiz-innovation-mk-global-kapital",
+    "added_at": "2026-03-23T09:15:00",
+    "source": "manual"
+  },
+  {
     "date": "2026-03-19",
     "outlet": "Moneycab",
     "title": "Nicht nur Öl: Wo der Iran-Konflikt Emerging Markets wirklich trifft",
@@ -19,6 +41,17 @@
     "tier": 1,
     "link": "https://www.institutional-money.com/news/maerkte/headline/was-der-iran-schock-fuer-emerging-markets-veraendert-249420",
     "added_at": "2026-03-22T13:30:00",
+    "source": "manual"
+  },
+  {
+    "date": "2026-03-19",
+    "outlet": "fixed-income.org",
+    "title": "Was der Iran-Schock fuer Emerging Markets veraendert",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.fixed-income.org/investment/was-der-iran-schock-fuer-emerging-markets-veraendert.html",
+    "added_at": "2026-03-23T09:15:00",
     "source": "manual"
   },
   {
