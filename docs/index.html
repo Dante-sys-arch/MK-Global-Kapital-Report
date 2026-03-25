@@ -51,6 +51,7 @@ td{padding:6px 5px;color:#98a8b8;font-size:12px;border-bottom:1px solid #152238}
     <div><h1>MK Clipping Agent</h1><p class="sub">Mikro Kapital Management — DACH Media Monitor</p></div>
     <div style="display:flex;gap:6px;flex-wrap:wrap">
       <button class="btn" style="font-size:12px;padding:5px 14px" onclick="showTab('add')">+ Artikel</button>
+      <button class="btn" style="font-size:12px;padding:5px 14px;background:#059669" onclick="sendMail()">Mail</button>
       <a href="latest_report.xlsx" download class="ghost" style="text-decoration:none">Excel</a>
       <button class="ghost" onclick="exportCSV()">CSV</button>
       <button class="ghost" onclick="syncFromGH()">Sync</button>
@@ -229,6 +230,51 @@ function exportCSV(){
   const rows=clips.map(c=>[fD(c.date),c.outlet||"",'"'+(c.title||"").replace(/"/g,'""')+'"',c.country||"",c.type||"",c.tier||"",c.link||""].join(","));
   const blob=new Blob(["\uFEFF"+h+"\n"+rows.join("\n")],{type:"text/csv;charset=utf-8;"});
   const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="MK_Clippings_"+fD(new Date().toISOString())+".csv";a.click();
+}
+
+function sendMail(){
+  // Ask for number of days to include
+  const days = prompt("Clippings der letzten wie vielen Tage einbeziehen?", "3");
+  if(!days) return;
+  const cutoff = new Date();
+  cutoff.setDate(cutoff.getDate() - parseInt(days));
+  const cutoffStr = cutoff.toISOString().slice(0,10);
+  
+  const recent = clips.filter(c => c.date && c.date >= cutoffStr);
+  if(!recent.length){ alert("Keine Clippings in diesem Zeitraum."); return; }
+  
+  // Group by country
+  const groups = {"D":[],"A":[],"CH":[],"DACH":[]};
+  recent.forEach(c => {
+    const country = c.country || "D";
+    if(!groups[country]) groups[country] = [];
+    groups[country].push(c);
+  });
+  
+  const countryNames = {"D":"Germany","A":"Austria","CH":"Switzerland","DACH":"DACH"};
+  
+  // Build body
+  let body = "Dear all,\n\nPlease find below the latest press clippings.\n\n";
+  for(const [code, label] of [["D","Germany"],["A","Austria"],["CH","Switzerland"],["DACH","DACH"]]){
+    if(groups[code] && groups[code].length > 0){
+      body += "\n" + label + "\n\n";
+      groups[code].forEach(c => {
+        body += (c.outlet || "Unknown") + "\n" + (c.link || "(no link)") + "\n\n";
+      });
+    }
+  }
+  body += "\nBest regards,\nDante";
+  
+  // Format date for subject
+  const today = new Date();
+  const dd = String(today.getDate()).padStart(2,'0');
+  const mm = String(today.getMonth()+1).padStart(2,'0');
+  const yyyy = today.getFullYear();
+  const subject = "MK Global Kapital - Media Coverage / " + dd + "." + mm + "." + yyyy;
+  
+  // Open mailto
+  const mailto = "mailto:?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+  window.location.href = mailto;
 }
 
 // Init
