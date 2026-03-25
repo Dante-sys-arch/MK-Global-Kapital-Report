@@ -1,6 +1,6 @@
 """
 MK Global Kapital - DACH Clipping Agent
-Ultra-broad search: all people, all outlets, all angles.
+Uses Google Custom Search API for finding articles, Claude for validation.
 """
 import json
 import os
@@ -8,144 +8,44 @@ import re
 import time
 from datetime import datetime
 from pathlib import Path
+from urllib.parse import quote_plus
+import requests
 import anthropic
 
-# === ALL MK PEOPLE (with company context to avoid false positives) ===
-PEOPLE_QUERIES = [
-    # Johannes Feist (CEO)
-    '"Johannes Feist" "MK Global"',
-    '"Johannes Feist" "Mikro Kapital"',
-    '"Johannes Feist" Mikrofinanz',
-    '"Johannes Feist" "Private Credit" OR "Private Debt"',
-    '"Johannes Feist" Gastkommentar OR Gastbeitrag OR Kommentar',
-    '"Johannes Feist" Emerging Markets OR Schwellenlaender OR Iran',
-    '"Johannes Feist" Anleihe OR tokenisiert OR Bond',
-    '"Johannes Feist" Impact OR ESG OR nachhaltig',
-    '"Johannes Feist" Interview 2026',
-    # Michele Mattioda (IR, Board)
-    '"Michele Mattioda" "MK Global"',
-    '"Michele Mattioda" "Mikro Kapital"',
-    '"Michele Mattioda" Mikrofinanz OR "Private Debt"',
-    # Louzia Savchenko
-    '"Louzia Savchenko" "MK Global"',
-    '"Louzia Savchenko" "Mikro Kapital"',
-    '"Louzia Savchenko" tokenisiert OR Tokenisierung OR Anleihe',
-    '"Louzia Savchenko" Mikrofinanz OR Fintech OR Blockchain',
-    # Vincenzo Trani (Founder)
-    '"Vincenzo Trani" "Mikro Kapital"',
-    '"Vincenzo Trani" "MK Global"',
-    # Thomas Heinig
-    '"Thomas Heinig" "Mikro Kapital"',
-    '"Thomas Heinig" "MK Global"',
-    # Luca Pellegrini
-    '"Luca Pellegrini" "Mikro Kapital"',
-    '"Luca Pellegrini" "MK Global" OR "General Invest"',
-]
-
-# === CORE BRAND SEARCHES ===
-BRAND_QUERIES = [
+# === GOOGLE SEARCH QUERIES ===
+# Each query counts as 1 of 100 free daily searches
+GOOGLE_QUERIES = [
+    # Core brand (most important)
     '"MK Global Kapital"',
     '"Mikro Kapital" Mikrofinanz',
     '"Mikro Kapital Management"',
-    '"MK Global Kapital" News',
-    '"Mikro Kapital" News deutsch 2026',
-    '"MK Global" ALTERNATIVE Fonds',
-    '"Mikro Kapital" Anleihe OR Bond',
-    '"Mikro Kapital" "Private Debt" OR "Private Credit"',
+    
+    # People with company context
+    '"Johannes Feist" "MK Global"',
+    '"Johannes Feist" "Mikro Kapital"',
+    '"Johannes Feist" Mikrofinanz',
+    '"Johannes Feist" "Private Credit"',
+    '"Johannes Feist" "Private Debt"',
+    '"Johannes Feist" Gastkommentar',
+    '"Johannes Feist" "Emerging Markets"',
+    '"Michele Mattioda" Mikrofinanz',
+    '"Michele Mattioda" "MK Global"',
+    '"Louzia Savchenko" "MK Global"',
+    '"Louzia Savchenko" Tokenisierung',
+    '"Louzia Savchenko" Mikrofinanz',
+    '"Vincenzo Trani" "Mikro Kapital"',
+    '"Thomas Heinig" "Mikro Kapital"',
+    
+    # Topic combinations
+    '"MK Global" Anleihe',
     '"MK Global" Impact Investing',
-    '"Mikro Kapital" ESG nachhaltig Wirkung',
-    '"Mikro Kapital" OR "MK Global" Emerging Markets',
-    '"MK Global" OR "Mikro Kapital" KMU Kredit Leasing',
-    '"MK Global" Seidenstrasse OR "Silk Road" OR Zentralasien',
-    '"Mikro Kapital" OR "MK Global" Pressemitteilung OR Medienmitteilung',
+    '"Mikro Kapital" ESG',
+    '"MK Global" ALTERNATIVE Fonds',
+    
+    # Broad catches
     '"MK Global Kapital" OR "Mikro Kapital" 2026',
-    'Mikrofinanz "Mikro Kapital" Nachrichten 2026',
+    '"Johannes Feist" CEO Mikrofinanz 2026',
 ]
-
-# === PER-OUTLET: TIER 1 FINANCIAL MEDIA ===
-TIER1_OUTLET_QUERIES = [
-    '"Mikro Kapital" OR "MK Global" OR "Johannes Feist" site:faz.net',
-    '"Mikro Kapital" OR "MK Global" OR "Johannes Feist" site:handelsblatt.com',
-    '"Mikro Kapital" OR "MK Global" OR "Johannes Feist" site:finews.ch',
-    '"Mikro Kapital" OR "MK Global" OR "Johannes Feist" site:nzz.ch',
-    '"Mikro Kapital" OR "MK Global" OR "Johannes Feist" site:institutional-money.com',
-    '"Mikro Kapital" OR "MK Global" site:dasinvestment.com',
-    '"Mikro Kapital" OR "MK Global" site:fondsprofessionell.de',
-    '"Mikro Kapital" OR "MK Global" site:altii.de',
-    '"Mikro Kapital" OR "MK Global" site:citywire.de',
-    '"Mikro Kapital" OR "MK Global" OR "Johannes Feist" site:portfolio-institutionell.de',
-    '"Mikro Kapital" OR "MK Global" OR "Johannes Feist" site:handelszeitung.ch',
-    '"Mikro Kapital" OR "MK Global" site:boersen-zeitung.de',
-]
-
-# === PER-OUTLET: TIER 2 SPECIALIST MEDIA ===
-TIER2_OUTLET_QUERIES = [
-    '"Mikro Kapital" OR "MK Global" OR "Johannes Feist" site:moneycab.com',
-    '"Mikro Kapital" OR "MK Global" OR "Johannes Feist" site:investrends.ch',
-    '"Mikro Kapital" OR "MK Global" site:bondguide.de',
-    '"Mikro Kapital" OR "MK Global" site:dfpa.info',
-    '"Mikro Kapital" OR "MK Global" site:e-fundresearch.com',
-    '"Mikro Kapital" OR "MK Global" site:markteinblicke.de',
-    '"Mikro Kapital" OR "MK Global" site:finanznachrichten.de',
-    '"Mikro Kapital" OR "MK Global" site:cash.ch',
-    '"Mikro Kapital" OR "MK Global" site:payoff.ch',
-    '"Mikro Kapital" OR "MK Global" OR "Johannes Feist" site:fondsexklusiv.de',
-    '"Mikro Kapital" OR "MK Global" site:geldmeisterin.com',
-    '"Mikro Kapital" OR "MK Global" site:exxecnews.org',
-    '"Mikro Kapital" OR "MK Global" site:boersen-kurier.at',
-    '"Mikro Kapital" OR "MK Global" site:kreditwesen.de',
-    '"Mikro Kapital" OR "MK Global" site:gruenderkueche.de',
-    '"Mikro Kapital" OR "MK Global" OR "Johannes Feist" site:cash-online.de',
-    '"Mikro Kapital" OR "MK Global" site:private-banking-magazin.de',
-    '"Mikro Kapital" OR "MK Global" site:platow.de',
-]
-
-# === PER-OUTLET: GENERAL/MAINSTREAM DACH MEDIA ===
-GENERAL_MEDIA_QUERIES = [
-    '"Mikro Kapital" OR "MK Global" OR "Johannes Feist" site:derstandard.de OR site:derstandard.at',
-    '"Mikro Kapital" OR "MK Global" site:diepresse.com',
-    '"Mikro Kapital" OR "MK Global" site:kurier.at',
-    '"Mikro Kapital" OR "MK Global" site:tagesanzeiger.ch',
-    '"Mikro Kapital" OR "MK Global" site:srf.ch',
-    '"Mikro Kapital" OR "MK Global" site:wiwo.de',
-    '"Mikro Kapital" OR "MK Global" site:manager-magazin.de',
-    '"Mikro Kapital" OR "MK Global" site:capital.de',
-    '"Mikro Kapital" OR "MK Global" site:sueddeutsche.de',
-    '"Mikro Kapital" OR "MK Global" site:welt.de',
-    '"Mikro Kapital" OR "MK Global" site:n-tv.de OR site:tagesschau.de',
-]
-
-# === SYNDICATION / NICHE PORTALS ===
-SYNDICATION_QUERIES = [
-    '"Mikro Kapital" OR "MK Global" OR "Johannes Feist" site:fixed-income.org',
-    '"Mikro Kapital" OR "MK Global" site:fondstrends.de OR site:fondstrends.ch',
-    '"Mikro Kapital" OR "MK Global" OR "Louzia Savchenko" site:swissfinanceai.ch',
-    '"Mikro Kapital" OR "MK Global" site:allnews.ch',
-    '"Mikro Kapital" OR "MK Global" site:finanzwelt.de',
-    '"Mikro Kapital" OR "MK Global" site:procontra-online.de',
-    '"Mikro Kapital" OR "MK Global" site:versicherungsbote.de',
-    '"Mikro Kapital" OR "MK Global" site:fundresearch.de',
-]
-
-# === BROAD THEMATIC (catches everything else) ===
-BROAD_QUERIES = [
-    'Mikrofinanz DACH Anleihe 2026',
-    'Mikrofinanzfonds Deutschland Schweiz Oesterreich 2026',
-    'Mikrofinanz "Private Debt" Impact DACH 2026',
-    '"Mikro Kapital" OR "MK Global" Presse OR Nachrichten 2026',
-    '"MK Global Kapital" OR "Mikro Kapital" nach:2025-06-01',
-]
-
-# Combine all
-SEARCHES = (
-    PEOPLE_QUERIES +
-    BRAND_QUERIES +
-    TIER1_OUTLET_QUERIES +
-    TIER2_OUTLET_QUERIES +
-    GENERAL_MEDIA_QUERIES +
-    SYNDICATION_QUERIES +
-    BROAD_QUERIES
-)
 
 TIER1_KEYWORDS = [
     "faz", "frankfurter allgemeine", "handelsblatt",
@@ -163,39 +63,30 @@ TIER1_KEYWORDS = [
     "capital.de", "sueddeutsche",
 ]
 
-SYSTEM_PROMPT = """Du bist ein extrem gruendlicher Medienrecherche-Assistent fuer MK Global Kapital (ehemals Mikro Kapital Management S.A.).
+# Keywords that MUST appear in article text to be a valid MK clipping
+MK_KEYWORDS = [
+    "mk global kapital", "mikro kapital", "johannes feist",
+    "michele mattioda", "louzia savchenko", "vincenzo trani",
+    "thomas heinig", "luca pellegrini",
+    "mikrokapital", "mk global",
+]
 
-DEINE AUFGABE: Durchsuche das Web und Nachrichtenquellen so breit wie moeglich nach ALLEN deutschsprachigen Medienartikeln, die folgende Begriffe oder Personen erwaehnen:
+VALIDATION_PROMPT = """Du pruefst ob Artikel tatsaechlich MK Global Kapital, Mikro Kapital oder eine der folgenden Personen DIREKT erwaehnen (nicht nur in Sidebar-Links oder Werbung):
+- Johannes Feist, Michele Mattioda, Louzia Savchenko, Vincenzo Trani, Thomas Heinig, Luca Pellegrini
 
-FIRMEN:
-- MK Global Kapital
-- Mikro Kapital (Management)
+Fuer jeden Artikel: Pruefe ob er RELEVANT ist (MK/Person wird im Artikeltext selbst erwaehnt, nicht nur als Link auf der Seite).
 
-PERSONEN (nur im Kontext Finanzen/Mikrofinanz/MK Global):
-- Dr. Johannes Feist (CEO)
-- Michele Mattioda (Investor Relations, Board Member)
-- Louzia Savchenko (Tokenisierung/Innovation)
-- Vincenzo Trani (Gruender/Praesident)
-- Thomas Heinig
-- Luca Pellegrini
+EINGABE: Liste von Google-Suchergebnissen mit Titel, Snippet und URL.
+AUSGABE: Nur die RELEVANTEN Artikel als JSON-Array:
+[{"date":"YYYY-MM-DD","outlet":"Medienname","title":"Artikeltitel","country":"D/CH/A/DACH","type":"Online","tier":1 oder 2,"link":"URL"}]
 
-SUCHSTRATEGIE:
-- Suche in Nachrichtenportalen, Fachmedien, Blogs, Pressemitteilungen
-- Auch Google News durchsuchen
-- Gastbeitraege, Interviews, Kommentare, Zitate zaehlen alle
-- Auch kurze Erwaehnungen und syndizierte Artikel zaehlen
-- Auch Artikel auf Portalen die andere Quellen weiterverwerten (z.B. finanznachrichten.de, fixed-income.org)
-- Lieber einen Artikel zu viel als einen zu wenig!
-- Zeitraum: ab Juli 2025
-
-ANTWORTFORMAT: Ausschliesslich ein JSON-Array, kein anderer Text.
-[{"date":"YYYY-MM-DD","outlet":"Exakter Medienname","title":"Exakter Artikeltitel","country":"D/CH/A/DACH","type":"Online/Print","tier":1 oder 2,"link":"Vollstaendige URL"}]
-
-TIER-ZUORDNUNG:
-Tier 1: FAZ, Handelsblatt, Boersen-Zeitung, NZZ, Finews, Institutional Money, DAS INVESTMENT, FONDS professionell, altii, Citywire, portfolio institutionell, Handelszeitung, Der Standard, Die Presse, WirtschaftsWoche, Manager Magazin, Capital, Sueddeutsche Zeitung
-Tier 2: Alle anderen
-
-Keine Treffer? Antworte: []"""
+REGELN:
+- NUR Artikel bei denen MK/Mikro Kapital/eine MK-Person im Snippet oder Titel vorkommt
+- KEINE Artikel die nur zufaellig auf derselben Seite verlinkt sind
+- Tier 1: FAZ, Handelsblatt, Boersen-Zeitung, NZZ, Finews, Institutional Money, DAS INVESTMENT, FONDS professionell, altii, Citywire, portfolio institutionell, Handelszeitung, Der Standard
+- Tier 2: Alle anderen
+- Datum aus Snippet/Kontext schaetzen, falls nicht klar: leer lassen
+- Keine Treffer? Antworte: []"""
 
 DATA_FILE = Path(__file__).parent.parent / "data" / "clippings.json"
 
@@ -238,85 +129,181 @@ def guess_tier(outlet="", link=""):
 
 def guess_country(outlet="", link=""):
     text = (outlet + " " + link).lower()
-    if any(k in text for k in [".ch", "finews", "payoff", "nzz", "investrends", "handelszeitung", "moneycab", "cash.ch", "allnews.ch", "tagesanzeiger", "srf.ch"]):
+    if any(k in text for k in [".ch", "finews", "payoff", "nzz", "investrends", "handelszeitung", "moneycab", "cash.ch", "allnews.ch"]):
         return "CH"
-    if any(k in text for k in [".at", "derstandard", "diepresse", "kurier.at", "boersen-kurier"]):
+    if any(k in text for k in [".at", "derstandard", "diepresse", "kurier.at", "boersen-kurier", "fondsexklusiv.at"]):
         return "A"
     return "D"
 
 
-def extract_articles(response):
-    texts = []
-    for block in response.content:
-        if hasattr(block, "text") and block.text:
-            texts.append(block.text)
-        if hasattr(block, "content") and isinstance(block.content, list):
-            for sub in block.content:
-                if hasattr(sub, "text") and sub.text:
-                    texts.append(sub.text)
-    all_text = "\n".join(texts)
-    for pattern in [r'\[[\s\S]*?\]', r'\[[\s\S]*\]']:
-        for match in re.findall(pattern, all_text):
-            try:
-                parsed = json.loads(match)
-                if isinstance(parsed, list):
-                    return [a for a in parsed if isinstance(a, dict) and a.get("title")]
-            except json.JSONDecodeError:
-                continue
-    return []
+def google_search(query, api_key, cx):
+    """Run a single Google Custom Search query. Returns list of results."""
+    url = "https://www.googleapis.com/customsearch/v1"
+    params = {
+        "key": api_key,
+        "cx": cx,
+        "q": query,
+        "num": 10,
+        "lr": "lang_de",
+        "dateRestrict": "m6",  # last 6 months
+    }
+    try:
+        resp = requests.get(url, params=params, timeout=15)
+        if resp.status_code == 429:
+            print("    RATE LIMIT - stopping Google searches")
+            return None  # Signal to stop
+        if resp.status_code != 200:
+            print(f"    Google API error {resp.status_code}: {resp.text[:100]}")
+            return []
+        data = resp.json()
+        results = []
+        for item in data.get("items", []):
+            results.append({
+                "title": item.get("title", ""),
+                "link": item.get("link", ""),
+                "snippet": item.get("snippet", ""),
+                "source": item.get("displayLink", ""),
+            })
+        return results
+    except Exception as e:
+        print(f"    Google error: {e}")
+        return []
+
+
+def is_mk_relevant(result):
+    """Quick pre-filter: does the result mention MK keywords?"""
+    text = f"{result.get('title','')} {result.get('snippet','')} {result.get('source','')}".lower()
+    return any(kw in text for kw in MK_KEYWORDS)
+
+
+def validate_with_claude(client, results):
+    """Use Claude to validate and structure Google results into clippings."""
+    if not results:
+        return []
+    
+    # Format results for Claude
+    text_results = []
+    for i, r in enumerate(results):
+        text_results.append(
+            f"{i+1}. Quelle: {r.get('source','')}\n"
+            f"   Titel: {r.get('title','')}\n"
+            f"   Snippet: {r.get('snippet','')}\n"
+            f"   URL: {r.get('link','')}"
+        )
+    
+    try:
+        response = client.messages.create(
+            model="claude-sonnet-4-20250514",
+            max_tokens=4000,
+            system=VALIDATION_PROMPT,
+            messages=[{
+                "role": "user",
+                "content": "Pruefe diese Google-Suchergebnisse und gib NUR die relevanten MK Global Kapital Artikel als JSON zurueck:\n\n" + "\n\n".join(text_results)
+            }],
+        )
+        
+        texts = []
+        for block in response.content:
+            if hasattr(block, "text") and block.text:
+                texts.append(block.text)
+        all_text = "\n".join(texts)
+        
+        for pattern in [r'\[[\s\S]*?\]', r'\[[\s\S]*\]']:
+            for match in re.findall(pattern, all_text):
+                try:
+                    parsed = json.loads(match)
+                    if isinstance(parsed, list):
+                        return [a for a in parsed if isinstance(a, dict) and a.get("title")]
+                except json.JSONDecodeError:
+                    continue
+        return []
+    except Exception as e:
+        print(f"    Claude validation error: {e}")
+        return []
 
 
 def run_search():
-    api_key = os.environ.get("ANTHROPIC_API_KEY")
-    if not api_key:
+    google_key = os.environ.get("GOOGLE_API_KEY")
+    google_cx = os.environ.get("GOOGLE_CX")
+    anthropic_key = os.environ.get("ANTHROPIC_API_KEY")
+    
+    if not google_key or not google_cx:
+        print("WARNING: GOOGLE_API_KEY or GOOGLE_CX not set, falling back to Anthropic-only search")
+        return run_anthropic_fallback()
+    
+    if not anthropic_key:
         print("ERROR: ANTHROPIC_API_KEY not set")
         return []
-
-    client = anthropic.Anthropic(api_key=api_key)
+    
+    client = anthropic.Anthropic(api_key=anthropic_key)
     existing = load_clippings()
     new_articles = []
-
+    all_google_results = []
+    
     print(f"Loaded {len(existing)} existing clippings")
-    print(f"Running {len(SEARCHES)} searches (ultra-broad)...\n")
-
-    for i, query in enumerate(SEARCHES):
-        print(f"[{i+1}/{len(SEARCHES)}] {query[:70]}...")
-        try:
-            response = client.messages.create(
-                model="claude-sonnet-4-20250514",
-                max_tokens=4000,
-                system=SYSTEM_PROMPT,
-                messages=[{
-                    "role": "user",
-                    "content": (
-                        f"Durchsuche das Web und alle Nachrichtenquellen extrem gruendlich nach: {query}\n\n"
-                        f"Finde ALLE deutschsprachigen Medienartikel die MK Global Kapital, Mikro Kapital, "
-                        f"oder eine der MK-Personen (Feist, Mattioda, Savchenko, Trani, Heinig, Pellegrini) erwaehnen. "
-                        f"Suche breit: Nachrichtenportale, Fachmedien, Blogs, Pressemitteilungen, Gastbeitraege, "
-                        f"Interviews, Syndikationsportale. Gib das Ergebnis als JSON-Array zurueck."
-                    )
-                }],
-                tools=[{"type": "web_search_20250305", "name": "web_search"}],
-            )
-            articles = extract_articles(response)
-            added = 0
-            for a in articles:
-                a["tier"] = a.get("tier") or guess_tier(a.get("outlet", ""), a.get("link", ""))
-                a["country"] = a.get("country") or guess_country(a.get("outlet", ""), a.get("link", ""))
-                a["type"] = a.get("type") or "Online"
-                if not is_duplicate(a, existing) and not is_duplicate(a, new_articles):
-                    a["added_at"] = datetime.now().isoformat()
-                    a["source"] = "auto"
-                    new_articles.append(a)
-                    added += 1
-            if len(articles) > 0:
-                print(f"  -> {len(articles)} found, {added} new")
-            else:
-                print(f"  -> no results")
-        except Exception as e:
-            print(f"  ERROR: {e}")
+    print(f"Running {len(GOOGLE_QUERIES)} Google searches...\n")
+    
+    # Step 1: Google searches
+    for i, query in enumerate(GOOGLE_QUERIES):
+        print(f"[Google {i+1}/{len(GOOGLE_QUERIES)}] {query[:60]}...")
+        results = google_search(query, google_key, google_cx)
+        
+        if results is None:  # Rate limit
+            print("  Stopping Google searches due to rate limit")
+            break
+        
+        # Pre-filter for MK relevance
+        relevant = [r for r in results if is_mk_relevant(r)]
+        all_results = len(results)
+        
+        if relevant:
+            all_google_results.extend(relevant)
+            print(f"  -> {all_results} results, {len(relevant)} MK-relevant")
+        else:
+            print(f"  -> {all_results} results, 0 MK-relevant")
+        
+        time.sleep(1)
+    
+    # Deduplicate Google results by URL
+    seen_urls = set()
+    unique_results = []
+    for r in all_google_results:
+        url = r.get("link", "").strip().rstrip("/").lower()
+        if url and url not in seen_urls:
+            seen_urls.add(url)
+            unique_results.append(r)
+    
+    print(f"\n{len(unique_results)} unique MK-relevant Google results found")
+    
+    if not unique_results:
+        print("No new results to validate")
+        return []
+    
+    # Step 2: Validate with Claude in batches of 15
+    print(f"\nValidating with Claude...\n")
+    validated = []
+    batch_size = 15
+    for i in range(0, len(unique_results), batch_size):
+        batch = unique_results[i:i+batch_size]
+        print(f"[Claude] Validating batch {i//batch_size + 1} ({len(batch)} results)...")
+        articles = validate_with_claude(client, batch)
+        if articles:
+            validated.extend(articles)
+            print(f"  -> {len(articles)} valid articles")
+        else:
+            print(f"  -> 0 valid")
         time.sleep(2)
-
+    
+    # Step 3: Deduplicate against existing
+    for a in validated:
+        a["tier"] = a.get("tier") or guess_tier(a.get("outlet", ""), a.get("link", ""))
+        a["country"] = a.get("country") or guess_country(a.get("outlet", ""), a.get("link", ""))
+        a["type"] = a.get("type") or "Online"
+        if not is_duplicate(a, existing) and not is_duplicate(a, new_articles):
+            a["added_at"] = datetime.now().isoformat()
+            a["source"] = "auto-google"
+            new_articles.append(a)
+    
     if new_articles:
         all_clips = existing + new_articles
         all_clips.sort(key=lambda x: x.get("date", ""), reverse=True)
@@ -329,7 +316,80 @@ def run_search():
             print(f"  + {a.get('date','')} | {a.get('outlet','')} | {a.get('title','')[:60]}")
     else:
         print(f"\nNo new articles found (existing: {len(existing)})")
+    
+    return new_articles
 
+
+def run_anthropic_fallback():
+    """Fallback if Google keys are not set - uses Anthropic web search."""
+    anthropic_key = os.environ.get("ANTHROPIC_API_KEY")
+    if not anthropic_key:
+        print("ERROR: ANTHROPIC_API_KEY not set")
+        return []
+    
+    client = anthropic.Anthropic(api_key=anthropic_key)
+    existing = load_clippings()
+    new_articles = []
+    
+    fallback_queries = [
+        '"MK Global Kapital"',
+        '"Mikro Kapital" Mikrofinanz',
+        '"Johannes Feist" Mikrofinanz OR "MK Global"',
+        '"Johannes Feist" "Private Credit" OR Gastkommentar',
+        '"Michele Mattioda" "MK Global"',
+        '"Louzia Savchenko" "MK Global" OR Tokenisierung',
+    ]
+    
+    system = """Finde ALLE deutschsprachigen Medienartikel zu MK Global Kapital / Mikro Kapital / Johannes Feist / Michele Mattioda / Louzia Savchenko.
+Antworte NUR mit JSON-Array:
+[{"date":"YYYY-MM-DD","outlet":"Medienname","title":"Titel","country":"D/CH/A/DACH","type":"Online/Print","tier":1 oder 2,"link":"URL"}]
+Keine Treffer? []"""
+    
+    for i, q in enumerate(fallback_queries):
+        print(f"[Fallback {i+1}/{len(fallback_queries)}] {q}...")
+        try:
+            response = client.messages.create(
+                model="claude-sonnet-4-20250514",
+                max_tokens=4000,
+                system=system,
+                messages=[{"role": "user", "content": f"Suche: {q}"}],
+                tools=[{"type": "web_search_20250305", "name": "web_search"}],
+            )
+            texts = []
+            for block in response.content:
+                if hasattr(block, "text") and block.text:
+                    texts.append(block.text)
+                if hasattr(block, "content") and isinstance(block.content, list):
+                    for sub in block.content:
+                        if hasattr(sub, "text") and sub.text:
+                            texts.append(sub.text)
+            all_text = "\n".join(texts)
+            for pattern in [r'\[[\s\S]*?\]', r'\[[\s\S]*\]']:
+                for match in re.findall(pattern, all_text):
+                    try:
+                        parsed = json.loads(match)
+                        if isinstance(parsed, list):
+                            for a in parsed:
+                                if isinstance(a, dict) and a.get("title"):
+                                    a["tier"] = a.get("tier") or guess_tier(a.get("outlet",""), a.get("link",""))
+                                    a["country"] = a.get("country") or guess_country(a.get("outlet",""), a.get("link",""))
+                                    a["type"] = a.get("type") or "Online"
+                                    if not is_duplicate(a, existing) and not is_duplicate(a, new_articles):
+                                        a["added_at"] = datetime.now().isoformat()
+                                        a["source"] = "auto-anthropic"
+                                        new_articles.append(a)
+                            break
+                    except json.JSONDecodeError:
+                        continue
+        except Exception as e:
+            print(f"  ERROR: {e}")
+        time.sleep(2)
+    
+    if new_articles:
+        all_clips = existing + new_articles
+        all_clips.sort(key=lambda x: x.get("date", ""), reverse=True)
+        save_clippings(all_clips)
+    
     return new_articles
 
 

@@ -1,5 +1,38 @@
 [
   {
+    "date": "2026-03-24",
+    "outlet": "Frankfurter Allgemeine Zeitung",
+    "title": "Sorgen um Privatkredite: Finanzkrise oder silberne Aera?",
+    "country": "D",
+    "type": "Online",
+    "tier": 1,
+    "link": "https://www.faz.net/pro/meine-finanzen/zinsen/sorgen-um-privatkredite-finanzkrise-oder-silberne-aera-110376123.html",
+    "added_at": "2026-03-25T10:00:00",
+    "source": "manual"
+  },
+  {
+    "date": "2026-03-24",
+    "outlet": "DAS INVESTMENT",
+    "title": "Private Credit unter Druck: Wenn das Geld nicht mehr herauskommt",
+    "country": "D",
+    "type": "Online",
+    "tier": 1,
+    "link": "https://www.dasinvestment.com/private-credit-unter-druck-wenn-das-geld-nicht-mehr-herauskommt/",
+    "added_at": "2026-03-25T10:00:00",
+    "source": "manual"
+  },
+  {
+    "date": "2026-03-24",
+    "outlet": "FONDS exklusiv Oesterreich",
+    "title": "Private Credit-Debatte entfacht",
+    "country": "A",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.fondsexklusiv.at/private-credit-debatte-entfacht/",
+    "added_at": "2026-03-25T10:00:00",
+    "source": "manual"
+  },
+  {
     "date": "2026-03-21",
     "outlet": "Der Standard",
     "title": "Pakistan spart Milliarden an fossilen Importen: Wie hat es das gemacht?",
