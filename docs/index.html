@@ -273,7 +273,7 @@ function sendMailKunde(){
   body += "\nBest regards,\nDante";
   
   const subject = "MK Global Kapital - Media Coverage / " + getToday();
-  window.location.href = "ms-outlook://compose?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+  window.location.href = "ms-outlook://compose?from=sdj%40te-communications.de&subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
 }
 
 function sendMailTeam(){
@@ -288,7 +288,7 @@ function sendMailTeam(){
   });
   
   const subject = "Monitoring " + getToday();
-  window.location.href = "ms-outlook://compose?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+  window.location.href = "ms-outlook://compose?from=sdj%40te-communications.de&subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
 }
 
 // Init
