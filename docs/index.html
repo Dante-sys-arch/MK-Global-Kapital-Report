@@ -272,8 +272,8 @@ function sendMail(){
   const yyyy = today.getFullYear();
   const subject = "MK Global Kapital - Media Coverage / " + dd + "." + mm + "." + yyyy;
   
-  // Open mailto
-  const mailto = "mailto:?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+  // Open Outlook app
+  const mailto = "ms-outlook://compose?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
   window.location.href = mailto;
 }
 
