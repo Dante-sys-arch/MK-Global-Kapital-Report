@@ -51,7 +51,8 @@ td{padding:6px 5px;color:#98a8b8;font-size:12px;border-bottom:1px solid #152238}
     <div><h1>MK Clipping Agent</h1><p class="sub">Mikro Kapital Management — DACH Media Monitor</p></div>
     <div style="display:flex;gap:6px;flex-wrap:wrap">
       <button class="btn" style="font-size:12px;padding:5px 14px" onclick="showTab('add')">+ Artikel</button>
-      <button class="btn" style="font-size:12px;padding:5px 14px;background:#059669" onclick="sendMail()">Mail</button>
+      <button class="btn" style="font-size:12px;padding:5px 14px;background:#059669" onclick="sendMailKunde()">Mail Kunde</button>
+      <button class="btn" style="font-size:12px;padding:5px 14px;background:#7c3aed" onclick="sendMailTeam()">Mail Team</button>
       <a href="latest_report.xlsx" download class="ghost" style="text-decoration:none">Excel</a>
       <button class="ghost" onclick="exportCSV()">CSV</button>
       <button class="ghost" onclick="syncFromGH()">Sync</button>
@@ -232,18 +233,27 @@ function exportCSV(){
   const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="MK_Clippings_"+fD(new Date().toISOString())+".csv";a.click();
 }
 
-function sendMail(){
-  // Ask for number of days to include
-  const days = prompt("Clippings der letzten wie vielen Tage einbeziehen?", "3");
-  if(!days) return;
+function getRecentClips(days){
   const cutoff = new Date();
   cutoff.setDate(cutoff.getDate() - parseInt(days));
   const cutoffStr = cutoff.toISOString().slice(0,10);
-  
-  const recent = clips.filter(c => c.date && c.date >= cutoffStr);
+  return clips.filter(c => c.date && c.date >= cutoffStr);
+}
+
+function getToday(){
+  const today = new Date();
+  const dd = String(today.getDate()).padStart(2,'0');
+  const mm = String(today.getMonth()+1).padStart(2,'0');
+  const yyyy = today.getFullYear();
+  return dd + "." + mm + "." + yyyy;
+}
+
+function sendMailKunde(){
+  const days = prompt("Clippings der letzten wie vielen Tage?", "3");
+  if(!days) return;
+  const recent = getRecentClips(days);
   if(!recent.length){ alert("Keine Clippings in diesem Zeitraum."); return; }
   
-  // Group by country
   const groups = {"D":[],"A":[],"CH":[],"DACH":[]};
   recent.forEach(c => {
     const country = c.country || "D";
@@ -251,30 +261,34 @@ function sendMail(){
     groups[country].push(c);
   });
   
-  const countryNames = {"D":"Germany","A":"Austria","CH":"Switzerland","DACH":"DACH"};
-  
-  // Build body
   let body = "Dear all,\n\nPlease find below the latest press clippings.\n\n";
   for(const [code, label] of [["D","Germany"],["A","Austria"],["CH","Switzerland"],["DACH","DACH"]]){
     if(groups[code] && groups[code].length > 0){
       body += "\n" + label + "\n\n";
       groups[code].forEach(c => {
-        body += (c.outlet || "Unknown") + "\n" + (c.link || "(no link)") + "\n\n";
+        body += (c.outlet || "") + "\n" + (c.link || "") + "\n\n";
       });
     }
   }
   body += "\nBest regards,\nDante";
   
-  // Format date for subject
-  const today = new Date();
-  const dd = String(today.getDate()).padStart(2,'0');
-  const mm = String(today.getMonth()+1).padStart(2,'0');
-  const yyyy = today.getFullYear();
-  const subject = "MK Global Kapital - Media Coverage / " + dd + "." + mm + "." + yyyy;
+  const subject = "MK Global Kapital - Media Coverage / " + getToday();
+  window.location.href = "ms-outlook://compose?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+}
+
+function sendMailTeam(){
+  const days = prompt("Clippings der letzten wie vielen Tage?", "3");
+  if(!days) return;
+  const recent = getRecentClips(days);
+  if(!recent.length){ alert("Keine Clippings in diesem Zeitraum."); return; }
   
-  // Open Outlook app
-  const mailto = "ms-outlook://compose?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
-  window.location.href = mailto;
+  let body = "MK Global Kapital (DEAT, CH deutschsprachig):\n\n";
+  recent.forEach(c => {
+    body += (c.link || "") + "\n\n";
+  });
+  
+  const subject = "Monitoring " + getToday();
+  window.location.href = "ms-outlook://compose?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
 }
 
 // Init
