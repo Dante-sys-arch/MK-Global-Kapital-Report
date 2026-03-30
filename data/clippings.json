@@ -8,7 +8,8 @@
     "tier": 1,
     "link": "https://www.faz.net/pro/meine-finanzen/zinsen/sorgen-um-privatkredite-finanzkrise-oder-silberne-aera-110376123.html",
     "added_at": "2026-03-25T10:00:00",
-    "source": "manual"
+    "source": "manual",
+    "id": "fix-0-1774883372"
   },
   {
     "date": "2026-03-24",
@@ -19,7 +20,8 @@
     "tier": 1,
     "link": "https://www.dasinvestment.com/private-credit-unter-druck-wenn-das-geld-nicht-mehr-herauskommt/",
     "added_at": "2026-03-25T10:00:00",
-    "source": "manual"
+    "source": "manual",
+    "id": "fix-1-1774883372"
   },
   {
     "date": "2026-03-24",
@@ -30,7 +32,8 @@
     "tier": 2,
     "link": "https://www.fondsexklusiv.at/private-credit-debatte-entfacht/",
     "added_at": "2026-03-25T10:00:00",
-    "source": "manual"
+    "source": "manual",
+    "id": "fix-2-1774883372"
   },
   {
     "date": "2026-03-21",
@@ -41,7 +44,8 @@
     "tier": 1,
     "link": "https://www.derstandard.de/story/3000000313347/pakistan-spart-milliarden-an-fossilen-importen-wie-hat-es-das-gemacht",
     "added_at": "2026-03-23T09:15:00",
-    "source": "manual"
+    "source": "manual",
+    "id": "fix-3-1774883372"
   },
   {
     "date": "2026-03-21",
@@ -52,7 +56,8 @@
     "tier": 1,
     "link": "https://www.finews.ch/news/finanzplatz/71578-finews-first-tokenisierung-louzia-savchenko-finanzplatz-schweiz-innovation-mk-global-kapital",
     "added_at": "2026-03-23T09:15:00",
-    "source": "manual"
+    "source": "manual",
+    "id": "fix-4-1774883372"
   },
   {
     "date": "2026-03-19",
@@ -63,7 +68,8 @@
     "tier": 2,
     "link": "https://www.moneycab.com/finanz/nicht-nur-oel-wo-der-iran-konflikt-emerging-markets-wirklich-trifft/",
     "added_at": "2026-03-22T11:00:00",
-    "source": "auto"
+    "source": "auto",
+    "id": "fix-5-1774883372"
   },
   {
     "date": "2026-03-19",
@@ -74,7 +80,8 @@
     "tier": 1,
     "link": "https://www.institutional-money.com/news/maerkte/headline/was-der-iran-schock-fuer-emerging-markets-veraendert-249420",
     "added_at": "2026-03-22T13:30:00",
-    "source": "manual"
+    "source": "manual",
+    "id": "fix-6-1774883372"
   },
   {
     "date": "2026-03-19",
@@ -85,7 +92,8 @@
     "tier": 2,
     "link": "https://www.fixed-income.org/investment/was-der-iran-schock-fuer-emerging-markets-veraendert.html",
     "added_at": "2026-03-23T09:15:00",
-    "source": "manual"
+    "source": "manual",
+    "id": "fix-7-1774883372"
   },
   {
     "date": "2026-03-17",
@@ -96,7 +104,8 @@
     "tier": 2,
     "link": "https://www.finanznachrichten.de/nachrichten-2026-03/67998176-private-credit-ist-nicht-gleich-private-credit-wo-die-risiken-wirklich-liegen-144.htm",
     "added_at": "2026-03-22T13:30:00",
-    "source": "manual"
+    "source": "manual",
+    "id": "fix-8-1774883372"
   },
   {
     "date": "2026-03-17",
@@ -107,7 +116,8 @@
     "tier": 2,
     "link": "https://www.cash-online.de/a/gastkommentar-der-blinde-fleck-der-private-credit-debatte-713724/",
     "added_at": "2026-03-22T13:30:00",
-    "source": "manual"
+    "source": "manual",
+    "id": "fix-9-1774883372"
   },
   {
     "date": "2026-03-16",
@@ -118,7 +128,8 @@
     "tier": 2,
     "link": "https://www.fondsexklusiv.de/private-credit-debatte-entfacht/",
     "added_at": "2026-03-22T09:00:00",
-    "source": "auto"
+    "source": "auto",
+    "id": "fix-10-1774883372"
   },
   {
     "date": "2026-03-16",
@@ -129,7 +140,8 @@
     "tier": 2,
     "link": "https://www.kreditwesen.de/kreditwesen/themenschwerpunkte/aufsaetze/mikrofinanz-anlageklasse-id107511.html",
     "added_at": "2026-03-22T09:00:00",
-    "source": "auto"
+    "source": "auto",
+    "id": "fix-11-1774883372"
   },
   {
     "date": "2026-03-10",
@@ -140,7 +152,8 @@
     "tier": 2,
     "link": "https://www.swissfinanceai.ch/blog/swiss-finance/warum-tokenisierte-anleihen-mehr-sind-als-ein-trend",
     "added_at": "2026-03-22T13:30:00",
-    "source": "manual"
+    "source": "manual",
+    "id": "fix-12-1774883372"
   },
   {
     "date": "2026-03-04",
@@ -151,7 +164,8 @@
     "tier": 1,
     "link": "https://markteinblicke.de/128943/2026/03/tokenisierte-anleihen-mehr-governance-erforderlich/",
     "added_at": "2026-03-06T09:00:00",
-    "source": "manual"
+    "source": "manual",
+    "id": "fix-13-1774883372"
   },
   {
     "date": "2026-03-04",
@@ -162,7 +176,8 @@
     "tier": 2,
     "link": "https://www.gruenderkueche.de/news/finanzen-news/weltfrauentag-unternehmerinnen-fehlt-weiterhin-der-zugang-zu-kapital/",
     "added_at": "2026-03-06T09:00:00",
-    "source": "manual"
+    "source": "manual",
+    "id": "fix-14-1774883372"
   },
   {
     "date": "2026-03-02",
@@ -173,7 +188,8 @@
     "tier": 1,
     "link": "https://www.altii.de/edai-71550571-cb6c-4c09-93da-bd99b822c245/",
     "added_at": "2026-03-06T09:00:00",
-    "source": "manual"
+    "source": "manual",
+    "id": "fix-15-1774883372"
   },
   {
     "date": "2026-02-24",
@@ -184,7 +200,8 @@
     "tier": 2,
     "link": "https://www.dfpa.info/top-story/wenn-geschaeftsbanken-passen-helfen-mikrofinanzfonds.html",
     "added_at": "2026-03-06T09:00:00",
-    "source": "manual"
+    "source": "manual",
+    "id": "fix-16-1774883372"
   },
   {
     "date": "2026-02-23",
@@ -195,7 +212,8 @@
     "tier": 2,
     "link": "https://exxecnews.org/wp-content/uploads/2026/02/Ausgabe-05_2026.pdf",
     "added_at": "2026-03-06T09:00:00",
-    "source": "manual"
+    "source": "manual",
+    "id": "fix-17-1774883372"
   },
   {
     "date": "2026-02-18",
@@ -206,7 +224,8 @@
     "tier": 2,
     "link": "https://www.dfpa.info/interview/mikrofinanz-besonderheit-anleihen-mit-festem-zins.html",
     "added_at": "2026-03-22T11:00:00",
-    "source": "auto"
+    "source": "auto",
+    "id": "fix-18-1774883372"
   },
   {
     "date": "2026-02-16",
@@ -217,7 +236,8 @@
     "tier": 2,
     "link": "",
     "added_at": "2026-03-06T09:00:00",
-    "source": "manual"
+    "source": "manual",
+    "id": "fix-19-1774883372"
   },
   {
     "date": "2026-02-14",
@@ -228,7 +248,8 @@
     "tier": 2,
     "link": "https://www.finanznachrichten.de/nachrichten-2026-02/67704129-security-conference-muenchen-2026-oeffentliche-mittel-als-hebel-nutzen-144.htm",
     "added_at": "2026-03-06T09:00:00",
-    "source": "manual"
+    "source": "manual",
+    "id": "fix-20-1774883372"
   },
   {
     "date": "2026-02-14",
@@ -239,7 +260,8 @@
     "tier": 2,
     "link": "https://www.bondguide.de/topnews/security-conference-muenchen-2026-oeffentliche-mittel-als-hebel-nutzen/",
     "added_at": "2026-03-06T09:00:00",
-    "source": "manual"
+    "source": "manual",
+    "id": "fix-21-1774883372"
   },
   {
     "date": "2026-02-14",
@@ -250,7 +272,8 @@
     "tier": 2,
     "link": "https://www.geldmeisterin.com/index.php/2026/02/14/mikrokredite-gerade-jetzt-zur-risikostreuung/",
     "added_at": "2026-03-06T09:00:00",
-    "source": "manual"
+    "source": "manual",
+    "id": "fix-22-1774883372"
   },
   {
     "date": "2026-02-04",
@@ -261,7 +284,8 @@
     "tier": 2,
     "link": "https://investrends.ch/aktuell/investments/private-debt-warum-prozesse-wichtiger-sind-als-prognosen/",
     "added_at": "2026-03-06T09:00:00",
-    "source": "manual"
+    "source": "manual",
+    "id": "fix-23-1774883372"
   },
   {
     "date": "2026-02-02",
@@ -272,7 +296,8 @@
     "tier": 2,
     "link": "https://www.payoff.ch/news/mikrofinanz-als-private-debt-besicherte-kmu-kredite-statt-entwicklungshilfe",
     "added_at": "2026-03-06T09:00:00",
-    "source": "manual"
+    "source": "manual",
+    "id": "fix-24-1774883372"
   },
   {
     "date": "2026-01-27",
@@ -283,7 +308,8 @@
     "tier": 2,
     "link": "",
     "added_at": "2026-03-06T09:00:00",
-    "source": "manual"
+    "source": "manual",
+    "id": "fix-25-1774883372"
   },
   {
     "date": "2026-01-22",
@@ -294,7 +320,8 @@
     "tier": 1,
     "link": "https://www.faz.net/pro/weltwirtschaft/klima-ressourcen/klimapolitik-sollte-auf-mikrofinanzierung-statt-grossprojekte-setzen-accg-200431361.html",
     "added_at": "2026-03-06T09:00:00",
-    "source": "manual"
+    "source": "manual",
+    "id": "fix-26-1774883372"
   },
   {
     "date": "2026-01-16",
@@ -305,7 +332,8 @@
     "tier": 2,
     "link": "https://e-fundresearch.com/funds/artikel/57840-umfrage-welche-chancen-und-risiken-experten-2026-in-den-private-markets-sehen?page=5",
     "added_at": "2026-03-06T09:00:00",
-    "source": "manual"
+    "source": "manual",
+    "id": "fix-27-1774883372"
   },
   {
     "date": "2026-01-13",
@@ -316,7 +344,8 @@
     "tier": 1,
     "link": "https://www.finews.ch/news/finanzplatz/70792-start2026-assetmanagement-mk-global-kapital-michele-mattioda-privat-debt-kmu-mikro",
     "added_at": "2026-03-06T09:00:00",
-    "source": "manual"
+    "source": "manual",
+    "id": "fix-28-1774883372"
   },
   {
     "date": "2026-01-07",
@@ -327,7 +356,8 @@
     "tier": 2,
     "link": "https://markteinblicke.de/127407/2026/01/mikrofinanzanleihen-2026-stabile-renditen-aus-der-realwirtschaft/",
     "added_at": "2026-03-06T09:00:00",
-    "source": "manual"
+    "source": "manual",
+    "id": "fix-29-1774883372"
   },
   {
     "date": "2026-01-06",
@@ -338,7 +368,8 @@
     "tier": 1,
     "link": "https://www.portfolio-institutionell.de/grosse-wirkung-mit-kleinen-krediten/",
     "added_at": "2026-03-22T09:00:00",
-    "source": "auto"
+    "source": "auto",
+    "id": "fix-30-1774883372"
   },
   {
     "date": "2025-12-09",
@@ -349,7 +380,8 @@
     "tier": 2,
     "link": "https://investrends.ch/aktuell/investments/neue-managementgesellschaft-fur-den-impact-fonds-alternative/",
     "added_at": "2026-03-22T11:00:00",
-    "source": "auto"
+    "source": "auto",
+    "id": "fix-31-1774883372"
   },
   {
     "date": "2025-12-08",
@@ -360,7 +392,8 @@
     "tier": 2,
     "link": "https://www.moneycab.com/finanz/mk-global-kapital-wird-per-1-januar-managementgesellschaft-fuer-den-impact-fonds-alternative/",
     "added_at": "2026-03-22T11:00:00",
-    "source": "auto"
+    "source": "auto",
+    "id": "fix-32-1774883372"
   },
   {
     "date": "2025-12-06",
@@ -371,7 +404,8 @@
     "tier": 2,
     "link": "https://www.bondguide.de/topnews/mikro-kapital-management-impact-investing-ist-kein-charity/",
     "added_at": "2026-03-22T11:00:00",
-    "source": "auto"
+    "source": "auto",
+    "id": "fix-33-1774883372"
   },
   {
     "date": "2025-11-24",
@@ -382,7 +416,8 @@
     "tier": 1,
     "link": "https://www.finews.ch/news/finanzplatz/70147-mikro-capital-johannes-feist-kuenstliche-intelligenz-blockchain-rumaenien-europa-mikrofinanzen-finanzplatz-schweiz",
     "added_at": "2026-03-22T11:00:00",
-    "source": "auto"
+    "source": "auto",
+    "id": "fix-34-1774883372"
   },
   {
     "date": "2025-11-12",
@@ -393,7 +428,8 @@
     "tier": 2,
     "link": "https://investrends.ch/aktuell/investments/mikrofinanz-ist-private-debt-mit-direkter-verbindung-zur-realwirtschaft/",
     "added_at": "2026-03-22T11:00:00",
-    "source": "auto"
+    "source": "auto",
+    "id": "fix-35-1774883372"
   },
   {
     "date": "2025-07-10",
@@ -404,6 +440,7 @@
     "tier": 1,
     "link": "https://www.handelszeitung.ch/specials/nachhaltiges-investieren-2024/zwischen-esg-mudigkeit-und-wirkungsanspruch-841576",
     "added_at": "2026-03-22T11:00:00",
-    "source": "auto"
+    "source": "auto",
+    "id": "fix-36-1774883372"
   }
 ]

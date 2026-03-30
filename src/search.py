@@ -8,7 +8,6 @@ import re
 import time
 from datetime import datetime
 from pathlib import Path
-from urllib.parse import quote_plus
 import requests
 import anthropic
 
@@ -302,6 +301,7 @@ def run_search():
         if not is_duplicate(a, existing) and not is_duplicate(a, new_articles):
             a["added_at"] = datetime.now().isoformat()
             a["source"] = "auto-google"
+            a["id"] = f"g-{int(datetime.now().timestamp())}-{len(new_articles)}"
             new_articles.append(a)
     
     if new_articles:
@@ -377,6 +377,7 @@ Keine Treffer? []"""
                                     if not is_duplicate(a, existing) and not is_duplicate(a, new_articles):
                                         a["added_at"] = datetime.now().isoformat()
                                         a["source"] = "auto-anthropic"
+                                        a["id"] = f"a-{int(datetime.now().timestamp())}-{len(new_articles)}"
                                         new_articles.append(a)
                             break
                     except json.JSONDecodeError:
