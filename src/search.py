@@ -1,6 +1,6 @@
 """
 MK Global Kapital - DACH Clipping Agent
-Google Custom Search API + Claude validation.
+Google Custom Search API + RSS Feeds + Claude validation.
 Optimized for maximum recall with minimum false positives.
 """
 import json
@@ -12,6 +12,190 @@ from pathlib import Path
 from urllib.parse import urlparse
 import requests
 import anthropic
+
+# Try to import feedparser, install if missing
+try:
+    import feedparser
+except ImportError:
+    import subprocess
+    subprocess.check_call(["pip", "install", "feedparser", "--break-system-packages", "-q"])
+    import feedparser
+
+# === RSS FEEDS (free, unlimited, checked every run) ===
+RSS_FEEDS = [
+    # --- TIER 1: Major financial media ---
+    # FAZ
+    "https://www.faz.net/rss/aktuell/finanzen/",
+    "https://www.faz.net/rss/aktuell/wirtschaft/",
+    # Handelsblatt
+    "https://www.handelsblatt.com/contentexport/feed/finanzen",
+    "https://www.handelsblatt.com/contentexport/feed/unternehmen",
+    # NZZ
+    "https://www.nzz.ch/finanzen.rss",
+    "https://www.nzz.ch/wirtschaft.rss",
+    # Finews
+    "https://www.finews.ch/news/finanzplatz/rss/1finews",
+    # DAS INVESTMENT
+    "https://www.dasinvestment.com/api/rss/",
+    "https://www.dasinvestment.com/feed/",
+    # FONDS professionell
+    "https://www.fondsprofessionell.de/rss/news.xml",
+    "https://www.fondsprofessionell.de/feed/",
+    # Institutional Money
+    "https://www.institutional-money.com/rss/news/",
+    # portfolio institutionell
+    "https://www.portfolio-institutionell.de/feed/",
+    # Handelszeitung
+    "https://www.handelszeitung.ch/rss.xml",
+    # Börsen-Zeitung
+    "https://www.boersen-zeitung.de/rss",
+    
+    # --- TIER 1: General DACH media ---
+    # Der Standard
+    "https://www.derstandard.at/rss/wirtschaft",
+    "https://www.derstandard.at/rss/finanzen",
+    # Die Presse
+    "https://diepresse.com/rss/Wirtschaft",
+    # WirtschaftsWoche
+    "https://www.wiwo.de/contentexport/feed/rss/schlagzeilen/finanzen/",
+    # Manager Magazin
+    "https://www.manager-magazin.de/finanzen/index.rss",
+    # Capital
+    "https://www.capital.de/feed/rss",
+    # SZ
+    "https://rss.sueddeutsche.de/rss/Wirtschaft",
+    # Welt
+    "https://www.welt.de/feeds/section/finanzen.rss",
+    
+    # --- TIER 2: Specialist media ---
+    # Moneycab
+    "https://www.moneycab.com/feed/",
+    # investrends.ch
+    "https://investrends.ch/feed/",
+    # bondguide.de
+    "https://www.bondguide.de/feed/",
+    # dfpa.info
+    "https://www.dfpa.info/rss/",
+    "https://www.dfpa.info/feed/",
+    # e-fundresearch
+    "https://e-fundresearch.com/rss",
+    "https://e-fundresearch.com/feeds/news",
+    # markteinblicke.de
+    "https://markteinblicke.de/feed/",
+    # finanznachrichten.de
+    "https://www.finanznachrichten.de/rss-alle-nachrichten",
+    # cash.ch
+    "https://www.cash.ch/rss/news",
+    # Payoff
+    "https://www.payoff.ch/feed/",
+    "https://www.payoff.ch/rss",
+    # FONDS exklusiv
+    "https://www.fondsexklusiv.de/feed/",
+    "https://www.fondsexklusiv.at/feed/",
+    # cash-online.de
+    "https://www.cash-online.de/feed/",
+    # altii
+    "https://www.altii.de/feed/",
+    "https://www.altii.de/rss/",
+    # Citywire
+    "https://citywire.de/feed/",
+    # private-banking-magazin
+    "https://www.private-banking-magazin.de/feed/",
+    # fixed-income.org
+    "https://www.fixed-income.org/feed/",
+    "https://www.fixed-income.org/rss/",
+    # finanzwelt.de
+    "https://www.finanzwelt.de/feed/",
+    # procontra-online
+    "https://www.procontra-online.de/feed/",
+    # exxecnews
+    "https://exxecnews.org/feed/",
+    # Börsen-Kurier
+    "https://www.boersen-kurier.at/feed/",
+    # Kreditwesen
+    "https://www.kreditwesen.de/feed/",
+    # allnews.ch
+    "https://www.allnews.ch/rss",
+    # Swiss Finance AI
+    "https://www.swissfinanceai.ch/blog/rss.xml",
+    "https://www.swissfinanceai.ch/feed/",
+    # SRF
+    "https://www.srf.ch/news/wirtschaft/rss/feed",
+    # n-tv
+    "https://www.n-tv.de/wirtschaft/rss",
+    # tagesanzeiger
+    "https://www.tagesanzeiger.ch/wirtschaft/rss.xml",
+    # geldmeisterin
+    "https://www.geldmeisterin.com/feed/",
+    # gruenderkueche
+    "https://www.gruenderkueche.de/feed/",
+    # platow
+    "https://www.platow.de/feed/",
+    # fondstrends
+    "https://fondstrends.ch/feed/",
+    "https://fondstrends.de/feed/",
+]
+
+
+def scan_rss_feeds():
+    """Scan all RSS feeds for MK-relevant articles. Free and unlimited."""
+    print(f"Scanning {len(RSS_FEEDS)} RSS feeds...\n")
+    results = []
+    feeds_ok = 0
+    feeds_fail = 0
+    
+    for feed_url in RSS_FEEDS:
+        try:
+            # Timeout via requests first, then parse
+            resp = requests.get(feed_url, timeout=8, headers={"User-Agent": "MK-Clipping-Agent/1.0"})
+            if resp.status_code != 200:
+                feeds_fail += 1
+                continue
+            
+            feed = feedparser.parse(resp.content)
+            if not feed.entries:
+                feeds_fail += 1
+                continue
+            
+            feeds_ok += 1
+            feed_source = urlparse(feed_url).netloc.replace("www.", "")
+            
+            for entry in feed.entries[:30]:  # Check last 30 entries per feed
+                title = entry.get("title", "")
+                summary = entry.get("summary", entry.get("description", ""))
+                link = entry.get("link", "")
+                
+                # Check if MK-relevant
+                text = f"{title} {summary}".lower()
+                if any(kw in text for kw in MK_KEYWORDS):
+                    # Extract date
+                    date = ""
+                    if entry.get("published_parsed"):
+                        try:
+                            dt = datetime(*entry.published_parsed[:6])
+                            date = dt.strftime("%Y-%m-%d")
+                        except:
+                            pass
+                    elif entry.get("updated_parsed"):
+                        try:
+                            dt = datetime(*entry.updated_parsed[:6])
+                            date = dt.strftime("%Y-%m-%d")
+                        except:
+                            pass
+                    
+                    results.append({
+                        "title": title.split(" - ")[0].split(" | ")[0].strip(),
+                        "link": link,
+                        "snippet": summary[:200] if summary else "",
+                        "source": feed_source,
+                        "date": date,
+                    })
+        except Exception:
+            feeds_fail += 1
+            continue
+    
+    print(f"  RSS: {feeds_ok} feeds OK, {feeds_fail} failed/empty, {len(results)} MK-relevant entries found\n")
+    return results
 
 # === GOOGLE SEARCH QUERIES ===
 # Budget: 100 free/day. At 3 runs/day = ~33 per run.
@@ -314,6 +498,13 @@ def run_search():
     rate_limited = False
     
     print(f"Loaded {len(existing)} existing clippings")
+    
+    # Step 0: RSS Feed scan (free, unlimited)
+    rss_results = scan_rss_feeds()
+    for r in rss_results:
+        if not is_blocked_domain(r.get("link", "")):
+            all_google_results.append(r)
+    
     print(f"Running {len(GOOGLE_QUERIES)} web queries + {len(GOOGLE_NEWS_QUERIES)} news queries...\n")
     
     # Step 1a: Regular Google searches
