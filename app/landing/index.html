@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ClipRadar — KI-Medienmonitoring für den DACH-Raum ab 49 €/Monat</title>
+<meta name="description" content="Tägliches Medienmonitoring deutschsprachiger Fach- und Leitmedien mit KI-Validierung und Excel-Pressespiegel. Für PR-Agenturen, Freelancer und KMU — ohne Enterprise-Preise.">
+<style>
+  :root {
+    --blue: #1a56db; --blue-dark: #1e429f; --ink: #111827; --gray: #6b7280;
+    --bg: #ffffff; --bg-soft: #f9fafb; --border: #e5e7eb; --green: #057a55;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: "Segoe UI", -apple-system, Arial, sans-serif; color: var(--ink); background: var(--bg); line-height: 1.6; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+  header { padding: 20px 0; border-bottom: 1px solid var(--border); }
+  header .wrap { display: flex; justify-content: space-between; align-items: center; }
+  .logo { font-size: 22px; font-weight: 800; }
+  .logo span { color: var(--blue); }
+  .btn { display: inline-block; background: var(--blue); color: #fff; padding: 12px 28px; border-radius: 8px; text-decoration: none; font-weight: 600; }
+  .btn:hover { background: var(--blue-dark); }
+  .btn-ghost { background: transparent; color: var(--blue); border: 1px solid var(--blue); }
+  .hero { padding: 80px 0 64px; text-align: center; }
+  .hero h1 { font-size: 44px; line-height: 1.15; max-width: 820px; margin: 0 auto 20px; }
+  .hero h1 em { color: var(--blue); font-style: normal; }
+  .hero p.sub { font-size: 20px; color: var(--gray); max-width: 680px; margin: 0 auto 32px; }
+  .hero .note { font-size: 14px; color: var(--gray); margin-top: 12px; }
+  .band { background: var(--bg-soft); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 56px 0; }
+  h2 { font-size: 30px; margin-bottom: 12px; text-align: center; }
+  .lead { text-align: center; color: var(--gray); max-width: 720px; margin: 0 auto 40px; }
+  .grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+  .card { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 28px; }
+  .card h3 { font-size: 18px; margin-bottom: 8px; }
+  .card p { color: var(--gray); font-size: 15px; }
+  .num { font-size: 13px; font-weight: 700; color: var(--blue); letter-spacing: 1px; }
+  section { padding: 64px 0; }
+  table.compare { width: 100%; border-collapse: collapse; font-size: 15px; background: #fff; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+  table.compare th, table.compare td { padding: 14px 16px; text-align: left; border-bottom: 1px solid var(--border); }
+  table.compare th { background: var(--bg-soft); }
+  table.compare td.yes { color: var(--green); font-weight: 600; }
+  table.compare td.no { color: #b91c1c; }
+  .pricing { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; align-items: stretch; }
+  .price-card { border: 1px solid var(--border); border-radius: 12px; padding: 32px 28px; display: flex; flex-direction: column; background: #fff; }
+  .price-card.featured { border: 2px solid var(--blue); position: relative; }
+  .price-card.featured::before { content: "Beliebt"; position: absolute; top: -13px; left: 50%; transform: translateX(-50%); background: var(--blue); color: #fff; font-size: 12px; font-weight: 700; padding: 3px 14px; border-radius: 99px; }
+  .price { font-size: 40px; font-weight: 800; margin: 8px 0 2px; }
+  .price small { font-size: 15px; color: var(--gray); font-weight: 400; }
+  .price-card ul { list-style: none; margin: 20px 0 28px; flex: 1; }
+  .price-card li { padding: 6px 0 6px 26px; position: relative; font-size: 15px; }
+  .price-card li::before { content: "✓"; position: absolute; left: 0; color: var(--green); font-weight: 700; }
+  .faq details { border-bottom: 1px solid var(--border); padding: 16px 0; }
+  .faq summary { font-weight: 600; cursor: pointer; }
+  .faq p { color: var(--gray); margin-top: 8px; font-size: 15px; }
+  footer { border-top: 1px solid var(--border); padding: 32px 0; font-size: 14px; color: var(--gray); }
+  footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  @media (max-width: 640px) { .hero h1 { font-size: 32px; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="logo">Clip<span>Radar</span></div>
+    <a class="btn btn-ghost" href="#preise">Preise</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <h1>Medienmonitoring für den DACH-Raum — <em>ohne Enterprise-Preisschild</em></h1>
+    <p class="sub">ClipRadar überwacht täglich 80+ deutschsprachige Leit- und Fachmedien,
+    validiert jeden Treffer mit KI und liefert Ihnen einen fertigen Excel-Pressespiegel
+    per E-Mail. Ab 49 €/Monat, monatlich kündbar.</p>
+    <a class="btn" href="#preise">14 Tage kostenlos testen</a>
+    <p class="note">Keine Kreditkarte für den Test nötig · Einrichtung in 24 h durch uns</p>
+  </div>
+</section>
+
+<div class="band">
+  <div class="wrap">
+    <h2>Das Problem kennen Sie</h2>
+    <p class="lead">Meltwater &amp; Co. kosten fünfstellig pro Jahr und sind für Konzerne gebaut.
+    Google Alerts übersieht Fachmedien und liefert Spam. Manuelles Googeln kostet Sie jede Woche Stunden.</p>
+    <div class="grid3">
+      <div class="card">
+        <p class="num">FÜR PR-AGENTUREN</p>
+        <h3>Pressespiegel ohne Handarbeit</h3>
+        <p>Jeder Kunde bekommt seinen eigenen Suchauftrag, sein eigenes Tier-1/Tier-2-Schema
+        und seinen eigenen Excel-Report — im Format, das Ihre Kunden aus der Agenturwelt kennen.</p>
+      </div>
+      <div class="card">
+        <p class="num">FÜR FREELANCER</p>
+        <h3>Großes Monitoring, kleiner Preis</h3>
+        <p>Bieten Sie Ihren Mandanten Medienbeobachtung wie die Großen — ohne
+        Jahresvertrag und ohne dass die Marge stirbt. Weiterberechnung ausdrücklich erlaubt.</p>
+      </div>
+      <div class="card">
+        <p class="num">FÜR KMU &amp; ASSET MANAGER</p>
+        <h3>Fachmedien im Blick</h3>
+        <p>Von Börsen-Zeitung bis FONDS professionell: kuratierte Feed-Pakete für Finanz-,
+        Startup-, Health- und Immobilien-Fachpresse, die internationale Tools nicht abdecken.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <h2>So funktioniert&rsquo;s</h2>
+    <p class="lead">Sie nennen uns Firma, Marken und Sprecher — den Rest übernimmt ClipRadar.</p>
+    <div class="grid3">
+      <div class="card"><p class="num">1 — ÜBERWACHEN</p><h3>80+ Quellen täglich</h3>
+        <p>RSS-Feeds deutschsprachiger Leit- und Fachmedien plus gezielte Google-Suchen — jeden Morgen um 7 Uhr.</p></div>
+      <div class="card"><p class="num">2 — VALIDIEREN</p><h3>KI sortiert False Positives aus</h3>
+        <p>Claude prüft jeden Treffer gegen Ihr Firmenprofil: Namensvettern, Werbung und Sidebar-Links fliegen raus.</p></div>
+      <div class="card"><p class="num">3 — LIEFERN</p><h3>Excel-Pressespiegel per E-Mail</h3>
+        <p>Neue Clippings als HTML-Digest, der komplette Pressespiegel mit Tier-Analyse, Monats-Charts und Länder-Split als Excel im Anhang.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="band">
+  <div class="wrap">
+    <h2>ClipRadar im Vergleich</h2>
+    <p class="lead">&nbsp;</p>
+    <div style="overflow-x:auto">
+      <table class="compare">
+        <tr><th></th><th>ClipRadar</th><th>Enterprise-Tools<br><small>(Meltwater, Cision …)</small></th><th>Google Alerts</th><th>Internationale Billig-Tools<br><small>(Mention, Brand24 …)</small></th></tr>
+        <tr><td>Preis</td><td class="yes">ab 49 €/Monat</td><td class="no">ca. 20.000 €+/Jahr</td><td>kostenlos</td><td>ca. 50–150 €/Monat</td></tr>
+        <tr><td>Deutsche Fachmedien</td><td class="yes">✓ kuratierte Pakete</td><td class="yes">✓</td><td class="no">lückenhaft</td><td class="no">kaum abgedeckt</td></tr>
+        <tr><td>KI-Validierung (False Positives)</td><td class="yes">✓</td><td>teilweise</td><td class="no">✗</td><td class="no">✗</td></tr>
+        <tr><td>Excel-Pressespiegel (Agentur-Format)</td><td class="yes">✓ automatisch</td><td>Zusatzmodul</td><td class="no">✗</td><td class="no">✗</td></tr>
+        <tr><td>Vertragslaufzeit</td><td class="yes">monatlich kündbar</td><td class="no">12–24 Monate</td><td>—</td><td>monatlich</td></tr>
+        <tr><td>Persönliche Einrichtung</td><td class="yes">✓ inklusive</td><td>Onboarding-Gebühr</td><td class="no">✗</td><td class="no">✗</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<section id="preise">
+  <div class="wrap">
+    <h2>Preise</h2>
+    <p class="lead">Alle Pläne: tägliches Monitoring, KI-Validierung, E-Mail-Digest, Excel-Pressespiegel, monatlich kündbar.</p>
+    <div class="pricing">
+      <div class="price-card">
+        <h3>Starter</h3>
+        <div class="price">49 €<small>/Monat</small></div>
+        <ul>
+          <li>1 Unternehmen / Marke</li>
+          <li>1 Feed-Paket (Branche)</li>
+          <li>Bis zu 10 Suchbegriffe</li>
+          <li>Wöchentlicher Report</li>
+        </ul>
+        <a class="btn btn-ghost" href="mailto:hallo@clipradar.example?subject=ClipRadar%20Starter%20—%2014%20Tage%20testen">Kostenlos testen</a>
+      </div>
+      <div class="price-card featured">
+        <h3>Pro</h3>
+        <div class="price">99 €<small>/Monat</small></div>
+        <ul>
+          <li>1 Unternehmen / Marke</li>
+          <li>Alle Feed-Pakete + eigene Feeds</li>
+          <li>Unbegrenzte Suchbegriffe + Google-Suche</li>
+          <li>Täglicher Report bei neuen Treffern</li>
+          <li>Sprecher- &amp; Personen-Monitoring</li>
+        </ul>
+        <a class="btn" href="mailto:hallo@clipradar.example?subject=ClipRadar%20Pro%20—%2014%20Tage%20testen">Kostenlos testen</a>
+      </div>
+      <div class="price-card">
+        <h3>Agentur</h3>
+        <div class="price">249 €<small>/Monat</small></div>
+        <ul>
+          <li>Bis zu 5 Kunden-Mandate</li>
+          <li>Alles aus Pro, pro Mandat</li>
+          <li>White-Label-Pressespiegel</li>
+          <li>Weiterberechnung an Endkunden erlaubt</li>
+          <li>Jedes weitere Mandat +39 €</li>
+        </ul>
+        <a class="btn btn-ghost" href="mailto:hallo@clipradar.example?subject=ClipRadar%20Agentur%20—%20Gespräch">Gespräch vereinbaren</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="band">
+  <div class="wrap faq" style="max-width:760px">
+    <h2>Häufige Fragen</h2>
+    <p class="lead">&nbsp;</p>
+    <details><summary>Welche Medien werden überwacht?</summary>
+      <p>Kuratierte Pakete deutschsprachiger Medien: Finanz-Fachpresse (Börsen-Zeitung, FONDS professionell, DAS INVESTMENT, Finews, Institutional Money u.v.m.), allgemeine Wirtschafts- und Tagesmedien (FAZ, Handelsblatt, NZZ, Standard, Presse), Startup-, Health- und Immobilien-Fachmedien. Eigene Quellen ergänzen wir kostenlos.</p></details>
+    <details><summary>Wie zuverlässig ist die KI-Validierung?</summary>
+      <p>Jeder Treffer wird gegen Ihr Firmenprofil geprüft — inklusive bekannter Verwechslungen (Namensvettern, ähnliche Firmennamen). Was die KI nicht sicher zuordnen kann, wird markiert statt verworfen.</p></details>
+    <details><summary>Deckt ClipRadar auch Print und Paywalls ab?</summary>
+      <p>ClipRadar überwacht frei zugängliche Online-Quellen inkl. der Online-Ausgaben von Printmedien. Volltexte hinter Paywalls und gedruckte Ausgaben sind aus lizenzrechtlichen Gründen nicht enthalten — dafür verweisen wir auf die Originalquelle.</p></details>
+    <details><summary>Wie schnell bin ich startklar?</summary>
+      <p>Sie schicken uns Firmenname, Marken und Sprecher — innerhalb von 24 Stunden läuft Ihr Monitoring und Sie erhalten den ersten Report.</p></details>
+    <details><summary>Gibt es eine Mindestlaufzeit?</summary>
+      <p>Nein. Alle Pläne sind monatlich kündbar. Der Test ist 14 Tage kostenlos und endet automatisch.</p></details>
+  </div>
+</div>
+
+<section style="text-align:center">
+  <div class="wrap">
+    <h2>Starten Sie Ihr Monitoring diese Woche</h2>
+    <p class="lead">14 Tage kostenlos, Einrichtung durch uns, keine Kreditkarte.</p>
+    <a class="btn" href="mailto:hallo@clipradar.example?subject=ClipRadar%20—%2014%20Tage%20testen&body=Firma%3A%0AMarken%2FSuchbegriffe%3A%0ASprecher%3A%0ABranche%3A">Jetzt kostenlos testen</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>© 2026 ClipRadar</div>
+    <div><a href="#" style="color:inherit">Impressum</a> · <a href="#" style="color:inherit">Datenschutz</a> · <a href="#" style="color:inherit">AGB</a></div>
+  </div>
+</footer>
+
+</body>
+</html>

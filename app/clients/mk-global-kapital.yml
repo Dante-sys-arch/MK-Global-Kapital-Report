@@ -1,0 +1,63 @@
+# Erster Referenzkunde: MK Global Kapital (migriert aus dem bestehenden Agent).
+client: mk-global-kapital
+name: "MK Global Kapital"
+active: true
+plan: agentur
+report_title: "MK Global Kapital — DACH Clipping Report"
+
+keywords:
+  - "mk global kapital"
+  - "mikro kapital"
+  - "johannes feist"
+  - "michele mattioda"
+  - "louzia savchenko"
+  - "vincenzo trani"
+  - "thomas heinig"
+  - "luca pellegrini"
+  - "mikrokapital"
+  - "mk global"
+
+context: >
+  MK Global Kapital / Mikro Kapital ist ein Asset Manager für Mikrofinanz,
+  Private Debt und Impact Investing. CEO ist Dr. Johannes Feist, weitere
+  Personen: Michele Mattioda, Louzia Savchenko, Vincenzo Trani, Thomas Heinig,
+  Luca Pellegrini. Themen: Mikrofinanz, Private Credit, Anleihen,
+  Emerging Markets, ESG, Tokenisierung.
+
+disambiguation: >
+  Es gibt andere Personen namens "Johannes Feist" (z.B. Edeka-Marktleiter in
+  Gundelfingen). Nur Artikel über den MK Global Kapital / Mikro Kapital CEO
+  sind relevant. Keine Artikel über Supermärkte oder andere Branchen.
+
+feed_packs:
+  - finance_dach
+  - general_dach
+
+google_queries:
+  - '"Johannes Feist"'
+  - '"Michele Mattioda"'
+  - '"Louzia Savchenko"'
+  - '"MK Global Kapital"'
+  - '"Mikro Kapital"'
+  - '"Mikro Kapital" Mikrofinanz'
+  - '"MK Global" "Private Debt"'
+  - '"MK Global" "Private Credit"'
+  - '"MK Global" Anleihe'
+  - '"Johannes Feist" Gastkommentar OR Gastbeitrag'
+  - '"Johannes Feist" "Private Credit" OR "Private Debt"'
+  - '"Vincenzo Trani" "Mikro Kapital"'
+
+google_news_queries:
+  - '"MK Global Kapital"'
+  - '"Johannes Feist" Mikrofinanz'
+  - '"Mikro Kapital"'
+
+page2_queries:
+  - '"Johannes Feist"'
+  - '"MK Global Kapital"'
+  - '"Mikro Kapital"'
+
+delivery:
+  emails:
+    - "samir.djikic@gmail.com"
+  frequency: daily

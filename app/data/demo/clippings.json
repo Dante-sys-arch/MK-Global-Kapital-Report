@@ -1,0 +1,52 @@
+[
+  {
+    "date": "2026-07-24",
+    "outlet": "Handelsblatt",
+    "title": "Demo Capital legt neuen Mittelstandsfonds auf",
+    "country": "D",
+    "type": "Online",
+    "tier": 1,
+    "link": "https://www.handelsblatt.com/demo-beispiel-1",
+    "source": "demo"
+  },
+  {
+    "date": "2026-07-18",
+    "outlet": "Finews",
+    "title": "Erika Musterfrau im Interview: Impact Investing im Aufwind",
+    "country": "CH",
+    "type": "Online",
+    "tier": 1,
+    "link": "https://www.finews.ch/demo-beispiel-2",
+    "source": "demo"
+  },
+  {
+    "date": "2026-07-10",
+    "outlet": "BondGuide",
+    "title": "Demo Capital platziert 20-Mio-Anleihe erfolgreich",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.bondguide.de/demo-beispiel-3",
+    "source": "demo"
+  },
+  {
+    "date": "2026-06-28",
+    "outlet": "Der Standard",
+    "title": "Nachhaltige Fonds: Demo Capital expandiert nach Österreich",
+    "country": "A",
+    "type": "Online",
+    "tier": 1,
+    "link": "https://www.derstandard.at/demo-beispiel-4",
+    "source": "demo"
+  },
+  {
+    "date": "2026-06-15",
+    "outlet": "DAS INVESTMENT",
+    "title": "Demo Capital: Neue Vertriebspartnerschaft mit Volksbanken",
+    "country": "D",
+    "type": "Online",
+    "tier": 1,
+    "link": "https://www.dasinvestment.com/demo-beispiel-5",
+    "source": "demo"
+  }
+]

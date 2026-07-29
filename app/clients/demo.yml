@@ -1,0 +1,22 @@
+# Demo-Kunde für Tests und Produktvorführungen (fiktive Firma).
+client: demo
+name: "Demo Capital AG"
+active: true
+plan: intern
+report_title: "Demo Capital AG — DACH Pressespiegel"
+
+keywords:
+  - "demo capital"
+  - "erika musterfrau"
+
+context: >
+  Demo Capital AG ist ein fiktiver Asset Manager für Testzwecke.
+  Vorständin ist Erika Musterfrau.
+
+feed_packs:
+  - finance_dach
+
+google_queries: []
+delivery:
+  emails: []
+  frequency: daily

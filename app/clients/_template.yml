@@ -1,0 +1,47 @@
+# ClipRadar Kunden-Config — Kopie anlegen als <kundenkuerzel>.yml
+# Pflichtfelder: name, keywords. Alles andere ist optional.
+
+client: kundenkuerzel          # eindeutige ID (klein, ohne Leerzeichen); Default: Dateiname
+name: "Beispiel GmbH"
+active: true
+plan: starter                  # starter | pro | agentur | intern
+
+# Titel im Excel-Pressespiegel
+report_title: "Beispiel GmbH — DACH Pressespiegel"
+
+# Suchbegriffe für den Relevanz-Vorfilter (Kleinschreibung, Substring-Match).
+# Firmenname, Marken, Produktnamen, Namen der Sprecher/Geschäftsführung.
+keywords:
+  - "beispiel gmbh"
+  - "maria beispiel"
+
+# Kontext für die KI-Validierung: Wer ist der Kunde, worum geht es?
+context: >
+  Beispiel GmbH ist ein mittelständischer Anbieter von ... mit Sitz in ...
+  Geschäftsführerin ist Maria Beispiel.
+
+# Optional: bekannte Verwechslungen, die aussortiert werden sollen
+disambiguation: >
+  Es gibt eine gleichnamige Bäckerei in Hamburg — nicht relevant.
+
+# Feed-Pakete: finance_dach, general_dach, startup_dach, health_dach, realestate_dach
+feed_packs:
+  - general_dach
+
+# Optional: eigene RSS-Feeds (Branchen-/Regionalmedien des Kunden)
+extra_rss_feeds: []
+
+# Google Custom Search (nur mit GOOGLE_API_KEY/GOOGLE_CX aktiv).
+# Pro-/Agentur-Pläne: mehr Queries = besserer Recall.
+google_queries:
+  - '"Beispiel GmbH"'
+google_news_queries: []
+page2_queries: []              # Queries, für die auch Google-Seite 2 geholt wird
+
+# Zusätzliche Tier-1-Medien für diesen Kunden (ergänzt die Standardliste)
+tier1_keywords: []
+
+delivery:
+  emails:
+    - "kontakt@beispiel.de"
+  frequency: daily             # daily = bei neuen Treffern | weekly = montags
