@@ -1,7 +1,11 @@
 """
-MK Global Kapital - DACH Clipping Agent v3.0
+DACH Clipping Agent v4.0 — multi-client.
 Google Custom Search API + 60+ RSS Feeds + Claude validation.
 Maximum recall, minimum false positives, full robustness.
+
+Client-specific configuration (keywords, queries, validation prompt, file
+paths) lives in clients/<slug>.json — see client_config.py. Shared
+infrastructure (RSS feeds, tier lists, outlet normalization) lives here.
 """
 import json
 import os
@@ -22,16 +26,11 @@ except ImportError:
     import feedparser
 
 
-# ╔══════════════════════════════════════════════════════════════╗
-# ║  CONFIGURATION                                              ║
-# ╚══════════════════════════════════════════════════════════════╝
+from client_config import load_client, data_path
 
-MK_KEYWORDS = [
-    "mk global kapital", "mikro kapital", "johannes feist",
-    "michele mattioda", "louzia savchenko", "vincenzo trani",
-    "thomas heinig", "luca pellegrini",
-    "mikrokapital", "mk global",
-]
+# ╔══════════════════════════════════════════════════════════════╗
+# ║  SHARED CONFIGURATION (all clients)                          ║
+# ╚══════════════════════════════════════════════════════════════╝
 
 TIER1_KEYWORDS = [
     "faz", "frankfurter allgemeine", "handelsblatt",
@@ -195,86 +194,20 @@ RSS_FEEDS = [
 
 
 # ╔══════════════════════════════════════════════════════════════╗
-# ║  GOOGLE SEARCH QUERIES                                       ║
-# ╚══════════════════════════════════════════════════════════════╝
-
-GOOGLE_QUERIES = [
-    # BARE NAMES (most important — also fetch page 2)
-    '"Johannes Feist"',
-    '"Michele Mattioda"',
-    '"Louzia Savchenko"',
-    '"MK Global Kapital"',
-    '"Mikro Kapital"',
-    # BRAND + CONTEXT
-    '"Mikro Kapital" Mikrofinanz',
-    '"Mikro Kapital Management"',
-    '"MK Global" Mikrofinanz',
-    '"MK Global" "Private Debt"',
-    '"MK Global" "Private Credit"',
-    '"MK Global" Impact',
-    '"MK Global" Anleihe',
-    '"MK Global" ALTERNATIVE Fonds',
-    '"Mikro Kapital" ESG',
-    # PEOPLE + CONTEXT
-    '"Johannes Feist" Gastkommentar OR Gastbeitrag',
-    '"Johannes Feist" "Private Credit" OR "Private Debt"',
-    '"Johannes Feist" Mikrofinanz CEO',
-    '"Johannes Feist" Emerging Markets',
-    '"Johannes Feist" Wasserknappheit OR Klima OR ESG',
-    '"Michele Mattioda" Mikrofinanz OR "MK Global"',
-    '"Louzia Savchenko" Tokenisierung OR tokenisiert',
-    '"Vincenzo Trani" "Mikro Kapital"',
-    '"Thomas Heinig" "Mikro Kapital" OR "MK Global"',
-    '"Luca Pellegrini" "MK Global" OR "Mikro Kapital"',
-    # BROAD
-    '"MK Global Kapital" OR "Mikro Kapital" 2026',
-]
-
-# Bare name queries that should also fetch Google page 2
-PAGE2_QUERIES = ['"Johannes Feist"', '"MK Global Kapital"', '"Mikro Kapital"']
-
-GOOGLE_NEWS_QUERIES = [
-    '"MK Global Kapital"',
-    '"Johannes Feist" Mikrofinanz',
-    '"Mikro Kapital"',
-    '"Louzia Savchenko"',
-    '"Michele Mattioda"',
-]
-
-VALIDATION_PROMPT = """Du pruefst ob Suchergebnisse tatsaechlich MK Global Kapital, Mikro Kapital oder eine der folgenden Personen DIREKT erwaehnen (nicht nur in Sidebar-Links oder Werbung):
-- Dr. Johannes Feist (CEO MK Global Kapital), Michele Mattioda, Louzia Savchenko, Vincenzo Trani, Thomas Heinig, Luca Pellegrini
-
-WICHTIG: Es gibt andere Personen namens "Johannes Feist" (z.B. Edeka-Marktleiter in Gundelfingen). NUR Artikel ueber den MK Global Kapital / Mikro Kapital CEO sind relevant!
-
-Pruefe fuer jeden Eintrag:
-1. Wird MK Global Kapital / Mikro Kapital / eine MK-Person im Artikeltext selbst erwaehnt?
-2. Geht es um Finanzen, Mikrofinanz, Impact Investing, Private Debt — NICHT um Supermaerkte, Edeka oder andere Branchen?
-3. Ist es KEIN Sidebar-Link, keine Werbung, kein "Weitere Artikel"-Verweis?
-
-AUSGABE: Nur die RELEVANTEN Artikel als JSON-Array:
-[{"date":"YYYY-MM-DD","outlet":"Offizieller Medienname (z.B. Frankfurter Allgemeine Zeitung, nicht faz.net)","title":"Exakter Artikeltitel","country":"D/CH/A/DACH","type":"Online","tier":1 oder 2,"link":"URL"}]
-
-TIER 1: FAZ, Handelsblatt, Boersen-Zeitung, NZZ, Finews, Institutional Money, DAS INVESTMENT, FONDS professionell, altii, Citywire, portfolio institutionell, Handelszeitung, Der Standard, Die Presse, WirtschaftsWoche, Manager Magazin, Capital, SZ, Boerse Online
-TIER 2: Alle anderen
-
-Keine Treffer? Antworte: []"""
-
-DATA_FILE = Path(__file__).parent.parent / "data" / "clippings.json"
-
-
-# ╔══════════════════════════════════════════════════════════════╗
 # ║  UTILITY FUNCTIONS                                           ║
 # ╚══════════════════════════════════════════════════════════════╝
 
-def load_clippings():
-    if DATA_FILE.exists():
-        with open(DATA_FILE, "r", encoding="utf-8") as f:
+def load_clippings(cfg):
+    data_file = data_path(cfg)
+    if data_file.exists():
+        with open(data_file, "r", encoding="utf-8") as f:
             return json.load(f)
     return []
 
-def save_clippings(clips):
-    DATA_FILE.parent.mkdir(parents=True, exist_ok=True)
-    with open(DATA_FILE, "w", encoding="utf-8") as f:
+def save_clippings(cfg, clips):
+    data_file = data_path(cfg)
+    data_file.parent.mkdir(parents=True, exist_ok=True)
+    with open(data_file, "w", encoding="utf-8") as f:
         json.dump(clips, f, ensure_ascii=False, indent=2)
 
 def strip_html(text):
@@ -307,9 +240,9 @@ def is_blocked_domain(url):
     domain = extract_domain(url)
     return any(blocked in domain for blocked in BLOCKED_DOMAINS)
 
-def guess_tier(outlet="", link=""):
+def guess_tier(outlet="", link="", extra_tier1=()):
     text = (outlet + " " + link).lower()
-    return 1 if any(k in text for k in TIER1_KEYWORDS) else 2
+    return 1 if any(k in text for k in list(TIER1_KEYWORDS) + list(extra_tier1)) else 2
 
 def guess_country(outlet="", link=""):
     text = (outlet + " " + link).lower()
@@ -347,10 +280,10 @@ def extract_date(text, url=""):
         return d.strftime("%Y-%m-%d")
     return ""
 
-def is_mk_relevant(result):
-    """Pre-filter: does the result mention MK keywords?"""
+def is_relevant(result, keywords):
+    """Pre-filter: does the result mention any client keyword?"""
     text = f"{result.get('title','')} {result.get('snippet','')} {result.get('source','')}".lower()
-    return any(kw in text for kw in MK_KEYWORDS)
+    return any(kw in text for kw in keywords)
 
 def is_duplicate(article, existing):
     link = normalize_url(article.get("link", ""))
@@ -385,7 +318,7 @@ def http_get(url, timeout=10, retries=2):
                 raise e
     return None
 
-def auto_classify_result(result):
+def auto_classify_result(result, extra_tier1=()):
     """Create a clipping from Google/RSS result without Claude."""
     raw_title = result.get("title", "")
     title = raw_title.split(" - ")[0].split(" | ")[0].strip()
@@ -393,13 +326,13 @@ def auto_classify_result(result):
     source = result.get("source", "")
     snippet = result.get("snippet", "")
     date = result.get("date") or extract_date(snippet, link)
-    
+
     return {
         "title": title,
         "link": link,
         "outlet": normalize_outlet(source, link),
         "date": date,
-        "tier": guess_tier(source, link),
+        "tier": guess_tier(source, link, extra_tier1),
         "country": guess_country(source, link),
         "type": "Online",
     }
@@ -409,14 +342,16 @@ def auto_classify_result(result):
 # ║  RSS SCANNING                                                ║
 # ╚══════════════════════════════════════════════════════════════╝
 
-def scan_rss_feeds():
-    """Scan all RSS feeds for MK-relevant articles."""
-    print(f"Scanning {len(RSS_FEEDS)} RSS feeds...\n")
+def scan_rss_feeds(cfg):
+    """Scan all RSS feeds for client-relevant articles."""
+    keywords = cfg["keywords"]
+    feeds = RSS_FEEDS + list(cfg.get("extra_rss_feeds", []))
+    print(f"Scanning {len(feeds)} RSS feeds...\n")
     results = []
     feeds_ok = 0
     feeds_fail = 0
-    
-    for feed_url in RSS_FEEDS:
+
+    for feed_url in feeds:
         try:
             resp = http_get(feed_url, timeout=8, retries=1)
             if not resp or resp.status_code != 200:
@@ -442,7 +377,7 @@ def scan_rss_feeds():
                 
                 # Check relevance against title + summary (up to 500 chars)
                 text = f"{title} {summary[:500]}".lower()
-                if any(kw in text for kw in MK_KEYWORDS):
+                if any(kw in text for kw in keywords):
                     date = ""
                     for date_field in ["published_parsed", "updated_parsed"]:
                         if entry.get(date_field):
@@ -466,7 +401,7 @@ def scan_rss_feeds():
             feeds_fail += 1
             continue
     
-    print(f"  RSS: {feeds_ok}/{len(RSS_FEEDS)} feeds OK, {len(results)} MK-relevant entries\n")
+    print(f"  RSS: {feeds_ok}/{len(feeds)} feeds OK, {len(results)} relevant entries\n")
     return results
 
 
@@ -520,11 +455,11 @@ def google_search(query, api_key, cx, sort_by_date=False, start=1):
 # ║  CLAUDE VALIDATION                                           ║
 # ╚══════════════════════════════════════════════════════════════╝
 
-def validate_with_claude(client, results):
+def validate_with_claude(client, results, cfg):
     """Use Claude to validate and structure results into clippings."""
     if not results:
         return []
-    
+
     text_results = []
     for i, r in enumerate(results):
         text_results.append(
@@ -533,15 +468,15 @@ def validate_with_claude(client, results):
             f"   Snippet: {r.get('snippet','')[:200]}\n"
             f"   URL: {r.get('link','')}"
         )
-    
+
     try:
         response = client.messages.create(
             model="claude-sonnet-4-20250514",
             max_tokens=4000,
-            system=VALIDATION_PROMPT,
+            system=cfg["validation_prompt"],
             messages=[{
                 "role": "user",
-                "content": "Pruefe diese Suchergebnisse und gib NUR die relevanten MK Global Kapital Artikel als JSON zurueck:\n\n" + "\n\n".join(text_results)
+                "content": f"Pruefe diese Suchergebnisse und gib NUR die relevanten {cfg['name']} Artikel als JSON zurueck:\n\n" + "\n\n".join(text_results)
             }],
         )
         
@@ -566,85 +501,90 @@ def validate_with_claude(client, results):
 # ║  MAIN SEARCH ORCHESTRATION                                   ║
 # ╚══════════════════════════════════════════════════════════════╝
 
-def run_search():
+def run_search(cfg):
     google_key = os.environ.get("GOOGLE_API_KEY")
     google_cx = os.environ.get("GOOGLE_CX")
     anthropic_key = os.environ.get("ANTHROPIC_API_KEY")
-    
+
     if not google_key or not google_cx:
         print("WARNING: No Google keys, using Anthropic fallback")
-        return run_anthropic_fallback()
-    
-    existing = load_clippings()
+        return run_anthropic_fallback(cfg)
+
+    google_queries = cfg["google_queries"]
+    page2_queries = cfg["page2_queries"]
+    news_queries = cfg["google_news_queries"]
+    extra_tier1 = cfg["extra_tier1_keywords"]
+
+    existing = load_clippings(cfg)
     existing_urls = {normalize_url(c.get("link","")) for c in existing if c.get("link")}
     new_articles = []
     all_results = []
     rate_limited = False
-    stats = {"rss_ok": 0, "rss_fail": 0, "google_queries": 0, "google_hits": 0, 
+    stats = {"rss_ok": 0, "rss_fail": 0, "google_queries": 0, "google_hits": 0,
              "rss_relevant": 0, "validated": 0, "new": 0}
-    
+
     print(f"{'='*60}")
-    print(f"MK Global Kapital — DACH Clipping Agent v3.0")
+    print(f"{cfg['agent_title']} v4.0")
     print(f"{'='*60}")
     print(f"Existing clippings: {len(existing)}\n")
-    
+
     # ── STEP 0: RSS Feeds (free, unlimited) ──
-    rss_results = scan_rss_feeds()
+    rss_results = scan_rss_feeds(cfg)
     for r in rss_results:
         if not is_blocked_domain(r.get("link", "")):
             all_results.append(r)
     stats["rss_relevant"] = len(rss_results)
-    
+
     # ── STEP 1a: Google Web Search ──
-    print(f"Running {len(GOOGLE_QUERIES)} Google web queries...\n")
-    for i, query in enumerate(GOOGLE_QUERIES):
+    print(f"Running {len(google_queries)} Google web queries...\n")
+    for i, query in enumerate(google_queries):
         if rate_limited:
             break
-        print(f"[Google {i+1}/{len(GOOGLE_QUERIES)}] {query[:60]}...")
+        print(f"[Google {i+1}/{len(google_queries)}] {query[:60]}...")
         results = google_search(query, google_key, google_cx)
-        
+
         if results is None:
             rate_limited = True
             break
-        
+
         stats["google_queries"] += 1
-        relevant = [r for r in results if is_mk_relevant(r)]
+        relevant = [r for r in results if is_relevant(r, cfg["keywords"])]
         stats["google_hits"] += len(relevant)
-        print(f"  -> {len(results)} results, {len(relevant)} MK-relevant")
+        print(f"  -> {len(results)} results, {len(relevant)} relevant")
         all_results.extend(relevant)
-        
+
         # Fetch page 2 for bare name queries (doubles coverage)
-        if query in PAGE2_QUERIES and not rate_limited and len(results) >= 8:
+        if query in page2_queries and not rate_limited and len(results) >= 8:
             results2 = google_search(query, google_key, google_cx, start=11)
             if results2 is None:
                 rate_limited = True
             elif results2:
                 stats["google_queries"] += 1
-                relevant2 = [r for r in results2 if is_mk_relevant(r)]
+                relevant2 = [r for r in results2 if is_relevant(r, cfg["keywords"])]
                 stats["google_hits"] += len(relevant2)
                 if relevant2:
-                    print(f"  -> page 2: {len(relevant2)} more MK-relevant")
+                    print(f"  -> page 2: {len(relevant2)} more relevant")
                     all_results.extend(relevant2)
-        
+
         time.sleep(1)
-    
+
     # ── STEP 1b: Google News Search ──
     if not rate_limited:
-        print(f"\nRunning {len(GOOGLE_NEWS_QUERIES)} Google News queries...\n")
-        for i, query in enumerate(GOOGLE_NEWS_QUERIES):
+        print(f"\nRunning {len(news_queries)} Google News queries...\n")
+        for i, query in enumerate(news_queries):
             if rate_limited:
                 break
-            print(f"[News {i+1}/{len(GOOGLE_NEWS_QUERIES)}] {query[:60]}...")
+            print(f"[News {i+1}/{len(news_queries)}] {query[:60]}...")
             results = google_search(query, google_key, google_cx, sort_by_date=True)
-            
+
             if results is None:
                 rate_limited = True
                 break
-            
+
             stats["google_queries"] += 1
-            relevant = [r for r in results if is_mk_relevant(r)]
+            relevant = [r for r in results if is_relevant(r, cfg["keywords"])]
             stats["google_hits"] += len(relevant)
-            print(f"  -> {len(results)} results, {len(relevant)} MK-relevant")
+            print(f"  -> {len(results)} results, {len(relevant)} relevant")
             all_results.extend(relevant)
             time.sleep(1)
     
@@ -680,12 +620,12 @@ def run_search():
         for i in range(0, len(unique_results), batch_size):
             batch = unique_results[i:i+batch_size]
             print(f"[Claude] Batch {i//batch_size+1} ({len(batch)} results)...")
-            articles = validate_with_claude(client, batch)
-            
+            articles = validate_with_claude(client, batch, cfg)
+
             if articles is None:
                 print("  Claude failed, auto-classifying batch...")
                 for r in batch:
-                    validated.append(auto_classify_result(r))
+                    validated.append(auto_classify_result(r, extra_tier1))
             elif articles:
                 validated.extend(articles)
                 print(f"  -> {len(articles)} valid")
@@ -695,31 +635,31 @@ def run_search():
     else:
         print("\nClaude unavailable. Auto-classifying all results...\n")
         for r in unique_results:
-            validated.append(auto_classify_result(r))
-    
+            validated.append(auto_classify_result(r, extra_tier1))
+
     stats["validated"] = len(validated)
-    
+
     # ── STEP 4: Final dedup, enrich, and save ──
     for a in validated:
-        a["tier"] = a.get("tier") or guess_tier(a.get("outlet",""), a.get("link",""))
+        a["tier"] = a.get("tier") or guess_tier(a.get("outlet",""), a.get("link",""), extra_tier1)
         a["country"] = a.get("country") or guess_country(a.get("outlet",""), a.get("link",""))
         a["type"] = a.get("type") or "Online"
         a["outlet"] = normalize_outlet(a.get("outlet",""), a.get("link",""))
         if not a.get("date"):
             a["date"] = extract_date("", a.get("link",""))
-        
+
         if not is_duplicate(a, existing) and not is_duplicate(a, new_articles):
             a["added_at"] = datetime.now().isoformat()
             a["source"] = "auto" if claude_available else "auto-noclaudecheck"
             a["id"] = f"g-{int(datetime.now().timestamp())}-{len(new_articles)}"
             new_articles.append(a)
-    
+
     stats["new"] = len(new_articles)
-    
+
     if new_articles:
         all_clips = existing + new_articles
         all_clips.sort(key=lambda x: x.get("date", ""), reverse=True)
-        save_clippings(all_clips)
+        save_clippings(cfg, all_clips)
         print(f"\n{'='*50}")
         print(f"NEW: {len(new_articles)} articles added")
         print(f"TOTAL: {len(all_clips)} clippings")
@@ -745,42 +685,42 @@ def print_stats(stats):
     print(f"{'─'*40}")
 
 
-def run_anthropic_fallback():
+def run_anthropic_fallback(cfg):
     """Fallback if Google keys not set."""
     anthropic_key = os.environ.get("ANTHROPIC_API_KEY")
-    if not anthropic_key:
-        print("ERROR: No API keys available")
-        return []
-    
+    extra_tier1 = cfg["extra_tier1_keywords"]
+
     # Still scan RSS even without Google
-    rss_results = scan_rss_feeds()
-    
-    client = anthropic.Anthropic(api_key=anthropic_key)
-    existing = load_clippings()
+    rss_results = scan_rss_feeds(cfg)
+
+    existing = load_clippings(cfg)
     new_articles = []
-    
+
     # Auto-classify RSS results
     for r in rss_results:
         if not is_blocked_domain(r.get("link", "")):
-            a = auto_classify_result(r)
+            a = auto_classify_result(r, extra_tier1)
             if not is_duplicate(a, existing) and not is_duplicate(a, new_articles):
                 a["added_at"] = datetime.now().isoformat()
                 a["source"] = "auto-rss"
                 a["id"] = f"r-{int(datetime.now().timestamp())}-{len(new_articles)}"
                 new_articles.append(a)
-    
-    fallback_queries = [
-        '"MK Global Kapital"', '"Mikro Kapital" Mikrofinanz',
-        '"Johannes Feist" Mikrofinanz OR "MK Global"',
-        '"Johannes Feist" "Private Credit" OR Gastkommentar',
-        '"Michele Mattioda" "MK Global"',
-        '"Louzia Savchenko" "MK Global" OR Tokenisierung',
-    ]
-    
-    system = """Finde ALLE deutschsprachigen Medienartikel zu MK Global Kapital / Mikro Kapital.
-Antworte NUR mit JSON-Array: [{"date":"YYYY-MM-DD","outlet":"Name","title":"Titel","country":"D/CH/A","type":"Online","tier":1/2,"link":"URL"}]
+
+    if not anthropic_key:
+        print("WARNING: No Anthropic key — RSS-only run")
+        if new_articles:
+            all_clips = existing + new_articles
+            all_clips.sort(key=lambda x: x.get("date", ""), reverse=True)
+            save_clippings(cfg, all_clips)
+        return new_articles
+
+    client = anthropic.Anthropic(api_key=anthropic_key)
+    fallback_queries = cfg["fallback_queries"] or cfg["google_queries"][:6]
+
+    system = f"""Finde ALLE deutschsprachigen Medienartikel zu {cfg['name']}.
+Antworte NUR mit JSON-Array: [{{"date":"YYYY-MM-DD","outlet":"Name","title":"Titel","country":"D/CH/A","type":"Online","tier":1/2,"link":"URL"}}]
 Keine Treffer? []"""
-    
+
     for i, q in enumerate(fallback_queries):
         print(f"[Fallback {i+1}/{len(fallback_queries)}] {q}...")
         try:
@@ -801,7 +741,7 @@ Keine Treffer? []"""
                 try:
                     for a in json.loads(match):
                         if isinstance(a, dict) and a.get("title"):
-                            a["tier"] = a.get("tier") or guess_tier(a.get("outlet",""), a.get("link",""))
+                            a["tier"] = a.get("tier") or guess_tier(a.get("outlet",""), a.get("link",""), extra_tier1)
                             a["country"] = a.get("country") or guess_country(a.get("outlet",""), a.get("link",""))
                             a["outlet"] = normalize_outlet(a.get("outlet",""), a.get("link",""))
                             if not is_duplicate(a, existing) and not is_duplicate(a, new_articles):
@@ -815,14 +755,16 @@ Keine Treffer? []"""
         except Exception as e:
             print(f"  ERROR: {e}")
         time.sleep(2)
-    
+
     if new_articles:
         all_clips = existing + new_articles
         all_clips.sort(key=lambda x: x.get("date", ""), reverse=True)
-        save_clippings(all_clips)
+        save_clippings(cfg, all_clips)
     return new_articles
 
 
 if __name__ == "__main__":
-    new = run_search()
+    import sys as _sys
+    slug = _sys.argv[1] if len(_sys.argv) > 1 else "mk-global-kapital"
+    new = run_search(load_client(slug))
     print(f"\nDone. {len(new)} new clippings added.")

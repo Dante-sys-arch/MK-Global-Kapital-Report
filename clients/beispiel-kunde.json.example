@@ -1,0 +1,38 @@
+{
+  "slug": "beispiel-invest-ag",
+  "name": "Beispiel Invest AG",
+  "agent_title": "Beispiel Invest AG — DACH Clipping Agent",
+  "data_file": "data/beispiel-invest-ag/clippings.json",
+  "output_prefix": "beispiel-invest-ag_2026_DACH_Clipping_Report",
+  "report_title": "Beispiel Invest AG — Quantitative Clippings Analysis (DACH) | 2026",
+  "clippings_sheet": "2026 Clippings",
+  "analysis_sheet": "Analysis 2026",
+  "latest_copy": "docs/beispiel-invest-ag_latest.xlsx",
+  "keywords": [
+    "beispiel invest",
+    "max mustermann"
+  ],
+  "google_queries": [
+    "\"beispiel invest\"",
+    "\"max mustermann\"",
+    "\"beispiel invest\" 2026",
+    "\"max mustermann\" 2026",
+    "\"beispiel invest\" Immobilienfonds",
+    "\"beispiel invest\" Sachwerte"
+  ],
+  "page2_queries": [
+    "\"beispiel invest\"",
+    "\"max mustermann\""
+  ],
+  "google_news_queries": [
+    "\"beispiel invest\"",
+    "\"max mustermann\""
+  ],
+  "fallback_queries": [
+    "\"beispiel invest\"",
+    "\"max mustermann\""
+  ],
+  "extra_rss_feeds": [],
+  "extra_tier1_keywords": [],
+  "validation_prompt": "Du pruefst ob Suchergebnisse tatsaechlich Beispiel Invest AG oder eine der folgenden Personen DIREKT erwaehnen (nicht nur in Sidebar-Links oder Werbung):\n- Max Mustermann (CEO)\n\n\nPruefe fuer jeden Eintrag:\n1. Wird Beispiel Invest AG oder eine der genannten Personen im Artikeltext selbst erwaehnt?\n2. Passt der Kontext zur Branche (Immobilienfonds, Sachwerte) — NICHT zu namensgleichen Personen/Firmen aus anderen Branchen?\n3. Ist es KEIN Sidebar-Link, keine Werbung, kein \"Weitere Artikel\"-Verweis?\n\nAUSGABE: Nur die RELEVANTEN Artikel als JSON-Array:\n[{\"date\":\"YYYY-MM-DD\",\"outlet\":\"Offizieller Medienname (z.B. Frankfurter Allgemeine Zeitung, nicht faz.net)\",\"title\":\"Exakter Artikeltitel\",\"country\":\"D/CH/A/DACH\",\"type\":\"Online\",\"tier\":1 oder 2,\"link\":\"URL\"}]\n\nTIER 1: FAZ, Handelsblatt, Boersen-Zeitung, NZZ, Finews, Institutional Money, DAS INVESTMENT, FONDS professionell, altii, Citywire, portfolio institutionell, Handelszeitung, Der Standard, Die Presse, WirtschaftsWoche, Manager Magazin, Capital, SZ, Boerse Online\nTIER 2: Alle anderen\n\nKeine Treffer? Antworte: []"
+}
