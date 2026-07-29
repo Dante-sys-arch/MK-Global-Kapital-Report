@@ -1,6 +1,6 @@
 """
-Generates the MK Global Kapital DACH Clipping Report as Excel file.
-Matches the existing report format exactly.
+Generates a client's Clipping Report as Excel file (per-client config).
+Matches the established report format exactly.
 """
 import json
 from datetime import datetime
@@ -10,19 +10,21 @@ from openpyxl import Workbook
 from openpyxl.styles import Font, Alignment, PatternFill, Border, Side
 from openpyxl.utils import get_column_letter
 
-DATA_FILE = Path(__file__).parent.parent / "data" / "clippings.json"
-OUTPUT_DIR = Path(__file__).parent.parent / "output"
+from client_config import load_client, data_path, REPO_ROOT
+
+OUTPUT_DIR = REPO_ROOT / "output"
 
 
-def load_clippings():
-    if DATA_FILE.exists():
-        with open(DATA_FILE, "r", encoding="utf-8") as f:
+def load_clippings(cfg):
+    data_file = data_path(cfg)
+    if data_file.exists():
+        with open(data_file, "r", encoding="utf-8") as f:
             return json.load(f)
     return []
 
 
-def build_report():
-    clips = load_clippings()
+def build_report(cfg):
+    clips = load_clippings(cfg)
     if not clips:
         print("No clippings to report")
         return None
@@ -31,7 +33,7 @@ def build_report():
 
     # ── Sheet 1: Clippings ──
     ws = wb.active
-    ws.title = "2026 Clippings"
+    ws.title = cfg["clippings_sheet"]
 
     # Header area (rows 1-7)
     ws.merge_cells("A1:G4")
@@ -92,7 +94,7 @@ def build_report():
     ws.column_dimensions["G"].width = 80
 
     # ── Sheet 2: Analysis ──
-    wa = wb.create_sheet("Analysis 2026")
+    wa = wb.create_sheet(cfg["analysis_sheet"])
 
     title_font = Font(name="Calibri", size=14, bold=True)
     section_font = Font(name="Calibri", size=12, bold=True)
@@ -101,9 +103,9 @@ def build_report():
     pct_fmt = "0.0%"
 
     # Title
-    wa["A1"] = "Mikro Kapital Management — Quantitative Clippings Analysis (DACH) | 2026"
+    wa["A1"] = cfg["report_title"]
     wa["A1"].font = title_font
-    wa["A2"] = f"Source: Sheet '2026 Clippings' (A9:G{8 + len(clips)})"
+    wa["A2"] = f"Source: Sheet '{cfg['clippings_sheet']}' (A9:G{8 + len(clips)})"
     wa["A2"].font = Font(name="Calibri", size=10, italic=True, color="666666")
 
     # Summary KPIs
@@ -245,20 +247,22 @@ def build_report():
     # Save
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     today = datetime.now().strftime("%Y%m%d")
-    filename = f"{today}_MK_2026_DACH_Clipping_Report___Analysis.xlsx"
+    filename = f"{today}_{cfg['output_prefix']}.xlsx"
     filepath = OUTPUT_DIR / filename
     wb.save(filepath)
     print(f"Report saved: {filepath}")
 
-    # Save a fixed-name copy to docs/ for GitHub Pages download
-    docs_dir = Path(__file__).parent.parent / "docs"
-    docs_dir.mkdir(parents=True, exist_ok=True)
-    latest = docs_dir / "latest_report.xlsx"
-    wb.save(latest)
-    print(f"Latest copy: {latest}")
+    # Save a fixed-name copy for GitHub Pages download (if configured)
+    if cfg.get("latest_copy"):
+        latest = REPO_ROOT / cfg["latest_copy"]
+        latest.parent.mkdir(parents=True, exist_ok=True)
+        wb.save(latest)
+        print(f"Latest copy: {latest}")
 
     return filepath
 
 
 if __name__ == "__main__":
-    build_report()
+    import sys as _sys
+    slug = _sys.argv[1] if len(_sys.argv) > 1 else "mk-global-kapital"
+    build_report(load_client(slug))

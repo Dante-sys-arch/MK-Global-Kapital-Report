@@ -1,0 +1,65 @@
+{
+  "slug": "mk-global-kapital",
+  "name": "MK Global Kapital",
+  "agent_title": "MK Global Kapital — DACH Clipping Agent",
+  "data_file": "data/clippings.json",
+  "output_prefix": "MK_2026_DACH_Clipping_Report___Analysis",
+  "report_title": "Mikro Kapital Management — Quantitative Clippings Analysis (DACH) | 2026",
+  "clippings_sheet": "2026 Clippings",
+  "analysis_sheet": "Analysis 2026",
+  "latest_copy": "docs/latest_report.xlsx",
+  "keywords": [
+    "mk global kapital", "mikro kapital", "johannes feist",
+    "michele mattioda", "louzia savchenko", "vincenzo trani",
+    "thomas heinig", "luca pellegrini",
+    "mikrokapital", "mk global"
+  ],
+  "google_queries": [
+    "\"Johannes Feist\"",
+    "\"Michele Mattioda\"",
+    "\"Louzia Savchenko\"",
+    "\"MK Global Kapital\"",
+    "\"Mikro Kapital\"",
+    "\"Mikro Kapital\" Mikrofinanz",
+    "\"Mikro Kapital Management\"",
+    "\"MK Global\" Mikrofinanz",
+    "\"MK Global\" \"Private Debt\"",
+    "\"MK Global\" \"Private Credit\"",
+    "\"MK Global\" Impact",
+    "\"MK Global\" Anleihe",
+    "\"MK Global\" ALTERNATIVE Fonds",
+    "\"Mikro Kapital\" ESG",
+    "\"Johannes Feist\" Gastkommentar OR Gastbeitrag",
+    "\"Johannes Feist\" \"Private Credit\" OR \"Private Debt\"",
+    "\"Johannes Feist\" Mikrofinanz CEO",
+    "\"Johannes Feist\" Emerging Markets",
+    "\"Johannes Feist\" Wasserknappheit OR Klima OR ESG",
+    "\"Michele Mattioda\" Mikrofinanz OR \"MK Global\"",
+    "\"Louzia Savchenko\" Tokenisierung OR tokenisiert",
+    "\"Vincenzo Trani\" \"Mikro Kapital\"",
+    "\"Thomas Heinig\" \"Mikro Kapital\" OR \"MK Global\"",
+    "\"Luca Pellegrini\" \"MK Global\" OR \"Mikro Kapital\"",
+    "\"MK Global Kapital\" OR \"Mikro Kapital\" 2026"
+  ],
+  "page2_queries": [
+    "\"Johannes Feist\"",
+    "\"MK Global Kapital\"",
+    "\"Mikro Kapital\""
+  ],
+  "google_news_queries": [
+    "\"MK Global Kapital\"",
+    "\"Johannes Feist\" Mikrofinanz",
+    "\"Mikro Kapital\"",
+    "\"Louzia Savchenko\"",
+    "\"Michele Mattioda\""
+  ],
+  "fallback_queries": [
+    "\"MK Global Kapital\"",
+    "\"Mikro Kapital\" Mikrofinanz",
+    "\"Johannes Feist\" Mikrofinanz OR \"MK Global\"",
+    "\"Johannes Feist\" \"Private Credit\" OR Gastkommentar",
+    "\"Michele Mattioda\" \"MK Global\"",
+    "\"Louzia Savchenko\" \"MK Global\" OR Tokenisierung"
+  ],
+  "validation_prompt": "Du pruefst ob Suchergebnisse tatsaechlich MK Global Kapital, Mikro Kapital oder eine der folgenden Personen DIREKT erwaehnen (nicht nur in Sidebar-Links oder Werbung):\n- Dr. Johannes Feist (CEO MK Global Kapital), Michele Mattioda, Louzia Savchenko, Vincenzo Trani, Thomas Heinig, Luca Pellegrini\n\nWICHTIG: Es gibt andere Personen namens \"Johannes Feist\" (z.B. Edeka-Marktleiter in Gundelfingen). NUR Artikel ueber den MK Global Kapital / Mikro Kapital CEO sind relevant!\n\nPruefe fuer jeden Eintrag:\n1. Wird MK Global Kapital / Mikro Kapital / eine MK-Person im Artikeltext selbst erwaehnt?\n2. Geht es um Finanzen, Mikrofinanz, Impact Investing, Private Debt — NICHT um Supermaerkte, Edeka oder andere Branchen?\n3. Ist es KEIN Sidebar-Link, keine Werbung, kein \"Weitere Artikel\"-Verweis?\n\nAUSGABE: Nur die RELEVANTEN Artikel als JSON-Array:\n[{\"date\":\"YYYY-MM-DD\",\"outlet\":\"Offizieller Medienname (z.B. Frankfurter Allgemeine Zeitung, nicht faz.net)\",\"title\":\"Exakter Artikeltitel\",\"country\":\"D/CH/A/DACH\",\"type\":\"Online\",\"tier\":1 oder 2,\"link\":\"URL\"}]\n\nTIER 1: FAZ, Handelsblatt, Boersen-Zeitung, NZZ, Finews, Institutional Money, DAS INVESTMENT, FONDS professionell, altii, Citywire, portfolio institutionell, Handelszeitung, Der Standard, Die Presse, WirtschaftsWoche, Manager Magazin, Capital, SZ, Boerse Online\nTIER 2: Alle anderen\n\nKeine Treffer? Antworte: []"
+}
