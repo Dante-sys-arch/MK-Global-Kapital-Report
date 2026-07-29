@@ -8,6 +8,7 @@ Ursprünglich gebaut für **MK Global Kapital** (erster Kunde, läuft unverände
 weiter) — jetzt als Mehrkunden-Produkt, das sich als Service verkaufen lässt.
 **→ Siehe [GESCHAEFTSPLAN.md](GESCHAEFTSPLAN.md) für den Weg zu 10.000 € in 6 Monaten.**
 **→ Verkaufsseite: [docs/produkt.html](docs/produkt.html) (via GitHub Pages).**
+**→ Neues Schwesterprodukt: [FinVoice](finvoice/README.md) — LinkedIn-Ghostwriting-Autopilot für Finanz-Führungskräfte (eigener [Geschäftsplan](finvoice/GESCHAEFTSPLAN.md)).**
 
 ## Funktionsweise
 
