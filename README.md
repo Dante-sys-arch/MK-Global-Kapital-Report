@@ -9,15 +9,40 @@ weiter) — jetzt als Mehrkunden-Produkt, das sich als Service verkaufen lässt.
 **→ Siehe [GESCHAEFTSPLAN.md](GESCHAEFTSPLAN.md) für den Weg zu 10.000 € in 6 Monaten.**
 **→ Verkaufsseite: [docs/produkt.html](docs/produkt.html) (via GitHub Pages).**
 
-## Funktionsweise
+## Funktionsweise (v5, maximale Trefferquote)
 
-1. **RSS-Scan**: 60+ deutschsprachige Finanz-/Wirtschaftsmedien (kostenlos, unbegrenzt)
-2. **Google-Suche**: Web- + News-Queries via Google Custom Search API
-3. **KI-Validierung**: Claude prüft jeden Treffer (keine Namensvetter, keine Werbung)
-4. **Deduplizierung**: Neue Artikel werden gegen bestehende geprüft (URL + Titel/Medium)
-5. **Tier-Zuordnung**: Tier 1 (Leitmedien) / Tier 2 (übrige Medien)
-6. **Excel-Report**: Pro Kunde, mit Analysis-Sheet und Charts
-7. **Commit**: Ergebnisse werden automatisch ins Repository committed
+Jeder Lauf sammelt Hinweise aus sechs Kanälen und prüft **jeden** Hinweis auf der Artikelseite selbst:
+
+| Kanal | Was | Wann |
+|---|---|---|
+| RSS | 50+ Feeds, inkl. Beschreibung, Volltext und Autorenzeile | jeder Lauf |
+| Google News RSS | Suchfeeds je Ausgabe DE, CH, AT | jeder Lauf |
+| Neue Artikel der Stammmedien | jede neue URL aus den Sitemaps, im Volltext gelesen | jeder Lauf |
+| Seitensuche | WordPress-Suche der Stammmedien (ganzes Archiv, trifft Autorenzeilen) | 1× täglich |
+| Google Websuche | Custom Search API (endet am 01.01.2027) | 1× täglich |
+| Serper | Google Web + News, optional (Secret `SERPER_API_KEY`) | 1× täglich |
+| Syndikation | exakte Titelsuche für jedes neue Clipping, findet Kopien auf anderen Medien | nach jedem Fund |
+
+Prüfung: Die Namen (Firma oder Personen) müssen im Artikel stehen (Titel, Autor, Haupttext).
+Namen mit Namensvettern (z. B. Johannes Feist) brauchen Finanzkontext. Unklare Fälle entscheidet Claude.
+Was danach unklar bleibt, landet in der **Prüfliste** (`data/review.json`, Dashboard-Tab „Prüfliste“),
+nie ungeprüft in den Clippings. Entscheidungen trägt man in `data/review_decisions.csv` ein (`Link;ja` oder `Link;nein`).
+
+Zählregeln: Jede Erscheinung zählt, auch Syndikationen auf anderen Medien (Feld `syndication_of`).
+Französischsprachige Artikel (Romandie) werden verworfen. Englischsprachige kommen in die Prüfliste.
+Das Datum kommt von der Artikelseite, sonst aus Feed/Suchtreffer, nie von Claude.
+
+**Soll-Liste:** `data/placements.csv` (Semikolon-getrennt): Platzierungen mit Medium-Domain und erwartetem Datum.
+Der Agent markiert sie als gefunden oder meldet sie nach 3 Tagen als überfällig.
+
+**Überwachung:** Jeder Lauf schreibt `data/runs/<kunde>-latest.md` (lesbar) und `.json`.
+Fällt ein Kanal ganz aus oder ist Claude nicht erreichbar, schlägt der Workflow fehl und GitHub verschickt eine Mail.
+Das Dashboard zeigt den Status oben an.
+
+**Sonderläufe** (Actions → MK Clipping Agent → Run workflow):
+- `mode=backfill`, `date_from`, `date_to`: Zeitraum nachsuchen (Google News, Websuche, Seitensuche je Monat)
+- `mode=enrich`: Sprecher und Autorenzeile für bestehende Clippings ergänzen
+- `dry_run=true`: Testlauf, speichert nichts außer dem Laufbericht
 
 ## Kunden verwalten
 
@@ -58,7 +83,7 @@ Der GitHub-Actions-Zeitplan (3× täglich) nimmt neue Kunden automatisch mit.
 
 ```
 ├── .github/workflows/
-│   └── clipping-agent.yml       # GitHub Actions Zeitplan (alle Kunden)
+│   └── main.yml                 # GitHub Actions Zeitplan (alle Kunden)
 ├── clients/
 │   ├── mk-global-kapital.json   # Kunde 1: MK Global Kapital
 │   └── beispiel-kunde.json.example
