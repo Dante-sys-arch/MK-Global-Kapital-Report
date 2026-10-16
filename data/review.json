@@ -12,7 +12,8 @@
       "site"
     ],
     "snippet": "ionen +++ Neuemission im Fokus: Nakiki setzt voll auf Bitcoin: fast 10% p.a. mit erster deutscher Bitcoin-Treasury-Anleihe +++ Interview mit Karsten Reetz, reconcept +++ Standpunkt von Kai Jordan, mwb Wertpapierhandelsbank: Unter Druck +++ Interview mit Davide Basile, Redwheel +++ Interview mit Dr. ",
-    "added_at": "2026-10-16T10:24:17"
+    "added_at": "2026-10-16T10:24:17",
+    "id": "r-c3827df9f0"
   },
   {
     "link": "https://www.dfpa.info/pressedigest-news/die-neue-exxecnews-ist-erschienen-78/",
@@ -27,7 +28,8 @@
       "site"
     ],
     "snippet": "h in Entwicklungs- und Schwellenländern. Sie ermöglichen, selbstständig Einnahmen zu erzielen, Wirtschaftswachstum zu fördern und Armut zu reduzieren. EXXEC NEWS stellt diese Form des Impact-Investings vor – Mikrofinanzfonds als ein Teil der Assetklasse Private Debt. Dazu auch ein Interview mit Dr. ",
-    "added_at": "2026-10-16T10:24:17"
+    "added_at": "2026-10-16T10:24:17",
+    "id": "r-3da72cf930"
   },
   {
     "link": "https://e-fundresearch.com/managers/artikel/60333-experten-umfrage-worueber-im-zweiten-halbjahr-2026-keiner-redet-teil-22",
@@ -42,7 +44,8 @@
       "gnews"
     ],
     "snippet": "Experten-Umfrage: Worüber im zweiten Halbjahr 2026 keiner redet (Teil 2/2) e-fundresearch.com",
-    "added_at": "2026-10-16T10:24:17"
+    "added_at": "2026-10-16T10:24:17",
+    "id": "r-c255303bbc"
   },
   {
     "link": "https://www.moneycab.com/dossiers/vp-bank-spotanalyse-eu-und-usa-einigen-sich-auf-15-zollsatz-fuer-importe/",
@@ -57,6 +60,27 @@
       "gnews"
     ],
     "snippet": "VP Bank Spotanalyse: EU und USA einigen sich auf 15 % Zollsatz für Importe Moneycab",
-    "added_at": "2026-10-16T13:30:07"
+    "added_at": "2026-10-16T13:30:07",
+    "id": "r-e677f83309"
+  },
+  {
+    "id": "r-23995a4a57",
+    "link": "https://www.fondsexklusiv.de/schwellenlaender-worauf-es-jetzt-ankommt/",
+    "title": "Schwellenländer: Worauf es jetzt ankommt",
+    "outlet": "FONDS exklusiv",
+    "date": "2026-06-01",
+    "people": [
+      "Johannes Feist"
+    ],
+    "reason": "aus 20261016-test-text.json ausgelesen: bitte bestätigen",
+    "found_via": [
+      "manuell"
+    ],
+    "medium": "Online",
+    "country": "D",
+    "source_kind": "manual",
+    "source_file": "20261016-test-text.json",
+    "snippet": "Marktkommentar von Johannes Feist, CEO von MK Global Kapital; Autorenangabe auf der Seite: Raja; Text im Eingang abgeschnitten",
+    "added_at": "2026-10-16T13:41:54"
   }
 ]

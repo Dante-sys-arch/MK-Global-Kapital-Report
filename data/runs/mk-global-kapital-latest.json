@@ -1,266 +1,69 @@
 {
   "client": "mk-global-kapital",
-  "run_at": "2026-10-16T13:30:16+00:00",
-  "mode": "daily",
+  "run_at": "2026-10-16T13:41:54+00:00",
+  "mode": "inbox",
   "dry_run": false,
-  "duration_s": 767,
+  "duration_s": 5,
   "health": {
-    "status": "warn",
+    "status": "ok",
     "problems": [],
-    "warnings": [
-      "Nur 31 von 53 RSS-Feeds liefern Einträge"
-    ]
+    "warnings": []
   },
   "counts": {
-    "candidates": 895,
-    "unique": 782,
-    "already_known": 30,
-    "already_checked": 34,
-    "fetched": 711,
-    "fetch_failed": 16,
-    "no_match": 704,
+    "candidates": 0,
+    "unique": 0,
+    "already_known": 0,
+    "already_checked": 0,
+    "fetched": 0,
+    "fetch_failed": 0,
+    "no_match": 0,
     "gnews_unresolved": 0,
     "review_decisions": 0,
-    "review_rechecked": 3,
-    "backfill_month": "2025-07",
-    "too_old": 1,
-    "enriched": 0,
-    "deferred": 0
+    "inbox_files": 1
   },
   "channels": {
     "claude": {
-      "requests": 2,
-      "ok": 2,
+      "requests": 1,
+      "ok": 1,
       "errors": 0,
       "candidates": 0,
       "notes": []
-    },
-    "rss": {
-      "requests": 53,
-      "ok": 31,
-      "errors": 22,
-      "candidates": 1,
-      "notes": [
-        "https://www.dasinvestment.com/feed/: HTTP 404",
-        "https://www.fondsprofessionell.de/rss/news.xml: keine Einträge",
-        "https://www.institutional-money.com/rss/news/: keine Einträge",
-        "https://www.handelszeitung.ch/rss.xml: HTTP 404",
-        "https://www.boersen-zeitung.de/rss: HTTP 404",
-        "https://www.wiwo.de/contentexport/feed/rss/schlagzeilen/finanzen/: HTTP 404",
-        "https://www.capital.de/feed/rss: HTTP 404",
-        "https://investrends.ch/feed/: HTTP 404",
-        "https://e-fundresearch.com/rss: HTTP 404",
-        "https://citywire.de/feed/: keine Einträge",
-        "https://www.private-banking-magazin.de/feed/: HTTP 404",
-        "https://www.fixed-income.org/feed/: HTTP 404",
-        "https://www.finanzwelt.de/feed/: HTTP 403",
-        "https://exxecnews.org/feed/: ConnectionError",
-        "https://www.kreditwesen.de/feed/: HTTP 404",
-        "https://www.allnews.ch/rss: HTTP 403",
-        "https://www.swissfinanceai.ch/feed/: HTTP 403",
-        "https://www.srf.ch/news/wirtschaft/rss/feed: HTTP 404",
-        "https://www.tagesanzeiger.ch/wirtschaft/rss.xml: HTTP 404",
-        "https://fondstrends.ch/feed/: keine Einträge",
-        "https://www.fundresearch.de/feed/: HTTP 404",
-        "https://privatemarkets360.com/feed/: HTTP 404"
-      ]
-    },
-    "gnews": {
-      "requests": 134,
-      "ok": 134,
-      "errors": 0,
-      "candidates": 306,
-      "notes": []
-    },
-    "bing": {
-      "requests": 33,
-      "ok": 33,
-      "errors": 0,
-      "candidates": 36,
-      "notes": []
-    },
-    "sitemap": {
-      "requests": 36,
-      "ok": 21,
-      "errors": 8,
-      "candidates": 810,
-      "notes": [
-        "moneycab.com: 397 neue Artikel, 100 in diesem Lauf geprüft, Rest folgt",
-        "fondsexklusiv.de: Sitemap ohne Einträge",
-        "fondsexklusiv.at: Sitemap ohne Einträge",
-        "dfpa.info: 239 neue Artikel, 100 in diesem Lauf geprüft, Rest folgt",
-        "markteinblicke.de: 108 neue Artikel, 100 in diesem Lauf geprüft, Rest folgt",
-        "private-banking-magazin.de: Sitemap ohne Einträge",
-        "institutional-money.com: keine Sitemap gefunden",
-        "fixed-income.org: keine Sitemap gefunden",
-        "e-fundresearch.com: 494 neue Artikel, 100 in diesem Lauf geprüft, Rest folgt",
-        "exxecnews.org: keine Sitemap gefunden",
-        "swissfinanceai.ch: Sitemap ohne Einträge",
-        "handelszeitung.ch: Sitemap ohne Einträge",
-        "dasinvestment.com: Sitemap ohne Einträge",
-        "privatemarkets360.com: 494 neue Artikel, 100 in diesem Lauf geprüft, Rest folgt",
-        "allnews.ch: keine Sitemap gefunden",
-        "fondsprofessionell.de: keine Sitemap gefunden",
-        "fondsprofessionell.at: keine Sitemap gefunden",
-        "citywire.de: keine Sitemap gefunden",
-        "finanzwelt.de: Sitemap ohne Einträge",
-        "fondstrends.ch: keine Sitemap gefunden",
-        "cash.ch: 440 neue Artikel, 100 in diesem Lauf geprüft, Rest folgt"
-      ]
-    },
-    "serpapi": {
-      "requests": 8,
-      "ok": 8,
-      "errors": 0,
-      "candidates": 14,
-      "notes": []
-    },
-    "fetch": {
-      "requests": 0,
-      "ok": 0,
-      "errors": 0,
-      "candidates": 0,
-      "notes": [
-        "bondguide.de: HTTP 429",
-        "bondguide.de: HTTP 429",
-        "dfpa.info: HTTP 404",
-        "payoff.ch: HTTP 429",
-        "payoff.ch: HTTP 429",
-        "platow.de: HTTP 404",
-        "platow.de: HTTP 404",
-        "platow.de: HTTP 404",
-        "platow.de: HTTP 404",
-        "oalib.com: HTTP 520",
-        "background.tagesspiegel.de: HTTP 403",
-        "ewrc-results.com: HTTP 403",
-        "rabota.md: HTTP 403",
-        "biashara.cybo.com: HTTP 403",
-        "faz.net: HTTP 302",
-        "faz.net: HTTP 302"
-      ]
     }
   },
-  "new": [
-    {
-      "date": "2026-06-24",
-      "outlet": "background.tagesspiegel",
-      "title": "Digitale Kreditvergabe : Kreditzugang ist mehr als ein Score",
-      "link": "https://background.tagesspiegel.de/finance/briefing/kreditzugang-ist-mehr-als-ein-score",
-      "people": [
-        "Louiza Savchenko"
-      ],
-      "byline": false,
-      "found_via": [
-        "bing"
-      ],
-      "verified": "claude"
-    },
-    {
-      "date": "2026-10-05",
-      "outlet": "SALES JOBS",
-      "title": "Работа оператором в Узбекистане: 23 вакансии — Call-markaz / operator",
-      "link": "https://salesjobs.uz/lavozim/operator",
-      "byline": false,
-      "found_via": [
-        "serpapi"
-      ],
-      "verified": "volltext"
-    },
-    {
-      "date": "2026-10-14",
-      "outlet": "Netmilk Studio",
-      "title": "Progetti: siti web, brand identity e packaging",
-      "link": "https://netmilk.ch/progetti/",
-      "byline": false,
-      "found_via": [
-        "serpapi"
-      ],
-      "verified": "volltext"
-    },
-    {
-      "date": "2026-10-14",
-      "outlet": "Moneycab",
-      "title": "Kommentare Archives",
-      "link": "https://www.moneycab.com/category/kommentare/",
-      "people": [
-        "Louiza Savchenko"
-      ],
-      "byline": false,
-      "found_via": [
-        "serpapi"
-      ],
-      "verified": "claude"
-    },
-    {
-      "date": "2026-10-11",
-      "outlet": "finanznachrichten.de",
-      "title": "Moneycab | Nachrichten",
-      "link": "https://www.finanznachrichten.de/nachrichten-medien/moneycab.htm",
-      "people": [
-        "Louiza Savchenko"
-      ],
-      "byline": true,
-      "found_via": [
-        "serpapi"
-      ],
-      "verified": "claude"
-    }
-  ],
+  "new": [],
   "new_review": [
     {
-      "link": "https://www.moneycab.com/dossiers/vp-bank-spotanalyse-eu-und-usa-einigen-sich-auf-15-zollsatz-fuer-importe/",
-      "title": "VP Bank Spotanalyse: EU und USA einigen sich auf 15 % Zollsatz für Importe",
-      "outlet": "Moneycab",
-      "date": "2025-07-28",
+      "id": "r-23995a4a57",
+      "link": "https://www.fondsexklusiv.de/schwellenlaender-worauf-es-jetzt-ankommt/",
+      "title": "Schwellenländer: Worauf es jetzt ankommt",
+      "outlet": "FONDS exklusiv",
+      "date": "2026-06-01",
       "people": [
-        "Louiza Savchenko"
+        "Johannes Feist"
       ],
-      "reason": "unklar: Der Artikel ist ein VP-Bank-Spotanalyse-Beitrag zu Zöllen. Der Savchenko-Teaser steht nur als Textblock der Moneycab-Seite (vermutlich Seitenleiste oder Linkliste) und nicht im Artikeltext.",
+      "reason": "aus 20261016-test-text.json ausgelesen: bitte bestätigen",
       "found_via": [
-        "gnews"
+        "manuell"
       ],
-      "snippet": "VP Bank Spotanalyse: EU und USA einigen sich auf 15 % Zollsatz für Importe Moneycab",
-      "added_at": "2026-10-16T13:30:07"
+      "medium": "Online",
+      "country": "D",
+      "source_kind": "manual",
+      "source_file": "20261016-test-text.json",
+      "snippet": "Marktkommentar von Johannes Feist, CEO von MK Global Kapital; Autorenangabe auf der Seite: Raja; Text im Eingang abgeschnitten",
+      "added_at": "2026-10-16T13:41:54"
     }
   ],
-  "rejected": [
+  "rejected": [],
+  "review_open": 5,
+  "total_clippings": 67,
+  "placements": {},
+  "inbox": [
     {
-      "link": "https://www.private-banking-magazin.de/peter-peterburs-verlaesst-bny-mellon/",
-      "title": "Peter Peterburs verlässt BNY Mellon",
-      "reason": "Claude: Der Artikel handelt vom Wechsel von Peter Peterburs bei BNY Mellon. Es gibt keinen erkennbaren Bezug zu MK Global Kapital oder den genannten Personen."
-    },
-    {
-      "link": "https://podcast.ilsole24ore.com/serie/market-mover-ADIwje3/il-termometro-rischio-politico-AJAT1reB",
-      "title": "Il termometro del rischio politico - Market Mover",
-      "reason": "französisch (Romandie-Regel)"
-    },
-    {
-      "link": "https://www.oalib.com/research/3586533",
-      "title": "Extraordinary exciton conductance induced by strong ...",
-      "reason": "Claude: Wissenschaftliche Publikation (Physik) von Namensvetter Johannes Feist, kein Bezug zu MK Global Kapital"
-    },
-    {
-      "link": "https://ewrc-results.com/event/101186-rally-citta-di-bassano-2026/final-results",
-      "title": "43. Rally Città di Bassano 2026",
-      "reason": "Claude: Rallye-Ergebnisse mit Namensvettern (Mattioda Alessandro, Degani Michele), kein Bezug zu MK Global Kapital"
-    },
-    {
-      "link": "https://www.rabota.md/ro/locuri-de-munca/ofiter-de-credite-soroca-experienta-in-sectorul-creditarii-bancare-nebancare/130173",
-      "title": "Ofițer de credite, Soroca (experiență în sectorul creditării ...",
-      "reason": "Claude: Stellenanzeige"
-    },
-    {
-      "link": "https://biashara.cybo.com/MD/chircani/mashirika-au-makampuni-yanayotoa-mikopo?ref=cat",
-      "title": "Mashirika au makampuni yanayotoa mikopo katika Chircani",
-      "reason": "Claude: Firmenverzeichnis, Mikro Kapital ist nicht MK Global Kapital, kein Artikel"
+      "file": "20261016-test-text.json",
+      "added": 0,
+      "review": 1,
+      "duplicates": 0,
+      "error": ""
     }
-  ],
-  "review_open": 4,
-  "total_clippings": 71,
-  "placements": {
-    "total": 0,
-    "found_now": [],
-    "overdue": [],
-    "open": 0
-  }
+  ]
 }
