@@ -1,9 +1,12 @@
 name: MK Clipping Agent
 on:
+  # Ein Tageslauf pro Tag (Berliner Datum), Ergebnisse vor 08:30 Uhr. GitHub startet geplante Läufe
+  # oft Stunden zu spät, deshalb ein früher Termin (23:17 UTC = nachts in Berlin) plus zwei Ersatztermine.
+  # Die Ersatztermine laufen nur, wenn der Tageslauf für das Berliner Datum noch fehlt.
   schedule:
-    - cron: '0 6 * * *'
-    - cron: '0 12 * * *'
-    - cron: '0 18 * * *'
+    - cron: '17 23 * * *'
+    - cron: '13 2 * * *'
+    - cron: '41 4 * * *'
   push:
     branches: [agent-v5]
   workflow_dispatch:
@@ -45,6 +48,8 @@ jobs:
           GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
           GOOGLE_CX: ${{ secrets.GOOGLE_CX }}
           SERPER_API_KEY: ${{ secrets.SERPER_API_KEY }}
+          SERPAPI_KEY: ${{ secrets.SERPAPI_KEY }}
+          EVENT: ${{ github.event_name }}
           MODE: ${{ github.event.inputs.mode || (github.event_name == 'push' && 'backfill') || 'daily' }}
           DATE_FROM: ${{ github.event.inputs.date_from || (github.event_name == 'push' && '2025-07-01') || '' }}
           DATE_TO: ${{ github.event.inputs.date_to }}
@@ -54,6 +59,7 @@ jobs:
           if [ -n "$DATE_FROM" ]; then ARGS="$ARGS --from $DATE_FROM"; fi
           if [ -n "$DATE_TO" ]; then ARGS="$ARGS --to $DATE_TO"; fi
           if [ "$DRY_RUN" = "true" ]; then ARGS="$ARGS --dry-run"; fi
+          if [ "$EVENT" = "schedule" ]; then ARGS="$ARGS --scheduled"; fi
           python src/main.py $ARGS
       - name: Commit
         if: always()

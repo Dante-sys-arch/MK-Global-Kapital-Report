@@ -262,10 +262,15 @@ class AgentTests(unittest.TestCase):
 
 
 class HealthTests(unittest.TestCase):
-    def test_dead_google_is_an_error(self):
+    def test_no_web_search_is_a_warning(self):
         from runreport import evaluate
-        ch = {"google": {"requests": 30, "ok": 0, "errors": 30, "notes": ["HTTP 403"], "candidates": 0},
+        ch = {"google": {"requests": 1, "ok": 0, "errors": 1, "notes": ["Projekt hat keinen Zugang zur Custom Search API"], "candidates": 0},
               "rss": {"requests": 50, "ok": 45, "errors": 5, "notes": [], "candidates": 2}}
+        self.assertEqual(evaluate(ch, {}, {})["status"], "warn")
+
+    def test_failing_paid_search_is_an_error(self):
+        from runreport import evaluate
+        ch = {"serpapi": {"requests": 8, "ok": 0, "errors": 8, "notes": ["HTTP 401 Invalid API key"], "candidates": 0}}
         self.assertEqual(evaluate(ch, {}, {})["status"], "error")
 
     def test_claude_error_is_an_error(self):

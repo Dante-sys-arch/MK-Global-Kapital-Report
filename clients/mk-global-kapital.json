@@ -293,5 +293,16 @@
     "northdata",
     "/stellenangebot",
     "/jobs?/"
-  ]
+  ],
+  "serpapi_queries": [
+    "\"Johannes Feist\"",
+    "\"Louiza Savchenko\" OR \"Louzia Savchenko\"",
+    "\"Michele Mattioda\"",
+    "\"MK Global Kapital\"",
+    "\"Mikro Kapital\"",
+    "\"Feist\" \"MK Global\" OR Mikrofinanz",
+    "\"Savchenko\" \"MK Global\" OR Tokenisierung",
+    "\"MK Global Capital\" OR \"Mikrokapital\""
+  ],
+  "serpapi_daily_budget": 8
 }

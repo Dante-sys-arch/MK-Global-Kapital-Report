@@ -19,7 +19,7 @@ RUNS = REPO_ROOT / "data" / "runs"
 HISTORY_KEEP = 500
 
 LABELS = {"rss": "RSS-Feeds", "google": "Google Websuche (Custom Search)", "gnews": "Google News", "bing": "Bing News",
-          "serper": "Serper (Google Web + News)", "site": "Seitensuche der Stammmedien",
+          "serper": "Serper (Google Web + News)", "serpapi": "SerpApi (Google Web)", "site": "Seitensuche der Stammmedien",
           "sitemap": "Neue Artikel der Stammmedien", "claude": "Claude-Prüfung", "fetch": "Artikelseiten"}
 
 
@@ -39,18 +39,19 @@ def evaluate(channels, counts, placements):
         problems.append(f"{LABELS['gnews']}: alle {gn['requests']} Anfragen gescheitert ({'; '.join(gn['notes'][:2])})")
     elif gn["errors"]:
         warnings.append(f"{LABELS['gnews']}: {gn['errors']} von {gn['requests']} Anfragen gescheitert")
-    go, sp0 = ch("google"), ch("serper")
-    google_dead = go["requests"] and go["ok"] == 0
-    serper_ok = sp0["ok"] > 0
-    if google_dead and not serper_ok:
-        reason = "Custom Search gesperrt" if any("does not have the access" in n for n in go["notes"]) else "; ".join(go["notes"][:1])
-        problems.append(f"Keine Google-Websuche: {reason}, Serper nicht eingerichtet (Secret SERPER_API_KEY)")
-    elif google_dead:
-        warnings.append("Google Custom Search ausgefallen, Websuche läuft über Serper")
-    elif go["errors"]:
+    go, sp0, sa0 = ch("google"), ch("serper"), ch("serpapi")
+    web_ok = go["ok"] > 0 or sp0["ok"] > 0 or sa0["ok"] > 0
+    configured_but_failing = [LABELS[n] for n in ("serper", "serpapi") if ch(n)["requests"] and ch(n)["ok"] == 0]
+    if configured_but_failing:
+        problems.append("Google-Websuche gescheitert: " + ", ".join(configured_but_failing) + " (" +
+                        "; ".join((sp0["notes"] + sa0["notes"])[:1]) + ")")
+    elif not web_ok and any(ch(n)["requests"] or ch(n)["notes"] for n in ("google", "serper", "serpapi")):
+        warnings.append("Keine Google-Websuche aktiv (Custom Search ohne Zugang, kein SERPAPI_KEY oder SERPER_API_KEY). "
+                        "Google News, Bing News, Archivsuche und Sitemaps laufen.")
+    if any("does not have the access" in n or "ohne Zugang" in n or "keinen Zugang" in n for n in go["notes"]):
+        pass
+    elif go["requests"] and go["errors"] and go["ok"]:
         warnings.append(f"{LABELS['google']}: {go['errors']} von {go['requests']} Anfragen gescheitert")
-    if any("keine Zugangsdaten" in n for n in ch("google")["notes"]):
-        warnings.append("Google Websuche ohne Zugangsdaten")
     cl = ch("claude")
     if any("kein ANTHROPIC_API_KEY" in n or "Client-Start" in n for n in cl["notes"]):
         problems.append("Claude-Prüfung nicht verfügbar (API-Schlüssel fehlt). Unklare Fälle liegen in der Prüfliste.")

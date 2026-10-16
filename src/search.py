@@ -19,13 +19,13 @@ from client_config import data_path, REPO_ROOT
 from fetcher import fetch_article, resolve_google_news
 from matcher import Matcher, detect_language
 from runreport import write_report
-from sources import (CseBudget, GNEWS_EDITIONS, Stats, bing_news, google_cse, google_news,
+from sources import (CseBudget, GNEWS_EDITIONS, Stats, bing_news, google_cse, google_news, serpapi,
                      scan_rss, serper, site_search, sitemap_crawl)
 from state import State
 from util import (clean_title, date_from_url, extract_domain, guess_country, iso_date, norm_text, norm_title,
                   normalize_outlet, normalize_url, plausible_date, today_utc)
 
-SEARCH_CHANNELS = {"google", "gnews", "serper", "site", "bing"}
+SEARCH_CHANNELS = {"google", "gnews", "serper", "serpapi", "site", "bing"}
 
 TIER1_KEYWORDS = [
     "faz", "frankfurter allgemeine", "handelsblatt", "boersen-zeitung", "börsen-zeitung",
@@ -219,12 +219,19 @@ class Agent:
         cands += bing_news(cfg.get("bing_queries") or cfg.get("gnews_queries", []), self.stats, own_domains=self.own)
         cands += sitemap_crawl(cfg.get("crawl_outlets", []), st, self.stats,
                                days=cfg.get("crawl_days", 3), skip=self._skip_url, own_domains=self.own)
-        if st.due_today("google"):
+        if st.due_today("google") and not st.data.get("cse_no_access"):
             budget = CseBudget(cfg.get("google_daily_budget", 90))
             self.cse_budget = budget
             cands += google_cse(cfg["google_queries"], self.stats, budget, self.own, recent_days=30)
             cands += google_cse(cfg.get("page2_queries", []), self.stats, budget, self.own, recent_days=30, first_page=1)
+            if getattr(budget, "no_access", False):
+                st.data["cse_no_access"] = today_utc().isoformat()  # stop asking every day
             st.mark_done_today("google")
+        elif st.data.get("cse_no_access"):
+            self.stats.note("google", "Custom Search ohne Zugang (seit " + st.data["cse_no_access"] + "), Kanal aus")
+        if st.due_today("serpapi"):
+            cands += serpapi(cfg.get("serpapi_queries", []), self.stats, CseBudget(cfg.get("serpapi_daily_budget", 8)), self.own)
+            st.mark_done_today("serpapi")
         if st.due_today("serper"):
             cands += serper(cfg.get("serper_queries") or cfg.get("gnews_queries", []), self.stats, self.own)
             st.mark_done_today("serper")

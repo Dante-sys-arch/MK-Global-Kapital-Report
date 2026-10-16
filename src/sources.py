@@ -9,6 +9,7 @@ Channels:
     gnews      Google News RSS search, editions DE / CH / AT
     bing       Bing News RSS search, markets DE / CH / AT (independent index)
     serper     Google web + news results via serper.dev (optional, needs key)
+    serpapi    Google web results via serpapi.com (optional, free plan 250/month)
     site       the outlet's own WordPress search (full archive, incl. bylines)
     sitemap    every new article of the home outlets, read in full
 """
@@ -133,6 +134,7 @@ class CseBudget:
         self.limit = limit
         self.used = 0
         self.blocked = False
+        self.no_access = False
 
     def available(self):
         return not self.blocked and self.used < self.limit
@@ -181,7 +183,11 @@ def google_cse(queries, stats, budget, own_domains=(), date_range=None, recent_d
                 continue
             if resp.status_code in (403, 429):
                 st["errors"] += 1
-                stats.note("google", f"HTTP {resp.status_code}: {resp.text[:160]}")
+                if "does not have the access" in resp.text:
+                    stats.note("google", "Projekt hat keinen Zugang zur Custom Search API (Google nimmt keine Neukunden an)")
+                    budget.no_access = True
+                else:
+                    stats.note("google", f"HTTP {resp.status_code}: {resp.text[:160]}")
                 budget.blocked = True
                 break
             if resp.status_code != 200:
@@ -326,6 +332,55 @@ def serper(queries, stats, own_domains=(), date_range=None, countries=("de", "ch
                     out.append(_cand(link, it.get("title", ""), "serper", snippet=it.get("snippet", ""),
                                      source=it.get("source", "") or extract_domain(link),
                                      dt=it.get("date", ""), query=f"{endpoint}:{q} [{gl}]"))
+    st["candidates"] += len(out)
+    return out
+
+
+# ── SerpApi (Google web results, free plan 250 searches/month) ──
+
+def serpapi(queries, stats, budget, own_domains=(), date_range=None):
+    key = os.environ.get("SERPAPI_KEY")
+    st = stats.ch("serpapi")
+    if not key:
+        stats.note("serpapi", "kein SERPAPI_KEY hinterlegt, Kanal aus")
+        return []
+    out = []
+    tbs = "qdr:w"
+    if date_range:
+        a, b = date_range
+        tbs = f"cdr:1,cd_min:{a.month}/{a.day}/{a.year},cd_max:{b.month}/{b.day}/{b.year}"
+    for q in queries:
+        if not budget.take():
+            stats.note("serpapi", f"Tagesbudget von {budget.limit} Suchen erreicht")
+            break
+        st["requests"] += 1
+        try:
+            resp = http_get("https://serpapi.com/search.json",
+                            params={"engine": "google", "q": q, "hl": "de", "gl": "de",
+                                    "google_domain": "google.de", "tbs": tbs, "api_key": key}, timeout=40, retries=1)
+        except Exception as exc:
+            st["errors"] += 1
+            stats.note("serpapi", f"{q}: {type(exc).__name__}")
+            continue
+        if resp.status_code != 200:
+            st["errors"] += 1
+            stats.note("serpapi", f"{q}: HTTP {resp.status_code} {resp.text[:120]}")
+            if resp.status_code in (401, 403, 429):
+                budget.blocked = True
+                break
+            continue
+        data = resp.json()
+        if data.get("error") and "hasn't returned any results" not in data.get("error", ""):
+            st["errors"] += 1
+            stats.note("serpapi", f"{q}: {data['error'][:120]}")
+            continue
+        st["ok"] += 1
+        for it in data.get("organic_results", []) or []:
+            link = it.get("link", "")
+            if not link or is_blocked_domain(link, own_domains):
+                continue
+            out.append(_cand(link, it.get("title", ""), "serpapi", snippet=it.get("snippet", ""),
+                             source=it.get("source", "") or extract_domain(link), dt=it.get("date", ""), query=q))
     st["candidates"] += len(out)
     return out
 

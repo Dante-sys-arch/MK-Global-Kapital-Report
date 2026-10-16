@@ -21,7 +21,19 @@ from search import run_search, load_clippings
 from excel_writer import build_report
 
 
+def berlin_today():
+    from datetime import datetime
+    from zoneinfo import ZoneInfo
+    return datetime.now(ZoneInfo("Europe/Berlin")).date().isoformat()
+
+
 def run_client(cfg, args):
+    if args.scheduled and args.mode == "daily" and not args.dry_run:
+        from state import State
+        done = State(cfg["slug"]).data.get("daily", {}).get("full_run")
+        if done == berlin_today():
+            print(f"{cfg['name']}: Tageslauf für {done} schon erledigt, Ersatztermin übersprungen.")
+            return
     print("=" * 60)
     print(cfg["agent_title"])
     print("=" * 60)
@@ -33,6 +45,11 @@ def run_client(cfg, args):
         if args.mode == "backfill" and not start:
             raise SystemExit("--mode backfill braucht --from YYYY-MM-DD")
         new_articles = run_search(cfg, mode=args.mode, start=start, end=end, dry_run=args.dry_run)
+        if args.mode == "daily" and not args.dry_run:
+            from state import State
+            st = State(cfg["slug"])
+            st.data.setdefault("daily", {})["full_run"] = berlin_today()
+            st.save()
 
     if args.dry_run:
         print(f"\nTestlauf: {len(new_articles)} neue Clippings gefunden, nichts gespeichert.")
@@ -52,6 +69,8 @@ def main():
     parser.add_argument("--from", dest="date_from", help="Backfill start YYYY-MM-DD")
     parser.add_argument("--to", dest="date_to", help="Backfill end YYYY-MM-DD (default today)")
     parser.add_argument("--dry-run", action="store_true", help="Search and report, but save nothing")
+    parser.add_argument("--scheduled", action="store_true",
+                        help="Scheduled trigger: skip if today's daily run (Berlin time) is already done")
     args = parser.parse_args()
 
     slugs = [args.client] if args.client else list_clients()
