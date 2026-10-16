@@ -1,128 +1,41 @@
 """
-DACH Clipping Agent v4.0 — multi-client.
-Google Custom Search API + 60+ RSS Feeds + Claude validation.
-Maximum recall, minimum false positives, full robustness.
+DACH Clipping Agent v5 — maximum recall.
 
-Client-specific configuration (keywords, queries, validation prompt, file
-paths) lives in clients/<slug>.json — see client_config.py. Shared
-infrastructure (RSS feeds, tier lists, outlet normalization) lives here.
+Every lead from every channel is checked on the article page itself:
+the client's names must appear in the article (title, author line or main
+text). Unclear cases go to Claude, and whatever stays unclear goes to the
+review list instead of being dropped or added unchecked.
+
+Counting rules (TE): every appearance counts, including syndicated copies on
+other outlets; French-language articles from Romandie are not counted.
 """
 import json
-import os
-import re
-import time
-import html as html_module
-from datetime import datetime
-from pathlib import Path
-from urllib.parse import urlparse
-import requests
-import anthropic
+from datetime import date, datetime, timedelta
 
-try:
-    import feedparser
-except ImportError:
-    import subprocess
-    subprocess.check_call(["pip", "install", "feedparser", "--break-system-packages", "-q"])
-    import feedparser
+from client_config import data_path, REPO_ROOT
+from fetcher import fetch_article, resolve_google_news
+from matcher import Matcher, detect_language
+from runreport import write_report
+from sources import (CseBudget, GNEWS_EDITIONS, Stats, google_cse, google_news,
+                     scan_rss, serper, site_search, sitemap_crawl)
+from state import State
+from util import (date_from_url, extract_domain, guess_country, iso_date, norm_title,
+                  normalize_outlet, normalize_url, plausible_date, today_utc)
 
-
-from client_config import load_client, data_path
-
-# ╔══════════════════════════════════════════════════════════════╗
-# ║  SHARED CONFIGURATION (all clients)                          ║
-# ╚══════════════════════════════════════════════════════════════╝
+SEARCH_CHANNELS = {"google", "gnews", "serper", "site"}
 
 TIER1_KEYWORDS = [
-    "faz", "frankfurter allgemeine", "handelsblatt",
-    "boersen-zeitung", "börsen-zeitung", "nzz", "neue zuercher", "neue zürcher",
-    "finews", "institutional money", "institutional-money",
-    "das investment", "dasinvestment",
-    "fonds professionell", "fondsprofessionell",
-    "altii", "citywire",
-    "portfolio institutionell", "portfolio-institutionell",
-    "handelszeitung",
-    "der standard", "derstandard",
-    "die presse", "diepresse",
-    "wiwo", "wirtschaftswoche",
-    "manager magazin", "manager-magazin",
-    "capital.de", "sueddeutsche",
-    "boerse-online", "börse online",
+    "faz", "frankfurter allgemeine", "handelsblatt", "boersen-zeitung", "börsen-zeitung",
+    "nzz", "neue zürcher", "finews", "institutional money", "institutional-money",
+    "das investment", "dasinvestment", "fonds professionell", "fondsprofessionell",
+    "altii", "citywire", "portfolio institutionell", "portfolio-institutionell",
+    "handelszeitung", "der standard", "derstandard", "die presse", "diepresse",
+    "wiwo", "wirtschaftswoche", "manager magazin", "manager-magazin", "capital.de",
+    "sueddeutsche", "boerse-online", "börse online",
 ]
 
-# Normalize messy source names to clean outlet names
-OUTLET_NAMES = {
-    "faz.net": "Frankfurter Allgemeine Zeitung",
-    "handelsblatt.com": "Handelsblatt",
-    "nzz.ch": "Neue Zürcher Zeitung",
-    "finews.ch": "Finews",
-    "finews.com": "Finews",
-    "dasinvestment.com": "DAS INVESTMENT",
-    "fondsprofessionell.de": "FONDS professionell",
-    "fondsprofessionell.at": "FONDS professionell",
-    "institutional-money.com": "Institutional Money",
-    "portfolio-institutionell.de": "portfolio institutionell",
-    "handelszeitung.ch": "Handelszeitung",
-    "boersen-zeitung.de": "Börsen-Zeitung",
-    "derstandard.de": "Der Standard",
-    "derstandard.at": "Der Standard",
-    "diepresse.com": "Die Presse",
-    "wiwo.de": "WirtschaftsWoche",
-    "manager-magazin.de": "Manager Magazin",
-    "capital.de": "Capital",
-    "sueddeutsche.de": "Süddeutsche Zeitung",
-    "welt.de": "Die Welt",
-    "moneycab.com": "Moneycab",
-    "investrends.ch": "investrends.ch",
-    "bondguide.de": "BondGuide",
-    "dfpa.info": "dfpa.info",
-    "e-fundresearch.com": "e-fundresearch",
-    "markteinblicke.de": "Markt Einblicke",
-    "finanznachrichten.de": "finanznachrichten.de",
-    "cash.ch": "cash.ch",
-    "payoff.ch": "Payoff",
-    "fondsexklusiv.de": "FONDS exklusiv",
-    "fondsexklusiv.at": "FONDS exklusiv Österreich",
-    "cash-online.de": "cash-online.de",
-    "altii.de": "altii.de",
-    "citywire.de": "Citywire Deutschland",
-    "private-banking-magazin.de": "Private Banking Magazin",
-    "fixed-income.org": "fixed-income.org",
-    "finanzwelt.de": "finanzwelt",
-    "procontra-online.de": "procontra",
-    "exxecnews.org": "exxecnews",
-    "boersen-kurier.at": "Börsen-Kurier",
-    "kreditwesen.de": "Kreditwesen",
-    "allnews.ch": "Allnews",
-    "swissfinanceai.ch": "Swiss Finance AI",
-    "srf.ch": "SRF",
-    "n-tv.de": "n-tv",
-    "tagesanzeiger.ch": "Tages-Anzeiger",
-    "geldmeisterin.com": "geldmeisterin.com",
-    "gruenderkueche.de": "Gründerküche",
-    "platow.de": "Platow",
-    "kurier.at": "Kurier",
-}
-
-BLOCKED_DOMAINS = [
-    "facebook.com", "linkedin.com", "twitter.com", "x.com",
-    "youtube.com", "instagram.com", "tiktok.com",
-    "rocketreach.co", "contactout.com", "theorg.com",
-    "northdata.com", "xing.com", "kununu.com",
-    "indeed.com", "glassdoor.com", "stepstone.de",
-    "reddit.com", "pinterest.com", "amazon.com",
-]
-
-COUNTRY_CH = [".ch", "finews", "payoff", "nzz", "investrends", "handelszeitung",
-    "moneycab", "cash.ch", "allnews.ch", "swissfinanceai.ch", "tagesanzeiger", "srf.ch"]
-COUNTRY_AT = [".at", "derstandard", "diepresse", "kurier.at", "boersen-kurier", "fondsexklusiv.at"]
-
-
-# ╔══════════════════════════════════════════════════════════════╗
-# ║  RSS FEEDS                                                   ║
-# ╚══════════════════════════════════════════════════════════════╝
-
+# Shared RSS list (all clients). Broken or empty feeds show up in the run report.
 RSS_FEEDS = [
-    # TIER 1: Major financial media
     "https://www.faz.net/rss/aktuell/finanzen/",
     "https://www.faz.net/rss/aktuell/wirtschaft/",
     "https://www.handelsblatt.com/contentexport/feed/finanzen",
@@ -130,17 +43,13 @@ RSS_FEEDS = [
     "https://www.nzz.ch/finanzen.rss",
     "https://www.nzz.ch/wirtschaft.rss",
     "https://www.finews.ch/news/finanzplatz/rss/1finews",
-    "https://www.dasinvestment.com/api/rss/",
     "https://www.dasinvestment.com/feed/",
     "https://www.fondsprofessionell.de/rss/news.xml",
-    "https://www.fondsprofessionell.de/feed/",
     "https://www.institutional-money.com/rss/news/",
     "https://www.portfolio-institutionell.de/feed/",
     "https://www.handelszeitung.ch/rss.xml",
     "https://www.boersen-zeitung.de/rss",
-    # TIER 1: General DACH
     "https://www.derstandard.at/rss/wirtschaft",
-    "https://www.derstandard.at/rss/finanzen",
     "https://diepresse.com/rss/Wirtschaft",
     "https://www.wiwo.de/contentexport/feed/rss/schlagzeilen/finanzen/",
     "https://www.manager-magazin.de/finanzen/index.rss",
@@ -148,35 +57,27 @@ RSS_FEEDS = [
     "https://rss.sueddeutsche.de/rss/Wirtschaft",
     "https://www.welt.de/feeds/section/finanzen.rss",
     "https://kurier.at/wirtschaft/rss",
-    # TIER 2: Specialist media
     "https://www.moneycab.com/feed/",
     "https://investrends.ch/feed/",
     "https://www.bondguide.de/feed/",
     "https://www.dfpa.info/rss/",
-    "https://www.dfpa.info/feed/",
     "https://e-fundresearch.com/rss",
-    "https://e-fundresearch.com/feeds/news",
     "https://markteinblicke.de/feed/",
-    "https://www.finanznachrichten.de/rss-alle-nachrichten",
     "https://www.cash.ch/rss/news",
     "https://www.payoff.ch/feed/",
-    "https://www.payoff.ch/rss",
     "https://www.fondsexklusiv.de/feed/",
     "https://www.fondsexklusiv.at/feed/",
     "https://www.cash-online.de/feed/",
     "https://www.altii.de/feed/",
-    "https://www.altii.de/rss/",
     "https://citywire.de/feed/",
     "https://www.private-banking-magazin.de/feed/",
     "https://www.fixed-income.org/feed/",
-    "https://www.fixed-income.org/rss/",
     "https://www.finanzwelt.de/feed/",
     "https://www.procontra-online.de/feed/",
     "https://exxecnews.org/feed/",
     "https://www.boersen-kurier.at/feed/",
     "https://www.kreditwesen.de/feed/",
     "https://www.allnews.ch/rss",
-    "https://www.swissfinanceai.ch/blog/rss.xml",
     "https://www.swissfinanceai.ch/feed/",
     "https://www.srf.ch/news/wirtschaft/rss/feed",
     "https://www.n-tv.de/wirtschaft/rss",
@@ -185,586 +86,478 @@ RSS_FEEDS = [
     "https://www.gruenderkueche.de/feed/",
     "https://www.platow.de/feed/",
     "https://fondstrends.ch/feed/",
-    "https://fondstrends.de/feed/",
-    # Additional specialist
     "https://www.dpn-online.com/feed/",
-    "https://www.versicherungsbote.de/feed/",
     "https://www.fundresearch.de/feed/",
+    "https://privatemarkets360.com/feed/",
 ]
 
 
-# ╔══════════════════════════════════════════════════════════════╗
-# ║  UTILITY FUNCTIONS                                           ║
-# ╚══════════════════════════════════════════════════════════════╝
+def guess_tier(outlet, link, extra=()):
+    text = (outlet + " " + link).lower()
+    return 1 if any(k in text for k in list(TIER1_KEYWORDS) + list(extra)) else 2
+
 
 def load_clippings(cfg):
-    data_file = data_path(cfg)
-    if data_file.exists():
-        with open(data_file, "r", encoding="utf-8") as f:
+    p = data_path(cfg)
+    if p.exists():
+        with open(p, encoding="utf-8") as f:
             return json.load(f)
     return []
 
-def save_clippings(cfg, clips):
-    data_file = data_path(cfg)
-    data_file.parent.mkdir(parents=True, exist_ok=True)
-    with open(data_file, "w", encoding="utf-8") as f:
-        json.dump(clips, f, ensure_ascii=False, indent=2)
 
-def strip_html(text):
-    """Remove HTML tags and decode entities."""
-    text = re.sub(r'<[^>]+>', ' ', text)
-    text = html_module.unescape(text)
-    return re.sub(r'\s+', ' ', text).strip()
+def save_json(path, data):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
 
-def normalize_url(url):
-    """Normalize URL for deduplication."""
-    url = url.strip().rstrip("/").lower()
-    url = re.sub(r'[?&](utm_\w+|ref|source|fbclid|gclid|xtor|wt_mc)=[^&]*', '', url)
-    url = re.sub(r'#.*$', '', url)
-    url = url.rstrip("?&")
-    return url
 
-def extract_domain(url):
-    """Extract clean domain from URL."""
-    return urlparse(url).netloc.lower().replace("www.", "")
+def review_path(cfg):
+    return data_path(cfg).parent / "review.json"
 
-def normalize_outlet(source, link=""):
-    """Convert domain/source to official outlet name."""
-    domain = extract_domain(link) if link else source.lower().replace("www.", "")
-    for key, name in OUTLET_NAMES.items():
-        if key in domain:
-            return name
-    return source if source else domain
 
-def is_blocked_domain(url):
-    domain = extract_domain(url)
-    return any(blocked in domain for blocked in BLOCKED_DOMAINS)
+def _month_windows(start, end):
+    cur = start
+    while cur <= end:
+        nxt = (cur.replace(day=1) + timedelta(days=32)).replace(day=1)
+        yield cur, min(end, nxt - timedelta(days=1))
+        cur = nxt
 
-def guess_tier(outlet="", link="", extra_tier1=()):
-    text = (outlet + " " + link).lower()
-    return 1 if any(k in text for k in list(TIER1_KEYWORDS) + list(extra_tier1)) else 2
 
-def guess_country(outlet="", link=""):
-    text = (outlet + " " + link).lower()
-    if any(k in text for k in COUNTRY_CH):
-        return "CH"
-    if any(k in text for k in COUNTRY_AT):
-        return "A"
-    return "D"
+class Agent:
+    def __init__(self, cfg, dry_run=False):
+        self.cfg = cfg
+        self.dry_run = dry_run
+        self.stats = Stats()
+        self.matcher = Matcher(cfg)
+        self.state = State(cfg["slug"])
+        self.clips = load_clippings(cfg)
+        rp = review_path(cfg)
+        self.review = json.load(open(rp, encoding="utf-8")) if rp.exists() else []
+        self.own = cfg.get("own_domains", [])
+        self.new, self.new_review, self.rejected = [], [], []
+        self.counts = {"candidates": 0, "unique": 0, "already_known": 0, "already_checked": 0,
+                       "fetched": 0, "fetch_failed": 0, "no_match": 0, "gnews_unresolved": 0}
+        from validator import Validator
+        self.validator = Validator(cfg, self.matcher, self.stats)
+        self._reindex()
 
-def extract_date(text, url=""):
-    """Extract date from multiple formats."""
-    # DD.MM.YYYY
-    m = re.search(r'(\d{1,2})\.(\d{1,2})\.(\d{4})', text)
-    if m:
-        d, mo, y = m.groups()
-        if 2024 <= int(y) <= 2027:
-            return f"{y}-{mo.zfill(2)}-{d.zfill(2)}"
-    # YYYY-MM-DD
-    m = re.search(r'(20\d{2})-(\d{2})-(\d{2})', text)
-    if m:
-        return m.group(0)
-    # YYYY/MM/DD in URLs
-    m = re.search(r'(20\d{2})/(\d{2})/(\d{2})', url)
-    if m:
-        return f"{m.group(1)}-{m.group(2)}-{m.group(3)}"
-    # YYYY/MM in URLs (use first of month)
-    m = re.search(r'(20\d{2})/(\d{2})/', url)
-    if m:
-        return f"{m.group(1)}-{m.group(2)}-01"
-    # "vor X Tagen/Stunden"
-    m = re.search(r'vor (\d+) Tag', text)
-    if m:
-        from datetime import timedelta
-        d = datetime.now() - timedelta(days=int(m.group(1)))
-        return d.strftime("%Y-%m-%d")
-    return ""
+    # ── indexes ──
+    def _reindex(self):
+        self.by_url = {}
+        self.by_title = {}
+        for c in self.clips:
+            if c.get("link"):
+                self.by_url[normalize_url(c["link"])] = c
+            t = norm_title(c.get("title", ""))
+            if t:
+                self.by_title.setdefault(t, []).append(c)
+        self.review_urls = {normalize_url(r.get("link", "")) or r.get("gnews_link", "") for r in self.review}
 
-def is_relevant(result, keywords):
-    """Pre-filter: does the result mention any client keyword?"""
-    text = f"{result.get('title','')} {result.get('snippet','')} {result.get('source','')}".lower()
-    return any(kw in text for kw in keywords)
+    def _known_title_domain(self, title, domain):
+        for c in self.by_title.get(norm_title(title), []):
+            if domain and extract_domain(c.get("link", "")) == domain:
+                return c
+        return None
 
-def is_duplicate(article, existing):
-    link = normalize_url(article.get("link", ""))
-    title = article.get("title", "").lower().strip()
-    outlet = article.get("outlet", "").lower().strip()
-    for c in existing:
-        cl = normalize_url(c.get("link", ""))
-        ct = c.get("title", "").lower().strip()
-        co = c.get("outlet", "").lower().strip()
-        if link and cl and link == cl:
-            return True
-        if title and ct and len(title) > 15 and len(ct) > 15:
-            # Same title regardless of outlet (cross-domain syndication)
-            if title == ct:
-                return True
-            # One contains the other (same outlet)
-            if outlet and co and outlet == co and (title in ct or ct in title):
-                return True
-    return False
+    @staticmethod
+    def _add_channel(record, channel):
+        via = record.setdefault("found_via", [])
+        if channel not in via:
+            via.append(channel)
 
-def http_get(url, timeout=10, retries=2):
-    """HTTP GET with retry logic."""
-    for attempt in range(retries + 1):
-        try:
-            resp = requests.get(url, timeout=timeout,
-                headers={"User-Agent": "MK-Clipping-Agent/3.0"})
-            return resp
-        except Exception as e:
-            if attempt < retries:
-                time.sleep(2)
+    # ── collection ──
+    def collect_daily(self):
+        cfg, st = self.cfg, self.state
+        cands = []
+        feeds = RSS_FEEDS + cfg.get("extra_rss_feeds", [])
+        cands += scan_rss(feeds, self.matcher, self.stats, self.own)
+        cands += google_news(cfg.get("gnews_queries", []), self.stats, own_domains=self.own)
+        cands += sitemap_crawl(cfg.get("crawl_outlets", []), st, self.stats,
+                               days=cfg.get("crawl_days", 3), skip=self._skip_url, own_domains=self.own)
+        if st.due_today("google"):
+            budget = CseBudget(cfg.get("google_daily_budget", 90))
+            self.cse_budget = budget
+            cands += google_cse(cfg["google_queries"], self.stats, budget, self.own, recent_days=30)
+            cands += google_cse(cfg.get("page2_queries", []), self.stats, budget, self.own, recent_days=30, first_page=1)
+            st.mark_done_today("google")
+        if st.due_today("serper"):
+            cands += serper(cfg.get("serper_queries") or cfg.get("gnews_queries", []), self.stats, self.own)
+            st.mark_done_today("serper")
+        if st.due_today("site"):
+            cands += site_search(cfg.get("home_outlets", []), cfg.get("site_search_terms", []), st, self.stats, self.own)
+            st.mark_done_today("site")
+        return cands
+
+    def collect_backfill(self, start, end):
+        cfg = self.cfg
+        cands = []
+        outlets = cfg.get("home_outlets", []) + cfg.get("search_only_outlets", [])
+        site_terms = cfg.get("gnews_site_terms", "")
+        budget = CseBudget(cfg.get("google_daily_budget", 90))
+        self.cse_budget = budget
+        for a, b in _month_windows(start, end):
+            span = f" after:{a.isoformat()} before:{(b + timedelta(days=1)).isoformat()}"
+            cands += google_news([q + span for q in cfg.get("gnews_queries", [])], self.stats, own_domains=self.own)
+            if site_terms:
+                cands += google_news([f"site:{d} {site_terms}{span}" for d in outlets], self.stats,
+                                     editions=GNEWS_EDITIONS[:1], own_domains=self.own)
+            cands += google_cse(cfg.get("backfill_google_queries", cfg["google_queries"][:8]), self.stats, budget,
+                                self.own, date_range=(a, b))
+            cands += serper(cfg.get("serper_queries") or cfg.get("gnews_queries", []), self.stats, self.own, date_range=(a, b))
+        cands += site_search(cfg.get("home_outlets", []), cfg.get("site_search_terms", []), self.state, self.stats, self.own)
+        return cands
+
+    def _skip_url(self, url):
+        key = normalize_url(url)
+        return key in self.by_url or self.state.was_checked(key)
+
+    # ── verification ──
+    def process(self, cands, syndication_of=None):
+        self.counts["candidates"] += len(cands)
+        merged, order = {}, []
+        for c in cands:
+            if c["channel"] == "gnews" and not c.get("link"):
+                known = self._known_title_domain(c["title"], c.get("source_domain", ""))
+                if known:
+                    self._add_channel(known, "gnews")
+                    self.counts["already_known"] += 1
+                    continue
+                key = "gnews:" + norm_title(c["title"]) + "|" + c.get("source_domain", "")
             else:
-                raise e
-    return None
-
-def auto_classify_result(result, extra_tier1=()):
-    """Create a clipping from Google/RSS result without Claude."""
-    raw_title = result.get("title", "")
-    title = raw_title.split(" - ")[0].split(" | ")[0].strip()
-    link = result.get("link", "")
-    source = result.get("source", "")
-    snippet = result.get("snippet", "")
-    date = result.get("date") or extract_date(snippet, link)
-
-    return {
-        "title": title,
-        "link": link,
-        "outlet": normalize_outlet(source, link),
-        "date": date,
-        "tier": guess_tier(source, link, extra_tier1),
-        "country": guess_country(source, link),
-        "type": "Online",
-    }
-
-
-# ╔══════════════════════════════════════════════════════════════╗
-# ║  RSS SCANNING                                                ║
-# ╚══════════════════════════════════════════════════════════════╝
-
-def scan_rss_feeds(cfg):
-    """Scan all RSS feeds for client-relevant articles."""
-    keywords = cfg["keywords"]
-    feeds = RSS_FEEDS + list(cfg.get("extra_rss_feeds", []))
-    print(f"Scanning {len(feeds)} RSS feeds...\n")
-    results = []
-    feeds_ok = 0
-    feeds_fail = 0
-
-    for feed_url in feeds:
-        try:
-            resp = http_get(feed_url, timeout=8, retries=1)
-            if not resp or resp.status_code != 200:
-                feeds_fail += 1
+                key = normalize_url(c["link"])
+            if not key:
                 continue
-            
-            feed = feedparser.parse(resp.content)
-            if not feed.entries:
-                feeds_fail += 1
+            if key in merged:
+                m = merged[key]
+                m["channels"].add(c["channel"])
+                for f in ("date", "snippet", "author", "title"):
+                    if not m.get(f) and c.get(f):
+                        m[f] = c[f]
+                m["needs_text_match"] = m.get("needs_text_match") and c.get("needs_text_match")
                 continue
-            
-            feeds_ok += 1
-            feed_domain = extract_domain(feed_url)
-            
-            for entry in feed.entries[:40]:  # Check last 40 entries per feed
-                title = strip_html(entry.get("title", ""))
-                summary = strip_html(
-                    entry.get("summary", "") or 
-                    entry.get("description", "") or
-                    entry.get("content", [{}])[0].get("value", "") if entry.get("content") else ""
-                )
-                link = entry.get("link", "")
-                
-                # Check relevance against title + summary (up to 500 chars)
-                text = f"{title} {summary[:500]}".lower()
-                if any(kw in text for kw in keywords):
-                    date = ""
-                    for date_field in ["published_parsed", "updated_parsed"]:
-                        if entry.get(date_field):
-                            try:
-                                dt = datetime(*entry[date_field][:6])
-                                date = dt.strftime("%Y-%m-%d")
-                                break
-                            except:
-                                pass
-                    if not date:
-                        date = extract_date(summary, link)
-                    
-                    results.append({
-                        "title": title.split(" - ")[0].split(" | ")[0].strip(),
-                        "link": link,
-                        "snippet": summary[:300],
-                        "source": feed_domain,
-                        "date": date,
-                    })
-        except Exception:
-            feeds_fail += 1
-            continue
-    
-    print(f"  RSS: {feeds_ok}/{len(feeds)} feeds OK, {len(results)} relevant entries\n")
-    return results
+            c = dict(c)
+            c["channels"] = {c["channel"]}
+            merged[key] = c
+            order.append(key)
+        self.counts["unique"] += len(order)
 
+        unclear = []
+        for key in order:
+            c = merged[key]
+            outcome = self._verify(key, c, syndication_of)
+            if outcome and outcome[0] == "check":
+                unclear.append(outcome[1])
+        if unclear:
+            decisions = self.validator.decide(unclear)
+            for item, (decision, reason) in zip(unclear, decisions):
+                if decision == "accept":
+                    item["verified"] = "claude"
+                    self._accept(item)
+                elif decision == "reject":
+                    self.rejected.append({"link": item["link"], "title": item["title"], "reason": "Claude: " + reason})
+                    self.state.mark_checked(item["key"], "rejected")
+                else:
+                    self._to_review(item, "unklar: " + reason)
 
-# ╔══════════════════════════════════════════════════════════════╗
-# ║  GOOGLE SEARCH                                               ║
-# ╚══════════════════════════════════════════════════════════════╝
-
-def google_search(query, api_key, cx, sort_by_date=False, start=1):
-    """Run a single Google Custom Search query."""
-    url = "https://www.googleapis.com/customsearch/v1"
-    params = {
-        "key": api_key,
-        "cx": cx,
-        "q": query,
-        "num": 10,
-        "lr": "lang_de",
-        "dateRestrict": "m9",  # 9 months (wider net)
-        "start": start,
-    }
-    if sort_by_date:
-        params["sort"] = "date"
-    
-    try:
-        resp = http_get(url, timeout=15, retries=2)
-        if not resp:
-            return []
-        if resp.status_code == 429:
-            print("    RATE LIMIT - stopping Google searches")
+    def _verify(self, key, c, syndication_of):
+        channels = sorted(c["channels"])
+        if key in self.by_url:
+            for ch in channels:
+                self._add_channel(self.by_url[key], ch)
+            self.counts["already_known"] += 1
             return None
-        if resp.status_code != 200:
-            print(f"    Google API error {resp.status_code}: {resp.text[:200]}")
-            return []
-        data = resp.json()
-        results = []
-        for item in data.get("items", []):
-            link = item.get("link", "")
-            if not is_blocked_domain(link):
-                results.append({
-                    "title": item.get("title", ""),
-                    "link": link,
-                    "snippet": item.get("snippet", ""),
-                    "source": item.get("displayLink", ""),
-                })
-        return results
-    except Exception as e:
-        print(f"    Google error: {e}")
-        return []
+        if key in self.review_urls:
+            return None
+        if self.state.was_checked(key):
+            self.counts["already_checked"] += 1
+            return None
 
+        link = c.get("link", "")
+        if not link and c.get("gnews_link"):
+            link = resolve_google_news(c["gnews_link"])
+            if not link:
+                self.counts["gnews_unresolved"] += 1
+                item = self._item(key, c, link=c["gnews_link"], channels=channels)
+                item["people"] = self.matcher.analyse(c["title"], c.get("snippet", ""))["people"]
+                self._to_review(item, "Google-News-Link nicht auflösbar, Fundstelle bitte prüfen")
+                return None
+            self.state.mark_checked(key, "resolved")
+            nkey = normalize_url(link)
+            if nkey in self.by_url:
+                for ch in channels:
+                    self._add_channel(self.by_url[nkey], ch)
+                self.counts["already_known"] += 1
+                return None
+            if self.state.was_checked(nkey) or nkey in self.review_urls:
+                self.counts["already_checked"] += 1
+                return None
+            key = nkey
 
-# ╔══════════════════════════════════════════════════════════════╗
-# ║  CLAUDE VALIDATION                                           ║
-# ╚══════════════════════════════════════════════════════════════╝
+        item = self._item(key, c, link=link, channels=channels)
+        if syndication_of:
+            item["syndication_of"] = syndication_of
+        src_analysis = self.matcher.analyse(c.get("title", ""), c.get("snippet", ""), c.get("author", ""))
 
-def validate_with_claude(client, results, cfg):
-    """Use Claude to validate and structure results into clippings."""
-    if not results:
-        return []
+        art = fetch_article(link)
+        if art.get("ok"):
+            self.counts["fetched"] += 1
+            if art.get("title") and (not c.get("title") or c["channel"] in ("sitemap", "site")):
+                item["title"] = art["title"]
+            item["author"] = art.get("author") or c.get("author", "")
+            item["sitename"] = art.get("sitename", "")
+            item["page_date"] = art.get("date", "")
+            item["text"] = art.get("text", "")
+            analysis = self.matcher.analyse(item["title"], item["text"] + " " + art.get("meta_text", ""), item["author"])
+            item["verified"] = "volltext"
+            if analysis["decision"] == "none":
+                page_text = art.get("page_text", "")
+                if syndication_of and self._same_title(art.get("title") or item["title"], c.get("orig_title", "")):
+                    analysis = {"decision": "accept", "people": [], "byline": False, "brand": False}
+                    item["verified"] = "titelgleich"
+                elif "rss" in channels and src_analysis["decision"] != "none":
+                    analysis = src_analysis  # name in the feed entry itself (author line, teaser)
+                    item["verified"] = "feed"
+                elif self.matcher.mentions_any(page_text):
+                    analysis = self.matcher.analyse(item["title"], page_text, item["author"])
+                    analysis["decision"] = "check"  # outside the main text: author box or sidebar?
+                    item["text"] = page_text
+                    item["verified"] = "seite"
+                elif src_analysis["decision"] != "none" and any(ch in SEARCH_CHANNELS for ch in channels):
+                    analysis = dict(src_analysis, decision="check")  # paywall or teaser only
+                    item["verified"] = "suchausschnitt"
+                else:
+                    self.counts["no_match"] += 1
+                    self.state.mark_checked(key, "nomatch")
+                    return None
+        else:
+            self.counts["fetch_failed"] += 1
+            self.stats.note("fetch", f"{extract_domain(link)}: {art.get('error')}", limit=60)
+            analysis = src_analysis
+            item["verified"] = "suchausschnitt" if "rss" not in channels else "feed"
+            if analysis["decision"] == "none":
+                if syndication_of:
+                    analysis = {"decision": "check", "people": [], "byline": False, "brand": False}
+                else:
+                    self.state.mark_checked(key, "unreadable")
+                    return None
+            elif analysis["decision"] == "accept" and not analysis.get("brand") and "rss" not in channels:
+                analysis["decision"] = "check"  # person name only in a snippet: let Claude confirm
 
-    text_results = []
-    for i, r in enumerate(results):
-        text_results.append(
-            f"{i+1}. Quelle: {r.get('source','')}\n"
-            f"   Titel: {r.get('title','')}\n"
-            f"   Snippet: {r.get('snippet','')[:200]}\n"
-            f"   URL: {r.get('link','')}"
-        )
+        item["people"] = analysis.get("people", [])
+        item["byline"] = analysis.get("byline", False)
+        lang = detect_language(item.get("text") or "")
+        item["language"] = lang
+        if lang == "fr":
+            self.rejected.append({"link": link, "title": item["title"], "reason": "französisch (Romandie-Regel)"})
+            self.state.mark_checked(key, "rejected-fr")
+            return None
+        if lang == "en":
+            self._to_review(item, "englischsprachig: zählt das? (Regel offen)")
+            return None
+        if analysis["decision"] == "accept":
+            self._accept(item)
+            return None
+        return ("check", item)
 
-    try:
-        response = client.messages.create(
-            model="claude-sonnet-4-20250514",
-            max_tokens=4000,
-            system=cfg["validation_prompt"],
-            messages=[{
-                "role": "user",
-                "content": f"Pruefe diese Suchergebnisse und gib NUR die relevanten {cfg['name']} Artikel als JSON zurueck:\n\n" + "\n\n".join(text_results)
-            }],
-        )
-        
-        texts = [block.text for block in response.content if hasattr(block, "text") and block.text]
-        all_text = "\n".join(texts)
-        
-        for pattern in [r'\[[\s\S]*?\]', r'\[[\s\S]*\]']:
-            for match in re.findall(pattern, all_text):
-                try:
-                    parsed = json.loads(match)
-                    if isinstance(parsed, list):
-                        return [a for a in parsed if isinstance(a, dict) and a.get("title")]
-                except json.JSONDecodeError:
+    @staticmethod
+    def _same_title(a, b):
+        a, b = norm_title(a), norm_title(b)
+        return bool(a and b) and (a == b or (len(b) >= 25 and b in a))
+
+    def _item(self, key, c, link, channels):
+        return {"key": key, "link": link, "title": c.get("title", ""), "snippet": c.get("snippet", ""),
+                "source": c.get("source", ""), "feed_date": c.get("date", ""), "author": c.get("author", ""),
+                "channels": channels, "gnews_link": c.get("gnews_link", ""), "query": c.get("query", ""),
+                "source_domain": c.get("source_domain", "")}
+
+    def _best_date(self, item):
+        for d, src in ((item.get("page_date"), "seite"), (item.get("feed_date"), "quelle"),
+                       (date_from_url(item.get("link", "")), "url")):
+            d = iso_date(d)
+            if plausible_date(d):
+                return d, src
+        return "", ""
+
+    def _accept(self, item):
+        link = item["link"]
+        domain = extract_domain(link)
+        title = item["title"].strip()
+        same = self._known_title_domain(title, domain)
+        if same:  # same article under another URL of the same outlet
+            for ch in item["channels"]:
+                self._add_channel(same, ch)
+            self.state.mark_checked(item["key"], "duplicate")
+            return
+        outlet = normalize_outlet(item.get("sitename") or item.get("source") or "", link)
+        d, dsrc = self._best_date(item)
+        clip = {
+            "date": d,
+            "outlet": outlet,
+            "title": title,
+            "country": guess_country(outlet, link),
+            "type": "Online",
+            "tier": guess_tier(outlet, link, self.cfg.get("extra_tier1_keywords", [])),
+            "link": link,
+            "people": item.get("people", []),
+            "byline": bool(item.get("byline")),
+            "author": item.get("author", "")[:120],
+            "found_via": list(item["channels"]),
+            "verified": item.get("verified", ""),
+            "date_source": dsrc,
+            "added_at": datetime.now().isoformat(timespec="seconds"),
+            "source": "auto",
+            "id": f"a-{int(datetime.now().timestamp())}-{len(self.new)}",
+        }
+        twins = [c for c in self.by_title.get(norm_title(title), []) if extract_domain(c.get("link", "")) != domain]
+        if item.get("syndication_of"):
+            clip["syndication_of"] = item["syndication_of"]
+        elif twins:
+            clip["syndication_of"] = twins[0].get("id", "")
+        self.clips.append(clip)
+        self.new.append(clip)
+        self.by_url[normalize_url(link)] = clip
+        self.by_title.setdefault(norm_title(title), []).append(clip)
+        self.state.mark_checked(item["key"], "accepted")
+        if normalize_url(link) != item["key"]:
+            self.state.mark_checked(normalize_url(link), "accepted")
+
+    def _to_review(self, item, reason):
+        if item["key"] in self.review_urls:
+            return
+        d, _ = self._best_date(item)
+        entry = {"link": item["link"], "title": item["title"], "outlet": normalize_outlet(item.get("sitename") or item.get("source", ""), item["link"]),
+                 "date": d, "people": item.get("people", []), "reason": reason, "found_via": item["channels"],
+                 "snippet": item.get("snippet", "")[:300], "added_at": datetime.now().isoformat(timespec="seconds")}
+        self.review.append(entry)
+        self.new_review.append(entry)
+        self.review_urls.add(item["key"])
+        self.state.mark_checked(item["key"], "review")
+
+    # ── syndication ──
+    def syndication_search(self, clips):
+        """Search each clipping's exact title to find copies on other outlets."""
+        batches = []
+        for clip in clips:
+            title = clip.get("title", "")
+            if len(norm_title(title)) < 20:
+                continue
+            q = f'"{title}"'
+            found = google_news([q], self.stats, own_domains=self.own)
+            budget = getattr(self, "cse_budget", None)
+            if budget and budget.available():
+                found += google_cse([q], self.stats, budget, self.own, recent_days=365)
+            origin_domain = extract_domain(clip.get("link", ""))
+            keep = []
+            for f in found:
+                dom = extract_domain(f.get("link", "")) or f.get("source_domain", "")
+                if dom and dom == origin_domain:
                     continue
-        return []
-    except Exception as e:
-        print(f"    Claude error: {e}")
-        return None  # None = Claude failed, [] = no results
+                if not self._same_title(f["title"], title):
+                    continue
+                f = dict(f, channel="syndication", orig_title=title)
+                keep.append(f)
+            if keep:
+                batches.append((clip.get("id", ""), keep))
+        for origin, cands in batches:
+            self.process(cands, syndication_of=origin)
 
-
-# ╔══════════════════════════════════════════════════════════════╗
-# ║  MAIN SEARCH ORCHESTRATION                                   ║
-# ╚══════════════════════════════════════════════════════════════╝
-
-def run_search(cfg):
-    google_key = os.environ.get("GOOGLE_API_KEY")
-    google_cx = os.environ.get("GOOGLE_CX")
-    anthropic_key = os.environ.get("ANTHROPIC_API_KEY")
-
-    if not google_key or not google_cx:
-        print("WARNING: No Google keys, using Anthropic fallback")
-        return run_anthropic_fallback(cfg)
-
-    google_queries = cfg["google_queries"]
-    page2_queries = cfg["page2_queries"]
-    news_queries = cfg["google_news_queries"]
-    extra_tier1 = cfg["extra_tier1_keywords"]
-
-    existing = load_clippings(cfg)
-    existing_urls = {normalize_url(c.get("link","")) for c in existing if c.get("link")}
-    new_articles = []
-    all_results = []
-    rate_limited = False
-    stats = {"rss_ok": 0, "rss_fail": 0, "google_queries": 0, "google_hits": 0,
-             "rss_relevant": 0, "validated": 0, "new": 0}
-
-    print(f"{'='*60}")
-    print(f"{cfg['agent_title']} v4.0")
-    print(f"{'='*60}")
-    print(f"Existing clippings: {len(existing)}\n")
-
-    # ── STEP 0: RSS Feeds (free, unlimited) ──
-    rss_results = scan_rss_feeds(cfg)
-    for r in rss_results:
-        if not is_blocked_domain(r.get("link", "")):
-            all_results.append(r)
-    stats["rss_relevant"] = len(rss_results)
-
-    # ── STEP 1a: Google Web Search ──
-    print(f"Running {len(google_queries)} Google web queries...\n")
-    for i, query in enumerate(google_queries):
-        if rate_limited:
-            break
-        print(f"[Google {i+1}/{len(google_queries)}] {query[:60]}...")
-        results = google_search(query, google_key, google_cx)
-
-        if results is None:
-            rate_limited = True
-            break
-
-        stats["google_queries"] += 1
-        relevant = [r for r in results if is_relevant(r, cfg["keywords"])]
-        stats["google_hits"] += len(relevant)
-        print(f"  -> {len(results)} results, {len(relevant)} relevant")
-        all_results.extend(relevant)
-
-        # Fetch page 2 for bare name queries (doubles coverage)
-        if query in page2_queries and not rate_limited and len(results) >= 8:
-            results2 = google_search(query, google_key, google_cx, start=11)
-            if results2 is None:
-                rate_limited = True
-            elif results2:
-                stats["google_queries"] += 1
-                relevant2 = [r for r in results2 if is_relevant(r, cfg["keywords"])]
-                stats["google_hits"] += len(relevant2)
-                if relevant2:
-                    print(f"  -> page 2: {len(relevant2)} more relevant")
-                    all_results.extend(relevant2)
-
-        time.sleep(1)
-
-    # ── STEP 1b: Google News Search ──
-    if not rate_limited:
-        print(f"\nRunning {len(news_queries)} Google News queries...\n")
-        for i, query in enumerate(news_queries):
-            if rate_limited:
-                break
-            print(f"[News {i+1}/{len(news_queries)}] {query[:60]}...")
-            results = google_search(query, google_key, google_cx, sort_by_date=True)
-
-            if results is None:
-                rate_limited = True
-                break
-
-            stats["google_queries"] += 1
-            relevant = [r for r in results if is_relevant(r, cfg["keywords"])]
-            stats["google_hits"] += len(relevant)
-            print(f"  -> {len(results)} results, {len(relevant)} relevant")
-            all_results.extend(relevant)
-            time.sleep(1)
-    
-    # ── STEP 2: Deduplicate all results ──
-    seen_urls = set()
-    unique_results = []
-    for r in all_results:
-        url = normalize_url(r.get("link", ""))
-        if url and url not in seen_urls and url not in existing_urls:
-            seen_urls.add(url)
-            unique_results.append(r)
-    
-    print(f"\n{len(unique_results)} unique NEW results to validate")
-    
-    if not unique_results:
-        print("No new results to process")
-        print_stats(stats)
-        return []
-    
-    # ── STEP 3: Validate with Claude (or auto-classify) ──
-    claude_available = bool(anthropic_key)
-    client = None
-    if claude_available:
-        try:
-            client = anthropic.Anthropic(api_key=anthropic_key)
-        except:
-            claude_available = False
-    
-    validated = []
-    if claude_available:
-        print(f"\nValidating with Claude...\n")
-        batch_size = 15
-        for i in range(0, len(unique_results), batch_size):
-            batch = unique_results[i:i+batch_size]
-            print(f"[Claude] Batch {i//batch_size+1} ({len(batch)} results)...")
-            articles = validate_with_claude(client, batch, cfg)
-
-            if articles is None:
-                print("  Claude failed, auto-classifying batch...")
-                for r in batch:
-                    validated.append(auto_classify_result(r, extra_tier1))
-            elif articles:
-                validated.extend(articles)
-                print(f"  -> {len(articles)} valid")
+    # ── review decisions (data/review_decisions.csv: link;entscheidung) ──
+    def apply_review_decisions(self):
+        """Apply ja/nein decisions on review entries, then clear the processed lines."""
+        import csv
+        path = data_path(self.cfg).parent / "review_decisions.csv"
+        if not path.exists():
+            if not self.dry_run:
+                path.write_text("link;entscheidung\n", encoding="utf-8")
+            return
+        with open(path, encoding="utf-8-sig", newline="") as f:
+            rows = list(csv.DictReader(f, delimiter=";"))
+        keep, applied = [], 0
+        for row in rows:
+            link = (row.get("link") or "").strip()
+            dec = (row.get("entscheidung") or "").strip().lower()
+            entry = next((r for r in self.review if normalize_url(r.get("link", "")) == normalize_url(link)), None)
+            if not link or dec not in ("ja", "nein") or not entry:
+                if link:
+                    keep.append(row)
+                continue
+            self.review.remove(entry)
+            key = normalize_url(link)
+            if dec == "ja":
+                item = {"key": key, "link": link, "title": entry.get("title", ""), "source": entry.get("outlet", ""),
+                        "feed_date": entry.get("date", ""), "channels": entry.get("found_via", []),
+                        "people": entry.get("people", []), "verified": "manuell geprüft", "author": ""}
+                self._accept(item)
             else:
-                print(f"  -> 0 valid")
-            time.sleep(2)
-    else:
-        print("\nClaude unavailable. Auto-classifying all results...\n")
-        for r in unique_results:
-            validated.append(auto_classify_result(r, extra_tier1))
+                self.rejected.append({"link": link, "title": entry.get("title", ""), "reason": "manuell abgelehnt"})
+                self.state.mark_checked(key, "rejected-manual")
+            applied += 1
+        self.counts["review_decisions"] = applied
+        if not self.dry_run:
+            with open(path, "w", encoding="utf-8", newline="") as f:
+                w = csv.DictWriter(f, fieldnames=["link", "entscheidung"], delimiter=";", extrasaction="ignore")
+                w.writeheader()
+                w.writerows(keep)
+        self._reindex()
 
-    stats["validated"] = len(validated)
+    # ── enrich existing clippings (speakers, byline) ──
+    def enrich(self, force=False):
+        """Fetch stored clippings once and add people/byline. Never changes date, outlet or title."""
+        done = 0
+        for clip in self.clips:
+            if ("people" in clip and not force) or not clip.get("link"):
+                continue
+            art = fetch_article(clip["link"])
+            if not art.get("ok"):
+                self.stats.note("fetch", f"{extract_domain(clip['link'])}: {art.get('error')}", limit=60)
+                clip.setdefault("people", [])
+                clip["people_checked"] = "seite nicht lesbar"
+                continue
+            text = art.get("text", "") + " " + art.get("meta_text", "")
+            a = self.matcher.analyse(clip.get("title", ""), text, art.get("author", ""))
+            if not a["people"] and self.matcher.mentions_any(art.get("page_text", "")):
+                a = self.matcher.analyse(clip.get("title", ""), art.get("page_text", ""), art.get("author", ""))
+            clip["people"] = a["people"]
+            clip["byline"] = a["byline"]
+            if art.get("author") and not clip.get("author"):
+                clip["author"] = art["author"][:120]
+            done += 1
+        self.counts["enriched"] = done
 
-    # ── STEP 4: Final dedup, enrich, and save ──
-    for a in validated:
-        a["tier"] = a.get("tier") or guess_tier(a.get("outlet",""), a.get("link",""), extra_tier1)
-        a["country"] = a.get("country") or guess_country(a.get("outlet",""), a.get("link",""))
-        a["type"] = a.get("type") or "Online"
-        a["outlet"] = normalize_outlet(a.get("outlet",""), a.get("link",""))
-        if not a.get("date"):
-            a["date"] = extract_date("", a.get("link",""))
+    # ── run ──
+    def run(self, mode="daily", start=None, end=None):
+        started = datetime.now()
+        self.apply_review_decisions()
+        if mode == "enrich":
+            self.enrich()
+            if not self.dry_run:
+                save_json(data_path(self.cfg), self.clips)
+            return [], write_report(self, mode, started, {})
+        if mode == "backfill":
+            cands = self.collect_backfill(start, end)
+        else:
+            cands = self.collect_daily()
+        self.process(cands)
+        first_wave = list(self.new)
+        if mode == "backfill":
+            targets = [c for c in self.clips if start.isoformat() <= c.get("date", "") <= end.isoformat()]
+        else:
+            targets = first_wave
+        self.syndication_search(targets)
 
-        if not is_duplicate(a, existing) and not is_duplicate(a, new_articles):
-            a["added_at"] = datetime.now().isoformat()
-            a["source"] = "auto" if claude_available else "auto-noclaudecheck"
-            a["id"] = f"g-{int(datetime.now().timestamp())}-{len(new_articles)}"
-            new_articles.append(a)
+        from placements import update_placements
+        placement_report = update_placements(self.cfg, self.clips, dry_run=self.dry_run)
 
-    stats["new"] = len(new_articles)
-
-    if new_articles:
-        all_clips = existing + new_articles
-        all_clips.sort(key=lambda x: x.get("date", ""), reverse=True)
-        save_clippings(cfg, all_clips)
-        print(f"\n{'='*50}")
-        print(f"NEW: {len(new_articles)} articles added")
-        print(f"TOTAL: {len(all_clips)} clippings")
-        print(f"{'='*50}")
-        for a in new_articles:
-            print(f"  + {a.get('date','')} | {a.get('outlet','')} | {a.get('title','')[:55]}")
-    else:
-        print(f"\nNo new articles (existing: {len(existing)})")
-    
-    print_stats(stats)
-    return new_articles
-
-
-def print_stats(stats):
-    """Print performance summary."""
-    print(f"\n{'─'*40}")
-    print(f"PERFORMANCE REPORT")
-    print(f"  RSS relevant entries: {stats.get('rss_relevant',0)}")
-    print(f"  Google queries used:  {stats.get('google_queries',0)}")
-    print(f"  Google MK hits:       {stats.get('google_hits',0)}")
-    print(f"  Validated by Claude:  {stats.get('validated',0)}")
-    print(f"  New articles added:   {stats.get('new',0)}")
-    print(f"{'─'*40}")
-
-
-def run_anthropic_fallback(cfg):
-    """Fallback if Google keys not set."""
-    anthropic_key = os.environ.get("ANTHROPIC_API_KEY")
-    extra_tier1 = cfg["extra_tier1_keywords"]
-
-    # Still scan RSS even without Google
-    rss_results = scan_rss_feeds(cfg)
-
-    existing = load_clippings(cfg)
-    new_articles = []
-
-    # Auto-classify RSS results
-    for r in rss_results:
-        if not is_blocked_domain(r.get("link", "")):
-            a = auto_classify_result(r, extra_tier1)
-            if not is_duplicate(a, existing) and not is_duplicate(a, new_articles):
-                a["added_at"] = datetime.now().isoformat()
-                a["source"] = "auto-rss"
-                a["id"] = f"r-{int(datetime.now().timestamp())}-{len(new_articles)}"
-                new_articles.append(a)
-
-    if not anthropic_key:
-        print("WARNING: No Anthropic key — RSS-only run")
-        if new_articles:
-            all_clips = existing + new_articles
-            all_clips.sort(key=lambda x: x.get("date", ""), reverse=True)
-            save_clippings(cfg, all_clips)
-        return new_articles
-
-    client = anthropic.Anthropic(api_key=anthropic_key)
-    fallback_queries = cfg["fallback_queries"] or cfg["google_queries"][:6]
-
-    system = f"""Finde ALLE deutschsprachigen Medienartikel zu {cfg['name']}.
-Antworte NUR mit JSON-Array: [{{"date":"YYYY-MM-DD","outlet":"Name","title":"Titel","country":"D/CH/A","type":"Online","tier":1/2,"link":"URL"}}]
-Keine Treffer? []"""
-
-    for i, q in enumerate(fallback_queries):
-        print(f"[Fallback {i+1}/{len(fallback_queries)}] {q}...")
-        try:
-            response = client.messages.create(
-                model="claude-sonnet-4-20250514", max_tokens=4000, system=system,
-                messages=[{"role": "user", "content": f"Suche: {q}"}],
-                tools=[{"type": "web_search_20250305", "name": "web_search"}],
-            )
-            texts = []
-            for block in response.content:
-                if hasattr(block, "text") and block.text:
-                    texts.append(block.text)
-                if hasattr(block, "content") and isinstance(block.content, list):
-                    for sub in block.content:
-                        if hasattr(sub, "text") and sub.text:
-                            texts.append(sub.text)
-            for match in re.findall(r'\[[\s\S]*?\]', "\n".join(texts)):
-                try:
-                    for a in json.loads(match):
-                        if isinstance(a, dict) and a.get("title"):
-                            a["tier"] = a.get("tier") or guess_tier(a.get("outlet",""), a.get("link",""), extra_tier1)
-                            a["country"] = a.get("country") or guess_country(a.get("outlet",""), a.get("link",""))
-                            a["outlet"] = normalize_outlet(a.get("outlet",""), a.get("link",""))
-                            if not is_duplicate(a, existing) and not is_duplicate(a, new_articles):
-                                a["added_at"] = datetime.now().isoformat()
-                                a["source"] = "auto-anthropic"
-                                a["id"] = f"a-{int(datetime.now().timestamp())}-{len(new_articles)}"
-                                new_articles.append(a)
-                    break
-                except json.JSONDecodeError:
-                    continue
-        except Exception as e:
-            print(f"  ERROR: {e}")
-        time.sleep(2)
-
-    if new_articles:
-        all_clips = existing + new_articles
-        all_clips.sort(key=lambda x: x.get("date", ""), reverse=True)
-        save_clippings(cfg, all_clips)
-    return new_articles
+        if not self.dry_run:
+            self.clips.sort(key=lambda x: x.get("date", ""), reverse=True)
+            save_json(data_path(self.cfg), self.clips)
+            save_json(review_path(self.cfg), self.review)
+            self.state.save()
+        report = write_report(self, mode, started, placement_report)
+        return self.new, report
 
 
-if __name__ == "__main__":
-    import sys as _sys
-    slug = _sys.argv[1] if len(_sys.argv) > 1 else "mk-global-kapital"
-    new = run_search(load_client(slug))
-    print(f"\nDone. {len(new)} new clippings added.")
+def run_search(cfg, mode="daily", start=None, end=None, dry_run=False):
+    agent = Agent(cfg, dry_run=dry_run)
+    new, report = agent.run(mode, start, end)
+    return new

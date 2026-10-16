@@ -30,6 +30,7 @@ def build_report(cfg):
         return None
 
     wb = Workbook()
+    spokespeople = [p["name"] for p in cfg.get("people", []) if p.get("spokesperson")]
 
     # ── Sheet 1: Clippings ──
     ws = wb.active
@@ -42,7 +43,7 @@ def build_report(cfg):
     ws["A6"].font = Font(name="Calibri", size=11)
 
     # Column headers (row 8)
-    headers = ["Publication Date", "Media Outlet", "Title", "Country", "Type (Print / Online)", "Tier", "Link"]
+    headers = ["Publication Date", "Media Outlet", "Title", "Country", "Type (Print / Online)", "Spokesperson", "Link"]
     header_font = Font(name="Calibri", size=11, bold=True)
     header_fill = PatternFill("solid", fgColor="D9E1F2")
     
@@ -76,7 +77,7 @@ def build_report(cfg):
             clip.get("title", ""),
             clip.get("country", ""),
             clip.get("type", ""),
-            clip.get("tier", ""),
+            ", ".join(p for p in clip.get("people", []) if p in spokespeople),
             clip.get("link", ""),
         ]
         for col, val in enumerate(fields, 2):
@@ -90,7 +91,7 @@ def build_report(cfg):
     ws.column_dimensions["C"].width = 70
     ws.column_dimensions["D"].width = 10
     ws.column_dimensions["E"].width = 22
-    ws.column_dimensions["F"].width = 8
+    ws.column_dimensions["F"].width = 24
     ws.column_dimensions["G"].width = 80
 
     # ── Sheet 2: Analysis ──
@@ -113,7 +114,13 @@ def build_report(cfg):
     wa["A4"].font = section_font
     
     dates = [c.get("date", "") for c in clips if c.get("date")]
-    tier_counts = Counter(str(c.get("tier", "")) for c in clips if c.get("tier"))
+    speaker_counts = Counter()
+    for c in clips:
+        named = [p for p in c.get("people", []) if p in spokespeople]
+        for p in named:
+            speaker_counts[p] += 1
+        if not named:
+            speaker_counts["(kein Sprecher erkannt)"] += 1
     country_counts = Counter(c.get("country", "") for c in clips if c.get("country"))
     type_counts = Counter(c.get("type", "") for c in clips if c.get("type"))
     outlet_set = set(c.get("outlet", "") for c in clips if c.get("outlet"))
@@ -136,17 +143,18 @@ def build_report(cfg):
             except ValueError:
                 pass
 
-    # Tier analysis
+    # Spokesperson analysis (replaces the former tier split: client reports carry no tier data)
     row_start = 10
-    wa.cell(row=row_start, column=1, value="Tier-1 / Tier-2 Analysis").font = section_font
-    wa.cell(row=row_start + 1, column=1, value="Tier").font = Font(name="Calibri", size=11, bold=True)
+    speakers = spokespeople + ["(kein Sprecher erkannt)"]
+    wa.cell(row=row_start, column=1, value="Clippings by Spokesperson").font = section_font
+    wa.cell(row=row_start + 1, column=1, value="Spokesperson").font = Font(name="Calibri", size=11, bold=True)
     wa.cell(row=row_start + 1, column=2, value="Count").font = Font(name="Calibri", size=11, bold=True)
     wa.cell(row=row_start + 1, column=3, value="Share").font = Font(name="Calibri", size=11, bold=True)
 
     total = len(clips) or 1
-    for i, tier in enumerate(["1", "2"]):
-        cnt = tier_counts.get(tier, 0) + tier_counts.get(int(tier) if tier.isdigit() else tier, 0)
-        wa.cell(row=row_start + 2 + i, column=1, value=f"Tier {tier}").font = label_font
+    for i, sp in enumerate(speakers):
+        cnt = speaker_counts.get(sp, 0)
+        wa.cell(row=row_start + 2 + i, column=1, value=sp).font = label_font
         wa.cell(row=row_start + 2 + i, column=2, value=cnt).font = label_font
         cell = wa.cell(row=row_start + 2 + i, column=3, value=cnt / total)
         cell.number_format = pct_fmt
@@ -168,7 +176,7 @@ def build_report(cfg):
         wa.cell(row=row_start + 2 + i, column=6, value=cnt).font = label_font
 
     # Country breakdown
-    cr = row_start + 6 + len(month_counts)
+    cr = row_start + 6 + max(len(month_counts), len(speakers))
     wa.cell(row=cr, column=1, value="Clippings by Country").font = section_font
     wa.cell(row=cr + 1, column=1, value="Country").font = Font(name="Calibri", size=11, bold=True)
     wa.cell(row=cr + 1, column=2, value="Count").font = Font(name="Calibri", size=11, bold=True)
@@ -228,14 +236,14 @@ def build_report(cfg):
         bc.dataLabels.showCatName = False
         wa.add_chart(bc, "A" + str(cr + 2 + len(country_counts) + 4))
 
-    # Chart 2: Tier Split (Pie)
+    # Chart 2: Spokesperson split (Pie)
     pc = PieChart()
-    pc.title = "Tier-Verteilung"
+    pc.title = "Sprecher"
     pc.style = 10
-    tier_data = Reference(wa, min_col=2, min_row=row_start + 1, max_row=row_start + 3)
-    tier_cats = Reference(wa, min_col=1, min_row=row_start + 2, max_row=row_start + 3)
-    pc.add_data(tier_data, titles_from_data=True)
-    pc.set_categories(tier_cats)
+    sp_data = Reference(wa, min_col=2, min_row=row_start + 1, max_row=row_start + 1 + len(speakers))
+    sp_cats = Reference(wa, min_col=1, min_row=row_start + 2, max_row=row_start + 1 + len(speakers))
+    pc.add_data(sp_data, titles_from_data=True)
+    pc.set_categories(sp_cats)
     pc.width = 12
     pc.height = 10
     pc.dataLabels = DataLabelList()

@@ -9,19 +9,27 @@
   "analysis_sheet": "Analysis 2026",
   "latest_copy": "docs/latest_report.xlsx",
   "keywords": [
-    "mk global kapital", "mikro kapital", "johannes feist",
-    "michele mattioda", "louzia savchenko", "vincenzo trani",
-    "thomas heinig", "luca pellegrini",
-    "mikrokapital", "mk global"
+    "mk global kapital",
+    "mikro kapital",
+    "mikrokapital",
+    "johannes feist",
+    "louiza savchenko",
+    "louzia savchenko",
+    "michele mattioda",
+    "vincenzo trani",
+    "thomas heinig",
+    "luca pellegrini",
+    "mk global"
   ],
   "google_queries": [
     "\"Johannes Feist\"",
-    "\"Michele Mattioda\"",
+    "\"Louiza Savchenko\"",
     "\"Louzia Savchenko\"",
+    "\"Michele Mattioda\"",
     "\"MK Global Kapital\"",
     "\"Mikro Kapital\"",
-    "\"Mikro Kapital\" Mikrofinanz",
     "\"Mikro Kapital Management\"",
+    "\"MK Global Capital\"",
     "\"MK Global\" Mikrofinanz",
     "\"MK Global\" \"Private Debt\"",
     "\"MK Global\" \"Private Credit\"",
@@ -32,34 +40,238 @@
     "\"Johannes Feist\" Gastkommentar OR Gastbeitrag",
     "\"Johannes Feist\" \"Private Credit\" OR \"Private Debt\"",
     "\"Johannes Feist\" Mikrofinanz CEO",
-    "\"Johannes Feist\" Emerging Markets",
+    "\"Johannes Feist\" Emerging Markets OR Schwellenländer",
     "\"Johannes Feist\" Wasserknappheit OR Klima OR ESG",
+    "\"Feist\" \"MK Global\"",
+    "\"Savchenko\" Tokenisierung OR tokenisiert OR Anleihe",
+    "\"Savchenko\" \"MK Global\"",
     "\"Michele Mattioda\" Mikrofinanz OR \"MK Global\"",
-    "\"Louzia Savchenko\" Tokenisierung OR tokenisiert",
     "\"Vincenzo Trani\" \"Mikro Kapital\"",
     "\"Thomas Heinig\" \"Mikro Kapital\" OR \"MK Global\"",
-    "\"Luca Pellegrini\" \"MK Global\" OR \"Mikro Kapital\"",
-    "\"MK Global Kapital\" OR \"Mikro Kapital\" 2026"
+    "\"Luca Pellegrini\" \"MK Global\" OR \"Mikro Kapital\""
   ],
   "page2_queries": [
     "\"Johannes Feist\"",
     "\"MK Global Kapital\"",
     "\"Mikro Kapital\""
   ],
-  "google_news_queries": [
+  "people": [
+    {
+      "name": "Johannes Feist",
+      "variants": [
+        "Johannes Feist"
+      ],
+      "ambiguous": true,
+      "spokesperson": true,
+      "exclusion_terms": [
+        "Edeka",
+        "Gundelfingen"
+      ]
+    },
+    {
+      "name": "Louiza Savchenko",
+      "variants": [
+        "Louiza Savchenko",
+        "Louzia Savchenko",
+        "Louisa Savchenko",
+        "Luiza Savchenko"
+      ],
+      "spokesperson": true
+    },
+    {
+      "name": "Michele Mattioda",
+      "variants": [
+        "Michele Mattioda"
+      ],
+      "spokesperson": true
+    },
+    {
+      "name": "Vincenzo Trani",
+      "variants": [
+        "Vincenzo Trani"
+      ]
+    },
+    {
+      "name": "Thomas Heinig",
+      "variants": [
+        "Thomas Heinig"
+      ],
+      "ambiguous": true
+    },
+    {
+      "name": "Luca Pellegrini",
+      "variants": [
+        "Luca Pellegrini"
+      ],
+      "ambiguous": true
+    },
+    {
+      "name": "Nicola Ragusa",
+      "variants": [
+        "Nicola Ragusa"
+      ],
+      "ambiguous": true
+    },
+    {
+      "name": "Pape Saliou Ndao",
+      "variants": [
+        "Pape Saliou Ndao"
+      ]
+    }
+  ],
+  "brand_terms": [
+    "MK Global Kapital",
+    "MK Global Capital",
+    "Mikro Kapital",
+    "Mikrokapital",
+    "Mikro Capital"
+  ],
+  "ambiguous_brand_terms": [
+    "MK Global"
+  ],
+  "exclusion_terms": [],
+  "own_domains": [
+    "mkglobalkapital.com",
+    "vincenzotrani.com"
+  ],
+  "validation_model": "claude-sonnet-5-5",
+  "google_daily_budget": 90,
+  "backfill_google_queries": [
+    "\"Johannes Feist\"",
+    "\"Louiza Savchenko\"",
+    "\"Michele Mattioda\"",
     "\"MK Global Kapital\"",
-    "\"Johannes Feist\" Mikrofinanz",
     "\"Mikro Kapital\"",
-    "\"Louzia Savchenko\"",
-    "\"Michele Mattioda\""
+    "\"MK Global\" Mikrofinanz",
+    "\"Feist\" \"MK Global\"",
+    "\"Savchenko\" \"MK Global\""
   ],
-  "fallback_queries": [
+  "gnews_queries": [
+    "\"Johannes Feist\"",
     "\"MK Global Kapital\"",
-    "\"Mikro Kapital\" Mikrofinanz",
-    "\"Johannes Feist\" Mikrofinanz OR \"MK Global\"",
-    "\"Johannes Feist\" \"Private Credit\" OR Gastkommentar",
-    "\"Michele Mattioda\" \"MK Global\"",
-    "\"Louzia Savchenko\" \"MK Global\" OR Tokenisierung"
+    "\"Mikro Kapital\"",
+    "\"Louiza Savchenko\"",
+    "\"Louzia Savchenko\"",
+    "\"Michele Mattioda\"",
+    "\"MK Global Capital\"",
+    "\"Savchenko\" \"MK Global\"",
+    "\"Feist\" Mikrofinanz OR \"Private Credit\" OR \"MK Global\"",
+    "\"Vincenzo Trani\" Mikro",
+    "\"Thomas Heinig\" \"MK Global\" OR \"Mikro Kapital\""
   ],
-  "validation_prompt": "Du pruefst ob Suchergebnisse tatsaechlich MK Global Kapital, Mikro Kapital oder eine der folgenden Personen DIREKT erwaehnen (nicht nur in Sidebar-Links oder Werbung):\n- Dr. Johannes Feist (CEO MK Global Kapital), Michele Mattioda, Louzia Savchenko, Vincenzo Trani, Thomas Heinig, Luca Pellegrini\n\nWICHTIG: Es gibt andere Personen namens \"Johannes Feist\" (z.B. Edeka-Marktleiter in Gundelfingen). NUR Artikel ueber den MK Global Kapital / Mikro Kapital CEO sind relevant!\n\nPruefe fuer jeden Eintrag:\n1. Wird MK Global Kapital / Mikro Kapital / eine MK-Person im Artikeltext selbst erwaehnt?\n2. Geht es um Finanzen, Mikrofinanz, Impact Investing, Private Debt — NICHT um Supermaerkte, Edeka oder andere Branchen?\n3. Ist es KEIN Sidebar-Link, keine Werbung, kein \"Weitere Artikel\"-Verweis?\n\nAUSGABE: Nur die RELEVANTEN Artikel als JSON-Array:\n[{\"date\":\"YYYY-MM-DD\",\"outlet\":\"Offizieller Medienname (z.B. Frankfurter Allgemeine Zeitung, nicht faz.net)\",\"title\":\"Exakter Artikeltitel\",\"country\":\"D/CH/A/DACH\",\"type\":\"Online\",\"tier\":1 oder 2,\"link\":\"URL\"}]\n\nTIER 1: FAZ, Handelsblatt, Boersen-Zeitung, NZZ, Finews, Institutional Money, DAS INVESTMENT, FONDS professionell, altii, Citywire, portfolio institutionell, Handelszeitung, Der Standard, Die Presse, WirtschaftsWoche, Manager Magazin, Capital, SZ, Boerse Online\nTIER 2: Alle anderen\n\nKeine Treffer? Antworte: []"
+  "gnews_site_terms": "(Feist OR Savchenko OR Mattioda OR \"MK Global\" OR \"Mikro Kapital\")",
+  "serper_queries": [
+    "\"Johannes Feist\"",
+    "\"MK Global Kapital\"",
+    "\"Mikro Kapital\"",
+    "\"Louiza Savchenko\"",
+    "\"Michele Mattioda\"",
+    "\"Savchenko\" \"MK Global\""
+  ],
+  "site_search_terms": [
+    "Feist",
+    "Savchenko",
+    "Mattioda",
+    "MK Global Kapital",
+    "Mikro Kapital"
+  ],
+  "home_outlets": [
+    "bondguide.de",
+    "moneycab.com",
+    "cash-online.de",
+    "fondsexklusiv.de",
+    "fondsexklusiv.at",
+    "dfpa.info",
+    "markteinblicke.de",
+    "investrends.ch",
+    "payoff.ch",
+    "finews.ch",
+    "private-banking-magazin.de",
+    "institutional-money.com",
+    "fixed-income.org",
+    "altii.de",
+    "e-fundresearch.com",
+    "portfolio-institutionell.de",
+    "gruenderkueche.de",
+    "exxecnews.org",
+    "geldmeisterin.com",
+    "swissfinanceai.ch",
+    "kreditwesen.de",
+    "boersen-kurier.at",
+    "handelszeitung.ch",
+    "dasinvestment.com",
+    "privatemarkets360.com",
+    "allnews.ch",
+    "fondsprofessionell.de",
+    "fondsprofessionell.at",
+    "citywire.de",
+    "fundresearch.de",
+    "dpn-online.com",
+    "finanzwelt.de",
+    "procontra-online.de",
+    "fondstrends.ch",
+    "cash.ch",
+    "platow.de"
+  ],
+  "crawl_outlets": [
+    "bondguide.de",
+    "moneycab.com",
+    "cash-online.de",
+    "fondsexklusiv.de",
+    "fondsexklusiv.at",
+    "dfpa.info",
+    "markteinblicke.de",
+    "investrends.ch",
+    "payoff.ch",
+    "finews.ch",
+    "private-banking-magazin.de",
+    "institutional-money.com",
+    "fixed-income.org",
+    "altii.de",
+    "e-fundresearch.com",
+    "portfolio-institutionell.de",
+    "gruenderkueche.de",
+    "exxecnews.org",
+    "geldmeisterin.com",
+    "swissfinanceai.ch",
+    "kreditwesen.de",
+    "boersen-kurier.at",
+    "handelszeitung.ch",
+    "dasinvestment.com",
+    "privatemarkets360.com",
+    "allnews.ch",
+    "fondsprofessionell.de",
+    "fondsprofessionell.at",
+    "citywire.de",
+    "fundresearch.de",
+    "dpn-online.com",
+    "finanzwelt.de",
+    "procontra-online.de",
+    "fondstrends.ch",
+    "cash.ch",
+    "platow.de"
+  ],
+  "crawl_days": 3,
+  "search_only_outlets": [
+    "faz.net",
+    "handelsblatt.com",
+    "nzz.ch",
+    "boersen-zeitung.de",
+    "derstandard.at",
+    "derstandard.de",
+    "finanznachrichten.de",
+    "wiwo.de",
+    "welt.de",
+    "sueddeutsche.de",
+    "diepresse.com",
+    "kurier.at",
+    "tagesanzeiger.ch",
+    "srf.ch",
+    "n-tv.de",
+    "boerse-express.com",
+    "wallstreet-online.de",
+    "capital.de",
+    "manager-magazin.de",
+    "fondstrends.de"
+  ]
 }

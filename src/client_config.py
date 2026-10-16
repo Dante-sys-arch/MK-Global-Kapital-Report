@@ -10,7 +10,7 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).parent.parent
 CLIENTS_DIR = REPO_ROOT / "clients"
 
-REQUIRED_FIELDS = ["slug", "name", "keywords", "google_queries", "validation_prompt"]
+REQUIRED_FIELDS = ["slug", "name", "keywords", "google_queries"]
 
 DEFAULTS = {
     "page2_queries": [],

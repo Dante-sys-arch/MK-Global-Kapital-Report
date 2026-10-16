@@ -65,8 +65,28 @@ td{padding:6px 5px;color:#98a8b8;font-size:12px;border-bottom:1px solid #152238}
 <script>
 const REPO="https://raw.githubusercontent.com/Dante-sys-arch/MK-Global-Kapital-Report/main/data/clippings.json";
 const LS="mk-page-v1";
+const RAW="https://raw.githubusercontent.com/Dante-sys-arch/MK-Global-Kapital-Report/main/";
 let clips=[];
 let tab="dash";
+let agentStatus=null, review=[];
+
+async function loadMeta(){
+  try{const r=await fetch("status.json?t="+Date.now());if(r.ok)agentStatus=await r.json();}catch(e){}
+  try{const r=await fetch(RAW+"data/review.json?t="+Date.now());if(r.ok)review=await r.json();}catch(e){}
+  render();
+}
+function esc(t){return String(t||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
+function statusBanner(){
+  if(!agentStatus) return "";
+  const ageH=(Date.now()-new Date(agentStatus.run_at).getTime())/3600000;
+  const stale=ageH>14;
+  const bad=agentStatus.status==="error"||stale, warn=agentStatus.status==="warn";
+  const col=bad?"#f87171":warn?"#fbbf24":"#34d399";
+  const head=stale?"Agent läuft nicht: letzter Lauf vor "+Math.round(ageH)+" Std.":bad?"Agent-Fehler":warn?"Agent mit Warnungen":"Agent läuft";
+  const items=[...(agentStatus.problems||[]),...(agentStatus.warnings||[])].map(x=>`<div style="font-size:12px;color:#c8d0dc;margin-top:3px">• ${esc(x)}</div>`).join("");
+  return `<div class="card" style="border-left:4px solid ${col};margin-bottom:14px"><div style="color:${col};font-weight:700">${head}</div>
+    <div style="font-size:11px;color:#4a5a6c">Letzter Lauf: ${new Date(agentStatus.run_at).toLocaleString("de-DE")} · neu: ${agentStatus.new} · Prüfliste: ${agentStatus.review_open}</div>${items}</div>`;
+}
 let search="";
 
 function load(){
@@ -111,15 +131,24 @@ function showTab(t){tab=t;render();}
 
 function render(){
   // Nav
-  const tabs=[["dash","Dashboard"],["list","Clippings"],["analysis","Analyse"],["add","Hinzufügen"]];
-  document.getElementById("nav").innerHTML=tabs.map(([k,l])=>`<button class="tab ${tab===k?"active":""}" onclick="showTab('${k}')">${l}${k==="list"?" ("+clips.length+")":""}</button>`).join("");
+  const tabs=[["dash","Dashboard"],["list","Clippings"],["review","Prüfliste"],["analysis","Analyse"],["add","Hinzufügen"]];
+  document.getElementById("nav").innerHTML=tabs.map(([k,l])=>`<button class="tab ${tab===k?"active":""}" onclick="showTab('${k}')">${l}${k==="list"?" ("+clips.length+")":""}${k==="review"?" ("+review.length+")":""}</button>`).join("");
 
   const el=document.getElementById("content");
   const s=stats();
   const maxM=Math.max(...Object.values(s.byMonth),1);
 
-  if(tab==="dash"){
-    el.innerHTML=`
+  if(tab==="review"){
+    el.innerHTML=statusBanner()+`<div class="card"><h3 class="h3">Prüfliste: unklare Fundstellen</h3>
+      <p style="color:#4a5a6c;font-size:12px;margin:0 0 10px">Der Agent konnte diese Treffer nicht sicher zuordnen. Entscheidung eintragen in <span class="mono">data/review_decisions.csv</span> (Zeile: Link;ja oder Link;nein), der nächste Lauf übernimmt sie.</p>
+      ${review.length?review.map((r,i)=>`<div style="padding:8px 0;${i<review.length-1?"border-bottom:1px solid #152238":""}">
+        <div style="font-size:11px;color:#4a5a6c"><span class="mono">${fD(r.date)}</span> · ${esc(r.outlet)} · ${esc((r.people||[]).join(", "))}</div>
+        <div style="font-size:13px;color:#c8d0dc;margin-top:3px"><a href="${esc(r.link)}" target="_blank">${esc(r.title||r.link)}</a></div>
+        <div style="font-size:11px;color:#fbbf24;margin-top:2px">${esc(r.reason)}</div></div>`).join(""):`<div style="color:#4a5a6c;font-size:13px">Keine offenen Fälle.</div>`}</div>`;
+  }
+
+  else if(tab==="dash"){
+    el.innerHTML=statusBanner()+`
       <div class="kpi-grid">
         ${[["Total",s.total,"#4f8ff7"],["Tier 1",s.t1,"#34d399"],["Tier 2",s.t2,"#fbbf24"],["Online",s.online,"#a78bfa"],["Print",s.print,"#f472b6"],["Medien",s.outlets,"#22d3ee"]].map(([l,v,c])=>`<div class="card"><div class="kpi-val" style="color:${c}">${v}</div><div class="kpi-label">${l}</div></div>`).join("")}
       </div>
@@ -294,6 +323,7 @@ function sendMailTeam(){
 // Init
 load();
 if(!clips.length) syncFromGH().then(()=>render()); else render();
+loadMeta();
 </script>
 </body>
 </html>

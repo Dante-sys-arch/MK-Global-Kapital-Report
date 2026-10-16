@@ -3,12 +3,15 @@ Main runner: for each client, search for new clippings and generate an
 Excel report.
 
 Usage:
-    python src/main.py                     # run ALL clients in clients/
-    python src/main.py --client <slug>     # run a single client
-    python src/main.py --report-only       # skip search, only rebuild reports
+    python src/main.py                                  # daily run, all clients
+    python src/main.py --client <slug>                  # one client
+    python src/main.py --report-only                    # only rebuild Excel reports
+    python src/main.py --mode backfill --from 2026-04-01 --to 2026-10-16
+    python src/main.py --dry-run                        # search and report, change nothing
 """
 import argparse
 import sys
+from datetime import date
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
@@ -18,33 +21,37 @@ from search import run_search, load_clippings
 from excel_writer import build_report
 
 
-def run_client(cfg, report_only=False):
+def run_client(cfg, args):
     print("=" * 60)
     print(cfg["agent_title"])
     print("=" * 60)
 
     new_articles = []
-    if not report_only:
-        print("\n📡 Step 1: Searching for new clippings...\n")
-        new_articles = run_search(cfg)
+    if not args.report_only:
+        start = date.fromisoformat(args.date_from) if args.date_from else None
+        end = date.fromisoformat(args.date_to) if args.date_to else date.today()
+        if args.mode == "backfill" and not start:
+            raise SystemExit("--mode backfill braucht --from YYYY-MM-DD")
+        new_articles = run_search(cfg, mode=args.mode, start=start, end=end, dry_run=args.dry_run)
 
-    print("\n📊 Step 2: Generating Excel report...\n")
+    if args.dry_run:
+        print(f"\nTestlauf: {len(new_articles)} neue Clippings gefunden, nichts gespeichert.")
+        return
     clips = load_clippings(cfg)
     if clips:
         filepath = build_report(cfg)
         if filepath:
-            print(f"\n✅ Done! Report: {filepath}")
-            print(f"   Total clippings: {len(clips)}")
-            print(f"   New this run: {len(new_articles)}")
-    else:
-        print("No clippings available for report generation.")
+            print(f"\nReport: {filepath}  |  gesamt {len(clips)}  |  neu {len(new_articles)}")
 
 
 def main():
     parser = argparse.ArgumentParser(description="DACH Clipping Agent (multi-client)")
     parser.add_argument("--client", help="Run only this client slug (default: all)")
-    parser.add_argument("--report-only", action="store_true",
-                        help="Skip search, only regenerate Excel reports")
+    parser.add_argument("--report-only", action="store_true", help="Skip search, only regenerate Excel reports")
+    parser.add_argument("--mode", choices=["daily", "backfill", "enrich"], default="daily")
+    parser.add_argument("--from", dest="date_from", help="Backfill start YYYY-MM-DD")
+    parser.add_argument("--to", dest="date_to", help="Backfill end YYYY-MM-DD (default today)")
+    parser.add_argument("--dry-run", action="store_true", help="Search and report, but save nothing")
     args = parser.parse_args()
 
     slugs = [args.client] if args.client else list_clients()
@@ -55,9 +62,11 @@ def main():
     failures = []
     for slug in slugs:
         try:
-            run_client(load_client(slug), report_only=args.report_only)
+            run_client(load_client(slug), args)
         except Exception as e:
-            print(f"\n❌ Client '{slug}' failed: {e}")
+            import traceback
+            traceback.print_exc()
+            print(f"\nClient '{slug}' failed: {e}")
             failures.append(slug)
         print()
 
