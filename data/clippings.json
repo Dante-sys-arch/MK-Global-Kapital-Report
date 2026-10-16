@@ -36,7 +36,8 @@
     "byline": true,
     "author": "",
     "found_via": [
-      "bing"
+      "bing",
+      "gnews"
     ],
     "verified": "volltext",
     "date_source": "seite",
@@ -59,7 +60,8 @@
     "byline": false,
     "author": "",
     "found_via": [
-      "site"
+      "site",
+      "gnews"
     ],
     "verified": "volltext",
     "date_source": "seite",
