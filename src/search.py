@@ -655,6 +655,38 @@ class Agent:
                 w.writerows(keep)
         self._reindex()
 
+    # ── re-check review entries that only failed because Claude was unavailable ──
+    def recheck_review(self):
+        pending = [r for r in self.review if "Claude-Fehler" in r.get("reason", "") or "Claude nicht verfügbar" in r.get("reason", "")]
+        if not pending or not self.validator.client:
+            return
+        items = []
+        for r in pending:
+            art = fetch_article(r["link"])
+            text = (art.get("text", "") + " " + art.get("meta_text", "")) if art.get("ok") else ""
+            items.append({"key": normalize_url(r["link"]), "link": r["link"], "title": r.get("title", ""),
+                          "outlet": r.get("outlet", ""), "source": r.get("outlet", ""), "snippet": r.get("snippet", ""),
+                          "text": text or art.get("page_text", ""), "feed_date": r.get("date", ""),
+                          "page_date": art.get("date_meta", ""), "page_date_extracted": art.get("date_extracted", ""),
+                          "channels": r.get("found_via", []), "people": r.get("people", []), "author": art.get("author", ""),
+                          "sitename": art.get("sitename", "")})
+        decisions = self.validator.decide(items)
+        if self.stats.ch("claude")["errors"]:
+            return  # Claude still failing: leave the list as it is
+        for r, item, (decision, reason) in zip(pending, items, decisions):
+            if decision == "unsure":
+                r["reason"] = "unklar: " + reason
+                continue
+            self.review.remove(r)
+            if decision == "accept":
+                item["verified"] = "claude"
+                self._accept(item)
+            else:
+                self.rejected.append({"link": r["link"], "title": r.get("title", ""), "reason": "Claude: " + reason})
+                self.state.mark_checked(item["key"], "rejected")
+        self.counts["review_rechecked"] = len(pending)
+        self._reindex()
+
     # ── enrich existing clippings (speakers, byline) ──
     def enrich(self, force=False, limit=None):
         """Fetch stored clippings once and add people/byline. Never changes date, outlet or title."""
@@ -688,6 +720,7 @@ class Agent:
         budget_min = self.cfg.get("time_budget_minutes", {}).get(mode, 45 if mode == "daily" else 150)
         self.deadline = time.time() + budget_min * 60
         self.apply_review_decisions()
+        self.recheck_review()
         if mode == "enrich":
             self.enrich()
             if not self.dry_run:
