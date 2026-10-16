@@ -7,8 +7,10 @@ on:
     - cron: '17 23 * * *'
     - cron: '13 2 * * *'
     - cron: '41 4 * * *'
+  # Sofortlauf ohne Warten: Prüflisten-Entscheidungen eintragen oder die Datei .github/run-now ändern.
   push:
-    branches: [agent-v5]
+    branches: [main]
+    paths: ['data/review_decisions.csv', '.github/run-now']
   workflow_dispatch:
     inputs:
       mode:
@@ -50,8 +52,8 @@ jobs:
           SERPER_API_KEY: ${{ secrets.SERPER_API_KEY }}
           SERPAPI_KEY: ${{ secrets.SERPAPI_KEY }}
           EVENT: ${{ github.event_name }}
-          MODE: ${{ github.event.inputs.mode || (github.event_name == 'push' && 'backfill') || 'daily' }}
-          DATE_FROM: ${{ github.event.inputs.date_from || (github.event_name == 'push' && '2025-07-01') || '' }}
+          MODE: ${{ github.event.inputs.mode || 'daily' }}
+          DATE_FROM: ${{ github.event.inputs.date_from }}
           DATE_TO: ${{ github.event.inputs.date_to }}
           DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
         run: |

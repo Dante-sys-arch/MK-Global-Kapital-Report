@@ -19,8 +19,10 @@ Jeder Lauf sammelt Hinweise aus sechs Kanälen und prüft **jeden** Hinweis auf 
 | Google News RSS | Suchfeeds je Ausgabe DE, CH, AT | jeder Lauf |
 | Neue Artikel der Stammmedien | jede neue URL aus den Sitemaps, im Volltext gelesen | jeder Lauf |
 | Seitensuche | WordPress-Suche der Stammmedien (ganzes Archiv, trifft Autorenzeilen) | 1× täglich |
-| Google Websuche | Custom Search API (endet am 01.01.2027) | 1× täglich |
-| Serper | Google Web + News, optional (Secret `SERPER_API_KEY`) | 1× täglich |
+| Google Websuche | SerpApi, Gratisplan 250 Suchen/Monat, 8 Suchen pro Tag (Secret `SERPAPI_KEY`) | 1× täglich |
+| Bing News RSS | zweiter, von Google unabhängiger Nachrichtenindex (DE/CH/AT) | jeder Lauf |
+| Serper | Google Web + News, optional (Secret `SERPER_API_KEY`), derzeit nicht genutzt | 1× täglich |
+| Google Custom Search | für dieses Projekt ohne Zugang (Google nimmt keine Neukunden an), schaltet sich selbst ab | – |
 | Syndikation | exakte Titelsuche für jedes neue Clipping, findet Kopien auf anderen Medien | nach jedem Fund |
 
 Prüfung: Die Namen (Firma oder Personen) müssen im Artikel stehen (Titel, Autor, Haupttext).
@@ -69,13 +71,16 @@ Der GitHub-Actions-Zeitplan (3× täglich) nimmt neue Kunden automatisch mit.
 
 ## Zeitplan
 
-- **Täglich 07:00 / 13:00 / 19:00 Uhr CET** (automatisch via GitHub Actions)
-- **Manuell** auslösbar: Repository → Actions → "MK Clipping Agent" → "Run workflow"
+- **Ein Tageslauf, Ergebnisse vor 08:30 Uhr (Berlin).** Geplant 23:17 UTC, Ersatztermine 02:13 und 04:41 UTC.
+  GitHub startet geplante Läufe oft Stunden zu spät; die Ersatztermine laufen nur, wenn der Tageslauf
+  für das Berliner Datum noch fehlt.
+- **Sofortlauf:** Actions → "MK Clipping Agent" → "Run workflow", oder eine Zeile in `data/review_decisions.csv`
+  eintragen (der Lauf übernimmt die Entscheidung direkt).
 
 ## Setup
 
 1. Repository → **Settings** → **Secrets and variables** → **Actions**
-2. Secrets anlegen: `ANTHROPIC_API_KEY`, `GOOGLE_API_KEY`, `GOOGLE_CX`
+2. Secrets anlegen: `ANTHROPIC_API_KEY`, `SERPAPI_KEY` (optional `SERPER_API_KEY`)
 3. **Actions**-Tab: Workflows aktivieren
 4. Erster Test: Actions → "MK Clipping Agent" → **Run workflow**
 
