@@ -17,14 +17,13 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 
 from client_config import load_client, list_clients
-from search import run_search, load_clippings
-from excel_writer import build_report
+from util import berlin_today as _berlin_day
 
 
 def berlin_today():
-    from datetime import datetime
-    from zoneinfo import ZoneInfo
-    return datetime.now(ZoneInfo("Europe/Berlin")).date().isoformat()
+    return _berlin_day().isoformat()
+from search import run_search, load_clippings
+from excel_writer import build_report
 
 
 def run_client(cfg, args):
@@ -44,8 +43,9 @@ def run_client(cfg, args):
         end = date.fromisoformat(args.date_to) if args.date_to else date.today()
         if args.mode == "backfill" and not start:
             raise SystemExit("--mode backfill braucht --from YYYY-MM-DD")
-        new_articles = run_search(cfg, mode=args.mode, start=start, end=end, dry_run=args.dry_run)
-        if args.mode == "daily" and not args.dry_run:
+        new_articles = run_search(cfg, mode=args.mode, start=start, end=end, dry_run=args.dry_run,
+                                  daily_jobs=not args.no_daily_jobs)
+        if args.mode == "daily" and not args.dry_run and not args.no_daily_jobs:
             from state import State
             st = State(cfg["slug"])
             st.data.setdefault("daily", {})["full_run"] = berlin_today()
@@ -69,6 +69,9 @@ def main():
     parser.add_argument("--from", dest="date_from", help="Backfill start YYYY-MM-DD")
     parser.add_argument("--to", dest="date_to", help="Backfill end YYYY-MM-DD (default today)")
     parser.add_argument("--dry-run", action="store_true", help="Search and report, but save nothing")
+    parser.add_argument("--no-daily-jobs", action="store_true",
+                        help="Quick run (push trigger): no once-per-day jobs (SerpApi, site search, backfill), "
+                             "does not count as the day's run")
     parser.add_argument("--scheduled", action="store_true",
                         help="Scheduled trigger: skip if today's daily run (Berlin time) is already done")
     args = parser.parse_args()

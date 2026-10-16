@@ -8,7 +8,7 @@ import json
 from datetime import timedelta
 
 from client_config import REPO_ROOT
-from util import today_utc
+from util import berlin_today, today_utc
 
 KEEP_DAYS = 400
 
@@ -38,12 +38,12 @@ class State:
     def forget_checked(self, key):
         self.data["checked"].pop(key, None)
 
-    # Daily jobs (Google budget, site searches): run once per UTC day.
+    # Daily jobs (SerpApi budget, site searches, monthly backfill): once per Berlin calendar day.
     def due_today(self, job):
-        return self.data["daily"].get(job) != today_utc().isoformat()
+        return self.data["daily"].get(job) != berlin_today().isoformat()
 
     def mark_done_today(self, job):
-        self.data["daily"][job] = today_utc().isoformat()
+        self.data["daily"][job] = berlin_today().isoformat()
 
     # Per-outlet capability cache (WordPress search yes/no, sitemap URLs).
     def outlet(self, domain):

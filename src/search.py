@@ -132,9 +132,10 @@ def _month_windows(start, end):
 
 
 class Agent:
-    def __init__(self, cfg, dry_run=False):
+    def __init__(self, cfg, dry_run=False, daily_jobs=True):
         self.cfg = cfg
         self.dry_run = dry_run
+        self.daily_jobs = daily_jobs
         self.stats = Stats()
         self.matcher = Matcher(cfg)
         self.state = State(cfg["slug"])
@@ -221,6 +222,9 @@ class Agent:
         cands += bing_news(cfg.get("bing_queries") or cfg.get("gnews_queries", []), self.stats, own_domains=self.own)
         cands += sitemap_crawl(cfg.get("crawl_outlets", []), st, self.stats,
                                days=cfg.get("crawl_days", 3), skip=self._skip_url, own_domains=self.own)
+        if not self.daily_jobs:
+            self.stats.note("daily", "Sofortlauf: Tagesjobs (SerpApi, Archivsuche, Nachsuche) laufen nur im Tageslauf")
+            return cands
         if st.due_today("google") and not st.data.get("cse_no_access"):
             budget = CseBudget(cfg.get("google_daily_budget", 90))
             self.cse_budget = budget
@@ -240,7 +244,9 @@ class Agent:
         if st.due_today("site"):
             cands += site_search(cfg.get("home_outlets", []), cfg.get("site_search_terms", []), st, self.stats, self.matcher, self.own)
             st.mark_done_today("site")
-        cands += self._rolling_backfill()
+        if st.due_today("backfill"):
+            cands += self._rolling_backfill()
+            st.mark_done_today("backfill")
         return cands
 
     def _rolling_backfill(self):
@@ -738,7 +744,7 @@ class Agent:
             targets = first_wave
         self.syndication_search(targets)
 
-        if mode == "daily":
+        if mode == "daily" and self.daily_jobs:
             self.enrich(limit=40)  # gradually add speakers to older clippings
 
         from placements import update_placements
@@ -754,7 +760,7 @@ class Agent:
         return self.new, report
 
 
-def run_search(cfg, mode="daily", start=None, end=None, dry_run=False):
-    agent = Agent(cfg, dry_run=dry_run)
+def run_search(cfg, mode="daily", start=None, end=None, dry_run=False, daily_jobs=True):
+    agent = Agent(cfg, dry_run=dry_run, daily_jobs=daily_jobs)
     new, report = agent.run(mode, start, end)
     return new

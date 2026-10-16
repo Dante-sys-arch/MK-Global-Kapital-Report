@@ -62,6 +62,7 @@ jobs:
           if [ -n "$DATE_TO" ]; then ARGS="$ARGS --to $DATE_TO"; fi
           if [ "$DRY_RUN" = "true" ]; then ARGS="$ARGS --dry-run"; fi
           if [ "$EVENT" = "schedule" ]; then ARGS="$ARGS --scheduled"; fi
+          if [ "$EVENT" = "push" ]; then ARGS="$ARGS --no-daily-jobs"; fi
           python src/main.py $ARGS
       - name: Commit
         if: always()

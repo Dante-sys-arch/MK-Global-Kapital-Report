@@ -181,6 +181,16 @@ def today_utc():
     return datetime.now(timezone.utc).date()
 
 
+def now_utc():
+    return datetime.now(timezone.utc)
+
+
+def berlin_today():
+    """Calendar day in Berlin. The daily run and its once-per-day jobs count by this date."""
+    from zoneinfo import ZoneInfo
+    return now_utc().astimezone(ZoneInfo("Europe/Berlin")).date()
+
+
 def iso_date(value):
     """Best-effort conversion of many date shapes to YYYY-MM-DD, else ''."""
     if not value:

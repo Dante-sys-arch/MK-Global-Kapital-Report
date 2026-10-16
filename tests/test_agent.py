@@ -294,6 +294,67 @@ class HealthTests(unittest.TestCase):
         self.assertEqual(evaluate(ch, {}, {})["status"], "error")
 
 
+class DailyJobTests(unittest.TestCase):
+    """Once-per-day jobs count by Berlin date; push runs never use them."""
+
+    def setUp(self):
+        self.tmp = Path(tempfile.mkdtemp())
+        (self.tmp / "data").mkdir()
+        (self.tmp / "data" / "clippings.json").write_text("[]", encoding="utf-8")
+        self.patches = [mock.patch.object(client_config, "REPO_ROOT", self.tmp), mock.patch("state.REPO_ROOT", self.tmp),
+                        mock.patch.dict(os.environ, {"ANTHROPIC_API_KEY": "", "SERPAPI_KEY": "x"})]
+        for p in self.patches:
+            p.start()
+
+    def tearDown(self):
+        for p in self.patches:
+            p.stop()
+        shutil.rmtree(self.tmp)
+
+    def _at(self, iso):
+        from datetime import datetime
+        return mock.patch("util.now_utc", return_value=datetime.fromisoformat(iso))
+
+    def test_berlin_date_decides(self):
+        from state import State
+        st = State("mk-global-kapital")
+        with self._at("2026-10-16T13:00:00+00:00"):          # 15:00 Berlin, push run in the afternoon
+            st.mark_done_today("serpapi")
+            self.assertFalse(st.due_today("serpapi"))
+        with self._at("2026-10-16T23:17:00+00:00"):          # 01:17 Berlin next day, nightly run
+            self.assertTrue(st.due_today("serpapi"))
+        with self._at("2026-12-16T23:17:00+00:00"):          # winter time: 00:17 Berlin next day
+            st.data["daily"]["serpapi"] = "2026-12-16"
+            self.assertTrue(st.due_today("serpapi"))
+
+    def _collect(self, daily_jobs):
+        import search
+        cfg = client_config._apply_defaults(dict(CFG))
+        with mock.patch("search.scan_rss", return_value=[]), mock.patch("search.google_news", return_value=[]), \
+                mock.patch("search.bing_news", return_value=[]), mock.patch("search.sitemap_crawl", return_value=[]), \
+                mock.patch("search.google_cse", return_value=[]), mock.patch("search.serpapi", return_value=[]) as sa, \
+                mock.patch("search.site_search", return_value=[]) as ss, mock.patch("search.serper", return_value=[]):
+            agent = search.Agent(cfg, daily_jobs=daily_jobs)
+            agent.collect_daily()
+            agent.state.save()
+            return sa.call_count, ss.call_count
+
+    def test_push_run_skips_daily_jobs(self):
+        with self._at("2026-10-16T13:00:00+00:00"):
+            self.assertEqual(self._collect(daily_jobs=False), (0, 0))   # push run: nothing used
+            self.assertEqual(self._collect(daily_jobs=True), (1, 1))    # first full run of the Berlin day
+            self.assertEqual(self._collect(daily_jobs=True), (0, 0))    # second run same day: budget kept
+        with self._at("2026-10-16T23:17:00+00:00"):
+            self.assertEqual(self._collect(daily_jobs=True), (1, 1))    # nightly run = new Berlin day
+
+    def test_serpapi_never_exceeds_daily_budget(self):
+        from sources import CseBudget, Stats, serpapi
+        calls = []
+        with mock.patch("sources.http_get", side_effect=lambda *a, **k: calls.append(1) or FakeResp(js={"organic_results": []})):
+            serpapi([f"q{i}" for i in range(20)], Stats(), CseBudget(CFG["serpapi_daily_budget"]))
+        self.assertEqual(len(calls), 8)
+
+
 class PlacementTests(unittest.TestCase):
     def test_match_and_overdue(self):
         import placements
