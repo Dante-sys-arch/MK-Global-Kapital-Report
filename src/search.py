@@ -142,6 +142,11 @@ class Agent:
         self.clips = load_clippings(cfg)
         rp = review_path(cfg)
         self.review = json.load(open(rp, encoding="utf-8")) if rp.exists() else []
+        import hashlib
+        for r in self.review:  # older entries have no id; the dashboard decides by id
+            if not r.get("id"):
+                basis = r.get("link") or (r.get("title", "") + r.get("outlet", "") + r.get("date", ""))
+                r["id"] = "r-" + hashlib.sha1(basis.encode("utf-8")).hexdigest()[:10]
         self.own = cfg.get("own_domains", [])
         self.new, self.new_review, self.rejected = [], [], []
         self.counts = {"candidates": 0, "unique": 0, "already_known": 0, "already_checked": 0,
@@ -150,6 +155,7 @@ class Agent:
         self.validator = Validator(cfg, self.matcher, self.stats)
         self.deadline = None
         self.out_of_time = 0
+        self.inbox_results = []
         from sources import GNEWS_THROTTLE
         GNEWS_THROTTLE["hit"] = False
         self._reindex()
@@ -193,7 +199,8 @@ class Agent:
             t = norm_title(c.get("title", ""))
             if t:
                 self.by_title.setdefault(t, []).append(c)
-        self.review_urls = {normalize_url(r.get("link", "")) or r.get("gnews_link", "") for r in self.review}
+        self.review_urls = {normalize_url(r.get("link", "")) for r in self.review if r.get("link")}
+        self.review_urls |= {r.get("key_manual") for r in self.review if r.get("key_manual")}
 
     def _known_title_domain(self, title, domain, link=""):
         for c in self.by_title.get(norm_title(title), []):
@@ -555,56 +562,83 @@ class Agent:
         d, _ = self._best_date(item)
         return bool(earliest and d and d < earliest)
 
+    def _manual_duplicate(self, title, outlet, d, medium):
+        """Same title, same outlet, same date and same type count once (online and print separately)."""
+        t, o = norm_title(title), norm_title(outlet)
+        for c in self.by_title.get(t, []):
+            if norm_title(c.get("outlet", "")) == o and (c.get("date") or "") == (d or "") \
+                    and (c.get("type") or "Online").lower() == (medium or "Online").lower():
+                return c
+        return None
+
     def _accept(self, item):
-        link = item["link"]
-        domain = extract_domain(link)
+        link = (item.get("link") or "").strip()
+        domain = extract_domain(link) if link else ""
         title = item["title"].strip()
-        same = self._known_title_domain(title, domain, link)
-        if same:  # same article under another URL of the same outlet
-            for ch in item["channels"]:
-                self._add_channel(same, ch)
-            self.state.mark_checked(item["key"], "duplicate")
-            return
-        outlet = normalize_outlet(item.get("sitename") or item.get("source") or "", link)
+        medium = item.get("medium") or "Online"
+        manual = item.get("source_kind") == "manual"
         d, dsrc = self._best_date(item)
+        outlet = item.get("outlet_given") or normalize_outlet(item.get("sitename") or item.get("source") or "", link)
+        same = self._manual_duplicate(title, outlet, d, medium)
+        if not same and link and medium == "Online":
+            same = self._known_title_domain(title, domain, link)
+        if same:  # already recorded
+            for ch in item.get("channels", []):
+                self._add_channel(same, ch)
+            if item.get("key"):
+                self.state.mark_checked(item["key"], "duplicate")
+            self.counts["duplicates"] = self.counts.get("duplicates", 0) + 1
+            return None
         clip = {
             "date": d,
             "outlet": outlet,
             "title": title,
-            "country": guess_country(outlet, link),
-            "type": "Online",
+            "country": item.get("country") or guess_country(outlet, link),
+            "type": medium,
             "tier": guess_tier(outlet, link, self.cfg.get("extra_tier1_keywords", [])),
             "link": link,
             "people": item.get("people", []),
             "byline": bool(item.get("byline")),
-            "author": item.get("author", "")[:120],
-            "found_via": list(item["channels"]),
+            "author": (item.get("author") or "")[:120],
+            "found_via": list(item.get("channels", [])),
             "verified": item.get("verified", ""),
             "date_source": dsrc,
             "added_at": datetime.now().isoformat(timespec="seconds"),
-            "source": "auto",
-            "id": f"a-{int(datetime.now().timestamp())}-{len(self.new)}",
+            "source": "manual" if manual else "auto",
+            "id": f"{'m' if manual else 'a'}-{int(datetime.now().timestamp())}-{len(self.new)}",
         }
-        twins = [c for c in self.by_title.get(norm_title(title), []) if extract_domain(c.get("link", "")) != domain]
+        if item.get("note"):
+            clip["note"] = item["note"]
+        twins = [c for c in self.by_title.get(norm_title(title), []) if c.get("outlet") != outlet]
         if item.get("syndication_of"):
             clip["syndication_of"] = item["syndication_of"]
-        elif twins:
+        elif twins and medium == "Online":
             clip["syndication_of"] = twins[0].get("id", "")
         self.clips.append(clip)
         self.new.append(clip)
-        self.by_url[normalize_url(link)] = clip
+        if link:
+            self.by_url[normalize_url(link)] = clip
+            if normalize_url(link) != item.get("key"):
+                self.state.mark_checked(normalize_url(link), "accepted")
         self.by_title.setdefault(norm_title(title), []).append(clip)
-        self.state.mark_checked(item["key"], "accepted")
-        if normalize_url(link) != item["key"]:
-            self.state.mark_checked(normalize_url(link), "accepted")
+        if item.get("key"):
+            self.state.mark_checked(item["key"], "accepted")
+        return clip
 
     def _to_review(self, item, reason):
         if item["key"] in self.review_urls:
             return
+        import hashlib
         d, _ = self._best_date(item)
-        entry = {"link": item["link"], "title": item["title"], "outlet": normalize_outlet(item.get("sitename") or item.get("source", ""), item["link"]),
+        entry = {"id": "r-" + hashlib.sha1(item["key"].encode("utf-8")).hexdigest()[:10],
+                 "link": item["link"], "title": item["title"],
+                 "outlet": item.get("outlet_given") or normalize_outlet(item.get("sitename") or item.get("source", ""), item["link"]),
                  "date": d, "people": item.get("people", []), "reason": reason, "found_via": item["channels"],
+                 "medium": item.get("medium") or "Online", "country": item.get("country", ""),
+                 "source_kind": item.get("source_kind", ""), "source_file": item.get("source_file", ""),
                  "snippet": item.get("snippet", "")[:300], "added_at": datetime.now().isoformat(timespec="seconds")}
+        if item["key"].startswith("manual:"):
+            entry["key_manual"] = item["key"]
         self.review.append(entry)
         self.new_review.append(entry)
         self.review_urls.add(item["key"])
@@ -640,39 +674,50 @@ class Agent:
 
     # ── review decisions (data/review_decisions.csv: link;entscheidung) ──
     def apply_review_decisions(self):
-        """Apply ja/nein decisions on review entries, then clear the processed lines."""
+        """Apply ja/nein decisions (data/review_decisions.csv: id;link;entscheidung), then clear processed lines."""
         import csv
         path = data_path(self.cfg).parent / "review_decisions.csv"
+        fields = ["id", "link", "entscheidung"]
         if not path.exists():
             if not self.dry_run:
-                path.write_text("link;entscheidung\n", encoding="utf-8")
+                path.write_text(";".join(fields) + "\n", encoding="utf-8")
             return
         with open(path, encoding="utf-8-sig", newline="") as f:
             rows = list(csv.DictReader(f, delimiter=";"))
         keep, applied = [], 0
         for row in rows:
+            rid = (row.get("id") or "").strip()
             link = (row.get("link") or "").strip()
             dec = (row.get("entscheidung") or "").strip().lower()
-            entry = next((r for r in self.review if normalize_url(r.get("link", "")) == normalize_url(link)), None)
-            if not link or dec not in ("ja", "nein") or not entry:
-                if link:
+            entry = None
+            if rid:
+                entry = next((r for r in self.review if r.get("id") == rid), None)
+            if not entry and link:
+                entry = next((r for r in self.review if r.get("link") and normalize_url(r["link"]) == normalize_url(link)), None)
+            if dec not in ("ja", "nein") or not entry:
+                if (rid or link) and dec in ("ja", "nein") and not entry:
+                    continue  # entry no longer open: drop the line
+                if rid or link:
                     keep.append(row)
                 continue
             self.review.remove(entry)
-            key = normalize_url(link)
+            key = normalize_url(entry.get("link", "")) or ("review:" + entry.get("id", ""))
             if dec == "ja":
-                item = {"key": key, "link": link, "title": entry.get("title", ""), "source": entry.get("outlet", ""),
+                item = {"key": key, "link": entry.get("link", ""), "title": entry.get("title", ""),
+                        "source": entry.get("outlet", ""), "outlet_given": entry.get("outlet", ""),
                         "feed_date": entry.get("date", ""), "channels": entry.get("found_via", []),
-                        "people": entry.get("people", []), "verified": "manuell geprüft", "author": ""}
+                        "people": entry.get("people", []), "verified": "manuell geprüft", "author": "",
+                        "medium": entry.get("medium") or "Online", "country": entry.get("country", ""),
+                        "source_kind": "manual" if entry.get("source_kind") == "manual" else ""}
                 self._accept(item)
             else:
-                self.rejected.append({"link": link, "title": entry.get("title", ""), "reason": "manuell abgelehnt"})
+                self.rejected.append({"link": entry.get("link", ""), "title": entry.get("title", ""), "reason": "manuell abgelehnt"})
                 self.state.mark_checked(key, "rejected-manual")
             applied += 1
         self.counts["review_decisions"] = applied
         if not self.dry_run:
             with open(path, "w", encoding="utf-8", newline="") as f:
-                w = csv.DictWriter(f, fieldnames=["link", "entscheidung"], delimiter=";", extrasaction="ignore")
+                w = csv.DictWriter(f, fieldnames=fields, delimiter=";", extrasaction="ignore")
                 w.writeheader()
                 w.writerows(keep)
         self._reindex()
@@ -743,6 +788,15 @@ class Agent:
         self.deadline = time.time() + budget_min * 60
         self.apply_review_decisions()
         self.recheck_review()
+        from inbox import process_inbox
+        self.inbox_results = process_inbox(self)
+        if mode == "inbox":  # quick run after an upload or a review decision: no search
+            if not self.dry_run:
+                self.clips.sort(key=lambda x: x.get("date", ""), reverse=True)
+                save_json(data_path(self.cfg), self.clips)
+                save_json(review_path(self.cfg), self.review)
+                self.state.save()
+            return self.new, write_report(self, mode, started, {})
         if mode == "enrich":
             self.enrich()
             if not self.dry_run:

@@ -110,23 +110,23 @@ Der GitHub-Actions-Zeitplan (3× täglich) nimmt neue Kunden automatisch mit.
 └── requirements.txt
 ```
 
-## Manuell Artikel hinzufügen
+## Manuelle Eingabe (Print, E-Paper, Paywall, PMG)
 
-Artikel direkt in die `clippings.json` des Kunden einfügen:
+Alles läuft über den Ordner `data/inbox/`. Jede Datei dort startet sofort einen kurzen Lauf (ohne Suche).
 
-```json
-{
-  "date": "2026-03-20",
-  "outlet": "Handelsblatt",
-  "title": "Artikeltitel",
-  "country": "D",
-  "type": "Online",
-  "tier": 1,
-  "link": "https://...",
-  "added_at": "2026-03-20T10:00:00",
-  "source": "manual"
-}
-```
+| Eingabe | Weg | Ergebnis |
+|---|---|---|
+| Formular im Dashboard (Tab „Eingabe“) | `data/inbox/<zeit>-formular.json` | direkt in die Clippings (`source: manual`) |
+| Freitext oder Links | `data/inbox/<zeit>-text.json` | Claude liest aus → Prüfliste |
+| Screenshot, PDF, Excel/CSV (z. B. PMG-Trefferliste) | Datei in `data/inbox/` | Claude liest aus → Prüfliste |
+
+- Typ: Online, Print oder E-Paper. Gleicher Titel, gleiches Medium, gleiches Datum und gleicher Typ werden nur einmal erfasst.
+  Online und Print zählen getrennt.
+- Verarbeitete Dateien wandern nach `data/inbox/done/`. Scheitert Claude, bleibt die Datei liegen und wird beim nächsten Lauf erneut gelesen.
+- Prüfliste: Entscheidung im Dashboard (Übernehmen/Verwerfen) oder als Zeile in `data/review_decisions.csv` (`id;link;entscheidung`).
+- Zugang im Dashboard: fein abgestufter GitHub-Token, nur für dieses Repo, Recht „Contents: Read and write“.
+  Er wird pro Gerät einmal eingegeben und bleibt nur im Browser. Damit funktioniert das Dashboard auch bei privatem Repo.
+- Ersatzweg ohne Dashboard: GitHub → `data/inbox` → „Add file“ → „Upload files“.
 
 ## Tier-Klassifizierung
 

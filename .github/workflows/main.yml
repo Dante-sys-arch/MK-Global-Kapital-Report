@@ -7,10 +7,11 @@ on:
     - cron: '17 23 * * *'
     - cron: '13 2 * * *'
     - cron: '41 4 * * *'
-  # Sofortlauf ohne Warten: Prüflisten-Entscheidungen eintragen oder die Datei .github/run-now ändern.
+  # Sofortlauf: Upload/Formular in data/inbox/ oder Prüflisten-Entscheidung -> Eingang verarbeiten (ohne Suche);
+  # Änderung an .github/run-now -> Suche ohne Tagesjobs.
   push:
     branches: [main]
-    paths: ['data/review_decisions.csv', '.github/run-now']
+    paths: ['data/review_decisions.csv', 'data/inbox/**', '.github/run-now']
   workflow_dispatch:
     inputs:
       mode:
@@ -40,6 +41,8 @@ jobs:
     timeout-minutes: 180
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -52,6 +55,7 @@ jobs:
           SERPER_API_KEY: ${{ secrets.SERPER_API_KEY }}
           SERPAPI_KEY: ${{ secrets.SERPAPI_KEY }}
           EVENT: ${{ github.event_name }}
+          BEFORE: ${{ github.event.before }}
           MODE: ${{ github.event.inputs.mode || 'daily' }}
           DATE_FROM: ${{ github.event.inputs.date_from }}
           DATE_TO: ${{ github.event.inputs.date_to }}
@@ -62,7 +66,13 @@ jobs:
           if [ -n "$DATE_TO" ]; then ARGS="$ARGS --to $DATE_TO"; fi
           if [ "$DRY_RUN" = "true" ]; then ARGS="$ARGS --dry-run"; fi
           if [ "$EVENT" = "schedule" ]; then ARGS="$ARGS --scheduled"; fi
-          if [ "$EVENT" = "push" ]; then ARGS="$ARGS --no-daily-jobs"; fi
+          if [ "$EVENT" = "push" ]; then
+            if git diff --name-only "$BEFORE" "$GITHUB_SHA" 2>/dev/null | grep -q '^.github/run-now'; then
+              ARGS="$ARGS --no-daily-jobs"
+            else
+              ARGS="--mode inbox"
+            fi
+          fi
           python src/main.py $ARGS
       - name: Commit
         if: always()

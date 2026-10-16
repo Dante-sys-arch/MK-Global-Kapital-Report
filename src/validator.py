@@ -96,3 +96,49 @@ class Validator:
                 self.stats.note("claude", f"{type(exc).__name__}: {str(exc)[:160]}")
                 results.extend([("unsure", "Claude-Fehler")] * len(batch))
         return results
+
+
+EXTRACT_SYSTEM = """Du liest Medienbelege für das Clipping-Reporting von {name} aus.
+Zu {name} gehören diese Personen: {people}.
+Die Vorlage kann ein Screenshot, ein PDF (z. B. E-Paper-Seite, Pressespiegel), eine Trefferliste eines Medienbeobachters
+(z. B. PMG, Argus, Landau) oder ein frei eingegebener Text sein.
+
+Gib jeden einzelnen Artikel als eigenes Objekt zurück. Nur Artikel, die {name} oder eine der Personen erwähnen.
+Bei Trefferlisten eines Medienbeobachters gehört jede Zeile, die einen Artikel beschreibt, dazu.
+Erfinde nichts: Felder, die nicht erkennbar sind, bleiben leer.
+
+Antworte ausschließlich mit einem JSON-Array:
+[{{"date": "YYYY-MM-DD", "outlet": "Medienname", "title": "Artikeltitel", "medium": "Print|E-Paper|Online",
+   "link": "URL oder leer", "country": "D|CH|A oder leer", "people": ["Namen der genannten Personen"],
+   "note": "Seite, Ausgabe oder Auffälliges, sonst leer"}}]
+Keine Artikel erkennbar? Antworte: []"""
+
+
+def _extract_json_list(text):
+    match = re.search(r"\[[\s\S]*\]", text or "")
+    if not match:
+        return []
+    try:
+        data = json.loads(match.group(0))
+    except json.JSONDecodeError:
+        return []
+    return [d for d in data if isinstance(d, dict) and (d.get("title") or d.get("link"))]
+
+
+def extract_clippings(validator, blocks):
+    """blocks: Anthropic content blocks (text, image, document). Returns (items, error)."""
+    if not validator.client:
+        return [], "Claude nicht verfügbar"
+    people = ", ".join(p["name"] for p in validator.matcher.people)
+    system = EXTRACT_SYSTEM.format(name=validator.cfg["name"], people=people)
+    st = validator.stats.ch("claude")
+    st["requests"] += 1
+    try:
+        resp = validator.client.messages.create(model=validator.model, max_tokens=8000, system=system,
+                                                messages=[{"role": "user", "content": blocks}])
+        st["ok"] += 1
+        return _extract_json_list("".join(getattr(b, "text", "") for b in resp.content)), ""
+    except Exception as exc:
+        st["errors"] += 1
+        validator.stats.note("claude", f"Auslesen: {type(exc).__name__}: {str(exc)[:160]}")
+        return [], f"Claude-Fehler: {type(exc).__name__}"

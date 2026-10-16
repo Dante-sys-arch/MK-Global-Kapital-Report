@@ -65,7 +65,7 @@ def main():
     parser = argparse.ArgumentParser(description="DACH Clipping Agent (multi-client)")
     parser.add_argument("--client", help="Run only this client slug (default: all)")
     parser.add_argument("--report-only", action="store_true", help="Skip search, only regenerate Excel reports")
-    parser.add_argument("--mode", choices=["daily", "backfill", "enrich"], default="daily")
+    parser.add_argument("--mode", choices=["daily", "backfill", "enrich", "inbox"], default="daily")
     parser.add_argument("--from", dest="date_from", help="Backfill start YYYY-MM-DD")
     parser.add_argument("--to", dest="date_to", help="Backfill end YYYY-MM-DD (default today)")
     parser.add_argument("--dry-run", action="store_true", help="Search and report, but save nothing")

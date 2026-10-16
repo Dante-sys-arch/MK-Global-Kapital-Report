@@ -9,14 +9,15 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#080e1b;color:#c8d0dc;font-family:'DM Sans',sans-serif;-webkit-text-size-adjust:100%}
+body{overflow-x:hidden;background:#080e1b;color:#c8d0dc;font-family:'DM Sans',sans-serif;-webkit-text-size-adjust:100%}
 a{color:#60a5fa;text-decoration:none}
 .header{background:linear-gradient(145deg,#0b1828,#101f35);border-bottom:1px solid #18293f;padding:16px 18px 0}
 .hInner{max-width:1060px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
 h1{font-size:19px;font-weight:700;color:#fff;letter-spacing:-0.02em}
 .sub{font-size:10px;color:#3a4a5c;font-family:'JetBrains Mono';margin-top:2px}
-.nav{display:flex;gap:0;margin-top:12px;max-width:1060px;margin:12px auto 0}
-.tab{padding:6px 13px;font-size:12px;border:none;cursor:pointer;background:transparent;color:#3a4a5c;border-radius:5px 5px 0 0;font-family:'DM Sans'}
+.nav{display:flex;gap:0;max-width:1060px;margin:12px auto 0;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.nav::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;white-space:nowrap;padding:6px 13px;font-size:12px;border:none;cursor:pointer;background:transparent;color:#3a4a5c;border-radius:5px 5px 0 0;font-family:'DM Sans'}
 .tab.active{background:#080e1b;color:#fff;font-weight:600}
 main{max-width:1060px;margin:0 auto;padding:18px}
 .card{background:#0c1525;border-radius:8px;padding:16px;border:1px solid #18293f;margin-bottom:12px}
@@ -39,6 +40,11 @@ td{padding:6px 5px;color:#98a8b8;font-size:12px;border-bottom:1px solid #152238}
 .search{width:100%;padding:8px 12px;font-size:13px;margin-bottom:12px}
 .act{background:none;border:none;cursor:pointer;font-size:14px;padding:1px 3px}
 .hidden{display:none}
+.err{background:#450a0a;color:#fca5a5;padding:8px 12px;border-radius:6px;font-size:12px;margin-bottom:12px}
+.pill{font-size:9px;padding:1px 6px;border-radius:9px;background:#1e293b;color:#94a3b8;margin-left:4px}
+.okb{background:#059669}.nob{background:#b91c1c}
+textarea.inp{min-height:90px;font-family:inherit}
+.note{color:#4a6a8c;font-size:12px;line-height:1.6}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .form-grid .full{grid-column:1/-1}
 .flex-row{display:flex;gap:8px}
@@ -48,14 +54,14 @@ td{padding:6px 5px;color:#98a8b8;font-size:12px;border-bottom:1px solid #152238}
 <body>
 <div class="header">
   <div class="hInner">
-    <div><h1>MK Clipping Agent</h1><p class="sub">Mikro Kapital Management — DACH Media Monitor</p></div>
+    <div><h1>MK Clipping Agent</h1><p class="sub">MK Global Kapital — DACH Media Monitor</p></div>
     <div style="display:flex;gap:6px;flex-wrap:wrap">
-      <button class="btn" style="font-size:12px;padding:5px 14px" onclick="showTab('add')">+ Artikel</button>
+      <button class="btn" style="font-size:12px;padding:5px 14px" onclick="showTab('add')">+ Eingabe</button>
       <button class="btn" style="font-size:12px;padding:5px 14px;background:#059669" onclick="sendMailKunde()">Mail Kunde</button>
       <button class="btn" style="font-size:12px;padding:5px 14px;background:#7c3aed" onclick="sendMailTeam()">Mail Team</button>
-      <a href="latest_report.xlsx" download class="ghost" style="text-decoration:none">Excel</a>
+      <button class="ghost" onclick="downloadExcel()">Excel</button>
       <button class="ghost" onclick="exportCSV()">CSV</button>
-      <button class="ghost" onclick="syncFromGH()">Sync</button>
+      <button class="ghost" onclick="loadAll(true)">Neu laden</button>
     </div>
   </div>
   <nav class="nav" id="nav"></nav>
@@ -63,150 +69,192 @@ td{padding:6px 5px;color:#98a8b8;font-size:12px;border-bottom:1px solid #152238}
 <main id="content"></main>
 
 <script>
-const REPO="https://raw.githubusercontent.com/Dante-sys-arch/MK-Global-Kapital-Report/main/data/clippings.json";
-const LS="mk-page-v1";
-const RAW="https://raw.githubusercontent.com/Dante-sys-arch/MK-Global-Kapital-Report/main/";
-let clips=[];
-let tab="dash";
-let agentStatus=null, review=[];
+// Alle Daten kommen aus dem Repo (GitHub-API mit persönlichem Zugang, sonst öffentlicher Abruf).
+// Im Browser wird nur der Zugangs-Token gespeichert, keine Clippings.
+const OWNER="Dante-sys-arch", REPO_NAME="MK-Global-Kapital-Report", BRANCH="main";
+const API=`https://api.github.com/repos/${OWNER}/${REPO_NAME}`;
+const RAW=`https://raw.githubusercontent.com/${OWNER}/${REPO_NAME}/${BRANCH}/`;
+const TOKEN_KEY="mk-gh-token", OLD_LOCAL="mk-page-v1";
+const SPOKES=["Johannes Feist","Louiza Savchenko","Michele Mattioda"];
+let clips=[], review=[], agentStatus=null, tab="dash", search="", loadError="", loading=true, flash="";
 
-async function loadMeta(){
-  try{const r=await fetch("status.json?t="+Date.now());if(r.ok)agentStatus=await r.json();}catch(e){}
-  try{const r=await fetch(RAW+"data/review.json?t="+Date.now());if(r.ok)review=await r.json();}catch(e){}
-  render();
+function esc(t){return String(t??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function token(){try{return localStorage.getItem(TOKEN_KEY)||"";}catch(e){return "";}}
+function setToken(t){try{t?localStorage.setItem(TOKEN_KEY,t.trim()):localStorage.removeItem(TOKEN_KEY);}catch(e){}}
+function oldLocal(){try{const d=localStorage.getItem(OLD_LOCAL);return d?JSON.parse(d):[];}catch(e){return [];}}
+function fD(d){return d?String(d).substring(0,10):"";}
+function stamp(){const d=new Date(),p=n=>String(n).padStart(2,"0");return `${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}-${p(d.getHours())}${p(d.getMinutes())}${p(d.getSeconds())}-${Math.random().toString(36).slice(2,6)}`;}
+function safeName(n){return n.replace(/[^A-Za-z0-9._-]+/g,"_").slice(-80);}
+function b64utf8(str){const bytes=new TextEncoder().encode(str);let bin="";bytes.forEach(b=>bin+=String.fromCharCode(b));return btoa(bin);}
+function utf8b64(b64){const bin=atob(b64.replace(/\n/g,""));const bytes=Uint8Array.from(bin,c=>c.charCodeAt(0));return new TextDecoder().decode(bytes);}
+
+async function ghRaw(path){
+  const t=token();
+  if(t){
+    const r=await fetch(`${API}/contents/${path}?ref=${BRANCH}`,{headers:{Authorization:"Bearer "+t,Accept:"application/vnd.github.raw+json"},cache:"no-store"});
+    if(r.status===401) throw new Error("Zugang ungültig oder abgelaufen (Tab Zugang)");
+    if(!r.ok) throw new Error(`${path}: HTTP ${r.status}`);
+    return r;
+  }
+  const r=await fetch(RAW+path+"?t="+Date.now(),{cache:"no-store"});
+  if(!r.ok) throw new Error(r.status===404?"Daten nicht abrufbar. Ist das Repo privat? Dann im Tab Zugang den Token eintragen.":`${path}: HTTP ${r.status}`);
+  return r;
 }
-function esc(t){return String(t||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
+async function ghFile(path){ // {sha,text} or {sha:null,text:""}
+  const r=await fetch(`${API}/contents/${path}?ref=${BRANCH}`,{headers:{Authorization:"Bearer "+token(),Accept:"application/vnd.github+json"},cache:"no-store"});
+  if(r.status===404) return {sha:null,text:""};
+  if(!r.ok) throw new Error("HTTP "+r.status);
+  const j=await r.json();return {sha:j.sha,text:utf8b64(j.content||"")};
+}
+async function ghPut(path,base64,message,sha){
+  if(!token()) throw new Error("Kein Zugang eingerichtet. Bitte im Tab Zugang den Token eintragen.");
+  const body={message,content:base64,branch:BRANCH};if(sha) body.sha=sha;
+  const r=await fetch(`${API}/contents/${path}`,{method:"PUT",headers:{Authorization:"Bearer "+token(),Accept:"application/vnd.github+json","Content-Type":"application/json"},body:JSON.stringify(body)});
+  if(!r.ok){const j=await r.json().catch(()=>({}));const e=new Error(`HTTP ${r.status}: ${j.message||""}`);e.status=r.status;throw e;}
+  return r.json();
+}
+
+async function loadAll(manual){
+  loading=true;loadError="";render();
+  try{clips=await (await ghRaw("data/clippings.json")).json();clips.sort((a,b)=>(b.date||"").localeCompare(a.date||""));}
+  catch(e){loadError=e.message;clips=[];}
+  try{review=await (await ghRaw("data/review.json")).json();}catch(e){review=[];}
+  try{agentStatus=await (await ghRaw("docs/status.json")).json();}catch(e){agentStatus=null;}
+  loading=false;if(manual)flash="Daten neu geladen.";render();
+}
+
 function statusBanner(){
-  if(!agentStatus) return "";
+  let out="";
+  if(loadError) out+=`<div class="err">${esc(loadError)}</div>`;
+  if(flash){out+=`<div class="msg">${esc(flash)}</div>`;flash="";}
+  if(!agentStatus) return out;
   const ageH=(Date.now()-new Date(agentStatus.run_at).getTime())/3600000;
-  const stale=ageH>14;
+  const stale=ageH>30;
   const bad=agentStatus.status==="error"||stale, warn=agentStatus.status==="warn";
   const col=bad?"#f87171":warn?"#fbbf24":"#34d399";
   const head=stale?"Agent läuft nicht: letzter Lauf vor "+Math.round(ageH)+" Std.":bad?"Agent-Fehler":warn?"Agent mit Warnungen":"Agent läuft";
   const items=[...(agentStatus.problems||[]),...(agentStatus.warnings||[])].map(x=>`<div style="font-size:12px;color:#c8d0dc;margin-top:3px">• ${esc(x)}</div>`).join("");
-  return `<div class="card" style="border-left:4px solid ${col};margin-bottom:14px"><div style="color:${col};font-weight:700">${head}</div>
+  return out+`<div class="card" style="border-left:4px solid ${col};margin-bottom:14px"><div style="color:${col};font-weight:700">${head}</div>
     <div style="font-size:11px;color:#4a5a6c">Letzter Lauf: ${new Date(agentStatus.run_at).toLocaleString("de-DE")} · neu: ${agentStatus.new} · Prüfliste: ${agentStatus.review_open}</div>${items}</div>`;
 }
-let search="";
-
-function load(){
-  try{const d=localStorage.getItem(LS);if(d){clips=JSON.parse(d);return;}}catch(e){}
-  clips=[];
-}
-function save(){
-  clips.sort((a,b)=>(b.date||"").localeCompare(a.date||""));
-  try{localStorage.setItem(LS,JSON.stringify(clips));}catch(e){}
-}
-
-async function syncFromGH(){
-  try{
-    const r=await fetch(REPO+"?t="+Date.now());
-    if(!r.ok) throw new Error("HTTP "+r.status);
-    const data=await r.json();
-    let added=0;
-    for(const a of data){
-      const dup=clips.some(c=>(a.link&&c.link&&a.link===c.link)||(a.title&&c.title&&a.title.toLowerCase()===c.title.toLowerCase()&&a.outlet&&c.outlet&&a.outlet.toLowerCase()===c.outlet.toLowerCase()));
-      if(!dup){clips.push({...a,id:"s-"+Date.now()+Math.random()});added++;}
-    }
-    save();render();
-    alert(added>0?added+" neue Artikel synchronisiert":"Alles aktuell, keine neuen Artikel");
-  }catch(e){alert("Sync-Fehler: "+e.message);}
-}
-
-function fD(d){return d?d.substring(0,10):"";}
-function tierCls(t){return +t===1?"t1":"t2";}
 
 function stats(){
-  const s={total:clips.length,t1:clips.filter(c=>+c.tier===1).length,t2:clips.filter(c=>+c.tier===2).length,
-    online:clips.filter(c=>c.type==="Online").length,print:clips.filter(c=>(c.type||"").includes("Print")).length,
-    outlets:new Set(clips.map(c=>c.outlet).filter(Boolean)).size,
-    byMonth:{},byCountry:{},byOutlet:{}};
-  clips.forEach(c=>{if(c.date){const m=c.date.slice(0,7);s.byMonth[m]=(s.byMonth[m]||0)+1;}
-    if(c.country){s.byCountry[c.country]=(s.byCountry[c.country]||0)+1;}
-    if(c.outlet){s.byOutlet[c.outlet]=(s.byOutlet[c.outlet]||0)+1;}});
+  const s={total:clips.length,online:0,print:0,outlets:new Set(clips.map(c=>c.outlet).filter(Boolean)).size,byMonth:{},byCountry:{},byOutlet:{},bySpeaker:{}};
+  clips.forEach(c=>{
+    const t=(c.type||"Online");if(t==="Online")s.online++;else s.print++;
+    if(c.date){const m=c.date.slice(0,7);s.byMonth[m]=(s.byMonth[m]||0)+1;}
+    if(c.country)s.byCountry[c.country]=(s.byCountry[c.country]||0)+1;
+    if(c.outlet)s.byOutlet[c.outlet]=(s.byOutlet[c.outlet]||0)+1;
+    (c.people||[]).filter(p=>SPOKES.includes(p)).forEach(p=>s.bySpeaker[p]=(s.bySpeaker[p]||0)+1);
+  });
   return s;
 }
-
+function speakers(c){return (c.people||[]).filter(p=>SPOKES.includes(p)).map(p=>p.split(" ").pop()).join(", ");}
 function showTab(t){tab=t;render();}
 
 function render(){
-  // Nav
-  const tabs=[["dash","Dashboard"],["list","Clippings"],["review","Prüfliste"],["analysis","Analyse"],["add","Hinzufügen"]];
-  document.getElementById("nav").innerHTML=tabs.map(([k,l])=>`<button class="tab ${tab===k?"active":""}" onclick="showTab('${k}')">${l}${k==="list"?" ("+clips.length+")":""}${k==="review"?" ("+review.length+")":""}</button>`).join("");
-
+  const tabs=[["dash","Dashboard"],["list","Clippings"],["review","Prüfliste"],["analysis","Analyse"],["add","Eingabe"],["access","Zugang"]];
+  document.getElementById("nav").innerHTML=tabs.map(([k,l])=>`<button class="tab ${tab===k?"active":""}" onclick="showTab('${k}')">${l}${k==="list"?" ("+clips.length+")":""}${k==="review"?" ("+review.length+")":""}${k==="access"&&!token()?" !":""}</button>`).join("");
+  const act=document.querySelector(".tab.active");if(act&&act.scrollIntoView)act.scrollIntoView({block:"nearest",inline:"nearest"});
   const el=document.getElementById("content");
+  if(loading){el.innerHTML=`<div class="card note">Lade Daten aus dem Repo …</div>`;return;}
   const s=stats();
   const maxM=Math.max(...Object.values(s.byMonth),1);
 
-  if(tab==="review"){
-    el.innerHTML=statusBanner()+`<div class="card"><h3 class="h3">Prüfliste: unklare Fundstellen</h3>
-      <p style="color:#4a5a6c;font-size:12px;margin:0 0 10px">Der Agent konnte diese Treffer nicht sicher zuordnen. Entscheidung eintragen in <span class="mono">data/review_decisions.csv</span> (Zeile: Link;ja oder Link;nein), der nächste Lauf übernimmt sie.</p>
-      ${review.length?review.map((r,i)=>`<div style="padding:8px 0;${i<review.length-1?"border-bottom:1px solid #152238":""}">
-        <div style="font-size:11px;color:#4a5a6c"><span class="mono">${fD(r.date)}</span> · ${esc(r.outlet)} · ${esc((r.people||[]).join(", "))}</div>
-        <div style="font-size:13px;color:#c8d0dc;margin-top:3px"><a href="${esc(r.link)}" target="_blank">${esc(r.title||r.link)}</a></div>
-        <div style="font-size:11px;color:#fbbf24;margin-top:2px">${esc(r.reason)}</div></div>`).join(""):`<div style="color:#4a5a6c;font-size:13px">Keine offenen Fälle.</div>`}</div>`;
-  }
-
-  else if(tab==="dash"){
+  if(tab==="dash"){
     el.innerHTML=statusBanner()+`
       <div class="kpi-grid">
-        ${[["Total",s.total,"#4f8ff7"],["Tier 1",s.t1,"#34d399"],["Tier 2",s.t2,"#fbbf24"],["Online",s.online,"#a78bfa"],["Print",s.print,"#f472b6"],["Medien",s.outlets,"#22d3ee"]].map(([l,v,c])=>`<div class="card"><div class="kpi-val" style="color:${c}">${v}</div><div class="kpi-label">${l}</div></div>`).join("")}
+        ${[["Total",s.total,"#4f8ff7"],["Online",s.online,"#a78bfa"],["Print/E-Paper",s.print,"#f472b6"],["Medien",s.outlets,"#22d3ee"],...SPOKES.map((p,i)=>[p.split(" ").pop(),s.bySpeaker[p]||0,["#34d399","#fbbf24","#fb923c"][i]])].map(([l,v,c])=>`<div class="card"><div class="kpi-val" style="color:${c}">${v}</div><div class="kpi-label">${esc(l)}</div></div>`).join("")}
       </div>
       <div class="card"><h3 class="h3">Clippings pro Monat</h3>
         <div style="display:flex;gap:8px;align-items:flex-end;height:110px">
-          ${Object.entries(s.byMonth).sort().map(([m,c])=>`<div style="flex:1;text-align:center"><div style="height:${Math.max(6,(c/maxM)*85)}px;background:linear-gradient(180deg,#4f8ff7,#2563eb);border-radius:4px 4px 0 0"></div><div style="font-size:9px;color:#4a5a6c;margin-top:3px" class="mono">${m.slice(2).replace("-","/")}</div><div style="font-size:12px;color:#98a8b8;font-weight:600">${c}</div></div>`).join("")}
+          ${Object.entries(s.byMonth).sort().slice(-14).map(([m,c])=>`<div style="flex:1;text-align:center"><div style="height:${Math.max(6,(c/maxM)*85)}px;background:linear-gradient(180deg,#4f8ff7,#2563eb);border-radius:4px 4px 0 0"></div><div style="font-size:9px;color:#4a5a6c;margin-top:3px" class="mono">${m.slice(2).replace("-","/")}</div><div style="font-size:12px;color:#98a8b8;font-weight:600">${c}</div></div>`).join("")}
         </div>
       </div>
       <div class="card" style="margin-top:14px"><h3 class="h3">Neueste Clippings</h3>
-        ${clips.slice(0,5).map((c,i)=>`<div style="padding:8px 0;${i<4?"border-bottom:1px solid #152238":""}">
+        ${clips.slice(0,6).map((c,i)=>`<div style="padding:8px 0;${i<5?"border-bottom:1px solid #152238":""}">
           <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
             <span class="mono" style="font-size:10px;color:#4a5a6c;min-width:68px">${fD(c.date)}</span>
-            <span class="tier ${tierCls(c.tier)}">T${c.tier}</span>
-            <span style="font-size:11px;color:#4a5a6c">${c.outlet||""}</span>
+            <span style="font-size:11px;color:#4a5a6c">${esc(c.outlet)}</span><span class="pill">${esc(c.type||"Online")}</span>${speakers(c)?`<span class="pill">${esc(speakers(c))}</span>`:""}
           </div>
-          <div style="font-size:13px;color:#c8d0dc;margin-top:3px">${c.link?`<a href="${c.link}" target="_blank">${c.title}</a>`:c.title||""}</div>
+          <div style="font-size:13px;color:#c8d0dc;margin-top:3px">${c.link?`<a href="${esc(c.link)}" target="_blank">${esc(c.title)}</a>`:esc(c.title)}</div>
         </div>`).join("")}
       </div>`;
   }
 
+  else if(tab==="review"){
+    el.innerHTML=statusBanner()+`<div class="card"><h3 class="h3">Prüfliste: bitte bestätigen oder verwerfen</h3>
+      <p class="note" style="margin:0 0 10px">Hier landen unklare Treffer und alles, was aus Uploads ausgelesen wurde. Deine Entscheidung startet sofort einen kurzen Lauf, der sie übernimmt.</p>
+      ${review.length?review.map((r,i)=>`<div style="padding:8px 0;${i<review.length-1?"border-bottom:1px solid #152238":""}">
+        <div style="font-size:11px;color:#4a5a6c"><span class="mono">${fD(r.date)}</span> · ${esc(r.outlet)} · <span class="pill">${esc(r.medium||"Online")}</span> ${esc((r.people||[]).join(", "))}</div>
+        <div style="font-size:13px;color:#c8d0dc;margin-top:3px">${r.link?`<a href="${esc(r.link)}" target="_blank">${esc(r.title||r.link)}</a>`:esc(r.title)}</div>
+        <div style="font-size:11px;color:#fbbf24;margin-top:2px">${esc(r.reason)}${r.snippet?` · <span style="color:#5a6a80">${esc(r.snippet.slice(0,140))}</span>`:""}</div>
+        <div style="margin-top:6px;display:flex;gap:6px">${r._pending?`<span class="note">${r._pending==="ja"?"Wird übernommen …":"Wird verworfen …"}</span>`:
+          `<button class="btn okb" style="padding:4px 12px;font-size:12px" onclick="decide(${i},'ja')">Übernehmen</button><button class="btn nob" style="padding:4px 12px;font-size:12px" onclick="decide(${i},'nein')">Verwerfen</button>`}</div>
+      </div>`).join(""):`<div style="color:#4a5a6c;font-size:13px">Keine offenen Fälle.</div>`}</div>`;
+  }
+
   else if(tab==="add"){
-    el.innerHTML=`
-      <div class="card"><h3 class="h3" style="color:#fff;font-size:15px">Artikel manuell hinzufügen</h3>
-        <p style="color:#4a5a6c;font-size:12px;margin:0 0 14px">Neue Clippings werden lokal gespeichert. Tippe "Sync" um Daten vom GitHub Agent zu laden.</p>
-        <div id="msg"></div>
+    const can=!!token();
+    el.innerHTML=statusBanner()+(can?"":`<div class="err">Zum Speichern braucht dieses Gerät einmalig einen Zugang. Bitte im Tab <b>Zugang</b> einrichten.</div>`)+`
+      <div id="addmsg"></div>
+      <div class="card"><h3 class="h3" style="color:#fff;font-size:15px">1. Clipping erfassen (geht direkt in die Clippings)</h3>
         <div class="form-grid">
-          <label><span class="lbl">Datum</span><input type="date" id="nDate" class="inp"></label>
-          <label><span class="lbl">Medium</span><input id="nOutlet" class="inp" placeholder="z.B. Handelsblatt"></label>
+          <label><span class="lbl">Datum *</span><input type="date" id="nDate" class="inp"></label>
+          <label><span class="lbl">Medium *</span><input id="nOutlet" class="inp" placeholder="z. B. Börsen-Zeitung"></label>
           <label class="full"><span class="lbl">Titel *</span><input id="nTitle" class="inp" placeholder="Artikeltitel"></label>
-          <label class="full"><span class="lbl">Link</span><input id="nLink" class="inp" placeholder="https://..."></label>
-          <div class="flex-row">
-            <label><span class="lbl">Land</span><select id="nCountry" class="inp"><option>D</option><option>CH</option><option>A</option><option>DACH</option></select></label>
-            <label><span class="lbl">Typ</span><select id="nType" class="inp"><option>Online</option><option>Print</option><option>Print & Online</option></select></label>
-            <label><span class="lbl">Tier</span><select id="nTier" class="inp"><option value="1">1</option><option value="2" selected>2</option></select></label>
+          <label class="full"><span class="lbl">Link (bei Print leer lassen)</span><input id="nLink" class="inp" placeholder="https://..."></label>
+          <div class="flex-row full">
+            <label><span class="lbl">Typ *</span><select id="nType" class="inp"><option>Online</option><option>Print</option><option>E-Paper</option></select></label>
+            <label><span class="lbl">Land</span><select id="nCountry" class="inp"><option value="">automatisch</option><option>D</option><option>CH</option><option>A</option></select></label>
           </div>
-          <div class="full"><button class="btn" style="width:100%" onclick="addArticle()">Artikel hinzufügen</button></div>
+          <div class="full"><span class="lbl">Sprecher</span>${SPOKES.map(p=>`<label style="font-size:12px;margin-right:12px"><input type="checkbox" class="nSpk" value="${esc(p)}"> ${esc(p)}</label>`).join("")}</div>
+          <label class="full"><span class="lbl">Notiz (z. B. Seite, Ausgabe)</span><input id="nNote" class="inp"></label>
+          <div class="full"><button class="btn" style="width:100%" ${can?"":"disabled"} onclick="submitForm()">Clipping speichern</button></div>
         </div>
       </div>
-      <div class="card" style="margin-top:14px;background:#0a1220;border-color:#1a3050">
-        <h3 class="h3">Automatische Suche</h3>
-        <p style="color:#4a6a8c;font-size:12px;line-height:1.6">Der GitHub Agent sucht jeden Morgen um 07:00 Uhr automatisch. Tippe oben <b>"Sync"</b> um die neuesten Ergebnisse zu laden.</p>
+      <div class="card"><h3 class="h3" style="color:#fff;font-size:15px">2. Freitext oder Links (Claude liest aus, Bestätigung in der Prüfliste)</h3>
+        <textarea id="nText" class="inp" placeholder="Links, kopierte Trefferliste oder Notizen, eine Fundstelle pro Zeile"></textarea>
+        <button class="btn" style="width:100%;margin-top:8px" ${can?"":"disabled"} onclick="submitText()">Text senden</button>
+      </div>
+      <div class="card"><h3 class="h3" style="color:#fff;font-size:15px">3. Datei hochladen (Claude liest aus, Bestätigung in der Prüfliste)</h3>
+        <p class="note" style="margin-bottom:8px">Screenshot, PDF (E-Paper, Pressespiegel) oder Excel/CSV-Trefferliste, z. B. von PMG. Mehrere Dateien möglich, je bis 20 MB.</p>
+        <input type="file" id="nFiles" multiple accept="image/*,.heic,.pdf,.xlsx,.xlsm,.csv,.tsv,.txt" class="inp">
+        <button class="btn" style="width:100%;margin-top:8px" ${can?"":"disabled"} onclick="submitFiles()">Hochladen</button>
+      </div>
+      <div class="card" style="background:#0a1220;border-color:#1a3050"><h3 class="h3">So läuft es</h3>
+        <p class="note">Der Agent sucht einmal pro Nacht. Die Ergebnisse stehen vor 08:30 Uhr bereit. Eingaben von hier verarbeitet er sofort in einem kurzen Lauf, das dauert ein paar Minuten. Danach „Neu laden“.<br>
+        Ohne Dashboard: auf GitHub im Repo den Ordner <span class="mono">data/inbox</span> öffnen, „Add file“ → „Upload files“.</p>
       </div>`;
   }
 
+  else if(tab==="access"){
+    const t=token(), old=oldLocal();
+    el.innerHTML=statusBanner()+`<div class="card"><h3 class="h3" style="color:#fff;font-size:15px">Zugang für dieses Gerät</h3>
+      <p class="note">Status: ${t?"<b style='color:#34d399'>eingerichtet</b> (Token liegt nur in diesem Browser)":"<b style='color:#f87171'>nicht eingerichtet</b>"}</p>
+      <label class="full" style="display:block;margin-top:10px"><span class="lbl">Fein abgestufter GitHub-Token</span><input id="tok" type="password" class="inp" placeholder="github_pat_..." autocomplete="off"></label>
+      <div class="flex-row" style="margin-top:8px"><button class="btn" onclick="saveToken()">Speichern und prüfen</button>${t?`<button class="ghost" onclick="dropToken()">Token entfernen</button>`:""}</div>
+      <div id="tokmsg" style="margin-top:8px"></div>
+      <h3 class="h3" style="margin-top:16px">Token anlegen (einmal pro Gerät)</h3>
+      <p class="note">GitHub → Profilbild → Settings → Developer settings → Personal access tokens → <b>Fine-grained tokens</b> → Generate new token.<br>
+      Name z. B. „MK Dashboard iPad“, Ablauf nach Wunsch. Repository access: <b>Only select repositories</b> → ${esc(REPO_NAME)}.<br>
+      Permissions → Repository permissions → <b>Contents: Read and write</b>. Sonst nichts.<br>
+      Token kopieren und hier einfügen. Nicht in Chats oder Mails weitergeben.</p></div>
+      ${old.length?`<div class="card"><h3 class="h3">Alte Browser-Daten</h3><p class="note">Auf diesem Gerät liegen noch ${old.length} Einträge aus dem früheren lokalen Speicher. Sie fließen nicht mehr ein. Zum Abgleich als CSV exportieren:</p>
+      <button class="ghost" style="margin-top:6px" onclick="exportCSV(oldLocal(),'MK_Browserdaten_')">Browser-Daten als CSV</button></div>`:""}`;
+  }
+
   else if(tab==="list"){
-    const f=search?clips.filter(c=>`${c.title} ${c.outlet} ${c.country}`.toLowerCase().includes(search.toLowerCase())):clips;
-    el.innerHTML=`
-      <input class="inp search" value="${search}" oninput="search=this.value;render()" placeholder="Suche nach Titel, Medium oder Land...">
+    const f=search?clips.filter(c=>`${c.title} ${c.outlet} ${c.country} ${c.type} ${(c.people||[]).join(" ")}`.toLowerCase().includes(search.toLowerCase())):clips;
+    el.innerHTML=statusBanner()+`
+      <input class="inp search" value="${esc(search)}" oninput="search=this.value;render();this.focus()" placeholder="Suche nach Titel, Medium, Typ oder Sprecher...">
       <div style="overflow-x:auto">
-        <table><thead><tr><th>Datum</th><th>Medium</th><th>Titel</th><th>Land</th><th>Typ</th><th>Tier</th><th></th></tr></thead>
-        <tbody>${f.map((c,i)=>`<tr>
+        <table><thead><tr><th>Datum</th><th>Medium</th><th>Titel</th><th>Land</th><th>Typ</th><th>Sprecher</th></tr></thead>
+        <tbody>${f.map(c=>`<tr>
           <td class="mono" style="color:#4a5a6c;font-size:11px;white-space:nowrap">${fD(c.date)}</td>
-          <td>${c.outlet||""}</td>
-          <td style="max-width:260px">${c.link?`<a href="${c.link}" target="_blank">${c.title}</a>`:c.title||""}</td>
-          <td>${c.country||""}</td>
-          <td>${c.type||""}</td>
-          <td><span class="tier ${tierCls(c.tier)}">T${c.tier}</span></td>
-          <td><button class="act" style="color:#f87171" onclick="delClip(${i})">✕</button></td>
+          <td>${esc(c.outlet)}</td>
+          <td style="max-width:260px">${c.link?`<a href="${esc(c.link)}" target="_blank">${esc(c.title)}</a>`:esc(c.title)}</td>
+          <td>${esc(c.country)}</td><td>${esc(c.type||"Online")}</td><td>${esc(speakers(c))}</td>
         </tr>`).join("")}</tbody></table>
         <div style="text-align:center;padding:8px;font-size:11px;color:#3a4a5c">${f.length} von ${clips.length} Clippings</div>
       </div>`;
@@ -214,54 +262,103 @@ function render(){
 
   else if(tab==="analysis"){
     const maxO=Math.max(...Object.values(s.byOutlet),1);
-    el.innerHTML=`
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
-        <div class="card"><h3 class="h3">Tier-Analyse</h3>
-          <div style="display:flex;gap:2px;margin-bottom:12px">
-            <div style="flex:${s.t1||0.1};height:24px;background:#34d399;border-radius:4px 0 0 4px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#000">${s.t1}</div>
-            <div style="flex:${s.t2||0.1};height:24px;background:#fbbf24;border-radius:0 4px 4px 0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#000">${s.t2}</div>
-          </div>
-          <div style="font-size:12px;color:#5a6a80"><span style="color:#34d399">Tier 1: ${s.t1}</span> (${s.total?Math.round(s.t1/s.total*100):0}%) — <span style="color:#fbbf24">Tier 2: ${s.t2}</span> (${s.total?Math.round(s.t2/s.total*100):0}%)</div>
+    el.innerHTML=statusBanner()+`
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px">
+        <div class="card"><h3 class="h3">Nach Sprecher</h3>
+          ${SPOKES.map(p=>`<div style="display:flex;justify-content:space-between;padding:3px 0;font-size:12px"><span style="color:#98a8b8">${esc(p)}</span><span class="mono" style="color:#4f8ff7;font-weight:600">${s.bySpeaker[p]||0}</span></div>`).join("")}
         </div>
         <div class="card"><h3 class="h3">Nach Land</h3>
-          ${Object.entries(s.byCountry).sort((a,b)=>b[1]-a[1]).map(([c,n])=>`<div style="display:flex;justify-content:space-between;padding:3px 0;font-size:12px"><span style="color:#98a8b8">${c}</span><span class="mono" style="color:#4f8ff7;font-weight:600">${n}</span></div>`).join("")}
+          ${Object.entries(s.byCountry).sort((a,b)=>b[1]-a[1]).map(([c,n])=>`<div style="display:flex;justify-content:space-between;padding:3px 0;font-size:12px"><span style="color:#98a8b8">${esc(c)}</span><span class="mono" style="color:#4f8ff7;font-weight:600">${n}</span></div>`).join("")}
         </div>
       </div>
       <div class="card" style="margin-top:14px"><h3 class="h3">Top Medien</h3>
-        ${Object.entries(s.byOutlet).sort((a,b)=>b[1]-a[1]).map(([o,n])=>`<div style="display:flex;align-items:center;gap:8px;padding:3px 0"><div class="bar" style="width:${Math.max(4,(n/maxO)*180)}px"></div><span class="mono" style="font-size:11px;color:#98a8b8;min-width:18px">${n}</span><span style="font-size:11px;color:#c8d0dc">${o}</span></div>`).join("")}
+        ${Object.entries(s.byOutlet).sort((a,b)=>b[1]-a[1]).map(([o,n])=>`<div style="display:flex;align-items:center;gap:8px;padding:3px 0"><div class="bar" style="width:${Math.max(4,(n/maxO)*180)}px"></div><span class="mono" style="font-size:11px;color:#98a8b8;min-width:18px">${n}</span><span style="font-size:11px;color:#c8d0dc">${esc(o)}</span></div>`).join("")}
       </div>
       <div class="card" style="margin-top:14px"><h3 class="h3">Monatliches Detail</h3>
-        <table><thead><tr><th>Monat</th><th>Gesamt</th><th>Tier 1</th><th>Tier 2</th></tr></thead>
+        <table><thead><tr><th>Monat</th><th>Gesamt</th><th>Online</th><th>Print/E-Paper</th></tr></thead>
         <tbody>${Object.entries(s.byMonth).sort().map(([m,c])=>{
-          const t1=clips.filter(cl=>cl.date&&cl.date.startsWith(m)&&+cl.tier===1).length;
-          return `<tr><td class="mono">${m}</td><td style="font-weight:600;color:#4f8ff7">${c}</td><td style="color:#34d399">${t1}</td><td style="color:#fbbf24">${c-t1}</td></tr>`;
+          const on=clips.filter(cl=>cl.date&&cl.date.startsWith(m)&&(cl.type||"Online")==="Online").length;
+          return `<tr><td class="mono">${m}</td><td style="font-weight:600;color:#4f8ff7">${c}</td><td>${on}</td><td>${c-on}</td></tr>`;
         }).join("")}</tbody></table>
       </div>`;
   }
 }
 
-function addArticle(){
-  const title=document.getElementById("nTitle").value;
-  if(!title){alert("Titel ist Pflichtfeld");return;}
-  clips.push({date:document.getElementById("nDate").value,outlet:document.getElementById("nOutlet").value,title,
-    link:document.getElementById("nLink").value,country:document.getElementById("nCountry").value,
-    type:document.getElementById("nType").value,tier:+document.getElementById("nTier").value,id:"m-"+Date.now()});
-  save();render();
-  setTimeout(()=>{const m=document.getElementById("msg");if(m)m.innerHTML=`<div class="msg">"${title.slice(0,40)}..." hinzugefügt</div>`;},50);
+function addMsg(html){const m=document.getElementById("addmsg");if(m)m.innerHTML=html;window.scrollTo(0,0);}
+async function submitForm(){
+  const v=id=>document.getElementById(id).value.trim();
+  const entry={kind:"form",date:v("nDate"),outlet:v("nOutlet"),title:v("nTitle"),link:v("nLink"),medium:v("nType"),country:v("nCountry"),
+    people:[...document.querySelectorAll(".nSpk:checked")].map(x=>x.value),note:v("nNote"),entered_at:new Date().toISOString()};
+  if(!entry.date||!entry.outlet||!entry.title){addMsg(`<div class="err">Datum, Medium und Titel sind Pflicht.</div>`);return;}
+  try{
+    await ghPut(`data/inbox/${stamp()}-formular.json`,b64utf8(JSON.stringify(entry,null,2)),`Eingabe: ${entry.outlet} ${entry.date}`);
+    addMsg(`<div class="msg">Gespeichert: „${esc(entry.title.slice(0,60))}“. Der Agent trägt es in ein paar Minuten ein.</div>`);
+    ["nDate","nOutlet","nTitle","nLink","nNote"].forEach(id=>document.getElementById(id).value="");
+  }catch(e){addMsg(`<div class="err">Nicht gespeichert: ${esc(e.message)}</div>`);}
 }
-
-function delClip(i){
-  const f=search?clips.filter(c=>`${c.title} ${c.outlet} ${c.country}`.toLowerCase().includes(search.toLowerCase())):clips;
-  if(confirm("Löschen?")){const idx=clips.indexOf(f[i]);if(idx>-1)clips.splice(idx,1);save();render();}
+async function submitText(){
+  const text=document.getElementById("nText").value.trim();
+  if(!text){addMsg(`<div class="err">Bitte Text oder Links eingeben.</div>`);return;}
+  try{
+    await ghPut(`data/inbox/${stamp()}-text.json`,b64utf8(JSON.stringify({kind:"text",text,entered_at:new Date().toISOString()},null,2)),"Eingabe: Freitext");
+    addMsg(`<div class="msg">Gesendet. Die ausgelesenen Fundstellen erscheinen in ein paar Minuten in der Prüfliste.</div>`);
+    document.getElementById("nText").value="";
+  }catch(e){addMsg(`<div class="err">Nicht gesendet: ${esc(e.message)}</div>`);}
 }
-
-function exportCSV(){
-  const h="Publication Date,Media Outlet,Title,Country,Type,Tier,Link";
-  const rows=clips.map(c=>[fD(c.date),c.outlet||"",'"'+(c.title||"").replace(/"/g,'""')+'"',c.country||"",c.type||"",c.tier||"",c.link||""].join(","));
-  const blob=new Blob(["\uFEFF"+h+"\n"+rows.join("\n")],{type:"text/csv;charset=utf-8;"});
-  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="MK_Clippings_"+fD(new Date().toISOString())+".csv";a.click();
+function readB64(file){return new Promise((ok,fail)=>{const r=new FileReader();r.onload=()=>ok(String(r.result).split(",")[1]);r.onerror=fail;r.readAsDataURL(file);});}
+async function submitFiles(){
+  const files=[...document.getElementById("nFiles").files];
+  if(!files.length){addMsg(`<div class="err">Bitte Datei auswählen.</div>`);return;}
+  const done=[],failed=[];
+  for(const f of files){
+    if(f.size>20*1024*1024){failed.push(`${f.name}: größer als 20 MB`);continue;}
+    try{await ghPut(`data/inbox/${stamp()}-${safeName(f.name)}`,await readB64(f),`Upload: ${f.name}`);done.push(f.name);}
+    catch(e){failed.push(`${f.name}: ${e.message}`);}
+  }
+  addMsg((done.length?`<div class="msg">Hochgeladen: ${esc(done.join(", "))}. Die Fundstellen erscheinen in ein paar Minuten in der Prüfliste.</div>`:"")+
+         (failed.length?`<div class="err">Fehler: ${esc(failed.join("; "))}</div>`:""));
+  document.getElementById("nFiles").value="";
 }
-
+async function decide(i,dec){
+  const r=review[i];if(!r)return;
+  if(!token()){flash="";tab="access";render();return;}
+  r._pending=dec;render();
+  for(let attempt=0;attempt<3;attempt++){
+    try{
+      const f=await ghFile("data/review_decisions.csv");
+      let text=f.text||"id;link;entscheidung\n";if(!text.endsWith("\n"))text+="\n";
+      text+=`${r.id||""};${(r.link||"").replace(/;/g,"%3B")};${dec}\n`;
+      await ghPut("data/review_decisions.csv",b64utf8(text),`Prüfliste: ${dec==="ja"?"übernommen":"verworfen"} – ${(r.title||"").slice(0,50)}`,f.sha);
+      return;
+    }catch(e){if(e.status!==409&&e.status!==422){r._pending=null;flash="";loadError="Entscheidung nicht gespeichert: "+e.message;render();return;}}
+  }
+  r._pending=null;loadError="Entscheidung nicht gespeichert (Konflikt). Bitte neu laden und erneut tippen.";render();
+}
+async function saveToken(){
+  const t=document.getElementById("tok").value.trim();const m=document.getElementById("tokmsg");
+  if(!t){m.innerHTML=`<div class="err">Bitte Token einfügen.</div>`;return;}
+  try{
+    const r=await fetch(`${API}/contents/data/clippings.json?ref=${BRANCH}`,{headers:{Authorization:"Bearer "+t,Accept:"application/vnd.github.raw+json"}});
+    if(!r.ok) throw new Error(r.status===401?"Token ungültig":r.status===404?"Kein Zugriff auf das Repo (Repository access prüfen)":"HTTP "+r.status);
+    setToken(t);flash="Zugang eingerichtet. Lesen klappt. Schreiben prüft der erste Eintrag.";await loadAll();tab="access";render();
+  }catch(e){m.innerHTML=`<div class="err">${esc(e.message)}</div>`;}
+}
+function dropToken(){if(confirm("Token von diesem Gerät entfernen?")){setToken("");flash="Token entfernt.";render();}}
+async function downloadExcel(){
+  try{
+    if(!token()){window.location.href="latest_report.xlsx";return;}
+    const blob=await (await ghRaw("docs/latest_report.xlsx")).blob();
+    const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="MK_Clipping_Report_"+fD(new Date().toISOString())+".xlsx";a.click();
+  }catch(e){loadError="Excel nicht abrufbar: "+e.message;render();}
+}
+function exportCSV(list,prefix){
+  list=list||clips;
+  const h="Publication Date;Media Outlet;Title;Country;Type;Spokesperson;Link";
+  const q=v=>'"'+String(v??"").replace(/"/g,'""')+'"';
+  const rows=list.map(c=>[fD(c.date),c.outlet,c.title,c.country,c.type||"Online",(c.people||[]).join(", "),c.link].map(q).join(";"));
+  const blob=new Blob(["﻿"+h+"\n"+rows.join("\n")],{type:"text/csv;charset=utf-8;"});
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=(prefix||"MK_Clippings_")+fD(new Date().toISOString())+".csv";a.click();
+}
 function getRecentClips(days){
   const cutoff = new Date();
   cutoff.setDate(cutoff.getDate() - parseInt(days));
@@ -321,9 +418,8 @@ function sendMailTeam(){
 }
 
 // Init
-load();
-if(!clips.length) syncFromGH().then(()=>render()); else render();
-loadMeta();
+render();
+loadAll();
 </script>
 </body>
 </html>

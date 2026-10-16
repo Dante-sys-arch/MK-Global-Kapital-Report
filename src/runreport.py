@@ -23,7 +23,7 @@ LABELS = {"rss": "RSS-Feeds", "google": "Google Websuche (Custom Search)", "gnew
           "sitemap": "Neue Artikel der Stammmedien", "claude": "Claude-Prüfung", "fetch": "Artikelseiten"}
 
 
-def evaluate(channels, counts, placements):
+def evaluate(channels, counts, placements, inbox=None):
     problems, warnings = [], []
 
     def ch(name):
@@ -67,6 +67,8 @@ def evaluate(channels, counts, placements):
     attempts = counts.get("fetched", 0) + counts.get("fetch_failed", 0)
     if attempts >= 10 and counts.get("fetch_failed", 0) > 0.5 * attempts:
         warnings.append(f"{counts['fetch_failed']} von {attempts} Artikelseiten nicht lesbar")
+    if any(i.get("error") for i in (inbox or [])):
+        warnings.append("Eingang: " + "; ".join(f"{i['file']}: {i['error']}" for i in inbox if i.get("error"))[:300])
     if counts.get("deferred"):
         warnings.append(f"Zeitbudget erreicht: {counts['deferred']} Hinweise werden im nächsten Lauf geprüft")
     if placements and placements.get("overdue"):
@@ -82,7 +84,7 @@ def _clip_view(c):
 def write_report(agent, mode, started, placements):
     slug = agent.cfg["slug"]
     channels = agent.stats.channels
-    health = evaluate(channels, agent.counts, placements)
+    health = evaluate(channels, agent.counts, placements, getattr(agent, "inbox_results", []))
     report = {
         "client": slug,
         "run_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
@@ -98,6 +100,7 @@ def write_report(agent, mode, started, placements):
         "review_open": len(agent.review),
         "total_clippings": len(agent.clips),
         "placements": placements,
+        "inbox": getattr(agent, "inbox_results", []),
     }
     RUNS.mkdir(parents=True, exist_ok=True)
     suffix = "-dryrun" if agent.dry_run else ""
@@ -151,6 +154,11 @@ def markdown(r):
         lines.append(f"\n## Verworfen ({len(r['rejected'])})")
         for n in r["rejected"]:
             lines.append(f"- {n.get('title','')} | {n.get('reason','')} | {n.get('link','')}")
+    if r.get("inbox"):
+        lines.append(f"\n## Eingang (manuelle Eingabe, {len(r['inbox'])} Dateien)")
+        for i in r["inbox"]:
+            lines.append(f"- {i['file']}: neu {i['added']}, Prüfliste {i['review']}, schon vorhanden {i['duplicates']}"
+                         + (f", FEHLER: {i['error']}" if i.get("error") else ""))
     p = r.get("placements") or {}
     if p.get("total"):
         lines.append(f"\n## Soll-Liste: {p['total']} Platzierungen, offen {p['open']}, überfällig {len(p['overdue'])}")

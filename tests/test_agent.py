@@ -358,6 +358,81 @@ class DailyJobTests(unittest.TestCase):
         self.assertEqual(len(calls), 8)
 
 
+class InboxTests(unittest.TestCase):
+    """Manual input: form entries go straight in, everything read by Claude goes to the review list."""
+
+    def setUp(self):
+        self.tmp = Path(tempfile.mkdtemp())
+        (self.tmp / "data" / "inbox").mkdir(parents=True)
+        (self.tmp / "data" / "clippings.json").write_text(json.dumps([{
+            "date": "2026-03-24", "outlet": "Frankfurter Allgemeine Zeitung", "title": "Sorgen um Privatkredite",
+            "type": "Online", "link": "https://www.faz.net/x", "id": "m-1"}]), encoding="utf-8")
+        self.patches = [mock.patch.object(client_config, "REPO_ROOT", self.tmp), mock.patch("state.REPO_ROOT", self.tmp),
+                        mock.patch("runreport.RUNS", self.tmp / "data" / "runs"), mock.patch("runreport.REPO_ROOT", self.tmp),
+                        mock.patch.dict(os.environ, {"ANTHROPIC_API_KEY": ""})]
+        for p in self.patches:
+            p.start()
+        import search
+        self.search = search
+        self.cfg = client_config._apply_defaults(dict(CFG))
+
+    def tearDown(self):
+        for p in self.patches:
+            p.stop()
+        shutil.rmtree(self.tmp)
+
+    def _drop(self, name, content):
+        path = self.tmp / "data" / "inbox" / name
+        path.write_text(content if isinstance(content, str) else json.dumps(content), encoding="utf-8")
+
+    def _run(self):
+        agent = self.search.Agent(self.cfg)
+        new, report = agent.run("inbox")
+        return agent, new, report
+
+    def test_form_entries_print_and_online_count_separately(self):
+        base = {"kind": "form", "date": "2026-03-24", "outlet": "Frankfurter Allgemeine Zeitung",
+                "title": "Sorgen um Privatkredite", "people": ["Johannes Feist"]}
+        self._drop("1-formular.json", dict(base, medium="Print"))           # print edition: new clipping
+        self._drop("2-formular.json", dict(base, medium="Online"))          # same as existing online: duplicate
+        self._drop("3-formular.json", dict(base, medium="Print"))           # same print again: duplicate
+        agent, new, report = self._run()
+        self.assertEqual(len(new), 1)
+        self.assertEqual(new[0]["type"], "Print")
+        self.assertEqual(new[0]["source"], "manual")
+        self.assertEqual(new[0]["people"], ["Johannes Feist"])
+        self.assertEqual(sum(i["duplicates"] for i in report["inbox"]), 2)
+        done = sorted(p.name for p in (self.tmp / "data" / "inbox" / "done").iterdir())
+        self.assertEqual(done, ["1-formular.json", "2-formular.json", "3-formular.json"])
+        saved = json.loads((self.tmp / "data" / "clippings.json").read_text(encoding="utf-8"))
+        self.assertEqual(len(saved), 2)
+
+    def test_uploaded_list_goes_to_review_then_decision_accepts(self):
+        self._drop("pmg.csv", "Datum;Medium;Titel\n05.10.2026;Börsen-Zeitung;Mikrofinanz im Aufwind\n")
+        extracted = [{"date": "2026-10-05", "outlet": "Börsen-Zeitung", "title": "Mikrofinanz im Aufwind",
+                      "medium": "Print", "people": ["Feist"], "note": "S. 9"}]
+        with mock.patch("inbox.extract_clippings", return_value=(extracted, "")):
+            agent, new, report = self._run()
+        self.assertEqual(new, [])
+        self.assertEqual(len(agent.review), 1)
+        entry = agent.review[0]
+        self.assertEqual(entry["medium"], "Print")
+        self.assertEqual(entry["people"], ["Johannes Feist"])
+        (self.tmp / "data" / "review_decisions.csv").write_text(f"id;link;entscheidung\n{entry['id']};;ja\n", encoding="utf-8")
+        agent2, new2, _ = self._run()
+        self.assertEqual(len(new2), 1)
+        self.assertEqual((new2[0]["type"], new2[0]["source"], new2[0]["date"]), ("Print", "manual", "2026-10-05"))
+        self.assertEqual(agent2.review, [])
+        self.assertNotIn(entry["id"], (self.tmp / "data" / "review_decisions.csv").read_text(encoding="utf-8"))
+
+    def test_claude_error_keeps_file_for_retry(self):
+        self._drop("screenshot.txt", "PMG Treffer: Feist in der Börsen-Zeitung")
+        with mock.patch("inbox.extract_clippings", return_value=([], "Claude-Fehler: RuntimeError")):
+            agent, new, report = self._run()
+        self.assertTrue((self.tmp / "data" / "inbox" / "screenshot.txt").exists())
+        self.assertIn("Claude", report["inbox"][0]["error"])
+
+
 class PlacementTests(unittest.TestCase):
     def test_match_and_overdue(self):
         import placements
