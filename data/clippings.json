@@ -157,6 +157,58 @@
     "id": "a-1792146257-20"
   },
   {
+    "date": "2026-08-12",
+    "outlet": "FUELS+LUBES+ENERGY",
+    "title": "Der Ölpreis und die Kapitalmärkte",
+    "country": "D",
+    "type": "Print",
+    "tier": 2,
+    "link": "",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-025",
+    "imported_from": "20260816_MK_2026_Spokesperson_Coverage.xlsx:Johannes Feist",
+    "format": "Op-Ed / Byline"
+  },
+  {
+    "date": "2026-08-11",
+    "outlet": "e-fundresearch",
+    "title": "Experten-Umfrage: Worüber im zweiten Halbjahr 2026 keiner redet (Teil 2/2)",
+    "country": "DACH",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://e-fundresearch.com/managers/artikel/60333-experten-umfrage-worueber-im-zweiten-halbjahr-2026-keiner-redet-teil-22",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-024",
+    "imported_from": "20260816_MK_2026_Spokesperson_Coverage.xlsx:Johannes Feist",
+    "format": "Statement / Survey"
+  },
+  {
+    "date": "2026-08-07",
+    "outlet": "marktEINBLICKE",
+    "title": "Euro-Kupon, lokale Cashflows: Wo das Währungsrisiko wirklich liegt",
+    "country": "D",
+    "type": "E-Paper",
+    "tier": 2,
+    "link": "https://markteinblicke.de/wp-content/uploads/meg/mEGeldanlage_2026_15.pdf",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-065",
+    "imported_from": "20260816_MK_2026_Spokesperson_Coverage.xlsx:Johannes Feist",
+    "format": "Op-Ed / Byline",
+    "note": "im Report vom 16.08.2026 als Doppelformat nicht gezählt; nach Zählregel (E-Paper getrennt) aufgenommen"
+  },
+  {
     "date": "2026-08-04",
     "outlet": "Markt Einblicke",
     "title": "Euro-Kupon, lokale Cashflows: Wo das Währungsrisiko wirklich liegt",
@@ -244,7 +296,58 @@
     "author": "Falko Bozicevic"
   },
   {
-    "date": "2026-06-24",
+    "date": "2026-07-28",
+    "outlet": "ExportManager OST",
+    "title": "Wenn der klassische Bankkredit schlecht greift",
+    "country": "D",
+    "type": "Print & Digital",
+    "tier": 2,
+    "link": "",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-022",
+    "imported_from": "20260816_MK_2026_Spokesperson_Coverage.xlsx:Johannes Feist",
+    "format": "Interview"
+  },
+  {
+    "date": "2026-07-28",
+    "outlet": "finanznachrichten.de",
+    "title": "Private Credit: Was Anleiheinvestoren hinter dem Kupon prüfen sollten",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.finanznachrichten.de/nachrichten-2026-07/69141450-private-credit-was-anleiheinvestoren-hinter-dem-kupon-pruefen-sollten-144.htm",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-023",
+    "imported_from": "20260816_MK_2026_Spokesperson_Coverage.xlsx:Johannes Feist",
+    "format": "Op-Ed / Byline"
+  },
+  {
+    "date": "2026-07-02",
+    "outlet": "Finews",
+    "title": "Ferienlektüre: Was Finanzprofis diesen Sommer lesen",
+    "country": "CH",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.finews.ch/themen/leben-karriere/72628-sommer-buchempfehlungen-2026-von-persoenlichkeiten-aus-der-finanzbranche-roman-sommerlektuere-lesen-ferien-andreas-feller-thomas-studhalter-karsten-dirk-steffens-anna-bretschneider-finanzplatz-schweiz",
+    "people": [
+      "Louiza Savchenko"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-026",
+    "imported_from": "20260816_MK_2026_Spokesperson_Coverage.xlsx:Louiza Savchenko",
+    "format": "Quote"
+  },
+  {
+    "date": "2026-06-25",
     "outlet": "background.tagesspiegel",
     "title": "Digitale Kreditvergabe : Kreditzugang ist mehr als ein Score",
     "country": "D",
@@ -263,7 +366,59 @@
     "date_source": "quelle",
     "added_at": "2026-10-16T13:17:33",
     "source": "auto",
-    "id": "a-1792156653-0"
+    "id": "a-1792156653-0",
+    "corrected_from_report": "2026-10-16"
+  },
+  {
+    "date": "2026-06-24",
+    "outlet": "Finanz und Wirtschaft",
+    "title": "Rendite mit gutem Gewissen",
+    "country": "CH",
+    "type": "Online",
+    "tier": 2,
+    "link": "",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-010",
+    "imported_from": "20260816_MK_Q2_2026_Coverage.xlsx:Q2 2026 Clippings + 20260816_MK_2026_Spokesperson_Coverage.xlsx:Johannes Feist + 20260816_MK_H1_2026_Coverage.xlsx:H1 2026 Clippings",
+    "format": "Quote"
+  },
+  {
+    "date": "2026-06-22",
+    "outlet": "fem.capital",
+    "title": "Warum Unternehmerinnen eher am Kapital als am Markt scheitern",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "",
+    "people": [
+      "Louiza Savchenko"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-009",
+    "imported_from": "20260816_MK_Q2_2026_Coverage.xlsx:Q2 2026 Clippings + 20260816_MK_2026_Spokesperson_Coverage.xlsx:Louiza Savchenko + 20260816_MK_H1_2026_Coverage.xlsx:H1 2026 Clippings",
+    "format": "Op-Ed / Byline"
+  },
+  {
+    "date": "2026-06-15",
+    "outlet": "Intelligent Investors",
+    "title": "Kreditqualität lässt sich nicht aus der Distanz steuern",
+    "country": "D",
+    "type": "Print",
+    "tier": 2,
+    "link": "",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-008",
+    "imported_from": "20260816_MK_Q2_2026_Coverage.xlsx:Q2 2026 Clippings + 20260816_MK_2026_Spokesperson_Coverage.xlsx:Johannes Feist + 20260816_MK_H1_2026_Coverage.xlsx:H1 2026 Clippings",
+    "format": "Interview"
   },
   {
     "date": "2026-06-10",
@@ -286,6 +441,126 @@
     "added_at": "2026-10-16T10:24:16",
     "source": "auto",
     "id": "a-1792146256-0"
+  },
+  {
+    "date": "2026-06-03",
+    "outlet": "BOND MAGAZINE",
+    "title": "Der neue Stresstest für Schwellenländer: Warum Öl, Zinsen und Währungen nur der Anfang sind und letztlich die Finanzierungsstruktur entscheidet",
+    "country": "D",
+    "type": "Print",
+    "tier": 2,
+    "link": "https://www.fixed-income.org/fileadmin/pdf/BOND_MAGAZINE_239.pdf",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-007",
+    "imported_from": "20260816_MK_Q2_2026_Coverage.xlsx:Q2 2026 Clippings + 20260816_MK_2026_Spokesperson_Coverage.xlsx:Johannes Feist + 20260816_MK_H1_2026_Coverage.xlsx:H1 2026 Clippings",
+    "format": "Op-Ed / Byline"
+  },
+  {
+    "date": "2026-06-01",
+    "outlet": "FONDS exklusiv Österreich",
+    "title": "Schwellenländer: Worauf es jetzt ankommt",
+    "country": "A",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.fondsexklusiv.at/schwellenlaender-worauf-es-jetzt-ankommt/",
+    "added_at": "2026-05-28T09:49:27.575673",
+    "source": "auto",
+    "id": "g-1779961767-0",
+    "people": [
+      "Johannes Feist"
+    ],
+    "byline": true,
+    "author": "Raja",
+    "corrected_from_report": "2026-10-16"
+  },
+  {
+    "date": "2026-06-01",
+    "outlet": "Intelligent Investors",
+    "title": "Die neue Verwundbarkeit der Schwellenländer",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://intelligent-investors.de/die-neue-verwundbarkeit-der-schwellenlaender/",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-004",
+    "imported_from": "20260816_MK_Q2_2026_Coverage.xlsx:Q2 2026 Clippings + 20260816_MK_2026_Spokesperson_Coverage.xlsx:Johannes Feist + 20260816_MK_H1_2026_Coverage.xlsx:H1 2026 Clippings",
+    "format": "Op-Ed / Byline"
+  },
+  {
+    "date": "2026-06-01",
+    "outlet": "Institutional Money",
+    "title": "Finanzierungsstruktur: Der neue Stresstest für Schwellenländer",
+    "country": "DACH",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.institutional-money.com/news/maerkte/headline/finanzierungsstruktur-der-neue-stresstest-fuer-schwellenlaender-251058",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-005",
+    "imported_from": "20260816_MK_Q2_2026_Coverage.xlsx:Q2 2026 Clippings + 20260816_MK_2026_Spokesperson_Coverage.xlsx:Johannes Feist + 20260816_MK_H1_2026_Coverage.xlsx:H1 2026 Clippings",
+    "format": "Op-Ed / Byline"
+  },
+  {
+    "date": "2026-06-01",
+    "outlet": "Neo Market Ways",
+    "title": "From Microfinance to Mobility: How Capital is Driving Growth Across Eastern Europe",
+    "country": "DACH",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://neomarketways.com/from-microfinance-to-mobility-how-capital-is-driving-growth-across-eastern-europe/",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-006",
+    "imported_from": "20260816_MK_Q2_2026_Coverage.xlsx:Q2 2026 Clippings + 20260816_MK_2026_Spokesperson_Coverage.xlsx:Johannes Feist + 20260816_MK_H1_2026_Coverage.xlsx:H1 2026 Clippings",
+    "format": "Interview"
+  },
+  {
+    "date": "2026-05-29",
+    "outlet": "NEX24 News",
+    "title": "Iran-Krieg: Der neue Stresstest für Schwellenländer",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://nex24.news/2026/05/iran-krieg-der-neue-stresstest-fuer-schwellenlaender/",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-003",
+    "imported_from": "20260816_MK_Q2_2026_Coverage.xlsx:Q2 2026 Clippings + 20260816_MK_2026_Spokesperson_Coverage.xlsx:Johannes Feist + 20260816_MK_H1_2026_Coverage.xlsx:H1 2026 Clippings",
+    "format": "Op-Ed / Byline"
+  },
+  {
+    "date": "2026-05-28",
+    "outlet": "GELD-Magazin",
+    "title": "Stresstest für Schwellenländer",
+    "country": "A",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.geld-magazin.at/stresstest-fuer-schwellenlaender/",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-002",
+    "imported_from": "20260816_MK_Q2_2026_Coverage.xlsx:Q2 2026 Clippings + 20260816_MK_2026_Spokesperson_Coverage.xlsx:Johannes Feist + 20260816_MK_H1_2026_Coverage.xlsx:H1 2026 Clippings",
+    "format": "Op-Ed / Byline"
   },
   {
     "date": "2026-05-27",
@@ -332,6 +607,40 @@
     "id": "a-1792146257-14"
   },
   {
+    "date": "2026-05-22",
+    "outlet": "finanznachrichten.de",
+    "title": "Nicht die Grösse des Kredits entscheidet, sondern seine Wirkung",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.finanznachrichten.de/nachrichten-2026-05/68568705-nicht-die-groesse-des-kredits-entscheidet-sondern-seine-wirkung-095.htm",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-001",
+    "imported_from": "20260816_MK_Q2_2026_Coverage.xlsx:Q2 2026 Clippings + 20260816_MK_2026_Spokesperson_Coverage.xlsx:Johannes Feist + 20260816_MK_H1_2026_Coverage.xlsx:H1 2026 Clippings",
+    "format": "Op-Ed / Byline"
+  },
+  {
+    "date": "2026-05-08",
+    "outlet": "Finanz- und Wirtschaftsspiegel",
+    "title": "Entwicklungsfinanzierung mit Mikrokrediten",
+    "country": "D",
+    "type": "Digital newsletter",
+    "tier": 2,
+    "link": "",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-000",
+    "imported_from": "20260816_MK_Q2_2026_Coverage.xlsx:Q2 2026 Clippings + 20260816_MK_2026_Spokesperson_Coverage.xlsx:Johannes Feist + 20260816_MK_H1_2026_Coverage.xlsx:H1 2026 Clippings",
+    "format": "Interview"
+  },
+  {
     "date": "2026-05-07",
     "outlet": "Markt Einblicke",
     "title": "Mikrofinanz-Anleihen: Ein wachsender Markt",
@@ -376,6 +685,40 @@
     "id": "a-1792146257-15"
   },
   {
+    "date": "2026-03-28",
+    "outlet": "Wirtschaftsvision",
+    "title": "Der Trugschluss der sicheren Häfen",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://wirtschaftsvision.de/der-trugschluss-der-sicheren-haefen/",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-021",
+    "imported_from": "20260816_MK_Q2_2026_Coverage.xlsx:Q1 2026 Clippings + 20260816_MK_2026_Spokesperson_Coverage.xlsx:Johannes Feist + 20260816_MK_H1_2026_Coverage.xlsx:H1 2026 Clippings",
+    "format": "Op-Ed / Byline"
+  },
+  {
+    "date": "2026-03-27",
+    "outlet": "Börsen-Zeitung",
+    "title": "Wasserknappheit als Kreditrisiko",
+    "country": "D",
+    "type": "Print & Online",
+    "tier": 2,
+    "link": "https://www.boersen-zeitung.de/sonderbeilagen/wasserknappheit-als-kreditrisiko",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-020",
+    "imported_from": "20260816_MK_Q2_2026_Coverage.xlsx:Q1 2026 Clippings + 20260816_MK_2026_Spokesperson_Coverage.xlsx:Johannes Feist + 20260816_MK_H1_2026_Coverage.xlsx:H1 2026 Clippings",
+    "format": "Op-Ed / Byline"
+  },
+  {
     "date": "2026-03-24",
     "outlet": "Frankfurter Allgemeine Zeitung",
     "title": "Sorgen um Privatkredite: Finanzkrise oder silberne Aera?",
@@ -386,8 +729,11 @@
     "added_at": "2026-03-25T10:00:00",
     "source": "manual",
     "id": "fix-0-1774883372",
-    "people": [],
-    "people_checked": "seite nicht lesbar"
+    "people": [
+      "Johannes Feist"
+    ],
+    "people_checked": "seite nicht lesbar",
+    "corrected_from_report": "2026-10-16"
   },
   {
     "date": "2026-03-24",
@@ -400,8 +746,11 @@
     "added_at": "2026-03-25T10:00:00",
     "source": "manual",
     "id": "fix-1-1774883372",
-    "people": [],
-    "people_checked": "seite nicht lesbar"
+    "people": [
+      "Johannes Feist"
+    ],
+    "people_checked": "seite nicht lesbar",
+    "corrected_from_report": "2026-10-16"
   },
   {
     "date": "2026-03-24",
@@ -421,7 +770,7 @@
     "author": "Raja"
   },
   {
-    "date": "2026-03-21",
+    "date": "2026-03-22",
     "outlet": "Der Standard",
     "title": "Pakistan spart Milliarden an fossilen Importen: Wie hat es das gemacht?",
     "country": "A",
@@ -431,11 +780,14 @@
     "added_at": "2026-03-23T09:15:00",
     "source": "manual",
     "id": "fix-3-1774883372",
-    "people": [],
-    "byline": false
+    "people": [
+      "Johannes Feist"
+    ],
+    "byline": false,
+    "corrected_from_report": "2026-10-16"
   },
   {
-    "date": "2026-03-21",
+    "date": "2026-03-20",
     "outlet": "Finews",
     "title": "Tokenisierung: Louzia Savchenko ueber Innovation und MK Global Kapital",
     "country": "CH",
@@ -452,7 +804,8 @@
       "Louiza Savchenko"
     ],
     "byline": false,
-    "author": "Dominik Buholzer; Chefredaktor"
+    "author": "Dominik Buholzer; Chefredaktor",
+    "corrected_from_report": "2026-10-16"
   },
   {
     "date": "2026-03-20",
@@ -477,6 +830,23 @@
     "source": "auto",
     "id": "a-1792146256-7",
     "syndication_of": "fix-8-1774883372"
+  },
+  {
+    "date": "2026-03-20",
+    "outlet": "Swiss Finance AI",
+    "title": "Warum tokenisierte Anleihen mehr sind als ein Trend",
+    "country": "CH",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.swissfinanceai.ch/blog/swiss-finance/warum-tokenisierte-anleihen-mehr-sind-als-ein-trend",
+    "added_at": "2026-03-22T13:30:00",
+    "source": "manual",
+    "id": "fix-12-1774883372",
+    "people": [
+      "Louiza Savchenko"
+    ],
+    "people_checked": "seite nicht lesbar",
+    "corrected_from_report": "2026-10-16"
   },
   {
     "date": "2026-03-19",
@@ -513,8 +883,11 @@
     "found_via": [
       "bing"
     ],
-    "people": [],
-    "byline": false
+    "people": [
+      "Johannes Feist"
+    ],
+    "byline": false,
+    "corrected_from_report": "2026-10-16"
   },
   {
     "date": "2026-03-19",
@@ -531,6 +904,23 @@
       "Johannes Feist"
     ],
     "byline": true
+  },
+  {
+    "date": "2026-03-19",
+    "outlet": "finanznachrichten.de",
+    "title": "Nicht nur Öl: Wo der Iran-Konflikt Emerging Markets wirklich trifft",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.finanznachrichten.de/nachrichten-2026-03/67987291-nicht-nur-oel-wo-der-iran-konflikt-emerging-markets-wirklich-trifft-095.htm",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-019",
+    "imported_from": "20260816_MK_Q2_2026_Coverage.xlsx:Q1 2026 Clippings + 20260816_MK_2026_Spokesperson_Coverage.xlsx:Johannes Feist + 20260816_MK_H1_2026_Coverage.xlsx:H1 2026 Clippings",
+    "format": "Op-Ed / Byline"
   },
   {
     "date": "2026-03-17",
@@ -573,6 +963,23 @@
     "author": "Stefan Löwer"
   },
   {
+    "date": "2026-03-17",
+    "outlet": "BOND MAGAZINE",
+    "title": "Tokenisierte Anleihen: Effizienz, Vertrauen und Marktentwicklung",
+    "country": "D",
+    "type": "Print",
+    "tier": 2,
+    "link": "",
+    "people": [
+      "Louiza Savchenko"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-018",
+    "imported_from": "20260816_MK_Q2_2026_Coverage.xlsx:Q1 2026 Clippings + 20260816_MK_2026_Spokesperson_Coverage.xlsx:Louiza Savchenko + 20260816_MK_H1_2026_Coverage.xlsx:H1 2026 Clippings",
+    "format": "Op-Ed / Byline"
+  },
+  {
     "date": "2026-03-16",
     "outlet": "FONDS exklusiv",
     "title": "Private Credit-Debatte entfacht",
@@ -607,6 +1014,23 @@
     "author": "Schreibt für Zeitschrift für das gesamte Kreditwesen"
   },
   {
+    "date": "2026-03-16",
+    "outlet": "Payoff",
+    "title": "Der blinde Fleck der Private-Credit-Debatte",
+    "country": "CH",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.payoff.ch/news/der-blinde-fleck-der-private-credit-debatte",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-017",
+    "imported_from": "20260816_MK_Q2_2026_Coverage.xlsx:Q1 2026 Clippings + 20260816_MK_2026_Spokesperson_Coverage.xlsx:Johannes Feist + 20260816_MK_H1_2026_Coverage.xlsx:H1 2026 Clippings",
+    "format": "Op-Ed / Byline"
+  },
+  {
     "date": "2026-03-13",
     "outlet": "investrends.ch",
     "title": "Der blinde Fleck der Private-Credit-Debatte",
@@ -627,6 +1051,23 @@
     "added_at": "2026-10-16T10:24:16",
     "source": "auto",
     "id": "a-1792146256-2"
+  },
+  {
+    "date": "2026-03-13",
+    "outlet": "Private Markets 360",
+    "title": "Der blinde Fleck der Private-Credit-Debatte",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://privatemarkets360.com/artikel/58516-der-blinde-fleck-der-private-credit-debatte",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-016",
+    "imported_from": "20260816_MK_Q2_2026_Coverage.xlsx:Q1 2026 Clippings + 20260816_MK_2026_Spokesperson_Coverage.xlsx:Johannes Feist + 20260816_MK_H1_2026_Coverage.xlsx:H1 2026 Clippings",
+    "format": "Op-Ed / Byline"
   },
   {
     "date": "2026-03-12",
@@ -652,18 +1093,21 @@
     "title_source": "aus URL abgeleitet, Seite nur mit JavaScript lesbar"
   },
   {
-    "date": "2026-03-10",
-    "outlet": "Swiss Finance AI",
-    "title": "Warum tokenisierte Anleihen mehr sind als ein Trend",
-    "country": "CH",
+    "date": "2026-03-12",
+    "outlet": "Intelligent Investors",
+    "title": "Der blinde Fleck der Private-Credit-Debatte",
+    "country": "D",
     "type": "Online",
     "tier": 2,
-    "link": "https://www.swissfinanceai.ch/blog/swiss-finance/warum-tokenisierte-anleihen-mehr-sind-als-ein-trend",
-    "added_at": "2026-03-22T13:30:00",
+    "link": "https://intelligent-investors.de/der-blinde-fleck-der-private-credit-debatte/",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
     "source": "manual",
-    "id": "fix-12-1774883372",
-    "people": [],
-    "people_checked": "seite nicht lesbar"
+    "id": "x-20261016-015",
+    "imported_from": "20260816_MK_Q2_2026_Coverage.xlsx:Q1 2026 Clippings + 20260816_MK_2026_Spokesperson_Coverage.xlsx:Johannes Feist + 20260816_MK_H1_2026_Coverage.xlsx:H1 2026 Clippings",
+    "format": "Op-Ed / Byline"
   },
   {
     "date": "2026-03-04",
@@ -705,21 +1149,24 @@
     "author": "Gründerküche Redaktion"
   },
   {
-    "date": "2026-03-02",
-    "outlet": "altii.de",
-    "title": "Unternehmerinnen fehlt weltweit der Zugang zu Kapital",
+    "date": "2026-03-04",
+    "outlet": "Table.Media",
+    "title": "Gleichstellung: Unternehmerinnen fehlt weltweit der Zugang zu Kapital",
     "country": "D",
     "type": "Online",
-    "tier": 1,
-    "link": "https://www.altii.de/edai-71550571-cb6c-4c09-93da-bd99b822c245/",
-    "added_at": "2026-03-06T09:00:00",
+    "tier": 2,
+    "link": "https://table.media/esg/news/gleichstellung-unternehmerinnen-fehlt-weltweit-der-zugang-zu-kapital",
+    "people": [
+      "Louiza Savchenko"
+    ],
+    "added_at": "2026-10-16T18:13:05",
     "source": "manual",
-    "id": "fix-15-1774883372",
-    "people": [],
-    "byline": false
+    "id": "x-20261016-014",
+    "imported_from": "20260816_MK_Q2_2026_Coverage.xlsx:Q1 2026 Clippings + 20260816_MK_2026_Spokesperson_Coverage.xlsx:Louiza Savchenko + 20260816_MK_H1_2026_Coverage.xlsx:H1 2026 Clippings",
+    "format": "Quote"
   },
   {
-    "date": "2026-03-02",
+    "date": "2026-03-03",
     "outlet": "dfpa.info",
     "title": "Unternehmerinnen fehlt weltweit der Zugang zu Kapital",
     "country": "D",
@@ -739,7 +1186,62 @@
     "added_at": "2026-10-16T10:24:17",
     "source": "auto",
     "id": "a-1792146257-18",
-    "syndication_of": "fix-15-1774883372"
+    "syndication_of": "fix-15-1774883372",
+    "corrected_from_report": "2026-10-16"
+  },
+  {
+    "date": "2026-03-02",
+    "outlet": "altii.de",
+    "title": "Unternehmerinnen fehlt weltweit der Zugang zu Kapital",
+    "country": "D",
+    "type": "Online",
+    "tier": 1,
+    "link": "https://www.altii.de/edai-71550571-cb6c-4c09-93da-bd99b822c245/",
+    "added_at": "2026-03-06T09:00:00",
+    "source": "manual",
+    "id": "fix-15-1774883372",
+    "people": [
+      "Louiza Savchenko"
+    ],
+    "byline": false,
+    "corrected_from_report": "2026-10-16"
+  },
+  {
+    "date": "2026-03-02",
+    "outlet": "dapd.de",
+    "title": "Der Trugschluss der sicheren Häfen",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.dapd.de/der-trugschluss-der-sicheren-haefen/",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-013",
+    "imported_from": "20260816_MK_Q2_2026_Coverage.xlsx:Q1 2026 Clippings + 20260816_MK_2026_Spokesperson_Coverage.xlsx:Johannes Feist + 20260816_MK_H1_2026_Coverage.xlsx:H1 2026 Clippings",
+    "format": "Op-Ed / Byline"
+  },
+  {
+    "date": "2026-02-25",
+    "outlet": "dfpa.info",
+    "title": "Mikrofinanz: Besonderheit Anleihen mit festem Zins",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.dfpa.info/interview/mikrofinanz-besonderheit-anleihen-mit-festem-zins.html",
+    "added_at": "2026-03-22T11:00:00",
+    "source": "auto",
+    "id": "fix-18-1774883372",
+    "found_via": [
+      "site"
+    ],
+    "people": [
+      "Johannes Feist"
+    ],
+    "byline": false,
+    "corrected_from_report": "2026-10-16"
   },
   {
     "date": "2026-02-24",
@@ -761,49 +1263,55 @@
     "byline": false
   },
   {
+    "date": "2026-02-24",
+    "outlet": "DFPA",
+    "title": "Die neue EXXECNEWS ist erschienen",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.dfpa.info/pressedigest-news/die-neue-exxecnews-ist-erschienen-78/",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-012",
+    "imported_from": "20260816_MK_Q2_2026_Coverage.xlsx:Q1 2026 Clippings + 20260816_MK_2026_Spokesperson_Coverage.xlsx:Johannes Feist + 20260816_MK_H1_2026_Coverage.xlsx:H1 2026 Clippings",
+    "format": "Mention / Press digest"
+  },
+  {
     "date": "2026-02-23",
     "outlet": "exxecnews.org",
     "title": "Teil I: Wenn Geschäftsbanken passen, helfen Mikrofinanzfonds",
     "country": "D",
-    "type": "Online",
+    "type": "Print & Online",
     "tier": 2,
     "link": "https://exxecnews.org/wp-content/uploads/2026/02/Ausgabe-05_2026.pdf",
     "added_at": "2026-03-06T09:00:00",
     "source": "manual",
     "id": "fix-17-1774883372",
-    "people": [],
-    "people_checked": "seite nicht lesbar"
-  },
-  {
-    "date": "2026-02-18",
-    "outlet": "dfpa.info",
-    "title": "Mikrofinanz: Besonderheit Anleihen mit festem Zins",
-    "country": "D",
-    "type": "Online",
-    "tier": 2,
-    "link": "https://www.dfpa.info/interview/mikrofinanz-besonderheit-anleihen-mit-festem-zins.html",
-    "added_at": "2026-03-22T11:00:00",
-    "source": "auto",
-    "id": "fix-18-1774883372",
-    "found_via": [
-      "site"
-    ],
     "people": [
       "Johannes Feist"
     ],
-    "byline": false
+    "people_checked": "seite nicht lesbar",
+    "corrected_from_report": "2026-10-16"
   },
   {
-    "date": "2026-02-16",
-    "outlet": "Börsen-Kurier",
-    "title": "Privates Kapital für noch nicht entwickelte Märkte",
-    "country": "DACH",
-    "type": "Online",
+    "date": "2026-02-23",
+    "outlet": "EXXECNEWS",
+    "title": "Teil II: Mikrofinanz-Besonderheit – Anleihen mit festem Zins",
+    "country": "D",
+    "type": "Print & Online",
     "tier": 2,
-    "link": "",
-    "added_at": "2026-03-06T09:00:00",
+    "link": "https://exxecnews.org/wp-content/uploads/2026/02/Ausgabe-05_2026.pdf",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
     "source": "manual",
-    "id": "fix-19-1774883372"
+    "id": "x-20261016-011",
+    "imported_from": "20260816_MK_Q2_2026_Coverage.xlsx:Q1 2026 Clippings + 20260816_MK_2026_Spokesperson_Coverage.xlsx:Johannes Feist + 20260816_MK_H1_2026_Coverage.xlsx:H1 2026 Clippings",
+    "format": "Interview"
   },
   {
     "date": "2026-02-16",
@@ -828,23 +1336,7 @@
     "id": "a-1792146256-9"
   },
   {
-    "date": "2026-02-14",
-    "outlet": "finanznachrichten.de",
-    "title": "Security Conference München 2026: öffentliche Mittel als Hebel nutzen",
-    "country": "D",
-    "type": "Online",
-    "tier": 2,
-    "link": "https://www.finanznachrichten.de/nachrichten-2026-02/67704129-security-conference-muenchen-2026-oeffentliche-mittel-als-hebel-nutzen-144.htm",
-    "added_at": "2026-03-06T09:00:00",
-    "source": "manual",
-    "id": "fix-20-1774883372",
-    "people": [
-      "Johannes Feist"
-    ],
-    "byline": true
-  },
-  {
-    "date": "2026-02-14",
+    "date": "2026-02-16",
     "outlet": "bondguide.de",
     "title": "Security Conference München 2026: öffentliche Mittel als Hebel nutzen",
     "country": "D",
@@ -861,7 +1353,24 @@
       "Johannes Feist"
     ],
     "byline": true,
-    "author": "Falko Bozicevic"
+    "author": "Falko Bozicevic",
+    "corrected_from_report": "2026-10-16"
+  },
+  {
+    "date": "2026-02-14",
+    "outlet": "finanznachrichten.de",
+    "title": "Security Conference München 2026: öffentliche Mittel als Hebel nutzen",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.finanznachrichten.de/nachrichten-2026-02/67704129-security-conference-muenchen-2026-oeffentliche-mittel-als-hebel-nutzen-144.htm",
+    "added_at": "2026-03-06T09:00:00",
+    "source": "manual",
+    "id": "fix-20-1774883372",
+    "people": [
+      "Johannes Feist"
+    ],
+    "byline": true
   },
   {
     "date": "2026-02-14",
@@ -880,23 +1389,20 @@
     "byline": false
   },
   {
-    "title": "Mikrokredite als Anlagealternative",
-    "link": "https://podcasters.spotify.com/pod/show/geldmeisterin/episodes/Mikrokredite-als-Anlagealternative-e3f11ln",
-    "outlet": "geldmeisterin.com",
-    "date": "2026-02-14",
+    "date": "2026-02-13",
+    "outlet": "Börsen-Kurier",
+    "title": "Privates Kapital für noch nicht entwickelte Märkte",
+    "country": "DACH",
+    "type": "Print",
     "tier": 2,
-    "country": "D",
-    "type": "Online",
-    "added_at": "2026-10-06T22:33:46.301270",
-    "source": "auto",
-    "id": "g-1791326026-0",
-    "found_via": [
-      "rss"
-    ],
+    "link": "",
+    "added_at": "2026-03-06T09:00:00",
+    "source": "manual",
+    "id": "fix-19-1774883372",
     "people": [
       "Johannes Feist"
     ],
-    "byline": false
+    "corrected_from_report": "2026-10-16"
   },
   {
     "date": "2026-02-04",
@@ -940,12 +1446,16 @@
     "outlet": "Markt Einblicke",
     "title": "Mikrofinanzanleihen 2026: Stabile Renditen aus der Realwirtschaft",
     "country": "D",
-    "type": "Print",
+    "type": "E-Paper",
     "tier": 2,
     "link": "",
     "added_at": "2026-03-06T09:00:00",
     "source": "manual",
-    "id": "fix-25-1774883372"
+    "id": "fix-25-1774883372",
+    "people": [
+      "Johannes Feist"
+    ],
+    "corrected_from_report": "2026-10-16"
   },
   {
     "date": "2026-01-22",
@@ -958,8 +1468,11 @@
     "added_at": "2026-03-06T09:00:00",
     "source": "manual",
     "id": "fix-26-1774883372",
-    "people": [],
-    "people_checked": "seite nicht lesbar"
+    "people": [
+      "Johannes Feist"
+    ],
+    "people_checked": "seite nicht lesbar",
+    "corrected_from_report": "2026-10-16"
   },
   {
     "date": "2026-01-16",
@@ -998,6 +1511,27 @@
     "author": "Dominik Buholzer; Chefredaktor"
   },
   {
+    "date": "2026-01-09",
+    "outlet": "portfolio institutionell",
+    "title": "Große Wirkung mit kleinen Krediten",
+    "country": "D",
+    "type": "Online",
+    "tier": 1,
+    "link": "https://www.portfolio-institutionell.de/grosse-wirkung-mit-kleinen-krediten/",
+    "added_at": "2026-03-22T09:00:00",
+    "source": "auto",
+    "id": "fix-30-1774883372",
+    "found_via": [
+      "site"
+    ],
+    "people": [
+      "Johannes Feist"
+    ],
+    "byline": false,
+    "author": "Jochen Hägele; Tobias Bürger",
+    "corrected_from_report": "2026-10-16"
+  },
+  {
     "date": "2026-01-07",
     "outlet": "Markt Einblicke",
     "title": "Mikrofinanzanleihen 2026: Stabile Renditen aus der Realwirtschaft",
@@ -1017,24 +1551,94 @@
     "byline": false
   },
   {
-    "date": "2026-01-06",
+    "date": "2025-12-18",
     "outlet": "portfolio institutionell",
     "title": "Große Wirkung mit kleinen Krediten",
     "country": "D",
-    "type": "Online",
-    "tier": 1,
-    "link": "https://www.portfolio-institutionell.de/grosse-wirkung-mit-kleinen-krediten/",
-    "added_at": "2026-03-22T09:00:00",
-    "source": "auto",
-    "id": "fix-30-1774883372",
-    "found_via": [
-      "site"
-    ],
+    "type": "Print",
+    "tier": 2,
+    "link": "https://www.yumpu.com/de/document/read/70885506/pit-1225",
     "people": [
       "Johannes Feist"
     ],
-    "byline": false,
-    "author": "Jochen Hägele; Tobias Bürger"
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-064",
+    "imported_from": "20260816_MK_H1_2026_Coverage.xlsx:Oct–Dec 2025 Clippings",
+    "format": "",
+    "people_note": "wie Online-Fassung im Report"
+  },
+  {
+    "date": "2025-12-17",
+    "outlet": "BondGuide",
+    "title": "Mikro Kapital Management: „Impact Investing ist kein Charity“",
+    "country": "D",
+    "type": "Print",
+    "tier": 2,
+    "link": "https://www.bondguide.de/wp-content/uploads/2025/12/bondguide-25-2025.pdf",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-063",
+    "imported_from": "20260816_MK_H1_2026_Coverage.xlsx:Oct–Dec 2025 Clippings",
+    "format": "",
+    "people_note": "wie finanznachrichten.de im Bestand"
+  },
+  {
+    "date": "2025-12-15",
+    "outlet": "IPE Institutional Investment",
+    "title": "Gastbeitrag: Private Debt jenseits von Corporate Loans – Mikrofinanz als Anlageklasse",
+    "country": "DACH",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.institutional-investment.de/content/asset-allocation/gastbeitrag-private-debt-jenseits-von-corporate-loans-mikrofinanz-als-anlageklasse.html",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-061",
+    "imported_from": "20260816_MK_H1_2026_Coverage.xlsx:Oct–Dec 2025 Clippings",
+    "format": "",
+    "people_note": "Autorenzeile auf der Seite geprüft"
+  },
+  {
+    "date": "2025-12-15",
+    "outlet": "Handelszeitung",
+    "title": "«In der Schweiz gibt es eine ganz ausgeprägte Kultur für Mikrofinanzierungen»",
+    "country": "CH",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.handelszeitung.ch/insurance/in-der-schweiz-gibt-es-eine-ganz-ausgepragte-kultur-fur-mikrofinanzierungen-884310",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-062",
+    "imported_from": "20260816_MK_H1_2026_Coverage.xlsx:Oct–Dec 2025 Clippings",
+    "format": "",
+    "people_note": "Interviewpartner auf der Seite geprüft"
+  },
+  {
+    "date": "2025-12-10",
+    "outlet": "altii",
+    "title": "MK Global Kapital übernimmt Managementfunktion des Impact-Fonds ALTERNATIVE",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.altii.de/20251210_115639_ea0baaad-1f17-42a9-a698-596737b4a5f2/",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-060",
+    "imported_from": "20260816_MK_H1_2026_Coverage.xlsx:Oct–Dec 2025 Clippings",
+    "format": "",
+    "people_note": "gleiche Meldung wie DFPA/Moneycab im Bestand"
   },
   {
     "date": "2025-12-09",
@@ -1101,6 +1705,24 @@
     "id": "a-1792146257-16"
   },
   {
+    "date": "2025-12-08",
+    "outlet": "finanznachrichten.de",
+    "title": "MK Global Kapital wird per 1. Januar Managementgesellschaft für den Impact-Fonds ALTERNATIVE",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.finanznachrichten.de/nachrichten-2025-12/67174021-mk-global-kapital-wird-per-1-januar-managementgesellschaft-fuer-den-impact-fonds-alternative-095.htm",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-059",
+    "imported_from": "20260816_MK_H1_2026_Coverage.xlsx:Oct–Dec 2025 Clippings",
+    "format": "",
+    "people_note": "wie Moneycab im Bestand"
+  },
+  {
     "date": "2025-12-06",
     "outlet": "bondguide.de",
     "title": "Mikro Kapital Management: Impact Investing ist kein Charity",
@@ -1143,6 +1765,24 @@
     "source": "auto",
     "id": "a-1792146256-11",
     "syndication_of": "fix-33-1774883372"
+  },
+  {
+    "date": "2025-12-05",
+    "outlet": "Investorenplattform.de",
+    "title": "Mikro Kapital Management: „Impact Investing ist kein Charity“",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://investorenplattform.de/esg-impact/",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-058",
+    "imported_from": "20260816_MK_H1_2026_Coverage.xlsx:Oct–Dec 2025 Clippings",
+    "format": "",
+    "people_note": "wie finanznachrichten.de im Bestand"
   },
   {
     "date": "2025-12-04",
@@ -1188,6 +1828,42 @@
     "author": "Dina Holz; Redaktorin"
   },
   {
+    "date": "2025-11-21",
+    "outlet": "tagesschau24.de (TV interview)",
+    "title": "ARD interview: Why “glowworms” matter more than trillion-dollar pledges",
+    "country": "D",
+    "type": "TV & Online",
+    "tier": 2,
+    "link": "https://www.tagesschau.de/multimedia/sendung/tagesschau24/boerselive/video-1527674.html",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-057",
+    "imported_from": "20260816_MK_H1_2026_Coverage.xlsx:Oct–Dec 2025 Clippings",
+    "format": "",
+    "people_note": "von Samir bestätigt (16.10.2026)"
+  },
+  {
+    "date": "2025-11-20",
+    "outlet": "Börsen-Kurier",
+    "title": "Mikrofinanz: Stabilität aus realer Wertschöpfung",
+    "country": "A",
+    "type": "Print",
+    "tier": 2,
+    "link": "",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-056",
+    "imported_from": "20260816_MK_H1_2026_Coverage.xlsx:Oct–Dec 2025 Clippings",
+    "format": "",
+    "people_note": "von Samir bestätigt (16.10.2026)"
+  },
+  {
     "date": "2025-11-12",
     "outlet": "investrends.ch",
     "title": "Mikrofinanz ist Private Debt mit direkter Verbindung zur Realwirtschaft",
@@ -1208,7 +1884,25 @@
     "author": "Sw"
   },
   {
-    "date": "2025-11-07",
+    "date": "2025-11-10",
+    "outlet": "photovoltaik.eu",
+    "title": "COP30: Klimafinanzierung muss in den Unternehmen ankommen",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.photovoltaik.eu/foerderung/cop30-klimafinanzierung-muss-den-unternehmen-ankommen",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-055",
+    "imported_from": "20260816_MK_H1_2026_Coverage.xlsx:Oct–Dec 2025 Clippings",
+    "format": "",
+    "people_note": "wie windmesse.de im Bestand"
+  },
+  {
+    "date": "2025-11-06",
     "outlet": "Frankfurter Rundschau",
     "title": "Merz in Brasilien: Bundeskanzler fordert „globale Kraftanstrengung“ für Klimaschutz bei COP30",
     "country": "D",
@@ -1227,7 +1921,8 @@
     "date_source": "seite",
     "added_at": "2026-10-16T10:24:16",
     "source": "auto",
-    "id": "a-1792146256-1"
+    "id": "a-1792146256-1",
+    "corrected_from_report": "2026-10-16"
   },
   {
     "date": "2025-11-06",
@@ -1274,6 +1969,510 @@
     "id": "a-1792146257-13"
   },
   {
+    "date": "2025-11-06",
+    "outlet": "AZ online (Allgemeine Zeitung der Lüneburger Heide)",
+    "title": "Merz reist nach Brasilien: Deutschlands Klimapolitik bei COP30 auf dem Prüfstein",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.az-online.de/politik/merz-reist-zur-klimakonferenz-cop30-nach-brasilien-klimapolitik-auf-dem-pruefstein-zr-94025730.html",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-027",
+    "imported_from": "20260816_MK_H1_2026_Coverage.xlsx:Oct–Dec 2025 Clippings",
+    "format": "",
+    "people_note": "wie fr.de-Original im Bestand"
+  },
+  {
+    "date": "2025-11-06",
+    "outlet": "fehmarn24.de",
+    "title": "Merz reist nach Brasilien: Deutschlands Klimapolitik bei COP30 auf dem Prüfstein",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.fehmarn24.de/politik/merz-reist-zur-klimakonferenz-cop30-nach-brasilien-klimapolitik-auf-dem-pruefstein-zr-94025730.html",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-028",
+    "imported_from": "20260816_MK_H1_2026_Coverage.xlsx:Oct–Dec 2025 Clippings",
+    "format": "",
+    "people_note": "wie fr.de-Original im Bestand"
+  },
+  {
+    "date": "2025-11-06",
+    "outlet": "fnp.de (Frankfurter Neue Presse)",
+    "title": "Merz reist nach Brasilien: Deutschlands Klimapolitik bei COP30 auf dem Prüfstein",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-029",
+    "imported_from": "20260816_MK_H1_2026_Coverage.xlsx:Oct–Dec 2025 Clippings",
+    "format": "",
+    "people_note": "wie fr.de-Original im Bestand"
+  },
+  {
+    "date": "2025-11-06",
+    "outlet": "Fuldaer Zeitung.de",
+    "title": "Merz reist nach Brasilien: Deutschlands Klimapolitik bei COP30 auf dem Prüfstein",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.fuldaerzeitung.de/politik-und-wirtschaft/merz-reist-zur-klimakonferenz-cop30-nach-brasilien-klimapolitik-auf-dem-pruefstein-zr-94025730.html",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-030",
+    "imported_from": "20260816_MK_H1_2026_Coverage.xlsx:Oct–Dec 2025 Clippings",
+    "format": "",
+    "people_note": "wie fr.de-Original im Bestand"
+  },
+  {
+    "date": "2025-11-06",
+    "outlet": "Gießener Allgemeine Online",
+    "title": "Merz reist nach Brasilien: Deutschlands Klimapolitik bei COP30 auf dem Prüfstein",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.giessener-allgemeine.de/politik/merz-reist-zur-klimakonferenz-cop30-nach-brasilien-klimapolitik-auf-dem-pruefstein-zr-94025730.html",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-031",
+    "imported_from": "20260816_MK_H1_2026_Coverage.xlsx:Oct–Dec 2025 Clippings",
+    "format": "",
+    "people_note": "wie fr.de-Original im Bestand"
+  },
+  {
+    "date": "2025-11-06",
+    "outlet": "Wetterauer Zeitung Online",
+    "title": "Merz reist nach Brasilien: Deutschlands Klimapolitik bei COP30 auf dem Prüfstein",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.wetterauer-zeitung.de/politik/merz-reist-zur-klimakonferenz-cop30-nach-brasilien-klimapolitik-auf-dem-pruefstein-zr-94025730.html",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-032",
+    "imported_from": "20260816_MK_H1_2026_Coverage.xlsx:Oct–Dec 2025 Clippings",
+    "format": "",
+    "people_note": "wie fr.de-Original im Bestand"
+  },
+  {
+    "date": "2025-11-06",
+    "outlet": "giessener-anzeiger.de",
+    "title": "Merz reist nach Brasilien: Deutschlands Klimapolitik bei COP30 auf dem Prüfstein",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.giessener-anzeiger.de/politik/merz-reist-zur-klimakonferenz-cop30-nach-brasilien-klimapolitik-auf-dem-pruefstein-zr-94025730.html",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-033",
+    "imported_from": "20260816_MK_H1_2026_Coverage.xlsx:Oct–Dec 2025 Clippings",
+    "format": "",
+    "people_note": "wie fr.de-Original im Bestand"
+  },
+  {
+    "date": "2025-11-06",
+    "outlet": "kreis-anzeiger.de (Zentralhessen)",
+    "title": "Merz reist nach Brasilien: Deutschlands Klimapolitik bei COP30 auf dem Prüfstein",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.kreis-anzeiger.de/politik/merz-reist-zur-klimakonferenz-cop30-nach-brasilien-klimapolitik-auf-dem-pruefstein-zr-94025730.html",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-034",
+    "imported_from": "20260816_MK_H1_2026_Coverage.xlsx:Oct–Dec 2025 Clippings",
+    "format": "",
+    "people_note": "wie fr.de-Original im Bestand"
+  },
+  {
+    "date": "2025-11-06",
+    "outlet": "usinger-anzeiger.de",
+    "title": "Merz reist nach Brasilien: Deutschlands Klimapolitik bei COP30 auf dem Prüfstein",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.usinger-anzeiger.de/politik/merz-reist-zur-klimakonferenz-cop30-nach-brasilien-klimapolitik-auf-dem-pruefstein-zr-94025730.html",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-035",
+    "imported_from": "20260816_MK_H1_2026_Coverage.xlsx:Oct–Dec 2025 Clippings",
+    "format": "",
+    "people_note": "wie fr.de-Original im Bestand"
+  },
+  {
+    "date": "2025-11-06",
+    "outlet": "hanauer.de (Hanauer Anzeiger)",
+    "title": "Merz reist nach Brasilien: Deutschlands Klimapolitik bei COP30 auf dem Prüfstein",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.hanauer.de/politik/merz-reist-zur-klimakonferenz-cop30-nach-brasilien-klimapolitik-auf-dem-pruefstein-zr-94025730.html",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-036",
+    "imported_from": "20260816_MK_H1_2026_Coverage.xlsx:Oct–Dec 2025 Clippings",
+    "format": "",
+    "people_note": "wie fr.de-Original im Bestand"
+  },
+  {
+    "date": "2025-11-06",
+    "outlet": "echo24.de",
+    "title": "Merz reist nach Brasilien: Deutschlands Klimapolitik bei COP30 auf dem Prüfstein",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.echo24.de/welt/merz-reist-zur-klimakonferenz-cop30-nach-brasilien-klimapolitik-auf-dem-pruefstein-zr-94025730.html",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-037",
+    "imported_from": "20260816_MK_H1_2026_Coverage.xlsx:Oct–Dec 2025 Clippings",
+    "format": "",
+    "people_note": "wie fr.de-Original im Bestand"
+  },
+  {
+    "date": "2025-11-06",
+    "outlet": "hersfelder-zeitung.de",
+    "title": "Merz reist nach Brasilien: Deutschlands Klimapolitik bei COP30 auf dem Prüfstein",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.hersfelder-zeitung.de/politik/merz-reist-zur-klimakonferenz-cop30-nach-brasilien-klimapolitik-auf-dem-pruefstein-zr-94025730.html",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-038",
+    "imported_from": "20260816_MK_H1_2026_Coverage.xlsx:Oct–Dec 2025 Clippings",
+    "format": "",
+    "people_note": "wie fr.de-Original im Bestand"
+  },
+  {
+    "date": "2025-11-06",
+    "outlet": "HNA online",
+    "title": "Merz reist nach Brasilien: Deutschlands Klimapolitik bei COP30 auf dem Prüfstein",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.hna.de/politik/merz-reist-zur-klimakonferenz-cop30-nach-brasilien-klimapolitik-auf-dem-pruefstein-zr-94025730.html",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-039",
+    "imported_from": "20260816_MK_H1_2026_Coverage.xlsx:Oct–Dec 2025 Clippings",
+    "format": "",
+    "people_note": "wie fr.de-Original im Bestand"
+  },
+  {
+    "date": "2025-11-06",
+    "outlet": "kreisbote.de",
+    "title": "Merz reist nach Brasilien: Deutschlands Klimapolitik bei COP30 auf dem Prüfstein",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.kreisbote.de/politik/merz-reist-zur-klimakonferenz-cop30-nach-brasilien-klimapolitik-auf-dem-pruefstein-zr-94025730.html",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-040",
+    "imported_from": "20260816_MK_H1_2026_Coverage.xlsx:Oct–Dec 2025 Clippings",
+    "format": "",
+    "people_note": "wie fr.de-Original im Bestand"
+  },
+  {
+    "date": "2025-11-06",
+    "outlet": "kreiszeitung.de (Syke)",
+    "title": "Merz reist nach Brasilien: Deutschlands Klimapolitik bei COP30 auf dem Prüfstein",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.kreiszeitung.de/politik/merz-reist-zur-klimakonferenz-cop30-nach-brasilien-klimapolitik-auf-dem-pruefstein-zr-94025730.html",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-041",
+    "imported_from": "20260816_MK_H1_2026_Coverage.xlsx:Oct–Dec 2025 Clippings",
+    "format": "",
+    "people_note": "wie fr.de-Original im Bestand"
+  },
+  {
+    "date": "2025-11-06",
+    "outlet": "Leinetal24.de",
+    "title": "Merz reist nach Brasilien: Deutschlands Klimapolitik bei COP30 auf dem Prüfstein",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.leinetal24.de/welt/merz-reist-zur-klimakonferenz-cop30-nach-brasilien-klimapolitik-auf-dem-pruefstein-zr-94025730.html",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-042",
+    "imported_from": "20260816_MK_H1_2026_Coverage.xlsx:Oct–Dec 2025 Clippings",
+    "format": "",
+    "people_note": "wie fr.de-Original im Bestand"
+  },
+  {
+    "date": "2025-11-06",
+    "outlet": "come-on.de (Märkischer Zeitungsverlag)",
+    "title": "Merz reist nach Brasilien: Deutschlands Klimapolitik bei COP30 auf dem Prüfstein",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.come-on.de/politik/merz-reist-zur-klimakonferenz-cop30-nach-brasilien-klimapolitik-auf-dem-pruefstein-zr-94025730.html",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-043",
+    "imported_from": "20260816_MK_H1_2026_Coverage.xlsx:Oct–Dec 2025 Clippings",
+    "format": "",
+    "people_note": "wie fr.de-Original im Bestand"
+  },
+  {
+    "date": "2025-11-06",
+    "outlet": "Merkur.de (Münchner Merkur)",
+    "title": "Merz reist nach Brasilien: Deutschlands Klimapolitik bei COP30 auf dem Prüfstein",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.merkur.de/politik/merz-reist-zur-klimakonferenz-cop30-nach-brasilien-klimapolitik-auf-dem-pruefstein-zr-94025730.html",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-044",
+    "imported_from": "20260816_MK_H1_2026_Coverage.xlsx:Oct–Dec 2025 Clippings",
+    "format": "",
+    "people_note": "wie fr.de-Original im Bestand"
+  },
+  {
+    "date": "2025-11-06",
+    "outlet": "OVB online (Oberbayerisches Volksblatt)",
+    "title": "Merz reist nach Brasilien: Deutschlands Klimapolitik bei COP30 auf dem Prüfstein",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.ovb-online.de/weltspiegel/politik/merz-reist-zur-klimakonferenz-cop30-nach-brasilien-klimapolitik-auf-dem-pruefstein-zr-94025730.html",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-045",
+    "imported_from": "20260816_MK_H1_2026_Coverage.xlsx:Oct–Dec 2025 Clippings",
+    "format": "",
+    "people_note": "wie fr.de-Original im Bestand"
+  },
+  {
+    "date": "2025-11-06",
+    "outlet": "oberhessische-zeitung.de",
+    "title": "Merz reist nach Brasilien: Deutschlands Klimapolitik bei COP30 auf dem Prüfstein",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.oberhessische-zeitung.de/politik/merz-reist-zur-klimakonferenz-cop30-nach-brasilien-klimapolitik-auf-dem-pruefstein-zr-94025730.html",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-046",
+    "imported_from": "20260816_MK_H1_2026_Coverage.xlsx:Oct–Dec 2025 Clippings",
+    "format": "",
+    "people_note": "wie fr.de-Original im Bestand"
+  },
+  {
+    "date": "2025-11-06",
+    "outlet": "OFFENBACH-POST ONLINE",
+    "title": "Merz reist nach Brasilien: Deutschlands Klimapolitik bei COP30 auf dem Prüfstein",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.op-online.de/politik/merz-reist-zur-klimakonferenz-cop30-nach-brasilien-klimapolitik-auf-dem-pruefstein-zr-94025730.html",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-047",
+    "imported_from": "20260816_MK_H1_2026_Coverage.xlsx:Oct–Dec 2025 Clippings",
+    "format": "",
+    "people_note": "wie fr.de-Original im Bestand"
+  },
+  {
+    "date": "2025-11-06",
+    "outlet": "gmuender-tagespost.de",
+    "title": "Merz reist nach Brasilien: Deutschlands Klimapolitik bei COP30 auf dem Prüfstein",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.gmuender-tagespost.de/welt/politik/merz-reist-zur-klimakonferenz-cop30-nach-brasilien-klimapolitik-auf-dem-pruefstein-zr-94025730.html",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-048",
+    "imported_from": "20260816_MK_H1_2026_Coverage.xlsx:Oct–Dec 2025 Clippings",
+    "format": "",
+    "people_note": "wie fr.de-Original im Bestand"
+  },
+  {
+    "date": "2025-11-06",
+    "outlet": "schwaebische-post.de",
+    "title": "Merz reist nach Brasilien: Deutschlands Klimapolitik bei COP30 auf dem Prüfstein",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.schwaebische-post.de/welt/politik/merz-reist-zur-klimakonferenz-cop30-nach-brasilien-klimapolitik-auf-dem-pruefstein-zr-94025730.html",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-049",
+    "imported_from": "20260816_MK_H1_2026_Coverage.xlsx:Oct–Dec 2025 Clippings",
+    "format": "",
+    "people_note": "wie fr.de-Original im Bestand"
+  },
+  {
+    "date": "2025-11-06",
+    "outlet": "tz-online.de",
+    "title": "Merz reist nach Brasilien: Deutschlands Klimapolitik bei COP30 auf dem Prüfstein",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.tz.de/politik/merz-reist-zur-klimakonferenz-cop30-nach-brasilien-klimapolitik-auf-dem-pruefstein-zr-94025730.html",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-050",
+    "imported_from": "20260816_MK_H1_2026_Coverage.xlsx:Oct–Dec 2025 Clippings",
+    "format": "",
+    "people_note": "wie fr.de-Original im Bestand"
+  },
+  {
+    "date": "2025-11-06",
+    "outlet": "Waldeckische Landeszeitung Online",
+    "title": "Merz reist nach Brasilien: Deutschlands Klimapolitik bei COP30 auf dem Prüfstein",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.wlz-online.de/politik/merz-reist-zur-klimakonferenz-cop30-nach-brasilien-klimapolitik-auf-dem-pruefstein-zr-94025730.html",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-051",
+    "imported_from": "20260816_MK_H1_2026_Coverage.xlsx:Oct–Dec 2025 Clippings",
+    "format": "",
+    "people_note": "wie fr.de-Original im Bestand"
+  },
+  {
+    "date": "2025-11-06",
+    "outlet": "werra-rundschau.de",
+    "title": "Merz reist nach Brasilien: Deutschlands Klimapolitik bei COP30 auf dem Prüfstein",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.werra-rundschau.de/politik/merz-reist-zur-klimakonferenz-cop30-nach-brasilien-klimapolitik-auf-dem-pruefstein-zr-94025730.html",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-052",
+    "imported_from": "20260816_MK_H1_2026_Coverage.xlsx:Oct–Dec 2025 Clippings",
+    "format": "",
+    "people_note": "wie fr.de-Original im Bestand"
+  },
+  {
+    "date": "2025-11-06",
+    "outlet": "soester-anzeiger.de",
+    "title": "Merz reist nach Brasilien: Deutschlands Klimapolitik bei COP30 auf dem Prüfstein",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.soester-anzeiger.de/politik/merz-reist-zur-klimakonferenz-cop30-nach-brasilien-klimapolitik-auf-dem-pruefstein-zr-94025730.html",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-053",
+    "imported_from": "20260816_MK_H1_2026_Coverage.xlsx:Oct–Dec 2025 Clippings",
+    "format": "",
+    "people_note": "wie fr.de-Original im Bestand"
+  },
+  {
+    "date": "2025-11-06",
+    "outlet": "wa.de (Westfälischer Anzeiger)",
+    "title": "Merz reist nach Brasilien: Deutschlands Klimapolitik bei COP30 auf dem Prüfstein",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.wa.de/politik/merz-reist-zur-klimakonferenz-cop30-nach-brasilien-klimapolitik-auf-dem-pruefstein-zr-94025730.html",
+    "people": [
+      "Johannes Feist"
+    ],
+    "added_at": "2026-10-16T18:13:05",
+    "source": "manual",
+    "id": "x-20261016-054",
+    "imported_from": "20260816_MK_H1_2026_Coverage.xlsx:Oct–Dec 2025 Clippings",
+    "format": "",
+    "people_note": "wie fr.de-Original im Bestand"
+  },
+  {
     "date": "2025-07-10",
     "outlet": "Handelszeitung",
     "title": "Zwischen ESG-Müdigkeit und Wirkungsanspruch",
@@ -1284,24 +2483,9 @@
     "added_at": "2026-03-22T11:00:00",
     "source": "auto",
     "id": "fix-36-1774883372",
-    "people": [],
-    "people_checked": "seite nicht lesbar"
-  },
-  {
-    "date": "2024-01-01",
-    "outlet": "FONDS exklusiv Österreich",
-    "title": "Schwellenländer: Worauf es jetzt ankommt",
-    "country": "A",
-    "type": "Online",
-    "tier": 2,
-    "link": "https://www.fondsexklusiv.at/schwellenlaender-worauf-es-jetzt-ankommt/",
-    "added_at": "2026-05-28T09:49:27.575673",
-    "source": "auto",
-    "id": "g-1779961767-0",
     "people": [
       "Johannes Feist"
     ],
-    "byline": true,
-    "author": "Raja"
+    "people_note": "Autorenzeile auf der Seite geprüft (16.10.2026)"
   }
 ]

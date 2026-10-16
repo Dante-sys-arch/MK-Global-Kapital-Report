@@ -79,6 +79,8 @@ const SPOKES=["Johannes Feist","Louiza Savchenko","Michele Mattioda"];
 let clips=[], review=[], agentStatus=null, tab="dash", search="", loadError="", loading=true, flash="";
 
 function esc(t){return String(t??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+// Print, E-Paper, "Print & Online", "Print & Digital" count as print; Online, Newsletter, "TV & Online" as online.
+function isPrint(c){return /print|e-paper/i.test(c.type||"");}
 function token(){try{return localStorage.getItem(TOKEN_KEY)||"";}catch(e){return "";}}
 function setToken(t){try{t?localStorage.setItem(TOKEN_KEY,t.trim()):localStorage.removeItem(TOKEN_KEY);}catch(e){}}
 function oldLocal(){try{const d=localStorage.getItem(OLD_LOCAL);return d?JSON.parse(d):[];}catch(e){return [];}}
@@ -141,7 +143,7 @@ function statusBanner(){
 function stats(){
   const s={total:clips.length,online:0,print:0,outlets:new Set(clips.map(c=>c.outlet).filter(Boolean)).size,byMonth:{},byCountry:{},byOutlet:{},bySpeaker:{}};
   clips.forEach(c=>{
-    const t=(c.type||"Online");if(t==="Online")s.online++;else s.print++;
+    if(isPrint(c))s.print++;else s.online++;
     if(c.date){const m=c.date.slice(0,7);s.byMonth[m]=(s.byMonth[m]||0)+1;}
     if(c.country)s.byCountry[c.country]=(s.byCountry[c.country]||0)+1;
     if(c.outlet)s.byOutlet[c.outlet]=(s.byOutlet[c.outlet]||0)+1;
@@ -167,8 +169,8 @@ function render(){
         ${[["Total",s.total,"#4f8ff7"],["Online",s.online,"#a78bfa"],["Print/E-Paper",s.print,"#f472b6"],["Medien",s.outlets,"#22d3ee"],...SPOKES.map((p,i)=>[p.split(" ").pop(),s.bySpeaker[p]||0,["#34d399","#fbbf24","#fb923c"][i]])].map(([l,v,c])=>`<div class="card"><div class="kpi-val" style="color:${c}">${v}</div><div class="kpi-label">${esc(l)}</div></div>`).join("")}
       </div>
       <div class="card"><h3 class="h3">Clippings pro Monat</h3>
-        <div style="display:flex;gap:8px;align-items:flex-end;height:110px">
-          ${Object.entries(s.byMonth).sort().slice(-14).map(([m,c])=>`<div style="flex:1;text-align:center"><div style="height:${Math.max(6,(c/maxM)*85)}px;background:linear-gradient(180deg,#4f8ff7,#2563eb);border-radius:4px 4px 0 0"></div><div style="font-size:9px;color:#4a5a6c;margin-top:3px" class="mono">${m.slice(2).replace("-","/")}</div><div style="font-size:12px;color:#98a8b8;font-weight:600">${c}</div></div>`).join("")}
+        <div style="display:flex;gap:4px;align-items:flex-end;height:118px;overflow-x:auto">
+          ${Object.entries(s.byMonth).sort().slice(-14).map(([m,c])=>`<div style="flex:1 0 24px;text-align:center"><div style="height:${Math.max(6,(c/maxM)*85)}px;background:linear-gradient(180deg,#4f8ff7,#2563eb);border-radius:4px 4px 0 0"></div><div style="font-size:9px;color:#4a5a6c;margin-top:3px" class="mono">${m.slice(2).replace("-","/")}</div><div style="font-size:12px;color:#98a8b8;font-weight:600">${c}</div></div>`).join("")}
         </div>
       </div>
       <div class="card" style="margin-top:14px"><h3 class="h3">Neueste Clippings</h3>
@@ -277,7 +279,7 @@ function render(){
       <div class="card" style="margin-top:14px"><h3 class="h3">Monatliches Detail</h3>
         <table><thead><tr><th>Monat</th><th>Gesamt</th><th>Online</th><th>Print/E-Paper</th></tr></thead>
         <tbody>${Object.entries(s.byMonth).sort().map(([m,c])=>{
-          const on=clips.filter(cl=>cl.date&&cl.date.startsWith(m)&&(cl.type||"Online")==="Online").length;
+          const on=clips.filter(cl=>cl.date&&cl.date.startsWith(m)&&!isPrint(cl)).length;
           return `<tr><td class="mono">${m}</td><td style="font-weight:600;color:#4f8ff7">${c}</td><td>${on}</td><td>${c-on}</td></tr>`;
         }).join("")}</tbody></table>
       </div>`;
