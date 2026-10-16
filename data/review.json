@@ -37,7 +37,7 @@
     "people": [
       "Johannes Feist"
     ],
-    "reason": "unklar: Claude-Fehler",
+    "reason": "unklar: Experten-Umfrage, die Seite war nicht lesbar und im Ausschnitt steht kein Name. Ob MK Global Kapital oder eine der Personen vorkommt, lässt sich nicht prüfen.",
     "found_via": [
       "gnews"
     ],
@@ -45,33 +45,18 @@
     "added_at": "2026-10-16T10:24:17"
   },
   {
-    "link": "https://www.private-banking-magazin.de/peter-peterburs-verlaesst-bny-mellon/",
-    "title": "Peter Peterburs verlässt BNY Mellon",
-    "outlet": "Private Banking Magazin",
-    "date": "2026-09-07",
-    "people": [
-      "Johannes Feist"
-    ],
-    "reason": "unklar: Claude-Fehler",
-    "found_via": [
-      "gnews"
-    ],
-    "snippet": "Peter Peterburs verlässt BNY Mellon private banking magazin",
-    "added_at": "2026-10-16T10:24:17"
-  },
-  {
-    "link": "https://background.tagesspiegel.de/finance/briefing/kreditzugang-ist-mehr-als-ein-score",
-    "title": "Digitale Kreditvergabe : Kreditzugang ist mehr als ein Score",
-    "outlet": "background.tagesspiegel",
-    "date": "2026-06-24",
+    "link": "https://www.moneycab.com/dossiers/vp-bank-spotanalyse-eu-und-usa-einigen-sich-auf-15-zollsatz-fuer-importe/",
+    "title": "VP Bank Spotanalyse: EU und USA einigen sich auf 15 % Zollsatz für Importe",
+    "outlet": "Moneycab",
+    "date": "2025-07-28",
     "people": [
       "Louiza Savchenko"
     ],
-    "reason": "unklar: Claude-Fehler",
+    "reason": "unklar: Der Artikel ist ein VP-Bank-Spotanalyse-Beitrag zu Zöllen. Der Savchenko-Teaser steht nur als Textblock der Moneycab-Seite (vermutlich Seitenleiste oder Linkliste) und nicht im Artikeltext.",
     "found_via": [
-      "bing"
+      "gnews"
     ],
-    "snippet": "Louiza Savchenko, Chief Legal Officer und Board Member bei der Luxemburger Impact-Investing-Fondsgesellschaft MK Global Kapital ...",
-    "added_at": "2026-10-16T10:24:17"
+    "snippet": "VP Bank Spotanalyse: EU und USA einigen sich auf 15 % Zollsatz für Importe Moneycab",
+    "added_at": "2026-10-16T13:30:07"
   }
 ]

@@ -1,12 +1,10 @@
 {
-  "run_at": "2026-10-16T13:14:43+00:00",
-  "status": "error",
-  "problems": [
-    "Keine Google-Websuche: Custom Search gesperrt, Serper nicht eingerichtet (Secret SERPER_API_KEY)"
-  ],
+  "run_at": "2026-10-16T13:30:16+00:00",
+  "status": "warn",
+  "problems": [],
   "warnings": [
-    "Google News: 1222 von 1619 Anfragen gescheitert"
+    "Nur 31 von 53 RSS-Feeds liefern Einträge"
   ],
-  "new": 0,
-  "review_open": 7
+  "new": 5,
+  "review_open": 4
 }
