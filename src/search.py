@@ -247,7 +247,12 @@ class Agent:
         site_terms = cfg.get("gnews_site_terms", "")
         budget = CseBudget(cfg.get("google_daily_budget", 90))
         self.cse_budget = budget
+        collect_until = time.time() + 0.5 * max(0, (self.deadline or time.time()) - time.time())
         for a, b in _month_windows(start, end):
+            if self.deadline and time.time() > collect_until:
+                self.stats.note("gnews", f"Zeitbudget: Nachsuche ab {a.isoformat()} nicht mehr gelaufen, bitte erneut starten")
+                self.counts["backfill_stopped_at"] = a.isoformat()
+                break
             span = f" after:{a.isoformat()} before:{(b + timedelta(days=1)).isoformat()}"
             cands += google_news([q + span for q in cfg.get("gnews_queries", [])], self.stats, own_domains=self.own)
             if site_terms:
