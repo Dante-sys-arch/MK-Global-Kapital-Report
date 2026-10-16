@@ -32,7 +32,7 @@ concurrency:
 jobs:
   clipping-search:
     runs-on: ubuntu-latest
-    timeout-minutes: 120
+    timeout-minutes: 180
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -45,8 +45,8 @@ jobs:
           GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
           GOOGLE_CX: ${{ secrets.GOOGLE_CX }}
           SERPER_API_KEY: ${{ secrets.SERPER_API_KEY }}
-          MODE: ${{ github.event.inputs.mode || 'daily' }}
-          DATE_FROM: ${{ github.event.inputs.date_from }}
+          MODE: ${{ github.event.inputs.mode || (github.event_name == 'push' && 'backfill') || 'daily' }}
+          DATE_FROM: ${{ github.event.inputs.date_from || (github.event_name == 'push' && '2025-07-01') || '' }}
           DATE_TO: ${{ github.event.inputs.date_to }}
           DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
         run: |

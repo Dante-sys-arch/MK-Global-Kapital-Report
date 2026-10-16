@@ -34,12 +34,21 @@ def evaluate(channels, counts, placements):
         problems.append("Kein einziger RSS-Feed erreichbar")
     elif rss["requests"] and rss["ok"] < 0.6 * rss["requests"]:
         warnings.append(f"Nur {rss['ok']} von {rss['requests']} RSS-Feeds liefern Einträge")
-    for name in ("gnews", "google"):
-        c = ch(name)
-        if c["requests"] and c["ok"] == 0:
-            problems.append(f"{LABELS[name]}: alle {c['requests']} Anfragen gescheitert ({'; '.join(c['notes'][:2])})")
-        elif c["errors"]:
-            warnings.append(f"{LABELS[name]}: {c['errors']} von {c['requests']} Anfragen gescheitert")
+    gn = ch("gnews")
+    if gn["requests"] and gn["ok"] == 0:
+        problems.append(f"{LABELS['gnews']}: alle {gn['requests']} Anfragen gescheitert ({'; '.join(gn['notes'][:2])})")
+    elif gn["errors"]:
+        warnings.append(f"{LABELS['gnews']}: {gn['errors']} von {gn['requests']} Anfragen gescheitert")
+    go, sp0 = ch("google"), ch("serper")
+    google_dead = go["requests"] and go["ok"] == 0
+    serper_ok = sp0["ok"] > 0
+    if google_dead and not serper_ok:
+        reason = "Custom Search gesperrt" if any("does not have the access" in n for n in go["notes"]) else "; ".join(go["notes"][:1])
+        problems.append(f"Keine Google-Websuche: {reason}, Serper nicht eingerichtet (Secret SERPER_API_KEY)")
+    elif google_dead:
+        warnings.append("Google Custom Search ausgefallen, Websuche läuft über Serper")
+    elif go["errors"]:
+        warnings.append(f"{LABELS['google']}: {go['errors']} von {go['requests']} Anfragen gescheitert")
     if any("keine Zugangsdaten" in n for n in ch("google")["notes"]):
         warnings.append("Google Websuche ohne Zugangsdaten")
     cl = ch("claude")
