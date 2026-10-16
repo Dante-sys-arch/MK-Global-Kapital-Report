@@ -304,5 +304,6 @@
     "\"Savchenko\" \"MK Global\" OR Tokenisierung",
     "\"MK Global Capital\" OR \"Mikrokapital\""
   ],
-  "serpapi_daily_budget": 8
+  "serpapi_daily_budget": 8,
+  "auto_backfill_from": "2025-07-01"
 }

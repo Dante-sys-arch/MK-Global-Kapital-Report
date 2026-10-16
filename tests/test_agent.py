@@ -251,6 +251,21 @@ class AgentTests(unittest.TestCase):
         saved = json.loads((self.tmp / "data" / "clippings.json").read_text(encoding="utf-8"))
         self.assertEqual(len(saved), 4)
 
+    def test_rolling_backfill_one_month_per_run(self):
+        cfg = client_config._apply_defaults(dict(CFG))
+        calls = []
+        with mock.patch("search.google_news", side_effect=lambda qs, *a, **k: calls.extend(qs) or []):
+            agent = self.search.Agent(cfg)
+            agent.state.data["backfill_next"] = "2025-07"
+            agent._rolling_backfill()
+            self.assertEqual(agent.state.data["backfill_next"], "2025-08")
+            self.assertTrue(all("after:2025-07-01 before:2025-08-01" in q for q in calls))
+            from sources import GNEWS_THROTTLE
+            GNEWS_THROTTLE["hit"] = True
+            agent._rolling_backfill()
+            self.assertEqual(agent.state.data["backfill_next"], "2025-08")  # throttled: no progress
+            GNEWS_THROTTLE["hit"] = False
+
     def test_claude_failure_goes_to_review_not_into_clippings(self):
         from validator import Validator
         from sources import Stats

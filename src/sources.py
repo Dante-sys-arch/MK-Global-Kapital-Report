@@ -217,11 +217,18 @@ def gnews_url(query, hl, gl, ceid):
     return f"https://news.google.com/rss/search?q={quote_plus(query)}&hl={hl}&gl={gl}&ceid={ceid}"
 
 
+GNEWS_THROTTLE = {"hit": False}  # set once Google answers 429/503; no more requests this run
+
+
 def google_news(queries, stats, editions=GNEWS_EDITIONS, own_domains=()):
     out, seen = [], set()
     st = stats.ch("gnews")
+    streak = 0
     for q in queries:
         for hl, gl, ceid in editions:
+            if GNEWS_THROTTLE["hit"]:
+                st["candidates"] += len(out)
+                return out
             url = gnews_url(q, hl, gl, ceid)
             st["requests"] += 1
             try:
@@ -230,10 +237,18 @@ def google_news(queries, stats, editions=GNEWS_EDITIONS, own_domains=()):
                 st["errors"] += 1
                 stats.note("gnews", f"{q} [{gl}]: {type(exc).__name__}")
                 continue
+            if resp.status_code in (429, 503):
+                streak += 1
+                st["errors"] += 1
+                if streak >= 2:
+                    GNEWS_THROTTLE["hit"] = True
+                    stats.note("gnews", f"Google drosselt (HTTP {resp.status_code}), restliche Suchen im nächsten Lauf")
+                continue
             if resp.status_code != 200:
                 st["errors"] += 1
                 stats.note("gnews", f"{q} [{gl}]: HTTP {resp.status_code}")
                 continue
+            streak = 0
             st["ok"] += 1
             feed = feedparser.parse(resp.content)
             for e in feed.entries:

@@ -149,6 +149,8 @@ class Agent:
         self.validator = Validator(cfg, self.matcher, self.stats)
         self.deadline = None
         self.out_of_time = 0
+        from sources import GNEWS_THROTTLE
+        GNEWS_THROTTLE["hit"] = False
         self._reindex()
 
     def _time_left(self):
@@ -238,6 +240,35 @@ class Agent:
         if st.due_today("site"):
             cands += site_search(cfg.get("home_outlets", []), cfg.get("site_search_terms", []), st, self.stats, self.matcher, self.own)
             st.mark_done_today("site")
+        cands += self._rolling_backfill()
+        return cands
+
+    def _rolling_backfill(self):
+        """Search one past month per daily run (Google News with date range), oldest first.
+
+        A full backfill in one go gets throttled by Google; one month per night stays well below that.
+        """
+        from sources import GNEWS_THROTTLE
+        start_from = self.cfg.get("auto_backfill_from")
+        if not start_from or GNEWS_THROTTLE["hit"]:
+            return []
+        nxt = self.state.data.get("backfill_next") or start_from[:7]
+        current = today_utc().strftime("%Y-%m")
+        if nxt >= current:
+            return []
+        a = date.fromisoformat(nxt + "-01")
+        b = (a.replace(day=28) + timedelta(days=4)).replace(day=1) - timedelta(days=1)
+        span = f" after:{a.isoformat()} before:{(b + timedelta(days=1)).isoformat()}"
+        outlets = self.cfg.get("home_outlets", []) + self.cfg.get("search_only_outlets", [])
+        cands = google_news([q + span for q in self.cfg.get("gnews_queries", [])], self.stats, own_domains=self.own)
+        if self.cfg.get("gnews_site_terms"):
+            cands += google_news([f"site:{d} {self.cfg['gnews_site_terms']}{span}" for d in outlets], self.stats,
+                                 editions=GNEWS_EDITIONS[:1], own_domains=self.own)
+        if not GNEWS_THROTTLE["hit"]:
+            self.state.data["backfill_next"] = (b + timedelta(days=1)).strftime("%Y-%m")
+            self.counts["backfill_month"] = nxt
+        else:
+            self.stats.note("gnews", f"Nachsuche {nxt} wegen Drosselung verschoben")
         return cands
 
     def collect_backfill(self, start, end):
