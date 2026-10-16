@@ -1,0 +1,765 @@
+{
+  "client": "mk-global-kapital",
+  "run_at": "2026-10-16T09:53:33+00:00",
+  "mode": "daily",
+  "dry_run": true,
+  "duration_s": 1111,
+  "health": {
+    "status": "error",
+    "problems": [
+      "Google Websuche (Custom Search): alle 1 Anfragen gescheitert (HTTP 403: {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"This project does not have the access to Custom Search JSON API.\",\n    \"errors\": [\n      {\n        \"message\": \"T; Tageskontingent erreicht)",
+      "Claude-Prüfung fehlgeschlagen (BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go). Unklare Fälle liegen in der Prüfliste."
+    ],
+    "warnings": [
+      "Nur 28 von 53 RSS-Feeds liefern Einträge"
+    ]
+  },
+  "counts": {
+    "candidates": 726,
+    "unique": 648,
+    "already_known": 17,
+    "already_checked": 0,
+    "fetched": 594,
+    "fetch_failed": 39,
+    "no_match": 556,
+    "gnews_unresolved": 0,
+    "deferred": 0
+  },
+  "channels": {
+    "rss": {
+      "requests": 53,
+      "ok": 28,
+      "errors": 25,
+      "candidates": 1,
+      "notes": [
+        "https://www.finews.ch/news/finanzplatz/rss/1finews: HTTP 404",
+        "https://www.dasinvestment.com/feed/: HTTP 404",
+        "https://www.fondsprofessionell.de/rss/news.xml: keine Einträge",
+        "https://www.institutional-money.com/rss/news/: keine Einträge",
+        "https://www.handelszeitung.ch/rss.xml: HTTP 404",
+        "https://www.boersen-zeitung.de/rss: HTTP 404",
+        "https://www.wiwo.de/contentexport/feed/rss/schlagzeilen/finanzen/: HTTP 404",
+        "https://www.capital.de/feed/rss: HTTP 404",
+        "https://kurier.at/wirtschaft/rss: HTTP 404",
+        "https://investrends.ch/feed/: HTTP 404",
+        "https://e-fundresearch.com/rss: HTTP 404",
+        "https://www.cash.ch/rss/news: HTTP 404",
+        "https://citywire.de/feed/: keine Einträge",
+        "https://www.private-banking-magazin.de/feed/: HTTP 404",
+        "https://www.fixed-income.org/feed/: HTTP 404",
+        "https://www.finanzwelt.de/feed/: HTTP 403",
+        "exxecnews.org: ConnectionError",
+        "https://www.kreditwesen.de/feed/: HTTP 404",
+        "https://www.allnews.ch/rss: HTTP 403",
+        "https://www.swissfinanceai.ch/feed/: HTTP 403",
+        "https://www.srf.ch/news/wirtschaft/rss/feed: HTTP 404",
+        "https://www.tagesanzeiger.ch/wirtschaft/rss.xml: HTTP 404",
+        "https://fondstrends.ch/feed/: keine Einträge",
+        "https://www.fundresearch.de/feed/: HTTP 404",
+        "https://privatemarkets360.com/feed/: HTTP 404"
+      ]
+    },
+    "gnews": {
+      "requests": 138,
+      "ok": 138,
+      "errors": 0,
+      "candidates": 56,
+      "notes": []
+    },
+    "sitemap": {
+      "requests": 36,
+      "ok": 20,
+      "errors": 9,
+      "candidates": 624,
+      "notes": [
+        "bondguide.de: 91 neue Artikel, nur 40 geprüft",
+        "moneycab.com: 390 neue Artikel, nur 40 geprüft",
+        "cash-online.de: 180 neue Artikel, nur 40 geprüft",
+        "fondsexklusiv.de: keine datierten neuen URLs",
+        "fondsexklusiv.at: keine datierten neuen URLs",
+        "dfpa.info: 325 neue Artikel, nur 40 geprüft",
+        "markteinblicke.de: 203 neue Artikel, nur 40 geprüft",
+        "finews.ch: 133 neue Artikel, nur 40 geprüft",
+        "private-banking-magazin.de: keine datierten neuen URLs",
+        "institutional-money.com: keine Sitemap gefunden",
+        "fixed-income.org: keine Sitemap gefunden",
+        "e-fundresearch.com: 593 neue Artikel, nur 40 geprüft",
+        "exxecnews.org: keine Sitemap gefunden",
+        "geldmeisterin.com: keine datierten neuen URLs",
+        "swissfinanceai.ch: keine datierten neuen URLs",
+        "kreditwesen.de: 134 neue Artikel, nur 40 geprüft",
+        "handelszeitung.ch: keine datierten neuen URLs",
+        "dasinvestment.com: keine datierten neuen URLs",
+        "privatemarkets360.com: 593 neue Artikel, nur 40 geprüft",
+        "allnews.ch: keine Sitemap gefunden",
+        "fondsprofessionell.de: keine Sitemap gefunden",
+        "fondsprofessionell.at: keine Sitemap gefunden",
+        "citywire.de: keine Sitemap gefunden",
+        "finanzwelt.de: keine Sitemap gefunden",
+        "fondstrends.ch: keine Sitemap gefunden",
+        "cash.ch: 511 neue Artikel, nur 40 geprüft",
+        "platow.de: 112 neue Artikel, nur 40 geprüft"
+      ]
+    },
+    "google": {
+      "requests": 1,
+      "ok": 0,
+      "errors": 1,
+      "candidates": 0,
+      "notes": [
+        "HTTP 403: {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"This project does not have the access to Custom Search JSON API.\",\n    \"errors\": [\n      {\n        \"message\": \"T",
+        "Tageskontingent erreicht",
+        "Tageskontingent erreicht",
+        "Tageskontingent erreicht",
+        "Tageskontingent erreicht",
+        "Tageskontingent erreicht",
+        "Tageskontingent erreicht",
+        "Tageskontingent erreicht",
+        "Tageskontingent erreicht",
+        "Tageskontingent erreicht",
+        "Tageskontingent erreicht",
+        "Tageskontingent erreicht",
+        "Tageskontingent erreicht",
+        "Tageskontingent erreicht",
+        "Tageskontingent erreicht",
+        "Tageskontingent erreicht",
+        "Tageskontingent erreicht",
+        "Tageskontingent erreicht",
+        "Tageskontingent erreicht",
+        "Tageskontingent erreicht",
+        "Tageskontingent erreicht",
+        "Tageskontingent erreicht",
+        "Tageskontingent erreicht",
+        "Tageskontingent erreicht",
+        "Tageskontingent erreicht"
+      ]
+    },
+    "serper": {
+      "requests": 0,
+      "ok": 0,
+      "errors": 0,
+      "candidates": 0,
+      "notes": [
+        "kein SERPER_API_KEY hinterlegt, Kanal aus"
+      ]
+    },
+    "site": {
+      "requests": 76,
+      "ok": 10,
+      "errors": 2,
+      "candidates": 74,
+      "notes": [
+        "fondsexklusiv.de: keine WordPress-Suche (HTTP 401)",
+        "fondsexklusiv.at: keine WordPress-Suche (HTTP 401)",
+        "investrends.ch: keine WordPress-Suche (HTTP 403)",
+        "finews.ch: keine WordPress-Suche (HTTP 403)",
+        "private-banking-magazin.de: keine WordPress-Suche (HTTP 404)",
+        "institutional-money.com: keine WordPress-Suche (HTTP 200)",
+        "fixed-income.org: keine WordPress-Suche (HTTP 404)",
+        "altii.de: keine WordPress-Suche (HTTP 401)",
+        "e-fundresearch.com: keine WordPress-Suche (HTTP 404)",
+        "exxecnews.org: ConnectionError",
+        "geldmeisterin.com: keine WordPress-Suche (HTTP 404)",
+        "swissfinanceai.ch: keine WordPress-Suche (HTTP 403)",
+        "kreditwesen.de: keine WordPress-Suche (HTTP 404)",
+        "handelszeitung.ch: keine WordPress-Suche (HTTP 404)",
+        "dasinvestment.com: keine WordPress-Suche (HTTP 404)",
+        "privatemarkets360.com: keine WordPress-Suche (HTTP 404)",
+        "allnews.ch: keine WordPress-Suche (HTTP 403)",
+        "fondsprofessionell.de: keine WordPress-Suche (HTTP 200)",
+        "fondsprofessionell.at: keine WordPress-Suche (HTTP 200)",
+        "citywire.de: SSLError",
+        "fundresearch.de: keine WordPress-Suche (HTTP 404)",
+        "finanzwelt.de: keine WordPress-Suche (HTTP 403)",
+        "procontra-online.de: keine WordPress-Suche (HTTP 403)",
+        "fondstrends.ch: keine WordPress-Suche (HTTP 440)",
+        "cash.ch: keine WordPress-Suche (HTTP 404)",
+        "platow.de: keine WordPress-Suche (HTTP 401)"
+      ]
+    },
+    "fetch": {
+      "requests": 0,
+      "ok": 0,
+      "errors": 0,
+      "candidates": 0,
+      "notes": [
+        "faz.net: HTTP 302",
+        "finanzen.net: HTTP 403",
+        "faz.net: HTTP 302",
+        "bondguide.de: HTTP 429",
+        "bondguide.de: HTTP 429",
+        "bondguide.de: HTTP 429",
+        "bondguide.de: HTTP 429",
+        "bondguide.de: HTTP 429",
+        "bondguide.de: HTTP 429",
+        "bondguide.de: HTTP 429",
+        "bondguide.de: HTTP 429",
+        "bondguide.de: HTTP 429",
+        "bondguide.de: HTTP 429",
+        "bondguide.de: HTTP 429",
+        "bondguide.de: HTTP 429",
+        "bondguide.de: HTTP 429",
+        "bondguide.de: HTTP 429",
+        "bondguide.de: HTTP 429",
+        "bondguide.de: HTTP 429",
+        "bondguide.de: HTTP 429",
+        "bondguide.de: HTTP 429",
+        "bondguide.de: HTTP 429",
+        "bondguide.de: HTTP 429",
+        "bondguide.de: HTTP 429",
+        "bondguide.de: HTTP 429",
+        "bondguide.de: HTTP 429",
+        "bondguide.de: HTTP 429",
+        "bondguide.de: HTTP 429",
+        "bondguide.de: HTTP 429",
+        "bondguide.de: HTTP 429",
+        "bondguide.de: HTTP 429",
+        "bondguide.de: HTTP 429",
+        "bondguide.de: HTTP 429",
+        "cash-online.de: HTTP 404",
+        "platow.de: HTTP 404",
+        "platow.de: HTTP 404",
+        "platow.de: HTTP 404",
+        "platow.de: HTTP 404",
+        "platow.de: HTTP 404"
+      ]
+    },
+    "claude": {
+      "requests": 1,
+      "ok": 0,
+      "errors": 1,
+      "candidates": 0,
+      "notes": [
+        "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go"
+      ]
+    }
+  },
+  "new": [
+    {
+      "date": "2026-06-10",
+      "outlet": "Finews",
+      "title": "Johannes Feist: «Einer meiner unerfüllter Träume ist der Sportfliegerschein»",
+      "link": "https://www.finews.ch/themen/high-end/72456-johannes-feist-einer-meiner-unerfuellter-traeume-ist-der-sportfliegerschein-ceo-global-kapital",
+      "people": [
+        "Johannes Feist"
+      ],
+      "byline": true,
+      "found_via": [
+        "gnews"
+      ],
+      "verified": "volltext"
+    },
+    {
+      "date": "2025-11-07",
+      "outlet": "Frankfurter Rundschau",
+      "title": "Merz in Brasilien: Bundeskanzler fordert „globale Kraftanstrengung“ für Klimaschutz bei COP30",
+      "link": "https://www.fr.de/politik/merz-reist-zur-klimakonferenz-cop30-nach-brasilien-klimapolitik-auf-dem-pruefstein-zr-94025730.html",
+      "people": [
+        "Johannes Feist"
+      ],
+      "byline": false,
+      "found_via": [
+        "gnews"
+      ],
+      "verified": "volltext"
+    },
+    {
+      "date": "2026-03-13",
+      "outlet": "investrends.ch",
+      "title": "Der blinde Fleck der Private-Credit-Debatte",
+      "link": "https://investrends.ch/aktuell/investments/der-blinde-fleck-der-private-credit-debatte/",
+      "people": [
+        "Johannes Feist"
+      ],
+      "byline": true,
+      "found_via": [
+        "gnews"
+      ],
+      "verified": "volltext"
+    },
+    {
+      "date": "2026-10-09",
+      "outlet": "Moneycab",
+      "title": "Die Obligation ist tokenisiert. Doch womit wird sie bezahlt?",
+      "link": "https://www.moneycab.com/dossiers/die-obligation-ist-tokenisiert-doch-womit-wird-sie-bezahlt/",
+      "people": [
+        "Louiza Savchenko"
+      ],
+      "byline": true,
+      "found_via": [
+        "gnews",
+        "site"
+      ],
+      "verified": "volltext"
+    },
+    {
+      "date": "2026-03-15",
+      "outlet": "Finanzen.net",
+      "title": "A4ERDA | Mikro Kapital Management-Anleihe: 9,500 % bis 19.01.2028",
+      "link": "https://www.finanzen.net/anleihen/a4erda-mikro-kapital-management-anleihe",
+      "byline": false,
+      "found_via": [
+        "gnews"
+      ],
+      "verified": "suchausschnitt"
+    },
+    {
+      "outlet": "Moneycab",
+      "title": "Mikro Kapital: Mikrokredite in Rumänien",
+      "link": "https://www.moneycab.com/finanz/mikro-kapital-mikrokredite-in-rumaenien-chancen-die-es-zu-ergreifen-gilt/",
+      "byline": false,
+      "found_via": [
+        "gnews",
+        "site"
+      ],
+      "verified": "volltext"
+    },
+    {
+      "outlet": "investrends.ch",
+      "title": "Mikro Kapital startet erste tokenisierte Anleihen für Mikrokredite",
+      "link": "https://investrends.ch/aktuell/investments/mikro-kapital-startet-erste-tokenisierte-anleihen-fur-mikrokredite/",
+      "people": [
+        "Vincenzo Trani"
+      ],
+      "byline": false,
+      "found_via": [
+        "gnews"
+      ],
+      "verified": "volltext"
+    },
+    {
+      "outlet": "Finews",
+      "title": "Finanz-Boutique expandiert nach Zürich",
+      "link": "https://www.finews.ch/news/banken/36986-mikro-kapital-management-general-invest-luca-pellegrini",
+      "people": [
+        "Luca Pellegrini"
+      ],
+      "byline": false,
+      "found_via": [
+        "gnews"
+      ],
+      "verified": "volltext"
+    },
+    {
+      "outlet": "investrends.ch",
+      "title": "CEO-Wechsel bei Mikro Kapital Management",
+      "link": "https://investrends.ch/aktuell/people/ceo-wechsel-bei-mikro-kapital-management/",
+      "people": [
+        "Vincenzo Trani"
+      ],
+      "byline": false,
+      "found_via": [
+        "gnews"
+      ],
+      "verified": "volltext"
+    },
+    {
+      "date": "2026-08-17",
+      "outlet": "Finanz und Wirtschaft",
+      "title": "Die Schweiz finanziert Wasserresilienz überall",
+      "link": "https://www.fuw.ch/wasserrisiko-was-die-schweiz-von-zentralasien-lernen-kann-152625611421",
+      "people": [
+        "Louiza Savchenko"
+      ],
+      "byline": true,
+      "found_via": [
+        "gnews"
+      ],
+      "verified": "volltext"
+    },
+    {
+      "outlet": "Ticino Welcome",
+      "title": "Repeople: Wirtschaft wird nachhaltig",
+      "link": "https://ticinowelcome.ch/de/Gastronomie--und-Weintourismus/Tourismus-und-Reisen/Mit-repeople-wird-das-Gesch%C3%A4ft-nachhaltig/",
+      "people": [
+        "Vincenzo Trani"
+      ],
+      "byline": false,
+      "found_via": [
+        "gnews"
+      ],
+      "verified": "volltext"
+    },
+    {
+      "date": "2026-03-20",
+      "outlet": "BondGuide",
+      "title": "Private Credit ist nicht gleich Private Credit: wo die Risiken wirklich liegen - BondGuide",
+      "link": "https://www.bondguide.de/topnews/private-credit-ist-nicht-gleich-private-credit-wo-die-risiken-wirklich-liegen/",
+      "people": [
+        "Johannes Feist"
+      ],
+      "byline": false,
+      "found_via": [
+        "site"
+      ],
+      "verified": "volltext"
+    },
+    {
+      "date": "2025-12-17",
+      "outlet": "BondGuide",
+      "title": "¡ BondGuide 25-2025 ist Mittwochmittag erschienen ! - BondGuide",
+      "link": "https://www.bondguide.de/topnews/bondguide-25-2025-ist-freitagmittag-erschienen/",
+      "people": [
+        "Johannes Feist"
+      ],
+      "byline": false,
+      "found_via": [
+        "site"
+      ],
+      "verified": "volltext"
+    },
+    {
+      "date": "2025-11-06",
+      "outlet": "BondGuide",
+      "title": "Klimafinanzierung bei COP 30: von Zusagen zu Wirkung entfalten - BondGuide",
+      "link": "https://www.bondguide.de/topnews/klimafinanzierung-bei-cop-30-von-zusagen-zu-wirkung-entfalten/",
+      "people": [
+        "Johannes Feist"
+      ],
+      "byline": true,
+      "found_via": [
+        "site"
+      ],
+      "verified": "volltext"
+    },
+    {
+      "date": "2026-05-22",
+      "outlet": "Moneycab",
+      "title": "Nicht die Grösse des Kredits entscheidet, sondern seine Wirkung",
+      "link": "https://www.moneycab.com/dossiers/nicht-die-groesse-des-kredits-entscheidet-sondern-seine-wirkung/",
+      "people": [
+        "Johannes Feist"
+      ],
+      "byline": true,
+      "found_via": [
+        "site"
+      ],
+      "verified": "volltext"
+    },
+    {
+      "date": "2025-01-30",
+      "outlet": "Moneycab",
+      "title": "Mikro Kapital Group und Fasanara lancieren Mikrokreditfonds zur KMU-Unterstützung in Zentralasien",
+      "link": "https://www.moneycab.com/finanz/mikro-kapital-group-und-fasanara-lancieren-mikrokreditfonds-zur-kmu-unterstuetzung-in-zentralasien/",
+      "people": [
+        "Johannes Feist"
+      ],
+      "byline": false,
+      "found_via": [
+        "site"
+      ],
+      "verified": "volltext"
+    },
+    {
+      "date": "2024-12-12",
+      "outlet": "Moneycab",
+      "title": "Herausforderungen meistern: Wie Armeniens Mikrofinanzinstitute wirtschaftliche Resilienz fördern",
+      "link": "https://www.moneycab.com/dossiers/herausforderungen-meistern-wie-armeniens-mikrofinanzinstitute-wirtschaftliche-resilienz-foerdern/",
+      "byline": false,
+      "found_via": [
+        "site"
+      ],
+      "verified": "volltext"
+    },
+    {
+      "date": "2024-07-23",
+      "outlet": "Moneycab",
+      "title": "Erkundung des Herzens Zentralasiens: Eine Reise durch die Kirgisische Republik",
+      "link": "https://www.moneycab.com/finanz/erkundung-des-herzens-zentralasiens-eine-reise-durch-die-kirgisische-republik/",
+      "byline": false,
+      "found_via": [
+        "site"
+      ],
+      "verified": "volltext"
+    },
+    {
+      "date": "2024-03-13",
+      "outlet": "Moneycab",
+      "title": "Mikro Kapital Moldova - Die Stärkung von Mikro-Unternehmern in Moldawien",
+      "link": "https://www.moneycab.com/finanz/mikro-kapital-moldova-die-staerkung-von-mikro-unternehmern-in-moldawien/",
+      "byline": false,
+      "found_via": [
+        "site"
+      ],
+      "verified": "volltext"
+    },
+    {
+      "outlet": "Moneycab",
+      "title": "Mikrofinanzierung als Beschleuniger der kirgisischen Energiewende",
+      "link": "https://www.moneycab.com/dossiers/mikrofinanzierung-als-beschleuniger-der-kirgisischen-energiewende/",
+      "byline": false,
+      "found_via": [
+        "site"
+      ],
+      "verified": "volltext"
+    },
+    {
+      "outlet": "Moneycab",
+      "title": "Moldawien als attraktive Zielregion für Mikrokredite",
+      "link": "https://www.moneycab.com/finanz/moldawien-als-attraktive-zielregion-fuer-mikrokredite/",
+      "byline": false,
+      "found_via": [
+        "site"
+      ],
+      "verified": "volltext"
+    },
+    {
+      "outlet": "Moneycab",
+      "title": "Internationale Aktionäre erhöhen ihren Anteil an IMON",
+      "link": "https://www.moneycab.com/finanz/internationale-aktionaere-erhoehen-ihren-anteil-an-imon/",
+      "people": [
+        "Vincenzo Trani"
+      ],
+      "byline": false,
+      "found_via": [
+        "site"
+      ],
+      "verified": "volltext"
+    },
+    {
+      "outlet": "Moneycab",
+      "title": "Mikro Kapital: Die \"neue Normalität\" - zurück zur Realwirtschaft",
+      "link": "https://www.moneycab.com/dossiers/mikro-kapital-die-neue-normalitaet-zurueck-zur-realwirtschaft/",
+      "byline": false,
+      "found_via": [
+        "site"
+      ],
+      "verified": "volltext"
+    },
+    {
+      "date": "2026-04-13",
+      "outlet": "cash-online.de",
+      "title": "Tokenisierte Anleihen: Was sich für Anleger ändert und was nicht",
+      "link": "https://www.cash-online.de/a/tokenisierte-anleihen-was-sich-fuer-anleger-aendert-und-was-nicht-715994/",
+      "people": [
+        "Louiza Savchenko"
+      ],
+      "byline": true,
+      "found_via": [
+        "site"
+      ],
+      "verified": "volltext"
+    },
+    {
+      "date": "2026-02-25",
+      "outlet": "dfpa.info",
+      "title": "Mikrofinanz-Besonderheit: Anleihen mit festem Zins - DFPA Deutsche Finanz Presse Agentur",
+      "link": "https://www.dfpa.info/interviews-news/mikrofinanz-besonderheit-anleihen-mit-festem-zins/",
+      "people": [
+        "Johannes Feist"
+      ],
+      "byline": false,
+      "found_via": [
+        "site"
+      ],
+      "verified": "volltext"
+    },
+    {
+      "date": "2026-02-24",
+      "outlet": "dfpa.info",
+      "title": "Wenn Geschäftsbanken passen, helfen Mikrofinanzfonds - DFPA Deutsche Finanz Presse Agentur",
+      "link": "https://www.dfpa.info/top-storys-news/wenn-geschaeftsbanken-passen-helfen-mikrofinanzfonds/",
+      "people": [
+        "Johannes Feist"
+      ],
+      "byline": false,
+      "found_via": [
+        "site"
+      ],
+      "verified": "volltext"
+    },
+    {
+      "date": "2026-02-24",
+      "outlet": "dfpa.info",
+      "title": "Die neue EXXECNEWS ist erschienen - DFPA Deutsche Finanz Presse Agentur",
+      "link": "https://www.dfpa.info/pressedigest-news/die-neue-exxecnews-ist-erschienen-78/",
+      "people": [
+        "Johannes Feist"
+      ],
+      "byline": false,
+      "found_via": [
+        "site"
+      ],
+      "verified": "volltext"
+    },
+    {
+      "date": "2025-12-08",
+      "outlet": "dfpa.info",
+      "title": "MK Global Kapital wird Managementgesellschaft für Impact-Fonds \"Alternative\" - DFPA Deutsche Finanz Presse Agentur",
+      "link": "https://www.dfpa.info/investmentfonds-news/mk-global-kapital-wird-managementgesellschaft-fuer-impact-fonds-alternative/",
+      "people": [
+        "Johannes Feist"
+      ],
+      "byline": false,
+      "found_via": [
+        "site"
+      ],
+      "verified": "volltext"
+    },
+    {
+      "date": "2025-12-04",
+      "outlet": "dfpa.info",
+      "title": "Mikro Kapital platziert erstmals Anleihe an Luxemburger Börse - DFPA Deutsche Finanz Presse Agentur",
+      "link": "https://www.dfpa.info/investmentfonds-news/mikro-kapital-platziert-erstmals-emtn-anleihen-des-fonds-alternative-an-luxemburger-boerse/",
+      "people": [
+        "Johannes Feist"
+      ],
+      "byline": false,
+      "found_via": [
+        "site"
+      ],
+      "verified": "volltext"
+    },
+    {
+      "date": "2026-03-02",
+      "outlet": "dfpa.info",
+      "title": "Unternehmerinnen fehlt weltweit der Zugang zu Kapital - DFPA Deutsche Finanz Presse Agentur",
+      "link": "https://www.dfpa.info/maerkte-studien-news/unternehmerinnen-fehlt-weltweit-der-zugang-zu-kapital/",
+      "people": [
+        "Louiza Savchenko"
+      ],
+      "byline": false,
+      "found_via": [
+        "site"
+      ],
+      "verified": "volltext"
+    },
+    {
+      "date": "2026-09-29",
+      "outlet": "Markt Einblicke",
+      "title": "Nach dem Ernteeinbruch: Warum es jetzt auf die richtige Finanzierung ankommt",
+      "link": "https://markteinblicke.de/133297/2026/09/nach-dem-ernteeinbruch-warum-es-jetzt-auf-die-richtige-finanzierung-ankommt/",
+      "people": [
+        "Johannes Feist"
+      ],
+      "byline": false,
+      "found_via": [
+        "site"
+      ],
+      "verified": "volltext"
+    },
+    {
+      "date": "2026-08-13",
+      "outlet": "Markt Einblicke",
+      "title": "Mikrofinanzanleihen: Worauf es bei Kreditqualität und Struktur ankommt",
+      "link": "https://markteinblicke.de/132318/2026/08/mikrofinanzanleihen-worauf-es-bei-kreditqualitaet-und-struktur-ankommt/",
+      "people": [
+        "Johannes Feist"
+      ],
+      "byline": false,
+      "found_via": [
+        "site"
+      ],
+      "verified": "volltext"
+    },
+    {
+      "date": "2026-08-04",
+      "outlet": "Markt Einblicke",
+      "title": "Euro-Kupon, lokale Cashflows: Wo das Währungsrisiko wirklich liegt",
+      "link": "https://markteinblicke.de/132045/2026/08/euro-kupon-lokale-cashflows-wo-das-waehrungsrisiko-wirklich-liegt/",
+      "people": [
+        "Johannes Feist"
+      ],
+      "byline": false,
+      "found_via": [
+        "site"
+      ],
+      "verified": "volltext"
+    },
+    {
+      "date": "2026-05-27",
+      "outlet": "Markt Einblicke",
+      "title": "Warum der Blick auf den Ölpreis nicht reicht",
+      "link": "https://markteinblicke.de/130696/2026/05/warum-der-blick-auf-den-oelpreis-nicht-reicht/",
+      "people": [
+        "Johannes Feist"
+      ],
+      "byline": false,
+      "found_via": [
+        "site"
+      ],
+      "verified": "volltext"
+    },
+    {
+      "date": "2026-05-07",
+      "outlet": "Markt Einblicke",
+      "title": "Mikrofinanz-Anleihen: Ein wachsender Markt",
+      "link": "https://markteinblicke.de/130263/2026/05/mikrofinanz-anleihen-ein-wachsender-markt/",
+      "people": [
+        "Johannes Feist"
+      ],
+      "byline": false,
+      "found_via": [
+        "site"
+      ],
+      "verified": "volltext"
+    }
+  ],
+  "new_review": [
+    {
+      "link": "https://www.moneycab.com/dossiers/mikro-kapital-report-esg-a-regulatory-obligation-but-for-some-a-choice-of-transparency/",
+      "title": "Mikro Kapital: Report ESG - a regulatory obligation but for some a choice of transparency",
+      "outlet": "Moneycab",
+      "date": "",
+      "people": [],
+      "reason": "englischsprachig: zählt das? (Regel offen)",
+      "found_via": [
+        "site"
+      ],
+      "snippet": "’s awareness and evolution, we have decided to meet the investor’s need to have a vision as accurate and transparent as possible of the impact that his investments have, to regardless of absence of legal obligations to do so. On top of that, social impact has been in our DNA since the foundation of ",
+      "added_at": "2026-10-16T09:52:19"
+    },
+    {
+      "link": "https://www.moneycab.com/finanz/interview-with-aleksandr-eryomin-ceo-mikro-kapital/",
+      "title": "Interview with Aleksandr Eryomin, CEO Mikro Kapital",
+      "outlet": "Moneycab",
+      "date": "",
+      "people": [],
+      "reason": "englischsprachig: zählt das? (Regel offen)",
+      "found_via": [
+        "site"
+      ],
+      "snippet": "By Helmuth Fuchs Moneycab: Mr. Eryomin, you have been appointed CEO of Mikro Kapital in January 2020. What have been the most important decisions you have made since taking over the role, what have been the most important changes you have introduced? Aleksandr Eryomin: You know, in the Mikro Kapital",
+      "added_at": "2026-10-16T09:52:19"
+    },
+    {
+      "link": "https://e-fundresearch.com/managers/artikel/60333-experten-umfrage-worueber-im-zweiten-halbjahr-2026-keiner-redet-teil-22",
+      "title": "Experten-Umfrage: Worüber im zweiten Halbjahr 2026 keiner redet (Teil 2/2)",
+      "outlet": "e-fundresearch",
+      "date": "2026-08-10",
+      "people": [
+        "Johannes Feist"
+      ],
+      "reason": "unklar: Claude-Fehler",
+      "found_via": [
+        "gnews"
+      ],
+      "snippet": "Experten-Umfrage: Worüber im zweiten Halbjahr 2026 keiner redet (Teil 2/2) e-fundresearch.com",
+      "added_at": "2026-10-16T09:52:20"
+    },
+    {
+      "link": "https://www.private-banking-magazin.de/peter-peterburs-verlaesst-bny-mellon/",
+      "title": "Peter Peterburs verlässt BNY Mellon",
+      "outlet": "Private Banking Magazin",
+      "date": "2026-09-07",
+      "people": [
+        "Johannes Feist"
+      ],
+      "reason": "unklar: Claude-Fehler",
+      "found_via": [
+        "gnews"
+      ],
+      "snippet": "Peter Peterburs verlässt BNY Mellon private banking magazin",
+      "added_at": "2026-10-16T09:52:20"
+    }
+  ],
+  "rejected": [],
+  "review_open": 4,
+  "total_clippings": 77,
+  "placements": {
+    "total": 0,
+    "found_now": [],
+    "overdue": [],
+    "open": 0
+  }
+}
