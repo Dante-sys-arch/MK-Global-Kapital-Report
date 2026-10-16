@@ -1,9 +1,9 @@
 {
   "client": "mk-global-kapital",
-  "run_at": "2026-10-16T09:53:33+00:00",
+  "run_at": "2026-10-16T09:58:01+00:00",
   "mode": "daily",
   "dry_run": true,
-  "duration_s": 1111,
+  "duration_s": 3348,
   "health": {
     "status": "error",
     "problems": [
@@ -15,15 +15,14 @@
     ]
   },
   "counts": {
-    "candidates": 726,
-    "unique": 648,
-    "already_known": 17,
+    "candidates": 2594,
+    "unique": 2426,
+    "already_known": 20,
     "already_checked": 0,
-    "fetched": 594,
-    "fetch_failed": 39,
-    "no_match": 556,
-    "gnews_unresolved": 0,
-    "deferred": 0
+    "fetched": 2157,
+    "fetch_failed": 253,
+    "no_match": 2090,
+    "gnews_unresolved": 0
   },
   "channels": {
     "rss": {
@@ -63,42 +62,42 @@
       "requests": 138,
       "ok": 138,
       "errors": 0,
-      "candidates": 56,
+      "candidates": 55,
       "notes": []
     },
     "sitemap": {
       "requests": 36,
       "ok": 20,
-      "errors": 9,
-      "candidates": 624,
+      "errors": 8,
+      "candidates": 1063,
       "notes": [
-        "bondguide.de: 91 neue Artikel, nur 40 geprüft",
-        "moneycab.com: 390 neue Artikel, nur 40 geprüft",
-        "cash-online.de: 180 neue Artikel, nur 40 geprüft",
+        "bondguide.de: 91 neue Artikel, nur 80 geprüft",
+        "moneycab.com: 380 neue Artikel, nur 80 geprüft",
+        "cash-online.de: 177 neue Artikel, nur 80 geprüft",
         "fondsexklusiv.de: keine datierten neuen URLs",
         "fondsexklusiv.at: keine datierten neuen URLs",
-        "dfpa.info: 325 neue Artikel, nur 40 geprüft",
-        "markteinblicke.de: 203 neue Artikel, nur 40 geprüft",
-        "finews.ch: 133 neue Artikel, nur 40 geprüft",
+        "dfpa.info: 307 neue Artikel, nur 80 geprüft",
+        "markteinblicke.de: 189 neue Artikel, nur 80 geprüft",
+        "finews.ch: 130 neue Artikel, nur 80 geprüft",
         "private-banking-magazin.de: keine datierten neuen URLs",
         "institutional-money.com: keine Sitemap gefunden",
         "fixed-income.org: keine Sitemap gefunden",
-        "e-fundresearch.com: 593 neue Artikel, nur 40 geprüft",
+        "e-fundresearch.com: 593 neue Artikel, nur 80 geprüft",
         "exxecnews.org: keine Sitemap gefunden",
         "geldmeisterin.com: keine datierten neuen URLs",
         "swissfinanceai.ch: keine datierten neuen URLs",
-        "kreditwesen.de: 134 neue Artikel, nur 40 geprüft",
+        "kreditwesen.de: 134 neue Artikel, nur 80 geprüft",
         "handelszeitung.ch: keine datierten neuen URLs",
         "dasinvestment.com: keine datierten neuen URLs",
-        "privatemarkets360.com: 593 neue Artikel, nur 40 geprüft",
+        "privatemarkets360.com: 593 neue Artikel, nur 80 geprüft",
         "allnews.ch: keine Sitemap gefunden",
         "fondsprofessionell.de: keine Sitemap gefunden",
         "fondsprofessionell.at: keine Sitemap gefunden",
         "citywire.de: keine Sitemap gefunden",
-        "finanzwelt.de: keine Sitemap gefunden",
+        "finanzwelt.de: keine datierten neuen URLs",
         "fondstrends.ch: keine Sitemap gefunden",
-        "cash.ch: 511 neue Artikel, nur 40 geprüft",
-        "platow.de: 112 neue Artikel, nur 40 geprüft"
+        "cash.ch: 509 neue Artikel, nur 80 geprüft",
+        "platow.de: 112 neue Artikel, nur 80 geprüft"
       ]
     },
     "google": {
@@ -147,7 +146,7 @@
       "requests": 76,
       "ok": 10,
       "errors": 2,
-      "candidates": 74,
+      "candidates": 1504,
       "notes": [
         "fondsexklusiv.de: keine WordPress-Suche (HTTP 401)",
         "fondsexklusiv.at: keine WordPress-Suche (HTTP 401)",
@@ -183,7 +182,6 @@
       "errors": 0,
       "candidates": 0,
       "notes": [
-        "faz.net: HTTP 302",
         "finanzen.net: HTTP 403",
         "faz.net: HTTP 302",
         "bondguide.de: HTTP 429",
@@ -216,20 +214,44 @@
         "bondguide.de: HTTP 429",
         "bondguide.de: HTTP 429",
         "bondguide.de: HTTP 429",
-        "cash-online.de: HTTP 404",
-        "platow.de: HTTP 404",
-        "platow.de: HTTP 404",
-        "platow.de: HTTP 404",
+        "bondguide.de: HTTP 429",
+        "bondguide.de: HTTP 429",
+        "bondguide.de: HTTP 429",
+        "bondguide.de: HTTP 429",
+        "bondguide.de: HTTP 429",
+        "bondguide.de: HTTP 429",
+        "bondguide.de: HTTP 429",
+        "bondguide.de: HTTP 429",
+        "bondguide.de: HTTP 429",
+        "bondguide.de: HTTP 429",
+        "bondguide.de: HTTP 429",
+        "bondguide.de: HTTP 429",
+        "bondguide.de: HTTP 429",
+        "bondguide.de: HTTP 429",
+        "bondguide.de: HTTP 429",
+        "bondguide.de: HTTP 429",
+        "bondguide.de: HTTP 429",
+        "bondguide.de: HTTP 429",
+        "bondguide.de: HTTP 429",
+        "bondguide.de: HTTP 429",
+        "bondguide.de: HTTP 429",
+        "bondguide.de: HTTP 429",
+        "bondguide.de: HTTP 429",
+        "bondguide.de: HTTP 429",
+        "bondguide.de: HTTP 429",
+        "bondguide.de: HTTP 429",
         "platow.de: HTTP 404",
         "platow.de: HTTP 404"
       ]
     },
     "claude": {
-      "requests": 1,
+      "requests": 3,
       "ok": 0,
-      "errors": 1,
+      "errors": 3,
       "candidates": 0,
       "notes": [
+        "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go",
+        "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go",
         "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go"
       ]
     }
@@ -395,34 +417,6 @@
       "verified": "volltext"
     },
     {
-      "date": "2025-12-17",
-      "outlet": "BondGuide",
-      "title": "¡ BondGuide 25-2025 ist Mittwochmittag erschienen ! - BondGuide",
-      "link": "https://www.bondguide.de/topnews/bondguide-25-2025-ist-freitagmittag-erschienen/",
-      "people": [
-        "Johannes Feist"
-      ],
-      "byline": false,
-      "found_via": [
-        "site"
-      ],
-      "verified": "volltext"
-    },
-    {
-      "date": "2025-11-06",
-      "outlet": "BondGuide",
-      "title": "Klimafinanzierung bei COP 30: von Zusagen zu Wirkung entfalten - BondGuide",
-      "link": "https://www.bondguide.de/topnews/klimafinanzierung-bei-cop-30-von-zusagen-zu-wirkung-entfalten/",
-      "people": [
-        "Johannes Feist"
-      ],
-      "byline": true,
-      "found_via": [
-        "site"
-      ],
-      "verified": "volltext"
-    },
-    {
       "date": "2026-05-22",
       "outlet": "Moneycab",
       "title": "Nicht die Grösse des Kredits entscheidet, sondern seine Wirkung",
@@ -451,32 +445,31 @@
       "verified": "volltext"
     },
     {
-      "date": "2024-12-12",
-      "outlet": "Moneycab",
-      "title": "Herausforderungen meistern: Wie Armeniens Mikrofinanzinstitute wirtschaftliche Resilienz fördern",
-      "link": "https://www.moneycab.com/dossiers/herausforderungen-meistern-wie-armeniens-mikrofinanzinstitute-wirtschaftliche-resilienz-foerdern/",
-      "byline": false,
-      "found_via": [
-        "site"
-      ],
-      "verified": "volltext"
-    },
-    {
-      "date": "2024-07-23",
-      "outlet": "Moneycab",
-      "title": "Erkundung des Herzens Zentralasiens: Eine Reise durch die Kirgisische Republik",
-      "link": "https://www.moneycab.com/finanz/erkundung-des-herzens-zentralasiens-eine-reise-durch-die-kirgisische-republik/",
-      "byline": false,
-      "found_via": [
-        "site"
-      ],
-      "verified": "volltext"
-    },
-    {
       "date": "2024-03-13",
       "outlet": "Moneycab",
       "title": "Mikro Kapital Moldova - Die Stärkung von Mikro-Unternehmern in Moldawien",
       "link": "https://www.moneycab.com/finanz/mikro-kapital-moldova-die-staerkung-von-mikro-unternehmern-in-moldawien/",
+      "byline": false,
+      "found_via": [
+        "site"
+      ],
+      "verified": "volltext"
+    },
+    {
+      "outlet": "Moneycab",
+      "title": "Mikro Kapital: Die \"neue Normalität\" - zurück zur Realwirtschaft",
+      "link": "https://www.moneycab.com/dossiers/mikro-kapital-die-neue-normalitaet-zurueck-zur-realwirtschaft/",
+      "byline": false,
+      "found_via": [
+        "site"
+      ],
+      "verified": "volltext"
+    },
+    {
+      "date": "2024-12-12",
+      "outlet": "Moneycab",
+      "title": "Herausforderungen meistern: Wie Armeniens Mikrofinanzinstitute wirtschaftliche Resilienz fördern",
+      "link": "https://www.moneycab.com/dossiers/herausforderungen-meistern-wie-armeniens-mikrofinanzinstitute-wirtschaftliche-resilienz-foerdern/",
       "byline": false,
       "found_via": [
         "site"
@@ -504,12 +497,10 @@
       "verified": "volltext"
     },
     {
+      "date": "2024-07-23",
       "outlet": "Moneycab",
-      "title": "Internationale Aktionäre erhöhen ihren Anteil an IMON",
-      "link": "https://www.moneycab.com/finanz/internationale-aktionaere-erhoehen-ihren-anteil-an-imon/",
-      "people": [
-        "Vincenzo Trani"
-      ],
+      "title": "Erkundung des Herzens Zentralasiens: Eine Reise durch die Kirgisische Republik",
+      "link": "https://www.moneycab.com/finanz/erkundung-des-herzens-zentralasiens-eine-reise-durch-die-kirgisische-republik/",
       "byline": false,
       "found_via": [
         "site"
@@ -518,8 +509,11 @@
     },
     {
       "outlet": "Moneycab",
-      "title": "Mikro Kapital: Die \"neue Normalität\" - zurück zur Realwirtschaft",
-      "link": "https://www.moneycab.com/dossiers/mikro-kapital-die-neue-normalitaet-zurueck-zur-realwirtschaft/",
+      "title": "Internationale Aktionäre erhöhen ihren Anteil an IMON",
+      "link": "https://www.moneycab.com/finanz/internationale-aktionaere-erhoehen-ihren-anteil-an-imon/",
+      "people": [
+        "Vincenzo Trani"
+      ],
       "byline": false,
       "found_via": [
         "site"
@@ -625,6 +619,17 @@
       "verified": "volltext"
     },
     {
+      "date": "2026-02-01",
+      "outlet": "dfpa.info",
+      "title": "Interviews - DFPA Deutsche Finanz Presse Agentur",
+      "link": "https://www.dfpa.info/interviews/",
+      "byline": false,
+      "found_via": [
+        "site"
+      ],
+      "verified": "volltext"
+    },
+    {
       "date": "2026-09-29",
       "outlet": "Markt Einblicke",
       "title": "Nach dem Ernteeinbruch: Warum es jetzt auf die richtige Finanzierung ankommt",
@@ -693,6 +698,20 @@
         "site"
       ],
       "verified": "volltext"
+    },
+    {
+      "date": "2026-03-16",
+      "outlet": "Payoff",
+      "title": "Der blinde Fleck der Private-Credit-Debatte - «payoff»",
+      "link": "https://www.payoff.ch/news/der-blinde-fleck-der-private-credit-debatte",
+      "people": [
+        "Johannes Feist"
+      ],
+      "byline": false,
+      "found_via": [
+        "site"
+      ],
+      "verified": "volltext"
     }
   ],
   "new_review": [
@@ -706,8 +725,8 @@
       "found_via": [
         "site"
       ],
-      "snippet": "’s awareness and evolution, we have decided to meet the investor’s need to have a vision as accurate and transparent as possible of the impact that his investments have, to regardless of absence of legal obligations to do so. On top of that, social impact has been in our DNA since the foundation of ",
-      "added_at": "2026-10-16T09:52:19"
+      "snippet": "",
+      "added_at": "2026-10-16T09:31:02"
     },
     {
       "link": "https://www.moneycab.com/finanz/interview-with-aleksandr-eryomin-ceo-mikro-kapital/",
@@ -719,8 +738,8 @@
       "found_via": [
         "site"
       ],
-      "snippet": "By Helmuth Fuchs Moneycab: Mr. Eryomin, you have been appointed CEO of Mikro Kapital in January 2020. What have been the most important decisions you have made since taking over the role, what have been the most important changes you have introduced? Aleksandr Eryomin: You know, in the Mikro Kapital",
-      "added_at": "2026-10-16T09:52:19"
+      "snippet": "",
+      "added_at": "2026-10-16T09:31:03"
     },
     {
       "link": "https://e-fundresearch.com/managers/artikel/60333-experten-umfrage-worueber-im-zweiten-halbjahr-2026-keiner-redet-teil-22",
@@ -735,7 +754,7 @@
         "gnews"
       ],
       "snippet": "Experten-Umfrage: Worüber im zweiten Halbjahr 2026 keiner redet (Teil 2/2) e-fundresearch.com",
-      "added_at": "2026-10-16T09:52:20"
+      "added_at": "2026-10-16T09:56:48"
     },
     {
       "link": "https://www.private-banking-magazin.de/peter-peterburs-verlaesst-bny-mellon/",
@@ -750,11 +769,446 @@
         "gnews"
       ],
       "snippet": "Peter Peterburs verlässt BNY Mellon private banking magazin",
-      "added_at": "2026-10-16T09:52:20"
+      "added_at": "2026-10-16T09:56:48"
+    },
+    {
+      "link": "https://www.moneycab.com/dossiers/coface-italiens-wirtschaft-in-anhaltender-abwaertsspirale-gefangen/",
+      "title": "Coface: Italiens Wirtschaft in anhaltender Abwärtsspirale gefangen",
+      "outlet": "Moneycab",
+      "date": "2025-09-10",
+      "people": [
+        "Louiza Savchenko"
+      ],
+      "reason": "unklar: Claude-Fehler",
+      "found_via": [
+        "sitemap"
+      ],
+      "snippet": "",
+      "added_at": "2026-10-16T09:56:48"
+    },
+    {
+      "link": "https://www.moneycab.com/dossiers/coface-europas-wirtschaftliche-herausforderungen-rueckblick-auf-2024-und-ausblick-auf-2025/",
+      "title": "Coface: Europas wirtschaftliche Herausforderungen – Rückblick auf 2024 und Ausblick auf 2025",
+      "outlet": "Moneycab",
+      "date": "2024-12-27",
+      "people": [
+        "Louiza Savchenko"
+      ],
+      "reason": "unklar: Claude-Fehler",
+      "found_via": [
+        "sitemap"
+      ],
+      "snippet": "",
+      "added_at": "2026-10-16T09:56:48"
+    },
+    {
+      "link": "https://www.moneycab.com/finanz/global-x-etfs-kuper-vom-zyklischen-metall-zum-strategischen-rohstoff/",
+      "title": "Global X ETFs: Kupfer - vom zyklischen Metall zum strategischen Rohstoff",
+      "outlet": "Moneycab",
+      "date": "2025-11-27",
+      "people": [
+        "Louiza Savchenko"
+      ],
+      "reason": "unklar: Claude-Fehler",
+      "found_via": [
+        "site"
+      ],
+      "snippet": "",
+      "added_at": "2026-10-16T09:56:48"
+    },
+    {
+      "link": "https://www.moneycab.com/dossiers/die-sicht-des-raiffeisen-chefoekonomen-wo-bleiben-die-einschussloecher/",
+      "title": "Die Sicht des Raiffeisen Chefökonomen: Wo bleiben die Einschusslöcher?",
+      "outlet": "Moneycab",
+      "date": "2026-10-08",
+      "people": [
+        "Louiza Savchenko"
+      ],
+      "reason": "unklar: Claude-Fehler",
+      "found_via": [
+        "site"
+      ],
+      "snippet": "",
+      "added_at": "2026-10-16T09:56:48"
+    },
+    {
+      "link": "https://www.moneycab.com/dossiers/boj-vor-naechster-zinserhoehung-japans-aktienmarkt-im-neuen-geldpolitischen-umfeld/",
+      "title": "BoJ vor nächster Zinserhöhung – Japans Aktienmarkt im neuen geldpolitischen Umfeld",
+      "outlet": "Moneycab",
+      "date": "2026-09-15",
+      "people": [
+        "Louiza Savchenko"
+      ],
+      "reason": "unklar: Claude-Fehler",
+      "found_via": [
+        "site"
+      ],
+      "snippet": "",
+      "added_at": "2026-10-16T09:56:48"
+    },
+    {
+      "link": "https://www.moneycab.com/dossiers/lfde-selektivitaet-wird-wieder-zum-entscheidenden-performancetreiber/",
+      "title": "LFDE: Selektivität wird wieder zum entscheidenden Performancetreiber",
+      "outlet": "Moneycab",
+      "date": "2026-08-22",
+      "people": [
+        "Louiza Savchenko"
+      ],
+      "reason": "unklar: Claude-Fehler",
+      "found_via": [
+        "site"
+      ],
+      "snippet": "",
+      "added_at": "2026-10-16T09:56:48"
+    },
+    {
+      "link": "https://www.moneycab.com/dossiers/aberdeen-aktien-schwellenlaender-bieten-eine-seltene-kombination-aus-wachstum-und-attraktiver-bewertung/",
+      "title": "Aberdeen: Aktien – Schwellenländer bieten eine seltene Kombination aus Wachstum und attraktiver Bewertung",
+      "outlet": "Moneycab",
+      "date": "2026-08-20",
+      "people": [
+        "Louiza Savchenko"
+      ],
+      "reason": "unklar: Claude-Fehler",
+      "found_via": [
+        "site"
+      ],
+      "snippet": "",
+      "added_at": "2026-10-16T09:56:48"
+    },
+    {
+      "link": "https://www.moneycab.com/dossiers/bt-barclays-rolls-royce-die-neuen-cashflow-treiber-der-londoner-boerse/",
+      "title": "BT, Barclays, Rolls-Royce: Die neuen Cashflow-Treiber der Londoner Börse",
+      "outlet": "Moneycab",
+      "date": "2026-06-25",
+      "people": [
+        "Louiza Savchenko"
+      ],
+      "reason": "unklar: Claude-Fehler",
+      "found_via": [
+        "site"
+      ],
+      "snippet": "",
+      "added_at": "2026-10-16T09:56:48"
+    },
+    {
+      "link": "https://www.moneycab.com/finanz/warum-pharma-jetzt-technologien-statt-medikamente-kauft/",
+      "title": "Warum Pharma jetzt Technologien statt Medikamente kauft",
+      "outlet": "Moneycab",
+      "date": "2026-03-30",
+      "people": [
+        "Louiza Savchenko"
+      ],
+      "reason": "unklar: Claude-Fehler",
+      "found_via": [
+        "site"
+      ],
+      "snippet": "",
+      "added_at": "2026-10-16T09:56:48"
+    },
+    {
+      "link": "https://www.moneycab.com/dossiers/das-ende-der-komfortzone-warum-60-40-im-jahr-2026-nicht-mehr-genuegt/",
+      "title": "Das Ende der Komfortzone: Warum 60/40 im Jahr 2026 nicht mehr genügt",
+      "outlet": "Moneycab",
+      "date": "2026-02-03",
+      "people": [
+        "Louiza Savchenko"
+      ],
+      "reason": "unklar: Claude-Fehler",
+      "found_via": [
+        "site"
+      ],
+      "snippet": "",
+      "added_at": "2026-10-16T09:56:48"
+    },
+    {
+      "link": "https://www.moneycab.com/dossiers/j-p-morgan-healthcare-conference-impulse-fuer-eine-neubewertung-des-sektors-verdichten-sich/",
+      "title": "J.P. Morgan Healthcare Conference: Impulse für eine Neubewertung des Sektors verdichten sich",
+      "outlet": "Moneycab",
+      "date": "2026-01-26",
+      "people": [
+        "Louiza Savchenko"
+      ],
+      "reason": "unklar: Claude-Fehler",
+      "found_via": [
+        "site"
+      ],
+      "snippet": "",
+      "added_at": "2026-10-16T09:56:48"
+    },
+    {
+      "link": "https://www.moneycab.com/dossiers/banque-heritage-der-neujahrsvorsatz-schweizer-bankwesen-als-absicherung/",
+      "title": "Banque Heritage: Der Neujahrsvorsatz – Schweizer Bankwesen als Absicherung",
+      "outlet": "Moneycab",
+      "date": "2025-12-29",
+      "people": [
+        "Louiza Savchenko"
+      ],
+      "reason": "unklar: Claude-Fehler",
+      "found_via": [
+        "site"
+      ],
+      "snippet": "",
+      "added_at": "2026-10-16T09:56:48"
+    },
+    {
+      "link": "https://www.moneycab.com/dossiers/liontrust-ausblick-2026/",
+      "title": "Liontrust: Ausblick 2026",
+      "outlet": "Moneycab",
+      "date": "2025-12-18",
+      "people": [
+        "Louiza Savchenko"
+      ],
+      "reason": "unklar: Claude-Fehler",
+      "found_via": [
+        "site"
+      ],
+      "snippet": "",
+      "added_at": "2026-10-16T09:56:48"
+    },
+    {
+      "link": "https://www.moneycab.com/finanz/aberdeen-em-aktien-innovation-und-diversifizierung-fuer-den-naechsten-zyklus-vorantreiben/",
+      "title": "aberdeen: EM-Aktien - Innovation und Diversifizierung für den nächsten Zyklus vorantreiben",
+      "outlet": "Moneycab",
+      "date": "2025-12-17",
+      "people": [
+        "Louiza Savchenko"
+      ],
+      "reason": "unklar: Claude-Fehler",
+      "found_via": [
+        "site"
+      ],
+      "snippet": "",
+      "added_at": "2026-10-16T09:56:48"
+    },
+    {
+      "link": "https://www.moneycab.com/dossiers/bellevue-asset-management-europa-steht-an-der-schwelle-eines-zyklischen-rebounds/",
+      "title": "Bellevue Asset Management: «Europa steht an der Schwelle eines zyklischen Rebounds»",
+      "outlet": "Moneycab",
+      "date": "2025-12-04",
+      "people": [
+        "Louiza Savchenko"
+      ],
+      "reason": "unklar: Claude-Fehler",
+      "found_via": [
+        "site"
+      ],
+      "snippet": "",
+      "added_at": "2026-10-16T09:56:48"
+    },
+    {
+      "link": "https://www.moneycab.com/finanz/aberdeen-investments-jenseits-der-brics-staaten-neue-chancen-auf-aktienertraege-in-schwellenlaendern/",
+      "title": "Aberdeen Investments: Jenseits der BRICS-Staaten - neue Chancen auf Aktienerträge in Schwellenländern",
+      "outlet": "Moneycab",
+      "date": "2025-10-29",
+      "people": [
+        "Louiza Savchenko"
+      ],
+      "reason": "unklar: Claude-Fehler",
+      "found_via": [
+        "site"
+      ],
+      "snippet": "",
+      "added_at": "2026-10-16T09:56:48"
+    },
+    {
+      "link": "https://www.moneycab.com/dossiers/robeco-reaktion-auf-us-zoelle-die-maerkte-schlagen-zurueck/",
+      "title": "Robeco: Reaktion auf US-Zölle – die Märkte schlagen zurück",
+      "outlet": "Moneycab",
+      "date": "2025-05-19",
+      "people": [
+        "Louiza Savchenko"
+      ],
+      "reason": "unklar: Claude-Fehler",
+      "found_via": [
+        "site"
+      ],
+      "snippet": "",
+      "added_at": "2026-10-16T09:56:48"
+    },
+    {
+      "link": "https://www.moneycab.com/dossiers/franklin-templeton-tech-vs-dividendenaktien-zwei-strategien-fuer-unsichere-marktzeiten-im-vergleich/",
+      "title": "Franklin Templeton: Tech- vs. Dividendenaktien – Zwei Strategien für unsichere Marktzeiten im Vergleich",
+      "outlet": "Moneycab",
+      "date": "2025-02-21",
+      "people": [
+        "Louiza Savchenko"
+      ],
+      "reason": "unklar: Claude-Fehler",
+      "found_via": [
+        "site"
+      ],
+      "snippet": "",
+      "added_at": "2026-10-16T09:56:48"
+    },
+    {
+      "link": "https://www.moneycab.com/dossiers/abrdn-klein-aber-oho-warum-anleger-small-caps-in-betracht-ziehen-sollten/",
+      "title": "abrdn: Klein, aber oho – warum Anleger Small Caps in Betracht ziehen sollten",
+      "outlet": "Moneycab",
+      "date": "2025-02-04",
+      "people": [
+        "Louiza Savchenko"
+      ],
+      "reason": "unklar: Claude-Fehler",
+      "found_via": [
+        "site"
+      ],
+      "snippet": "",
+      "added_at": "2026-10-16T09:56:48"
+    },
+    {
+      "link": "https://www.moneycab.com/dossiers/die-sicht-des-raiffeisen-chefoekonomen-wirtschaftsausblick-2025/",
+      "title": "Die Sicht des Raiffeisen Chefökonomen: Wirtschaftsausblick 2025",
+      "outlet": "Moneycab",
+      "date": "2024-12-19",
+      "people": [
+        "Louiza Savchenko"
+      ],
+      "reason": "unklar: Claude-Fehler",
+      "found_via": [
+        "site"
+      ],
+      "snippet": "",
+      "added_at": "2026-10-16T09:56:48"
+    },
+    {
+      "link": "https://www.moneycab.com/dossiers/reyl-market-insight-vor-den-us-wahlen-der-elefant-im-raum/",
+      "title": "REYL Market Insight vor den US-Wahlen: Der Elefant im Raum",
+      "outlet": "Moneycab",
+      "date": "2024-11-05",
+      "people": [
+        "Louiza Savchenko"
+      ],
+      "reason": "unklar: Claude-Fehler",
+      "found_via": [
+        "site"
+      ],
+      "snippet": "",
+      "added_at": "2026-10-16T09:56:48"
+    },
+    {
+      "link": "https://www.moneycab.com/dossiers/reyl-market-insight-eine-neue-aera-der-geldpolitik/",
+      "title": "REYL Market Insight: Eine neue Ära der Geldpolitik",
+      "outlet": "Moneycab",
+      "date": "2024-10-08",
+      "people": [
+        "Louiza Savchenko"
+      ],
+      "reason": "unklar: Claude-Fehler",
+      "found_via": [
+        "site"
+      ],
+      "snippet": "",
+      "added_at": "2026-10-16T09:56:48"
+    },
+    {
+      "link": "https://www.moneycab.com/dossiers/t-rowe-price-eine-neue-aera-fuer-rohstoffe/",
+      "title": "T. Rowe Price: Eine neue Ära für Rohstoffe?",
+      "outlet": "Moneycab",
+      "date": "2024-06-25",
+      "people": [
+        "Louiza Savchenko"
+      ],
+      "reason": "unklar: Claude-Fehler",
+      "found_via": [
+        "site"
+      ],
+      "snippet": "",
+      "added_at": "2026-10-16T09:56:48"
+    },
+    {
+      "link": "https://www.moneycab.com/dossiers/mikrofinanzierung-in-uzbekistan/",
+      "title": "Mikrofinanzierung in Uzbekistan",
+      "outlet": "Moneycab",
+      "date": "2024-06-17",
+      "people": [
+        "Louiza Savchenko"
+      ],
+      "reason": "unklar: Claude-Fehler",
+      "found_via": [
+        "site"
+      ],
+      "snippet": "",
+      "added_at": "2026-10-16T09:56:48"
+    },
+    {
+      "link": "https://www.moneycab.com/dossiers/blackrock-marktausblick-es-weihnachtet-an-den-kapitalmaerkten/",
+      "title": "BlackRock Marktausblick: \"Es weihnachtet an den Kapitalmärkten\"",
+      "outlet": "Moneycab",
+      "date": "",
+      "people": [
+        "Louiza Savchenko"
+      ],
+      "reason": "unklar: Claude-Fehler",
+      "found_via": [
+        "site"
+      ],
+      "snippet": "",
+      "added_at": "2026-10-16T09:56:48"
+    },
+    {
+      "link": "https://www.moneycab.com/dossiers/technologiesektor-blase-oder-hausse/",
+      "title": "Technologiesektor: Blase oder Hausse?",
+      "outlet": "Moneycab",
+      "date": "2026-09-08",
+      "people": [
+        "Louiza Savchenko"
+      ],
+      "reason": "unklar: Claude-Fehler",
+      "found_via": [
+        "site"
+      ],
+      "snippet": "",
+      "added_at": "2026-10-16T09:56:48"
+    },
+    {
+      "link": "https://www.moneycab.com/finanz/eleqtron-sammelt-in-einer-serie-a-finanzierungsrunde-57-millionen-euro-ein/",
+      "title": "eleQtron sammelt in einer Serie-A-Finanzierungsrunde 57 Millionen Euro ein",
+      "outlet": "Moneycab",
+      "date": "2026-05-08",
+      "people": [
+        "Louiza Savchenko"
+      ],
+      "reason": "unklar: Claude-Fehler",
+      "found_via": [
+        "site"
+      ],
+      "snippet": "",
+      "added_at": "2026-10-16T09:56:48"
+    },
+    {
+      "link": "https://www.moneycab.com/finanz/aberdeen-warum-jetzt-wirklich-die-zeit-fuer-schwellenlaender-und-asien-gekommen-ist/",
+      "title": "Aberdeen: Warum jetzt (wirklich) die Zeit für Schwellenländer und Asien gekommen ist",
+      "outlet": "Moneycab",
+      "date": "2025-09-12",
+      "people": [
+        "Louiza Savchenko"
+      ],
+      "reason": "unklar: Claude-Fehler",
+      "found_via": [
+        "site"
+      ],
+      "snippet": "",
+      "added_at": "2026-10-16T09:56:48"
+    },
+    {
+      "link": "https://www.moneycab.com/dossiers/schwellenlaender-warum-die-anlageklasse-die-muehe-wert-ist/",
+      "title": "Schwellenländer: Warum die Anlageklasse die \"Mühe\" wert ist",
+      "outlet": "Moneycab",
+      "date": "2024-05-06",
+      "people": [
+        "Louiza Savchenko"
+      ],
+      "reason": "unklar: Claude-Fehler",
+      "found_via": [
+        "site"
+      ],
+      "snippet": "",
+      "added_at": "2026-10-16T09:56:48"
     }
   ],
   "rejected": [],
-  "review_open": 4,
+  "review_open": 33,
   "total_clippings": 77,
   "placements": {
     "total": 0,
