@@ -17,8 +17,15 @@ _META_DATE = [
     r'"datePublished"\s*:\s*"([^"]+)"',
     r'<meta[^>]+itemprop=["\']datePublished["\'][^>]*content=["\']([^"\']+)',
     r'<meta[^>]+name=["\'](?:pubdate|publishdate|publish-date|parsely-pub-date|sailthru\.date|dc\.date\.issued|DC\.date\.issued)["\'][^>]*content=["\']([^"\']+)',
-    r'<time[^>]+datetime=["\']([^"\']+)',
 ]
+_TIME_TAG = r'<time[^>]+datetime=["\']([^"\']+)'
+_JUNK_TITLE = re.compile(r"javascript|cookies?|zugriff verweigert|access denied|just a moment|attention required|"
+                         r"seite nicht gefunden|page not found|^404|captcha|anmelden|login", re.I)
+
+
+def good_title(t):
+    t = (t or "").strip()
+    return t if len(t) >= 8 and not _JUNK_TITLE.search(t) else ""
 _SITE_NAME = r'<meta[^>]+property=["\']og:site_name["\'][^>]*content=["\']([^"\']+)'
 _OG_TITLE = r'<meta[^>]+property=["\']og:title["\'][^>]*content=["\']([^"\']+)'
 
@@ -59,10 +66,14 @@ def fetch_article(url, timeout=20):
         meta = {}
         out["error"] = f"extract:{type(exc).__name__}"
     out["text"] = meta.get("text") or ""
-    out["title"] = meta.get("title") or strip_html(_first([_OG_TITLE], html))
+    out["title"] = good_title(strip_html(_first([_OG_TITLE], html))) or good_title(meta.get("title"))
     out["author"] = meta.get("author") or ""
     out["sitename"] = strip_html(_first([_SITE_NAME], html))
-    out["date"] = iso_date(_first(_META_DATE, html)) or iso_date(meta.get("date"))
+    # Explicit publication metadata first, then the extractor's estimate, then a <time> tag.
+    out["date_meta"] = iso_date(_first(_META_DATE, html))
+    out["date_extracted"] = iso_date(meta.get("date"))
+    out["date_time"] = iso_date(_first([_TIME_TAG], html))
+    out["date"] = out["date_meta"] or out["date_extracted"] or out["date_time"]
     # Whole visible page without scripts and menus. Author boxes often sit
     # outside the main text; a hit there is checked by Claude, not trusted blindly.
     out["page_text"] = strip_html(re.sub(r"(?is)<(script|style|nav|noscript|svg)[^>]*>.*?</\1>", " ", html))[:60000]

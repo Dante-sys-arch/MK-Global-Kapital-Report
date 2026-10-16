@@ -1,27 +1,5 @@
 [
   {
-    "date": "2026-10-16",
-    "outlet": "Windmesse",
-    "title": "COP30: Klimafinanzierung muss endlich in den Unternehmen ankommen",
-    "country": "D",
-    "type": "Online",
-    "tier": 2,
-    "link": "https://w3.windmesse.de/windenergie/news/48059-cop30-klimafinanzierung-muss-endlich-in-den-unternehmen-ankommen",
-    "people": [
-      "Johannes Feist"
-    ],
-    "byline": true,
-    "author": "",
-    "found_via": [
-      "bing"
-    ],
-    "verified": "volltext",
-    "date_source": "seite",
-    "added_at": "2026-10-16T10:24:16",
-    "source": "auto",
-    "id": "a-1792146256-6"
-  },
-  {
     "date": "2026-10-09",
     "outlet": "Moneycab",
     "title": "Die Obligation ist tokenisiert. Doch womit wird sie bezahlt?",
@@ -92,7 +70,7 @@
   {
     "date": "2026-09-08",
     "outlet": "Private Banking Magazin",
-    "title": "In Usbekistan fehlen kleinen Firmen 6 Milliarden Dollar Kredit. Johannes Feist erklärt, wann Anleger davon profitieren – und wann sie besser Abstand halten.",
+    "title": "Private Credit in Zentralasien",
     "country": "D",
     "type": "Online",
     "tier": 2,
@@ -628,7 +606,7 @@
   {
     "date": "2026-03-12",
     "outlet": "Finanzen100.de",
-    "title": "Um den vollen Funktionsumfang dieser Webseite zu erfahren, benötigen Sie JavaScript.",
+    "title": "Marktkommentar: Der Trugschluss der sicheren Häfen",
     "country": "D",
     "type": "Online",
     "tier": 2,
@@ -645,7 +623,8 @@
     "date_source": "seite",
     "added_at": "2026-10-16T10:24:16",
     "source": "auto",
-    "id": "a-1792146256-10"
+    "id": "a-1792146256-10",
+    "title_source": "aus URL abgeleitet, Seite nur mit JavaScript lesbar"
   },
   {
     "date": "2026-03-10",
@@ -1224,6 +1203,28 @@
     "added_at": "2026-10-16T10:24:16",
     "source": "auto",
     "id": "a-1792146256-1"
+  },
+  {
+    "date": "2025-11-06",
+    "outlet": "Windmesse",
+    "title": "COP30: Klimafinanzierung muss endlich in den Unternehmen ankommen",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://w3.windmesse.de/windenergie/news/48059-cop30-klimafinanzierung-muss-endlich-in-den-unternehmen-ankommen",
+    "people": [
+      "Johannes Feist"
+    ],
+    "byline": true,
+    "author": "",
+    "found_via": [
+      "bing"
+    ],
+    "verified": "volltext",
+    "date_source": "manuell geprüft",
+    "added_at": "2026-10-16T10:24:16",
+    "source": "auto",
+    "id": "a-1792146256-6"
   },
   {
     "date": "2025-11-06",

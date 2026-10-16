@@ -370,12 +370,15 @@ class Agent:
 
         if art.get("ok"):
             self.counts["fetched"] += 1
-            if art.get("title") and (not c.get("title") or c["channel"] in ("sitemap", "site")):
-                item["title"] = art["title"]
+            from fetcher import good_title
+            # The publisher's own title wins; search engines and feeds sometimes show teasers or junk.
+            item["title"] = art.get("title") or good_title(c.get("title", "")) or c.get("title", "")
             item["title"] = clean_title(item["title"], " ".join([art.get("sitename", ""), extract_domain(link), c.get("source", "")]))
             item["author"] = art.get("author") or c.get("author", "")
             item["sitename"] = art.get("sitename", "")
-            item["page_date"] = art.get("date", "")
+            item["page_date"] = art.get("date_meta", "")
+            item["page_date_extracted"] = art.get("date_extracted", "")
+            item["page_date_time"] = art.get("date_time", "")
             item["text"] = art.get("text", "")
             analysis = self.matcher.analyse(item["title"], item["text"] + " " + art.get("meta_text", ""), item["author"])
             item["verified"] = "volltext"
@@ -419,6 +422,10 @@ class Agent:
 
         item["people"] = analysis.get("people", [])
         item["byline"] = analysis.get("byline", False)
+        if self._too_old(item):
+            self.state.mark_checked(key, "too-old")
+            self.counts["too_old"] = self.counts.get("too_old", 0) + 1
+            return None
         lang = detect_language(item.get("text") or "")
         item["language"] = lang
         if lang == "fr":
@@ -432,10 +439,6 @@ class Agent:
         if any(re.search(pat, url_l) for pat in self.cfg.get("blocked_url_patterns", [])):
             self.rejected.append({"link": link, "title": item["title"], "reason": "Kurs- oder Datenseite, kein Artikel"})
             self.state.mark_checked(key, "rejected-datapage")
-            return None
-        if self._too_old(item):
-            self.state.mark_checked(key, "too-old")
-            self.counts["too_old"] = self.counts.get("too_old", 0) + 1
             return None
         if re.search(r"ist (\w+ )?erschienen|neue ausgabe|newsletter|pressespiegel|presse ?digest|inhaltsverzeichnis",
                      norm_text(item["title"]) + " " + url_l):
@@ -466,12 +469,21 @@ class Agent:
         return False
 
     def _best_date(self, item):
-        for d, src in ((item.get("page_date"), "seite"), (item.get("feed_date"), "quelle"),
-                       (date_from_url(item.get("link", "")), "url")):
-            d = iso_date(d)
-            if plausible_date(d, earliest="2000-01-01"):
-                return d, src
-        return "", ""
+        """Publication date: page metadata > extractor > feed/search > URL > <time> tag.
+
+        A date equal to today is distrusted when an older date is also known
+        (many pages print the current date in the header)."""
+        today = today_utc().isoformat()
+        options = [(iso_date(item.get("page_date")), "seite"), (iso_date(item.get("page_date_extracted")), "seite"),
+                   (iso_date(item.get("feed_date")), "quelle"), (date_from_url(item.get("link", "")), "url"),
+                   (iso_date(item.get("page_date_time")), "seite")]
+        options = [(d, s) for d, s in options if plausible_date(d, earliest="2000-01-01")]
+        if not options:
+            return "", ""
+        older = [(d, s) for d, s in options if d < today]
+        if options[0][0] >= today and older:
+            return older[0]
+        return options[0]
 
     def _too_old(self, item):
         earliest = self.cfg.get("earliest_date")
