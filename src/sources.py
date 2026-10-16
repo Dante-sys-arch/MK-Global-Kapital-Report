@@ -84,7 +84,7 @@ def scan_rss(feeds, matcher, stats, own_domains=()):
             if not link or is_blocked_domain(link, own_domains):
                 continue
             dt = e.get("published_parsed") or e.get("updated_parsed")
-            out.append(_cand(link, e.get("title", ""), "rss", snippet=text, source=extract_domain(link),
+            out.append(_cand(link, e.get("title", ""), "rss", snippet=matcher.focus(text), source=extract_domain(link),
                              dt=dt, author=author, query=extract_domain(url)))
     stats.ch("rss")["candidates"] += len(out)
     return out
@@ -262,8 +262,12 @@ def serper(queries, stats, own_domains=(), date_range=None, countries=("de", "ch
 
 # ── Outlet's own WordPress search ───────────────────────────────
 
-def site_search(domains, terms, state, stats, own_domains=()):
-    """Query /wp-json/wp/v2/search on each home outlet. Searches the outlet's full archive."""
+def site_search(domains, terms, state, stats, matcher, own_domains=()):
+    """Full-text search in each home outlet's WordPress archive (/wp-json/wp/v2/posts).
+
+    Returns article bodies, so hits are checked against the names right away and
+    only real mentions become candidates. Finds bylines that no search engine shows.
+    """
     out = []
     st = stats.ch("site")
     recheck_after = (today_utc() - timedelta(days=14)).isoformat()
@@ -271,16 +275,18 @@ def site_search(domains, terms, state, stats, own_domains=()):
         info = state.outlet(domain)
         if info.get("wp") is False and info.get("wp_checked", "") > recheck_after:
             continue
-        base = f"https://www.{domain}" if not domain.startswith(("www.", "m.")) and domain.count(".") == 1 else f"https://{domain}"
+        base = f"https://www.{domain}" if domain.count(".") == 1 else f"https://{domain}"
         domain_ok = False
         for term in terms:
             st["requests"] += 1
             try:
-                resp = http_get(f"{base}/wp-json/wp/v2/search", params={"search": term, "per_page": 100},
-                                timeout=20, retries=1, headers={"Accept": "application/json"})
+                resp = http_get(f"{base}/wp-json/wp/v2/posts",
+                                params={"search": f'"{term}"', "per_page": 50,
+                                        "_fields": "link,date,title,excerpt,content"},
+                                timeout=30, retries=1, headers={"Accept": "application/json"})
             except Exception as exc:
                 st["errors"] += 1
-                stats.note("site", f"{domain}: {type(exc).__name__}", limit=60)
+                stats.note("site", f"{domain}: {type(exc).__name__}", limit=80)
                 break
             data = None
             if resp.status_code == 200:
@@ -291,17 +297,19 @@ def site_search(domains, terms, state, stats, own_domains=()):
             if not isinstance(data, list):
                 info["wp"] = False
                 info["wp_checked"] = today_utc().isoformat()
-                stats.note("site", f"{domain}: keine WordPress-Suche (HTTP {resp.status_code})", limit=60)
+                stats.note("site", f"{domain}: keine WordPress-Suche (HTTP {resp.status_code})", limit=80)
                 break
             domain_ok = True
             for it in data:
-                link = it.get("url") or it.get("link") or ""
+                link = it.get("link") or ""
                 if not link or is_blocked_domain(link, own_domains):
                     continue
-                title = it.get("title", "")
-                if isinstance(title, dict):
-                    title = title.get("rendered", "")
-                out.append(_cand(link, strip_html(title), "site", source=domain, query=f"{domain}: {term}"))
+                title = strip_html((it.get("title") or {}).get("rendered", ""))
+                body = strip_html((it.get("content") or {}).get("rendered", "") + " " + (it.get("excerpt") or {}).get("rendered", ""))
+                if not matcher.mentions_any(title + " " + body):
+                    continue
+                out.append(_cand(link, title, "site", snippet=matcher.focus(body), source=domain,
+                                 dt=it.get("date", ""), query=f"{domain}: {term}"))
         if domain_ok:
             st["ok"] += 1
             info["wp"] = True
@@ -388,7 +396,7 @@ def _recent_urls(sitemap_url, since, depth=0, budget=None):
     return out
 
 
-def sitemap_crawl(domains, state, stats, days=3, per_domain_cap=80, skip=None, own_domains=()):
+def sitemap_crawl(domains, state, stats, days=3, per_domain_cap=40, skip=None, own_domains=()):
     out = []
     st = stats.ch("sitemap")
     since = (today_utc() - timedelta(days=days)).isoformat()

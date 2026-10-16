@@ -3,6 +3,7 @@ Shared helpers: HTTP, URL and text normalization, dates, country and outlet.
 """
 import html as html_module
 import re
+import threading
 import time
 import unicodedata
 from datetime import date, datetime, timedelta, timezone
@@ -16,25 +17,37 @@ BROWSER_UA = (
     "(KHTML, like Gecko) Chrome/129.0 Safari/537.36"
 )
 
-_session = requests.Session()
-_session.headers.update({
-    "User-Agent": BROWSER_UA,
-    "Accept-Language": "de-DE,de;q=0.9,en;q=0.6",
-})
+_session = requests.Session()  # main thread
+_session.headers.update({"User-Agent": BROWSER_UA, "Accept-Language": "de-DE,de;q=0.9,en;q=0.6"})
+_local = threading.local()
 
-# Seconds to wait between two requests to the same host (politeness).
+
+def _sess():
+    if threading.current_thread() is threading.main_thread():
+        return _session
+    if not hasattr(_local, "s"):
+        _local.s = requests.Session()
+        _local.s.headers.update(_session.headers)
+    return _local.s
+
+# Seconds between two requests to the same host (politeness). Different hosts run in parallel.
 HOST_DELAY = 0.7
 _last_hit = {}
+_host_locks = {}
+_locks_guard = threading.Lock()
 
 
 def _wait_for_host(url):
     host = urlparse(url).netloc
-    last = _last_hit.get(host)
-    if last is not None:
-        gap = time.time() - last
-        if gap < HOST_DELAY:
-            time.sleep(HOST_DELAY - gap)
-    _last_hit[host] = time.time()
+    with _locks_guard:
+        lock = _host_locks.setdefault(host, threading.Lock())
+    with lock:
+        last = _last_hit.get(host)
+        if last is not None:
+            gap = time.time() - last
+            if gap < HOST_DELAY:
+                time.sleep(HOST_DELAY - gap)
+        _last_hit[host] = time.time()
 
 
 def http_get(url, params=None, timeout=15, retries=2, headers=None):
@@ -43,7 +56,7 @@ def http_get(url, params=None, timeout=15, retries=2, headers=None):
     for attempt in range(retries + 1):
         try:
             _wait_for_host(url)
-            return _session.get(url, params=params, timeout=timeout, headers=headers)
+            return _sess().get(url, params=params, timeout=timeout, headers=headers)
         except requests.RequestException as exc:
             last_exc = exc
             if attempt < retries:
@@ -53,7 +66,7 @@ def http_get(url, params=None, timeout=15, retries=2, headers=None):
 
 def http_post(url, json_body=None, data=None, timeout=20, headers=None):
     _wait_for_host(url)
-    return _session.post(url, json=json_body, data=data, timeout=timeout, headers=headers)
+    return _sess().post(url, json=json_body, data=data, timeout=timeout, headers=headers)
 
 
 # ── URL helpers ─────────────────────────────────────────────────

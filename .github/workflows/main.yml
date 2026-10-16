@@ -27,7 +27,7 @@ on:
 permissions:
   contents: write
 concurrency:
-  group: clipping-agent
+  group: clipping-agent-${{ github.ref_name }}
   cancel-in-progress: false
 jobs:
   clipping-search:

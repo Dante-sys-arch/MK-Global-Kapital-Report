@@ -58,6 +58,18 @@ class Matcher:
         self.context = [norm_text(c) for c in cfg.get("context_terms", DEFAULT_CONTEXT_TERMS)]
         self.exclusions = [norm_text(x) for x in cfg.get("exclusion_terms", [])]
 
+    def focus(self, text, width=300):
+        """Excerpt of the original text around the first client name, else its beginning."""
+        text = text or ""
+        if not hasattr(self, "_rx"):
+            parts = [r"[\s\-_\u00a0]+".join(re.escape(w) for w in t.split()) for t in self.terms() if t]
+            self._rx = re.compile("|".join(parts), re.I) if parts else None
+        m = self._rx.search(text) if self._rx else None
+        if not m:
+            return text[: 2 * width]
+        a, b = max(0, m.start() - width), min(len(text), m.end() + width)
+        return text[a:b]
+
     # All search strings, used as cheap pre-filter on feeds and snippets.
     def terms(self):
         out = list(self.brands) + list(self.weak_brands)

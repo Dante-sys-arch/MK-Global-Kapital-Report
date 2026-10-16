@@ -106,6 +106,29 @@ class RssTests(unittest.TestCase):
         self.assertEqual(sorted(c["link"] for c in out), ["https://example.de/a", "https://example.de/b"])
 
 
+class SiteSearchTests(unittest.TestCase):
+    def test_wordpress_archive_byline(self):
+        from sources import Stats, site_search
+        from state import State
+        posts = [
+            {"link": "https://www.moneycab.com/dossiers/obligation-tokenisiert/", "date": "2026-10-09T17:09:00",
+             "title": {"rendered": "Die Obligation ist tokenisiert. Doch womit wird sie bezahlt?"},
+             "excerpt": {"rendered": "<p>Tokenisierte Anleihen brauchen digitales Geld.</p>"},
+             "content": {"rendered": "<p>Text ... </p><p>Louiza Savchenko, Vorstandsmitglied bei MK Global Kapital</p>"}},
+            {"link": "https://www.moneycab.com/x/", "date": "2026-10-01T10:00:00",
+             "title": {"rendered": "Feist ist ein seltenes Wort"}, "excerpt": {"rendered": ""}, "content": {"rendered": "<p>nichts</p>"}},
+        ]
+        st = State.__new__(State)
+        st.data = {"checked": {}, "outlets": {}, "daily": {}}
+        with mock.patch("sources.http_get", return_value=FakeResp(js=posts)) as g:
+            out = site_search(["moneycab.com"], ["Savchenko"], st, Stats(), Matcher(CFG))
+        self.assertEqual([c["link"] for c in out], ["https://www.moneycab.com/dossiers/obligation-tokenisiert/"])
+        self.assertEqual(out[0]["date"], "2026-10-09")
+        self.assertIn("Savchenko", out[0]["snippet"])
+        self.assertEqual(g.call_args.kwargs["params"]["search"], '"Savchenko"')
+        self.assertTrue(st.data["outlets"]["moneycab.com"]["wp"])
+
+
 class AgentTests(unittest.TestCase):
     """End-to-end with fake channels and fake article pages."""
 

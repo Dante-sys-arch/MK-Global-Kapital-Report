@@ -10,6 +10,8 @@ Counting rules (TE): every appearance counts, including syndicated copies on
 other outlets; French-language articles from Romandie are not counted.
 """
 import json
+import time
+from concurrent.futures import ThreadPoolExecutor
 from datetime import date, datetime, timedelta
 
 from client_config import data_path, REPO_ROOT
@@ -139,7 +141,30 @@ class Agent:
                        "fetched": 0, "fetch_failed": 0, "no_match": 0, "gnews_unresolved": 0}
         from validator import Validator
         self.validator = Validator(cfg, self.matcher, self.stats)
+        self.deadline = None
+        self.out_of_time = 0
         self._reindex()
+
+    def _time_left(self):
+        return self.deadline is None or time.time() < self.deadline
+
+    def _fetch_many(self, links, workers=8):
+        """Load pages in parallel (per-host politeness is kept in util.http_get)."""
+        links = list(dict.fromkeys(links))
+        results = {}
+        if not links:
+            return results
+
+        def job(link):
+            if not self._time_left():
+                return link, None
+            return link, fetch_article(link)
+
+        with ThreadPoolExecutor(max_workers=workers) as pool:
+            for link, art in pool.map(job, links):
+                if art is not None:
+                    results[link] = art
+        return results
 
     # ── indexes ──
     def _reindex(self):
@@ -184,7 +209,7 @@ class Agent:
             cands += serper(cfg.get("serper_queries") or cfg.get("gnews_queries", []), self.stats, self.own)
             st.mark_done_today("serper")
         if st.due_today("site"):
-            cands += site_search(cfg.get("home_outlets", []), cfg.get("site_search_terms", []), st, self.stats, self.own)
+            cands += site_search(cfg.get("home_outlets", []), cfg.get("site_search_terms", []), st, self.stats, self.matcher, self.own)
             st.mark_done_today("site")
         return cands
 
@@ -204,7 +229,7 @@ class Agent:
             cands += google_cse(cfg.get("backfill_google_queries", cfg["google_queries"][:8]), self.stats, budget,
                                 self.own, date_range=(a, b))
             cands += serper(cfg.get("serper_queries") or cfg.get("gnews_queries", []), self.stats, self.own, date_range=(a, b))
-        cands += site_search(cfg.get("home_outlets", []), cfg.get("site_search_terms", []), self.state, self.stats, self.own)
+        cands += site_search(cfg.get("home_outlets", []), cfg.get("site_search_terms", []), self.state, self.stats, self.matcher, self.own)
         return cands
 
     def _skip_url(self, url):
@@ -241,10 +266,26 @@ class Agent:
             order.append(key)
         self.counts["unique"] += len(order)
 
-        unclear = []
+        prepared = []
         for key in order:
-            c = merged[key]
-            outcome = self._verify(key, c, syndication_of)
+            if not self._time_left():
+                self.out_of_time += 1
+                continue
+            p = self._prepare(key, merged[key])
+            if p:
+                prepared.append(p)
+        arts = self._fetch_many([p[2] for p in prepared])
+        unclear = []
+        for key, c, link, channels in prepared:
+            if key in self.by_url or self.state.was_checked(key):
+                if key in self.by_url:
+                    for ch in channels:
+                        self._add_channel(self.by_url[key], ch)
+                continue  # same article reached twice in this batch
+            if link not in arts:
+                self.out_of_time += 1  # not loaded in time: stays unchecked, next run picks it up
+                continue
+            outcome = self._decide(key, c, link, channels, arts[link], syndication_of)
             if outcome and outcome[0] == "check":
                 unclear.append(outcome[1])
         if unclear:
@@ -259,7 +300,8 @@ class Agent:
                 else:
                     self._to_review(item, "unklar: " + reason)
 
-    def _verify(self, key, c, syndication_of):
+    def _prepare(self, key, c):
+        """Dedup, state and Google News link resolution. Returns (key, c, link, channels) or None."""
         channels = sorted(c["channels"])
         if key in self.by_url:
             for ch in channels:
@@ -277,6 +319,11 @@ class Agent:
             link = resolve_google_news(c["gnews_link"])
             if not link:
                 self.counts["gnews_unresolved"] += 1
+                fails = self.state.data.setdefault("gnews_fail", {})
+                fails[key] = fails.get(key, 0) + 1
+                if fails[key] < 3:
+                    return None  # try again next run
+                fails.pop(key, None)
                 item = self._item(key, c, link=c["gnews_link"], channels=channels)
                 item["people"] = self.matcher.analyse(c["title"], c.get("snippet", ""))["people"]
                 self._to_review(item, "Google-News-Link nicht auflösbar, Fundstelle bitte prüfen")
@@ -293,12 +340,14 @@ class Agent:
                 return None
             key = nkey
 
+        return key, c, link, channels
+
+    def _decide(self, key, c, link, channels, art, syndication_of):
         item = self._item(key, c, link=link, channels=channels)
         if syndication_of:
             item["syndication_of"] = syndication_of
         src_analysis = self.matcher.analyse(c.get("title", ""), c.get("snippet", ""), c.get("author", ""))
 
-        art = fetch_article(link)
         if art.get("ok"):
             self.counts["fetched"] += 1
             if art.get("title") and (not c.get("title") or c["channel"] in ("sitemap", "site")):
@@ -314,9 +363,9 @@ class Agent:
                 if syndication_of and self._same_title(art.get("title") or item["title"], c.get("orig_title", "")):
                     analysis = {"decision": "accept", "people": [], "byline": False, "brand": False}
                     item["verified"] = "titelgleich"
-                elif "rss" in channels and src_analysis["decision"] != "none":
-                    analysis = src_analysis  # name in the feed entry itself (author line, teaser)
-                    item["verified"] = "feed"
+                elif ("rss" in channels or "site" in channels) and src_analysis["decision"] != "none":
+                    analysis = src_analysis  # name in the feed entry or archive text itself (author line, body)
+                    item["verified"] = "feed" if "rss" in channels else "archiv"
                 elif self.matcher.mentions_any(page_text):
                     analysis = self.matcher.analyse(item["title"], page_text, item["author"])
                     analysis["decision"] = "check"  # outside the main text: author box or sidebar?
@@ -333,14 +382,15 @@ class Agent:
             self.counts["fetch_failed"] += 1
             self.stats.note("fetch", f"{extract_domain(link)}: {art.get('error')}", limit=60)
             analysis = src_analysis
-            item["verified"] = "suchausschnitt" if "rss" not in channels else "feed"
+            reliable = "rss" in channels or "site" in channels
+            item["verified"] = ("feed" if "rss" in channels else "archiv") if reliable else "suchausschnitt"
             if analysis["decision"] == "none":
                 if syndication_of:
                     analysis = {"decision": "check", "people": [], "byline": False, "brand": False}
                 else:
                     self.state.mark_checked(key, "unreadable")
                     return None
-            elif analysis["decision"] == "accept" and not analysis.get("brand") and "rss" not in channels:
+            elif analysis["decision"] == "accept" and not analysis.get("brand") and not reliable:
                 analysis["decision"] = "check"  # person name only in a snippet: let Claude confirm
 
         item["people"] = analysis.get("people", [])
@@ -527,6 +577,8 @@ class Agent:
     # ── run ──
     def run(self, mode="daily", start=None, end=None):
         started = datetime.now()
+        budget_min = self.cfg.get("time_budget_minutes", {}).get(mode, 45 if mode == "daily" else 150)
+        self.deadline = time.time() + budget_min * 60
         self.apply_review_decisions()
         if mode == "enrich":
             self.enrich()
@@ -553,6 +605,7 @@ class Agent:
             save_json(data_path(self.cfg), self.clips)
             save_json(review_path(self.cfg), self.review)
             self.state.save()
+        self.counts["deferred"] = self.out_of_time
         report = write_report(self, mode, started, placement_report)
         return self.new, report
 

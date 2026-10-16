@@ -57,6 +57,8 @@ def evaluate(channels, counts, placements):
     attempts = counts.get("fetched", 0) + counts.get("fetch_failed", 0)
     if attempts >= 10 and counts.get("fetch_failed", 0) > 0.5 * attempts:
         warnings.append(f"{counts['fetch_failed']} von {attempts} Artikelseiten nicht lesbar")
+    if counts.get("deferred"):
+        warnings.append(f"Zeitbudget erreicht: {counts['deferred']} Hinweise werden im nächsten Lauf geprüft")
     if placements and placements.get("overdue"):
         warnings.append(f"{len(placements['overdue'])} Platzierung(en) überfällig")
     status = "error" if problems else ("warn" if warnings else "ok")
@@ -127,7 +129,8 @@ def markdown(r):
     c = r["counts"]
     lines += ["", f"Kandidaten {c['candidates']}, davon eindeutig {c['unique']}, schon bekannt {c['already_known']}, "
               f"schon geprüft {c['already_checked']}, Seiten geladen {c['fetched']}, nicht lesbar {c['fetch_failed']}, "
-              f"ohne Treffer {c['no_match']}, Google-News-Links offen {c['gnews_unresolved']}.", ""]
+              f"ohne Treffer {c['no_match']}, Google-News-Links offen {c['gnews_unresolved']}, "
+              f"aus Zeitgründen verschoben {c.get('deferred', 0)}.", ""]
     lines.append(f"## Neue Clippings ({len(r['new'])})")
     for n in r["new"]:
         lines.append(f"- {n.get('date','?')} | {n.get('outlet','')} | {n.get('title','')} | {', '.join(n.get('people', []))} | via {', '.join(n.get('found_via', []))} | {n.get('link','')}")

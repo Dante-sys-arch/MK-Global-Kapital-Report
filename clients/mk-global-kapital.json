@@ -273,5 +273,10 @@
     "capital.de",
     "manager-magazin.de",
     "fondstrends.de"
-  ]
+  ],
+  "time_budget_minutes": {
+    "daily": 45,
+    "backfill": 150,
+    "enrich": 30
+  }
 }
