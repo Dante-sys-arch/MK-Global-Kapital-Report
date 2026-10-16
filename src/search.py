@@ -18,13 +18,13 @@ from client_config import data_path, REPO_ROOT
 from fetcher import fetch_article, resolve_google_news
 from matcher import Matcher, detect_language
 from runreport import write_report
-from sources import (CseBudget, GNEWS_EDITIONS, Stats, google_cse, google_news,
+from sources import (CseBudget, GNEWS_EDITIONS, Stats, bing_news, google_cse, google_news,
                      scan_rss, serper, site_search, sitemap_crawl)
 from state import State
 from util import (date_from_url, extract_domain, guess_country, iso_date, norm_title,
                   normalize_outlet, normalize_url, plausible_date, today_utc)
 
-SEARCH_CHANNELS = {"google", "gnews", "serper", "site"}
+SEARCH_CHANNELS = {"google", "gnews", "serper", "site", "bing"}
 
 TIER1_KEYWORDS = [
     "faz", "frankfurter allgemeine", "handelsblatt", "boersen-zeitung", "börsen-zeitung",
@@ -197,6 +197,7 @@ class Agent:
         feeds = RSS_FEEDS + cfg.get("extra_rss_feeds", [])
         cands += scan_rss(feeds, self.matcher, self.stats, self.own)
         cands += google_news(cfg.get("gnews_queries", []), self.stats, own_domains=self.own)
+        cands += bing_news(cfg.get("bing_queries") or cfg.get("gnews_queries", []), self.stats, own_domains=self.own)
         cands += sitemap_crawl(cfg.get("crawl_outlets", []), st, self.stats,
                                days=cfg.get("crawl_days", 3), skip=self._skip_url, own_domains=self.own)
         if st.due_today("google"):

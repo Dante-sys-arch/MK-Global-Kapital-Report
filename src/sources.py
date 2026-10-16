@@ -7,6 +7,7 @@ Channels:
     rss        configured RSS feeds (title, description, full text, author)
     google     Google Custom Search JSON API (until 31.12.2026)
     gnews      Google News RSS search, editions DE / CH / AT
+    bing       Bing News RSS search, markets DE / CH / AT (independent index)
     serper     Google web + news results via serper.dev (optional, needs key)
     site       the outlet's own WordPress search (full archive, incl. bylines)
     sitemap    every new article of the home outlets, read in full
@@ -212,6 +213,43 @@ def google_news(queries, stats, editions=GNEWS_EDITIONS, own_domains=()):
                 out.append(_cand("", title, "gnews", snippet=strip_html(e.get("summary", "")),
                                  source=src_title or domain, dt=e.get("published_parsed"),
                                  query=f"{q} [{gl}]", gnews_link=e.get("link", ""), source_domain=domain))
+    st["candidates"] += len(out)
+    return out
+
+
+# ── Bing News RSS (second, independent news index) ──────────────
+
+def bing_news(queries, stats, markets=(("de-DE", "DE"), ("de-CH", "CH"), ("de-AT", "AT")), own_domains=()):
+    from urllib.parse import parse_qs, urlparse
+    out, seen = [], set()
+    st = stats.ch("bing")
+    for q in queries:
+        for mkt, cc in markets:
+            url = f"https://www.bing.com/news/search?q={quote_plus(q)}&format=rss&setlang={mkt}&cc={cc}&mkt={mkt}"
+            st["requests"] += 1
+            try:
+                resp = http_get(url, timeout=20, retries=1)
+            except Exception as exc:
+                st["errors"] += 1
+                stats.note("bing", f"{q} [{cc}]: {type(exc).__name__}")
+                continue
+            feed = feedparser.parse(resp.content) if resp.status_code == 200 else None
+            if not feed or (not feed.entries and not feed.feed):
+                st["errors"] += 1
+                stats.note("bing", f"{q} [{cc}]: HTTP {resp.status_code}")
+                continue
+            st["ok"] += 1
+            for e in feed.entries:
+                link = e.get("link", "")
+                qs = parse_qs(urlparse(link).query)
+                if "url" in qs:
+                    link = qs["url"][0]
+                if not link or link in seen or is_blocked_domain(link, own_domains):
+                    continue
+                seen.add(link)
+                out.append(_cand(link, e.get("title", ""), "bing", snippet=strip_html(e.get("summary", "")),
+                                 source=e.get("news_source", "") or extract_domain(link),
+                                 dt=e.get("published_parsed"), query=f"{q} [{cc}]"))
     st["candidates"] += len(out)
     return out
 

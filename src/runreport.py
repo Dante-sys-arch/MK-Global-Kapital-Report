@@ -18,7 +18,7 @@ from client_config import REPO_ROOT, list_clients
 RUNS = REPO_ROOT / "data" / "runs"
 HISTORY_KEEP = 500
 
-LABELS = {"rss": "RSS-Feeds", "google": "Google Websuche (Custom Search)", "gnews": "Google News",
+LABELS = {"rss": "RSS-Feeds", "google": "Google Websuche (Custom Search)", "gnews": "Google News", "bing": "Bing News",
           "serper": "Serper (Google Web + News)", "site": "Seitensuche der Stammmedien",
           "sitemap": "Neue Artikel der Stammmedien", "claude": "Claude-Prüfung", "fetch": "Artikelseiten"}
 
@@ -47,7 +47,7 @@ def evaluate(channels, counts, placements):
         problems.append("Claude-Prüfung nicht verfügbar (API-Schlüssel fehlt). Unklare Fälle liegen in der Prüfliste.")
     if cl["errors"]:
         problems.append(f"Claude-Prüfung fehlgeschlagen ({'; '.join(cl['notes'][:1])}). Unklare Fälle liegen in der Prüfliste.")
-    for name in ("site", "sitemap"):
+    for name in ("site", "sitemap", "bing"):
         c = ch(name)
         if c["requests"] and c["ok"] == 0:
             warnings.append(f"{LABELS[name]}: keine Quelle erreichbar")
