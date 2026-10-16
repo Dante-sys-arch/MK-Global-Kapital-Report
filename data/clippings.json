@@ -1,5 +1,117 @@
 [
   {
+    "date": "2026-10-16",
+    "outlet": "Windmesse",
+    "title": "COP30: Klimafinanzierung muss endlich in den Unternehmen ankommen",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://w3.windmesse.de/windenergie/news/48059-cop30-klimafinanzierung-muss-endlich-in-den-unternehmen-ankommen",
+    "people": [
+      "Johannes Feist"
+    ],
+    "byline": true,
+    "author": "",
+    "found_via": [
+      "bing"
+    ],
+    "verified": "volltext",
+    "date_source": "seite",
+    "added_at": "2026-10-16T10:24:16",
+    "source": "auto",
+    "id": "a-1792146256-6"
+  },
+  {
+    "date": "2026-10-09",
+    "outlet": "Moneycab",
+    "title": "Die Obligation ist tokenisiert. Doch womit wird sie bezahlt?",
+    "country": "CH",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.moneycab.com/dossiers/die-obligation-ist-tokenisiert-doch-womit-wird-sie-bezahlt/",
+    "people": [
+      "Louiza Savchenko"
+    ],
+    "byline": true,
+    "author": "Moneycab",
+    "found_via": [
+      "gnews",
+      "site"
+    ],
+    "verified": "volltext",
+    "date_source": "seite",
+    "added_at": "2026-10-16T10:24:16",
+    "source": "auto",
+    "id": "a-1792146256-3"
+  },
+  {
+    "date": "2026-10-09",
+    "outlet": "finanznachrichten.de",
+    "title": "Die Obligation ist tokenisiert. Doch womit wird sie bezahlt?",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.finanznachrichten.de/nachrichten-2026-10/69801367-die-obligation-ist-tokenisiert-doch-womit-wird-sie-bezahlt-095.htm",
+    "people": [
+      "Louiza Savchenko"
+    ],
+    "byline": true,
+    "author": "",
+    "found_via": [
+      "bing"
+    ],
+    "verified": "volltext",
+    "date_source": "seite",
+    "added_at": "2026-10-16T10:24:16",
+    "source": "auto",
+    "id": "a-1792146256-12",
+    "syndication_of": "a-1792146256-3"
+  },
+  {
+    "date": "2026-09-29",
+    "outlet": "Markt Einblicke",
+    "title": "Nach dem Ernteeinbruch: Warum es jetzt auf die richtige Finanzierung ankommt",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://markteinblicke.de/133297/2026/09/nach-dem-ernteeinbruch-warum-es-jetzt-auf-die-richtige-finanzierung-ankommt/",
+    "people": [
+      "Johannes Feist"
+    ],
+    "byline": false,
+    "author": "",
+    "found_via": [
+      "site"
+    ],
+    "verified": "volltext",
+    "date_source": "seite",
+    "added_at": "2026-10-16T10:24:17",
+    "source": "auto",
+    "id": "a-1792146257-19"
+  },
+  {
+    "date": "2026-09-08",
+    "outlet": "Private Banking Magazin",
+    "title": "In Usbekistan fehlen kleinen Firmen 6 Milliarden Dollar Kredit. Johannes Feist erklärt, wann Anleger davon profitieren – und wann sie besser Abstand halten.",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.private-banking-magazin.de/private-credit-zentralasien-lokale-unternehmenskredite/",
+    "people": [
+      "Johannes Feist"
+    ],
+    "byline": true,
+    "author": "Johannes Feist",
+    "found_via": [
+      "bing"
+    ],
+    "verified": "volltext",
+    "date_source": "seite",
+    "added_at": "2026-10-16T10:24:16",
+    "source": "auto",
+    "id": "a-1792146256-8"
+  },
+  {
     "title": "Niedrigwasser zeigt die Geografie des Kreditrisikos",
     "link": "https://www.bondguide.de/topnews/niedrigwasser-zeigt-die-geografie-des-kreditrisikos/",
     "outlet": "BondGuide",
@@ -9,7 +121,81 @@
     "type": "Online",
     "added_at": "2026-08-22T18:38:38.813529",
     "source": "auto",
-    "id": "g-1787423918-0"
+    "id": "g-1787423918-0",
+    "found_via": [
+      "site"
+    ],
+    "people": [
+      "Johannes Feist"
+    ],
+    "byline": false,
+    "author": "Falko Bozicevic"
+  },
+  {
+    "date": "2026-08-17",
+    "outlet": "Finanz und Wirtschaft",
+    "title": "Die Schweiz finanziert Wasserresilienz überall – nur nicht im Inland",
+    "country": "CH",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.fuw.ch/wasserrisiko-was-die-schweiz-von-zentralasien-lernen-kann-152625611421",
+    "people": [
+      "Louiza Savchenko"
+    ],
+    "byline": true,
+    "author": "Louiza Savchenko",
+    "found_via": [
+      "gnews"
+    ],
+    "verified": "volltext",
+    "date_source": "seite",
+    "added_at": "2026-10-16T10:24:16",
+    "source": "auto",
+    "id": "a-1792146256-4"
+  },
+  {
+    "date": "2026-08-13",
+    "outlet": "Markt Einblicke",
+    "title": "Mikrofinanzanleihen: Worauf es bei Kreditqualität und Struktur ankommt",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://markteinblicke.de/132318/2026/08/mikrofinanzanleihen-worauf-es-bei-kreditqualitaet-und-struktur-ankommt/",
+    "people": [
+      "Johannes Feist"
+    ],
+    "byline": false,
+    "author": "",
+    "found_via": [
+      "site"
+    ],
+    "verified": "volltext",
+    "date_source": "seite",
+    "added_at": "2026-10-16T10:24:17",
+    "source": "auto",
+    "id": "a-1792146257-20"
+  },
+  {
+    "date": "2026-08-04",
+    "outlet": "Markt Einblicke",
+    "title": "Euro-Kupon, lokale Cashflows: Wo das Währungsrisiko wirklich liegt",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://markteinblicke.de/132045/2026/08/euro-kupon-lokale-cashflows-wo-das-waehrungsrisiko-wirklich-liegt/",
+    "people": [
+      "Johannes Feist"
+    ],
+    "byline": false,
+    "author": "",
+    "found_via": [
+      "site"
+    ],
+    "verified": "volltext",
+    "date_source": "seite",
+    "added_at": "2026-10-16T10:24:17",
+    "source": "auto",
+    "id": "a-1792146257-21"
   },
   {
     "title": "Johannes Feist, CEO MK Global Kapital, im Interview",
@@ -21,7 +207,40 @@
     "type": "Online",
     "added_at": "2026-07-31T08:36:54.311003",
     "source": "auto",
-    "id": "g-1785487014-0"
+    "id": "g-1785487014-0",
+    "found_via": [
+      "gnews",
+      "site",
+      "bing"
+    ],
+    "people": [
+      "Johannes Feist"
+    ],
+    "byline": false,
+    "author": "Helmuth Fuchs"
+  },
+  {
+    "date": "2026-07-31",
+    "outlet": "finanznachrichten.de",
+    "title": "Johannes Feist, CEO MK Global Kapital, im Interview",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.finanznachrichten.de/nachrichten-2026-07/69177994-johannes-feist-ceo-mk-global-kapital-im-interview-095.htm",
+    "people": [
+      "Johannes Feist"
+    ],
+    "byline": false,
+    "author": "",
+    "found_via": [
+      "bing"
+    ],
+    "verified": "volltext",
+    "date_source": "seite",
+    "added_at": "2026-10-16T10:24:16",
+    "source": "auto",
+    "id": "a-1792146256-5",
+    "syndication_of": "g-1785487014-0"
   },
   {
     "title": "Private Credit: Was Anleiheinvestoren hinter dem Kupon prüfen sollten",
@@ -33,7 +252,125 @@
     "type": "Online",
     "added_at": "2026-07-28T14:23:40.292907",
     "source": "auto",
-    "id": "g-1785248620-0"
+    "id": "g-1785248620-0",
+    "found_via": [
+      "site"
+    ],
+    "people": [
+      "Johannes Feist"
+    ],
+    "byline": true,
+    "author": "Falko Bozicevic"
+  },
+  {
+    "date": "2026-06-10",
+    "outlet": "Finews",
+    "title": "Johannes Feist: «Einer meiner unerfüllter Träume ist der Sportfliegerschein»",
+    "country": "CH",
+    "type": "Online",
+    "tier": 1,
+    "link": "https://www.finews.ch/themen/high-end/72456-johannes-feist-einer-meiner-unerfuellter-traeume-ist-der-sportfliegerschein-ceo-global-kapital",
+    "people": [
+      "Johannes Feist"
+    ],
+    "byline": true,
+    "author": "Lynn Seelhofer; Redaktorin",
+    "found_via": [
+      "gnews"
+    ],
+    "verified": "volltext",
+    "date_source": "seite",
+    "added_at": "2026-10-16T10:24:16",
+    "source": "auto",
+    "id": "a-1792146256-0"
+  },
+  {
+    "date": "2026-05-27",
+    "outlet": "Markt Einblicke",
+    "title": "Warum der Blick auf den Ölpreis nicht reicht",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://markteinblicke.de/130696/2026/05/warum-der-blick-auf-den-oelpreis-nicht-reicht/",
+    "people": [
+      "Johannes Feist"
+    ],
+    "byline": false,
+    "author": "",
+    "found_via": [
+      "site"
+    ],
+    "verified": "volltext",
+    "date_source": "seite",
+    "added_at": "2026-10-16T10:24:17",
+    "source": "auto",
+    "id": "a-1792146257-22"
+  },
+  {
+    "date": "2026-05-22",
+    "outlet": "Moneycab",
+    "title": "Nicht die Grösse des Kredits entscheidet, sondern seine Wirkung",
+    "country": "CH",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.moneycab.com/dossiers/nicht-die-groesse-des-kredits-entscheidet-sondern-seine-wirkung/",
+    "people": [
+      "Johannes Feist"
+    ],
+    "byline": true,
+    "author": "Moneycab",
+    "found_via": [
+      "site"
+    ],
+    "verified": "volltext",
+    "date_source": "seite",
+    "added_at": "2026-10-16T10:24:17",
+    "source": "auto",
+    "id": "a-1792146257-14"
+  },
+  {
+    "date": "2026-05-07",
+    "outlet": "Markt Einblicke",
+    "title": "Mikrofinanz-Anleihen: Ein wachsender Markt",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://markteinblicke.de/130263/2026/05/mikrofinanz-anleihen-ein-wachsender-markt/",
+    "people": [
+      "Johannes Feist"
+    ],
+    "byline": false,
+    "author": "",
+    "found_via": [
+      "site"
+    ],
+    "verified": "volltext",
+    "date_source": "seite",
+    "added_at": "2026-10-16T10:24:17",
+    "source": "auto",
+    "id": "a-1792146257-23"
+  },
+  {
+    "date": "2026-04-13",
+    "outlet": "cash-online.de",
+    "title": "Tokenisierte Anleihen: Was sich für Anleger ändert und was nicht",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.cash-online.de/a/tokenisierte-anleihen-was-sich-fuer-anleger-aendert-und-was-nicht-715994/",
+    "people": [
+      "Louiza Savchenko"
+    ],
+    "byline": true,
+    "author": "Frank Milewski",
+    "found_via": [
+      "site"
+    ],
+    "verified": "volltext",
+    "date_source": "seite",
+    "added_at": "2026-10-16T10:24:17",
+    "source": "auto",
+    "id": "a-1792146257-15"
   },
   {
     "date": "2026-03-24",
@@ -45,7 +382,9 @@
     "link": "https://www.faz.net/pro/meine-finanzen/zinsen/sorgen-um-privatkredite-finanzkrise-oder-silberne-aera-110376123.html",
     "added_at": "2026-03-25T10:00:00",
     "source": "manual",
-    "id": "fix-0-1774883372"
+    "id": "fix-0-1774883372",
+    "people": [],
+    "people_checked": "seite nicht lesbar"
   },
   {
     "date": "2026-03-24",
@@ -57,7 +396,9 @@
     "link": "https://www.dasinvestment.com/private-credit-unter-druck-wenn-das-geld-nicht-mehr-herauskommt/",
     "added_at": "2026-03-25T10:00:00",
     "source": "manual",
-    "id": "fix-1-1774883372"
+    "id": "fix-1-1774883372",
+    "people": [],
+    "people_checked": "seite nicht lesbar"
   },
   {
     "date": "2026-03-24",
@@ -69,7 +410,12 @@
     "link": "https://www.fondsexklusiv.at/private-credit-debatte-entfacht/",
     "added_at": "2026-03-25T10:00:00",
     "source": "manual",
-    "id": "fix-2-1774883372"
+    "id": "fix-2-1774883372",
+    "people": [
+      "Johannes Feist"
+    ],
+    "byline": true,
+    "author": "Raja"
   },
   {
     "date": "2026-03-21",
@@ -81,7 +427,9 @@
     "link": "https://www.derstandard.de/story/3000000313347/pakistan-spart-milliarden-an-fossilen-importen-wie-hat-es-das-gemacht",
     "added_at": "2026-03-23T09:15:00",
     "source": "manual",
-    "id": "fix-3-1774883372"
+    "id": "fix-3-1774883372",
+    "people": [],
+    "byline": false
   },
   {
     "date": "2026-03-21",
@@ -93,7 +441,39 @@
     "link": "https://www.finews.ch/news/finanzplatz/71578-finews-first-tokenisierung-louzia-savchenko-finanzplatz-schweiz-innovation-mk-global-kapital",
     "added_at": "2026-03-23T09:15:00",
     "source": "manual",
-    "id": "fix-4-1774883372"
+    "id": "fix-4-1774883372",
+    "found_via": [
+      "bing"
+    ],
+    "people": [
+      "Louiza Savchenko"
+    ],
+    "byline": false,
+    "author": "Dominik Buholzer; Chefredaktor"
+  },
+  {
+    "date": "2026-03-20",
+    "outlet": "BondGuide",
+    "title": "Private Credit ist nicht gleich Private Credit: wo die Risiken wirklich liegen",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.bondguide.de/topnews/private-credit-ist-nicht-gleich-private-credit-wo-die-risiken-wirklich-liegen/",
+    "people": [
+      "Johannes Feist"
+    ],
+    "byline": false,
+    "author": "Falko Bozicevic",
+    "found_via": [
+      "bing",
+      "site"
+    ],
+    "verified": "volltext",
+    "date_source": "seite",
+    "added_at": "2026-10-16T10:24:16",
+    "source": "auto",
+    "id": "a-1792146256-7",
+    "syndication_of": "fix-8-1774883372"
   },
   {
     "date": "2026-03-19",
@@ -105,7 +485,16 @@
     "link": "https://www.moneycab.com/finanz/nicht-nur-oel-wo-der-iran-konflikt-emerging-markets-wirklich-trifft/",
     "added_at": "2026-03-22T11:00:00",
     "source": "auto",
-    "id": "fix-5-1774883372"
+    "id": "fix-5-1774883372",
+    "found_via": [
+      "bing",
+      "site"
+    ],
+    "people": [
+      "Johannes Feist"
+    ],
+    "byline": true,
+    "author": "Helmuth Fuchs"
   },
   {
     "date": "2026-03-19",
@@ -117,7 +506,12 @@
     "link": "https://www.institutional-money.com/news/maerkte/headline/was-der-iran-schock-fuer-emerging-markets-veraendert-249420",
     "added_at": "2026-03-22T13:30:00",
     "source": "manual",
-    "id": "fix-6-1774883372"
+    "id": "fix-6-1774883372",
+    "found_via": [
+      "bing"
+    ],
+    "people": [],
+    "byline": false
   },
   {
     "date": "2026-03-19",
@@ -129,7 +523,11 @@
     "link": "https://www.fixed-income.org/investment/was-der-iran-schock-fuer-emerging-markets-veraendert.html",
     "added_at": "2026-03-23T09:15:00",
     "source": "manual",
-    "id": "fix-7-1774883372"
+    "id": "fix-7-1774883372",
+    "people": [
+      "Johannes Feist"
+    ],
+    "byline": true
   },
   {
     "date": "2026-03-17",
@@ -141,7 +539,14 @@
     "link": "https://www.finanznachrichten.de/nachrichten-2026-03/67998176-private-credit-ist-nicht-gleich-private-credit-wo-die-risiken-wirklich-liegen-144.htm",
     "added_at": "2026-03-22T13:30:00",
     "source": "manual",
-    "id": "fix-8-1774883372"
+    "id": "fix-8-1774883372",
+    "found_via": [
+      "bing"
+    ],
+    "people": [
+      "Johannes Feist"
+    ],
+    "byline": false
   },
   {
     "date": "2026-03-17",
@@ -153,7 +558,16 @@
     "link": "https://www.cash-online.de/a/gastkommentar-der-blinde-fleck-der-private-credit-debatte-713724/",
     "added_at": "2026-03-22T13:30:00",
     "source": "manual",
-    "id": "fix-9-1774883372"
+    "id": "fix-9-1774883372",
+    "found_via": [
+      "bing",
+      "site"
+    ],
+    "people": [
+      "Johannes Feist"
+    ],
+    "byline": false,
+    "author": "Stefan Löwer"
   },
   {
     "date": "2026-03-16",
@@ -165,7 +579,12 @@
     "link": "https://www.fondsexklusiv.de/private-credit-debatte-entfacht/",
     "added_at": "2026-03-22T09:00:00",
     "source": "auto",
-    "id": "fix-10-1774883372"
+    "id": "fix-10-1774883372",
+    "people": [
+      "Johannes Feist"
+    ],
+    "byline": true,
+    "author": "Raja"
   },
   {
     "date": "2026-03-16",
@@ -177,7 +596,56 @@
     "link": "https://www.kreditwesen.de/kreditwesen/themenschwerpunkte/aufsaetze/mikrofinanz-anlageklasse-id107511.html",
     "added_at": "2026-03-22T09:00:00",
     "source": "auto",
-    "id": "fix-11-1774883372"
+    "id": "fix-11-1774883372",
+    "people": [
+      "Johannes Feist"
+    ],
+    "byline": false,
+    "author": "Schreibt für Zeitschrift für das gesamte Kreditwesen"
+  },
+  {
+    "date": "2026-03-13",
+    "outlet": "investrends.ch",
+    "title": "Der blinde Fleck der Private-Credit-Debatte",
+    "country": "CH",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://investrends.ch/aktuell/investments/der-blinde-fleck-der-private-credit-debatte/",
+    "people": [
+      "Johannes Feist"
+    ],
+    "byline": true,
+    "author": "Johannes Feist; CEO MK Global Kapital; Asc",
+    "found_via": [
+      "gnews"
+    ],
+    "verified": "volltext",
+    "date_source": "seite",
+    "added_at": "2026-10-16T10:24:16",
+    "source": "auto",
+    "id": "a-1792146256-2"
+  },
+  {
+    "date": "2026-03-12",
+    "outlet": "Finanzen100.de",
+    "title": "Um den vollen Funktionsumfang dieser Webseite zu erfahren, benötigen Sie JavaScript.",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.finanzen100.de/premium/bernecker-boersenkompass/marktkommentar-der-trugschluss-der-sicheren-haefen_H1356104965_6799449/",
+    "people": [
+      "Johannes Feist"
+    ],
+    "byline": false,
+    "author": "Georg Sures",
+    "found_via": [
+      "bing"
+    ],
+    "verified": "volltext",
+    "date_source": "seite",
+    "added_at": "2026-10-16T10:24:16",
+    "source": "auto",
+    "id": "a-1792146256-10"
   },
   {
     "date": "2026-03-10",
@@ -189,7 +657,9 @@
     "link": "https://www.swissfinanceai.ch/blog/swiss-finance/warum-tokenisierte-anleihen-mehr-sind-als-ein-trend",
     "added_at": "2026-03-22T13:30:00",
     "source": "manual",
-    "id": "fix-12-1774883372"
+    "id": "fix-12-1774883372",
+    "people": [],
+    "people_checked": "seite nicht lesbar"
   },
   {
     "date": "2026-03-04",
@@ -201,7 +671,14 @@
     "link": "https://markteinblicke.de/128943/2026/03/tokenisierte-anleihen-mehr-governance-erforderlich/",
     "added_at": "2026-03-06T09:00:00",
     "source": "manual",
-    "id": "fix-13-1774883372"
+    "id": "fix-13-1774883372",
+    "found_via": [
+      "site"
+    ],
+    "people": [
+      "Louiza Savchenko"
+    ],
+    "byline": false
   },
   {
     "date": "2026-03-04",
@@ -213,7 +690,15 @@
     "link": "https://www.gruenderkueche.de/news/finanzen-news/weltfrauentag-unternehmerinnen-fehlt-weiterhin-der-zugang-zu-kapital/",
     "added_at": "2026-03-06T09:00:00",
     "source": "manual",
-    "id": "fix-14-1774883372"
+    "id": "fix-14-1774883372",
+    "found_via": [
+      "site"
+    ],
+    "people": [
+      "Louiza Savchenko"
+    ],
+    "byline": false,
+    "author": "Gründerküche Redaktion"
   },
   {
     "date": "2026-03-02",
@@ -225,7 +710,32 @@
     "link": "https://www.altii.de/edai-71550571-cb6c-4c09-93da-bd99b822c245/",
     "added_at": "2026-03-06T09:00:00",
     "source": "manual",
-    "id": "fix-15-1774883372"
+    "id": "fix-15-1774883372",
+    "people": [],
+    "byline": false
+  },
+  {
+    "date": "2026-03-02",
+    "outlet": "dfpa.info",
+    "title": "Unternehmerinnen fehlt weltweit der Zugang zu Kapital",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.dfpa.info/maerkte-studien-news/unternehmerinnen-fehlt-weltweit-der-zugang-zu-kapital/",
+    "people": [
+      "Louiza Savchenko"
+    ],
+    "byline": false,
+    "author": "",
+    "found_via": [
+      "site"
+    ],
+    "verified": "volltext",
+    "date_source": "seite",
+    "added_at": "2026-10-16T10:24:17",
+    "source": "auto",
+    "id": "a-1792146257-18",
+    "syndication_of": "fix-15-1774883372"
   },
   {
     "date": "2026-02-24",
@@ -237,7 +747,14 @@
     "link": "https://www.dfpa.info/top-story/wenn-geschaeftsbanken-passen-helfen-mikrofinanzfonds.html",
     "added_at": "2026-03-06T09:00:00",
     "source": "manual",
-    "id": "fix-16-1774883372"
+    "id": "fix-16-1774883372",
+    "found_via": [
+      "site"
+    ],
+    "people": [
+      "Johannes Feist"
+    ],
+    "byline": false
   },
   {
     "date": "2026-02-23",
@@ -249,7 +766,9 @@
     "link": "https://exxecnews.org/wp-content/uploads/2026/02/Ausgabe-05_2026.pdf",
     "added_at": "2026-03-06T09:00:00",
     "source": "manual",
-    "id": "fix-17-1774883372"
+    "id": "fix-17-1774883372",
+    "people": [],
+    "people_checked": "seite nicht lesbar"
   },
   {
     "date": "2026-02-18",
@@ -261,7 +780,14 @@
     "link": "https://www.dfpa.info/interview/mikrofinanz-besonderheit-anleihen-mit-festem-zins.html",
     "added_at": "2026-03-22T11:00:00",
     "source": "auto",
-    "id": "fix-18-1774883372"
+    "id": "fix-18-1774883372",
+    "found_via": [
+      "site"
+    ],
+    "people": [
+      "Johannes Feist"
+    ],
+    "byline": false
   },
   {
     "date": "2026-02-16",
@@ -276,6 +802,28 @@
     "id": "fix-19-1774883372"
   },
   {
+    "date": "2026-02-16",
+    "outlet": "boerse-social.com",
+    "title": "Börse-Inputs auf Spotify zu u.a. Do&Co, Bawag, Nervigem und Mikrokrediten",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://boerse-social.com/2026/02/16/borse-inputs_auf_spotify_zu_ua_doco_bawag_nervigem_und_mikrokrediten_1",
+    "people": [
+      "Johannes Feist"
+    ],
+    "byline": false,
+    "author": "Keiner",
+    "found_via": [
+      "bing"
+    ],
+    "verified": "volltext",
+    "date_source": "seite",
+    "added_at": "2026-10-16T10:24:16",
+    "source": "auto",
+    "id": "a-1792146256-9"
+  },
+  {
     "date": "2026-02-14",
     "outlet": "finanznachrichten.de",
     "title": "Security Conference München 2026: öffentliche Mittel als Hebel nutzen",
@@ -285,7 +833,11 @@
     "link": "https://www.finanznachrichten.de/nachrichten-2026-02/67704129-security-conference-muenchen-2026-oeffentliche-mittel-als-hebel-nutzen-144.htm",
     "added_at": "2026-03-06T09:00:00",
     "source": "manual",
-    "id": "fix-20-1774883372"
+    "id": "fix-20-1774883372",
+    "people": [
+      "Johannes Feist"
+    ],
+    "byline": true
   },
   {
     "date": "2026-02-14",
@@ -297,7 +849,15 @@
     "link": "https://www.bondguide.de/topnews/security-conference-muenchen-2026-oeffentliche-mittel-als-hebel-nutzen/",
     "added_at": "2026-03-06T09:00:00",
     "source": "manual",
-    "id": "fix-21-1774883372"
+    "id": "fix-21-1774883372",
+    "found_via": [
+      "site"
+    ],
+    "people": [
+      "Johannes Feist"
+    ],
+    "byline": true,
+    "author": "Falko Bozicevic"
   },
   {
     "date": "2026-02-14",
@@ -309,7 +869,11 @@
     "link": "https://www.geldmeisterin.com/index.php/2026/02/14/mikrokredite-gerade-jetzt-zur-risikostreuung/",
     "added_at": "2026-03-06T09:00:00",
     "source": "manual",
-    "id": "fix-22-1774883372"
+    "id": "fix-22-1774883372",
+    "people": [
+      "Johannes Feist"
+    ],
+    "byline": false
   },
   {
     "title": "Mikrokredite als Anlagealternative",
@@ -321,7 +885,14 @@
     "type": "Online",
     "added_at": "2026-10-06T22:33:46.301270",
     "source": "auto",
-    "id": "g-1791326026-0"
+    "id": "g-1791326026-0",
+    "found_via": [
+      "rss"
+    ],
+    "people": [
+      "Johannes Feist"
+    ],
+    "byline": false
   },
   {
     "date": "2026-02-04",
@@ -333,7 +904,15 @@
     "link": "https://investrends.ch/aktuell/investments/private-debt-warum-prozesse-wichtiger-sind-als-prognosen/",
     "added_at": "2026-03-06T09:00:00",
     "source": "manual",
-    "id": "fix-23-1774883372"
+    "id": "fix-23-1774883372",
+    "found_via": [
+      "bing"
+    ],
+    "people": [
+      "Michele Mattioda"
+    ],
+    "byline": false,
+    "author": "Asc"
   },
   {
     "date": "2026-02-02",
@@ -345,7 +924,12 @@
     "link": "https://www.payoff.ch/news/mikrofinanz-als-private-debt-besicherte-kmu-kredite-statt-entwicklungshilfe",
     "added_at": "2026-03-06T09:00:00",
     "source": "manual",
-    "id": "fix-24-1774883372"
+    "id": "fix-24-1774883372",
+    "people": [
+      "Johannes Feist"
+    ],
+    "byline": false,
+    "author": "Karin Beerli"
   },
   {
     "date": "2026-01-27",
@@ -369,7 +953,9 @@
     "link": "https://www.faz.net/pro/weltwirtschaft/klima-ressourcen/klimapolitik-sollte-auf-mikrofinanzierung-statt-grossprojekte-setzen-accg-200431361.html",
     "added_at": "2026-03-06T09:00:00",
     "source": "manual",
-    "id": "fix-26-1774883372"
+    "id": "fix-26-1774883372",
+    "people": [],
+    "people_checked": "seite nicht lesbar"
   },
   {
     "date": "2026-01-16",
@@ -381,7 +967,11 @@
     "link": "https://e-fundresearch.com/funds/artikel/57840-umfrage-welche-chancen-und-risiken-experten-2026-in-den-private-markets-sehen?page=5",
     "added_at": "2026-03-06T09:00:00",
     "source": "manual",
-    "id": "fix-27-1774883372"
+    "id": "fix-27-1774883372",
+    "people": [
+      "Johannes Feist"
+    ],
+    "byline": false
   },
   {
     "date": "2026-01-13",
@@ -393,7 +983,15 @@
     "link": "https://www.finews.ch/news/finanzplatz/70792-start2026-assetmanagement-mk-global-kapital-michele-mattioda-privat-debt-kmu-mikro",
     "added_at": "2026-03-06T09:00:00",
     "source": "manual",
-    "id": "fix-28-1774883372"
+    "id": "fix-28-1774883372",
+    "found_via": [
+      "bing"
+    ],
+    "people": [
+      "Michele Mattioda"
+    ],
+    "byline": false,
+    "author": "Dominik Buholzer; Chefredaktor"
   },
   {
     "date": "2026-01-07",
@@ -405,7 +1003,14 @@
     "link": "https://markteinblicke.de/127407/2026/01/mikrofinanzanleihen-2026-stabile-renditen-aus-der-realwirtschaft/",
     "added_at": "2026-03-06T09:00:00",
     "source": "manual",
-    "id": "fix-29-1774883372"
+    "id": "fix-29-1774883372",
+    "found_via": [
+      "site"
+    ],
+    "people": [
+      "Johannes Feist"
+    ],
+    "byline": false
   },
   {
     "date": "2026-01-06",
@@ -417,7 +1022,15 @@
     "link": "https://www.portfolio-institutionell.de/grosse-wirkung-mit-kleinen-krediten/",
     "added_at": "2026-03-22T09:00:00",
     "source": "auto",
-    "id": "fix-30-1774883372"
+    "id": "fix-30-1774883372",
+    "found_via": [
+      "site"
+    ],
+    "people": [
+      "Johannes Feist"
+    ],
+    "byline": false,
+    "author": "Jochen Hägele; Tobias Bürger"
   },
   {
     "date": "2025-12-09",
@@ -429,7 +1042,16 @@
     "link": "https://investrends.ch/aktuell/investments/neue-managementgesellschaft-fur-den-impact-fonds-alternative/",
     "added_at": "2026-03-22T11:00:00",
     "source": "auto",
-    "id": "fix-31-1774883372"
+    "id": "fix-31-1774883372",
+    "found_via": [
+      "gnews",
+      "bing"
+    ],
+    "people": [
+      "Johannes Feist"
+    ],
+    "byline": false,
+    "author": "Sw"
   },
   {
     "date": "2025-12-08",
@@ -441,7 +1063,38 @@
     "link": "https://www.moneycab.com/finanz/mk-global-kapital-wird-per-1-januar-managementgesellschaft-fuer-den-impact-fonds-alternative/",
     "added_at": "2026-03-22T11:00:00",
     "source": "auto",
-    "id": "fix-32-1774883372"
+    "id": "fix-32-1774883372",
+    "found_via": [
+      "bing",
+      "site"
+    ],
+    "people": [
+      "Johannes Feist"
+    ],
+    "byline": false,
+    "author": "Moneycab"
+  },
+  {
+    "date": "2025-12-08",
+    "outlet": "dfpa.info",
+    "title": "MK Global Kapital wird Managementgesellschaft für Impact-Fonds \"Alternative\"",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.dfpa.info/investmentfonds-news/mk-global-kapital-wird-managementgesellschaft-fuer-impact-fonds-alternative/",
+    "people": [
+      "Johannes Feist"
+    ],
+    "byline": false,
+    "author": "",
+    "found_via": [
+      "site"
+    ],
+    "verified": "volltext",
+    "date_source": "seite",
+    "added_at": "2026-10-16T10:24:17",
+    "source": "auto",
+    "id": "a-1792146257-16"
   },
   {
     "date": "2025-12-06",
@@ -453,7 +1106,61 @@
     "link": "https://www.bondguide.de/topnews/mikro-kapital-management-impact-investing-ist-kein-charity/",
     "added_at": "2026-03-22T11:00:00",
     "source": "auto",
-    "id": "fix-33-1774883372"
+    "id": "fix-33-1774883372",
+    "found_via": [
+      "bing",
+      "site"
+    ],
+    "people": [
+      "Johannes Feist"
+    ],
+    "byline": false,
+    "author": "Falko Bozicevic"
+  },
+  {
+    "date": "2025-12-05",
+    "outlet": "finanznachrichten.de",
+    "title": "Mikro Kapital Management: \"Impact Investing ist kein Charity\"",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.finanznachrichten.de/nachrichten-2025-12/67161108-mikro-kapital-management-impact-investing-ist-kein-charity-144.htm",
+    "people": [
+      "Johannes Feist"
+    ],
+    "byline": false,
+    "author": "",
+    "found_via": [
+      "bing"
+    ],
+    "verified": "volltext",
+    "date_source": "seite",
+    "added_at": "2026-10-16T10:24:16",
+    "source": "auto",
+    "id": "a-1792146256-11",
+    "syndication_of": "fix-33-1774883372"
+  },
+  {
+    "date": "2025-12-04",
+    "outlet": "dfpa.info",
+    "title": "Mikro Kapital platziert erstmals Anleihe an Luxemburger Börse",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.dfpa.info/investmentfonds-news/mikro-kapital-platziert-erstmals-emtn-anleihen-des-fonds-alternative-an-luxemburger-boerse/",
+    "people": [
+      "Johannes Feist"
+    ],
+    "byline": false,
+    "author": "",
+    "found_via": [
+      "site"
+    ],
+    "verified": "volltext",
+    "date_source": "seite",
+    "added_at": "2026-10-16T10:24:17",
+    "source": "auto",
+    "id": "a-1792146257-17"
   },
   {
     "date": "2025-11-24",
@@ -465,7 +1172,16 @@
     "link": "https://www.finews.ch/news/finanzplatz/70147-mikro-capital-johannes-feist-kuenstliche-intelligenz-blockchain-rumaenien-europa-mikrofinanzen-finanzplatz-schweiz",
     "added_at": "2026-03-22T11:00:00",
     "source": "auto",
-    "id": "fix-34-1774883372"
+    "id": "fix-34-1774883372",
+    "found_via": [
+      "gnews",
+      "bing"
+    ],
+    "people": [
+      "Johannes Feist"
+    ],
+    "byline": true,
+    "author": "Dina Holz; Redaktorin"
   },
   {
     "date": "2025-11-12",
@@ -477,7 +1193,59 @@
     "link": "https://investrends.ch/aktuell/investments/mikrofinanz-ist-private-debt-mit-direkter-verbindung-zur-realwirtschaft/",
     "added_at": "2026-03-22T11:00:00",
     "source": "auto",
-    "id": "fix-35-1774883372"
+    "id": "fix-35-1774883372",
+    "found_via": [
+      "gnews"
+    ],
+    "people": [
+      "Johannes Feist"
+    ],
+    "byline": true,
+    "author": "Sw"
+  },
+  {
+    "date": "2025-11-07",
+    "outlet": "Frankfurter Rundschau",
+    "title": "Merz in Brasilien: Bundeskanzler fordert „globale Kraftanstrengung“ für Klimaschutz bei COP30",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.fr.de/politik/merz-reist-zur-klimakonferenz-cop30-nach-brasilien-klimapolitik-auf-dem-pruefstein-zr-94025730.html",
+    "people": [
+      "Johannes Feist"
+    ],
+    "byline": false,
+    "author": "Daniel Dillmann",
+    "found_via": [
+      "gnews"
+    ],
+    "verified": "volltext",
+    "date_source": "seite",
+    "added_at": "2026-10-16T10:24:16",
+    "source": "auto",
+    "id": "a-1792146256-1"
+  },
+  {
+    "date": "2025-11-06",
+    "outlet": "BondGuide",
+    "title": "Klimafinanzierung bei COP 30: von Zusagen zu Wirkung entfalten",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.bondguide.de/topnews/klimafinanzierung-bei-cop-30-von-zusagen-zu-wirkung-entfalten/",
+    "people": [
+      "Johannes Feist"
+    ],
+    "byline": true,
+    "author": "Falko Bozicevic",
+    "found_via": [
+      "site"
+    ],
+    "verified": "volltext",
+    "date_source": "seite",
+    "added_at": "2026-10-16T10:24:17",
+    "source": "auto",
+    "id": "a-1792146257-13"
   },
   {
     "date": "2025-07-10",
@@ -489,7 +1257,9 @@
     "link": "https://www.handelszeitung.ch/specials/nachhaltiges-investieren-2024/zwischen-esg-mudigkeit-und-wirkungsanspruch-841576",
     "added_at": "2026-03-22T11:00:00",
     "source": "auto",
-    "id": "fix-36-1774883372"
+    "id": "fix-36-1774883372",
+    "people": [],
+    "people_checked": "seite nicht lesbar"
   },
   {
     "date": "2024-01-01",
@@ -501,6 +1271,11 @@
     "link": "https://www.fondsexklusiv.at/schwellenlaender-worauf-es-jetzt-ankommt/",
     "added_at": "2026-05-28T09:49:27.575673",
     "source": "auto",
-    "id": "g-1779961767-0"
+    "id": "g-1779961767-0",
+    "people": [
+      "Johannes Feist"
+    ],
+    "byline": true,
+    "author": "Raja"
   }
 ]

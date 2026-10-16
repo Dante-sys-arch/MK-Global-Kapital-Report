@@ -1,0 +1,729 @@
+{
+  "client": "mk-global-kapital",
+  "run_at": "2026-10-16T10:26:04+00:00",
+  "mode": "daily",
+  "dry_run": false,
+  "duration_s": 1696,
+  "health": {
+    "status": "error",
+    "problems": [
+      "Google Websuche (Custom Search): alle 1 Anfragen gescheitert (HTTP 403: {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"This project does not have the access to Custom Search JSON API.\",\n    \"errors\": [\n      {\n        \"message\": \"T; Tageskontingent erreicht)",
+      "Claude-Prüfung fehlgeschlagen (BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go). Unklare Fälle liegen in der Prüfliste."
+    ],
+    "warnings": [
+      "Nur 31 von 53 RSS-Feeds liefern Einträge"
+    ]
+  },
+  "counts": {
+    "candidates": 1415,
+    "unique": 1267,
+    "already_known": 24,
+    "already_checked": 0,
+    "fetched": 1212,
+    "fetch_failed": 32,
+    "no_match": 1159,
+    "gnews_unresolved": 0,
+    "too_old": 19,
+    "enriched": 34,
+    "deferred": 0
+  },
+  "channels": {
+    "rss": {
+      "requests": 53,
+      "ok": 31,
+      "errors": 22,
+      "candidates": 1,
+      "notes": [
+        "https://www.finews.ch/news/finanzplatz/rss/1finews: ersetzt durch https://www.finews.ch/?format=feed&amp;type=rss",
+        "https://www.dasinvestment.com/feed/: HTTP 404",
+        "https://www.fondsprofessionell.de/rss/news.xml: keine Einträge",
+        "https://www.institutional-money.com/rss/news/: keine Einträge",
+        "https://www.handelszeitung.ch/rss.xml: HTTP 404",
+        "https://www.boersen-zeitung.de/rss: HTTP 404",
+        "https://www.wiwo.de/contentexport/feed/rss/schlagzeilen/finanzen/: HTTP 404",
+        "https://www.capital.de/feed/rss: HTTP 404",
+        "https://kurier.at/wirtschaft/rss: ersetzt durch https://kurier.at/xml/rss",
+        "https://investrends.ch/feed/: HTTP 404",
+        "https://e-fundresearch.com/rss: HTTP 404",
+        "https://www.cash.ch/rss/news: ersetzt durch https://www.cash.ch/rss-article.xml",
+        "https://citywire.de/feed/: keine Einträge",
+        "https://www.private-banking-magazin.de/feed/: HTTP 404",
+        "https://www.fixed-income.org/feed/: HTTP 404",
+        "https://www.finanzwelt.de/feed/: HTTP 403",
+        "https://exxecnews.org/feed/: ConnectionError",
+        "https://www.kreditwesen.de/feed/: HTTP 404",
+        "https://www.allnews.ch/rss: HTTP 403",
+        "https://www.swissfinanceai.ch/feed/: HTTP 403",
+        "https://www.srf.ch/news/wirtschaft/rss/feed: HTTP 404",
+        "https://www.tagesanzeiger.ch/wirtschaft/rss.xml: HTTP 404",
+        "https://fondstrends.ch/feed/: keine Einträge",
+        "https://www.fundresearch.de/feed/: HTTP 404",
+        "https://privatemarkets360.com/feed/: HTTP 404"
+      ]
+    },
+    "gnews": {
+      "requests": 105,
+      "ok": 105,
+      "errors": 0,
+      "candidates": 65,
+      "notes": []
+    },
+    "bing": {
+      "requests": 33,
+      "ok": 33,
+      "errors": 0,
+      "candidates": 36,
+      "notes": []
+    },
+    "sitemap": {
+      "requests": 36,
+      "ok": 21,
+      "errors": 8,
+      "candidates": 1275,
+      "notes": [
+        "moneycab.com: 392 neue Artikel, 100 in diesem Lauf geprüft, Rest folgt",
+        "cash-online.de: Ausgangsbestand angelegt (46 URLs), ab dem nächsten Lauf werden neue geprüft",
+        "cash-online.de: 181 neue Artikel, 100 in diesem Lauf geprüft, Rest folgt",
+        "fondsexklusiv.de: Sitemap ohne Einträge",
+        "fondsexklusiv.at: Sitemap ohne Einträge",
+        "dfpa.info: 326 neue Artikel, 100 in diesem Lauf geprüft, Rest folgt",
+        "markteinblicke.de: 203 neue Artikel, 100 in diesem Lauf geprüft, Rest folgt",
+        "finews.ch: Ausgangsbestand angelegt (39 URLs), ab dem nächsten Lauf werden neue geprüft",
+        "finews.ch: 135 neue Artikel, 100 in diesem Lauf geprüft, Rest folgt",
+        "private-banking-magazin.de: Sitemap ohne Einträge",
+        "institutional-money.com: keine Sitemap gefunden",
+        "fixed-income.org: keine Sitemap gefunden",
+        "altii.de: Ausgangsbestand angelegt (248 URLs), ab dem nächsten Lauf werden neue geprüft",
+        "e-fundresearch.com: Ausgangsbestand angelegt (10886 URLs), ab dem nächsten Lauf werden neue geprüft",
+        "e-fundresearch.com: 593 neue Artikel, 100 in diesem Lauf geprüft, Rest folgt",
+        "exxecnews.org: keine Sitemap gefunden",
+        "geldmeisterin.com: Ausgangsbestand angelegt (6 URLs), ab dem nächsten Lauf werden neue geprüft",
+        "swissfinanceai.ch: Sitemap ohne Einträge",
+        "kreditwesen.de: Ausgangsbestand angelegt (155 URLs), ab dem nächsten Lauf werden neue geprüft",
+        "kreditwesen.de: 134 neue Artikel, 100 in diesem Lauf geprüft, Rest folgt",
+        "handelszeitung.ch: Sitemap ohne Einträge",
+        "dasinvestment.com: Sitemap ohne Einträge",
+        "privatemarkets360.com: Ausgangsbestand angelegt (10886 URLs), ab dem nächsten Lauf werden neue geprüft",
+        "privatemarkets360.com: 593 neue Artikel, 100 in diesem Lauf geprüft, Rest folgt",
+        "allnews.ch: keine Sitemap gefunden",
+        "fondsprofessionell.de: keine Sitemap gefunden",
+        "fondsprofessionell.at: keine Sitemap gefunden",
+        "citywire.de: keine Sitemap gefunden",
+        "fundresearch.de: Ausgangsbestand angelegt (42 URLs), ab dem nächsten Lauf werden neue geprüft",
+        "finanzwelt.de: Sitemap ohne Einträge",
+        "fondstrends.ch: keine Sitemap gefunden",
+        "cash.ch: 511 neue Artikel, 100 in diesem Lauf geprüft, Rest folgt",
+        "platow.de: 112 neue Artikel, 100 in diesem Lauf geprüft, Rest folgt"
+      ]
+    },
+    "google": {
+      "requests": 1,
+      "ok": 0,
+      "errors": 1,
+      "candidates": 0,
+      "notes": [
+        "HTTP 403: {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"This project does not have the access to Custom Search JSON API.\",\n    \"errors\": [\n      {\n        \"message\": \"T",
+        "Tageskontingent erreicht",
+        "Tageskontingent erreicht",
+        "Tageskontingent erreicht",
+        "Tageskontingent erreicht",
+        "Tageskontingent erreicht",
+        "Tageskontingent erreicht",
+        "Tageskontingent erreicht",
+        "Tageskontingent erreicht",
+        "Tageskontingent erreicht",
+        "Tageskontingent erreicht",
+        "Tageskontingent erreicht",
+        "Tageskontingent erreicht",
+        "Tageskontingent erreicht",
+        "Tageskontingent erreicht",
+        "Tageskontingent erreicht",
+        "Tageskontingent erreicht",
+        "Tageskontingent erreicht",
+        "Tageskontingent erreicht",
+        "Tageskontingent erreicht",
+        "Tageskontingent erreicht",
+        "Tageskontingent erreicht",
+        "Tageskontingent erreicht",
+        "Tageskontingent erreicht",
+        "Tageskontingent erreicht"
+      ]
+    },
+    "serper": {
+      "requests": 0,
+      "ok": 0,
+      "errors": 0,
+      "candidates": 0,
+      "notes": [
+        "kein SERPER_API_KEY hinterlegt, Kanal aus"
+      ]
+    },
+    "site": {
+      "requests": 76,
+      "ok": 10,
+      "errors": 2,
+      "candidates": 74,
+      "notes": [
+        "fondsexklusiv.de: keine WordPress-Suche (HTTP 401)",
+        "fondsexklusiv.at: keine WordPress-Suche (HTTP 401)",
+        "investrends.ch: keine WordPress-Suche (HTTP 403)",
+        "finews.ch: keine WordPress-Suche (HTTP 403)",
+        "private-banking-magazin.de: keine WordPress-Suche (HTTP 404)",
+        "institutional-money.com: keine WordPress-Suche (HTTP 200)",
+        "fixed-income.org: keine WordPress-Suche (HTTP 404)",
+        "altii.de: keine WordPress-Suche (HTTP 401)",
+        "e-fundresearch.com: keine WordPress-Suche (HTTP 404)",
+        "exxecnews.org: ConnectionError",
+        "geldmeisterin.com: keine WordPress-Suche (HTTP 404)",
+        "swissfinanceai.ch: keine WordPress-Suche (HTTP 403)",
+        "kreditwesen.de: keine WordPress-Suche (HTTP 404)",
+        "handelszeitung.ch: keine WordPress-Suche (HTTP 404)",
+        "dasinvestment.com: keine WordPress-Suche (HTTP 404)",
+        "privatemarkets360.com: keine WordPress-Suche (HTTP 404)",
+        "allnews.ch: keine WordPress-Suche (HTTP 403)",
+        "fondsprofessionell.de: keine WordPress-Suche (HTTP 200)",
+        "fondsprofessionell.at: keine WordPress-Suche (HTTP 200)",
+        "citywire.de: SSLError",
+        "fundresearch.de: keine WordPress-Suche (HTTP 403)",
+        "finanzwelt.de: keine WordPress-Suche (HTTP 403)",
+        "procontra-online.de: keine WordPress-Suche (HTTP 403)",
+        "fondstrends.ch: keine WordPress-Suche (HTTP 440)",
+        "cash.ch: keine WordPress-Suche (HTTP 404)",
+        "platow.de: keine WordPress-Suche (HTTP 401)"
+      ]
+    },
+    "fetch": {
+      "requests": 0,
+      "ok": 0,
+      "errors": 0,
+      "candidates": 0,
+      "notes": [
+        "faz.net: HTTP 302",
+        "finanzen.net: HTTP 403",
+        "faz.net: HTTP 302",
+        "background.tagesspiegel.de: HTTP 403",
+        "finanzen.net: HTTP 403",
+        "finanzen.net: HTTP 403",
+        "finanzen.net: HTTP 403",
+        "marketscreener.com: HTTP 403",
+        "bondguide.de: HTTP 429",
+        "bondguide.de: HTTP 429",
+        "platow.de: HTTP 404",
+        "platow.de: HTTP 404",
+        "platow.de: HTTP 404",
+        "platow.de: HTTP 404",
+        "platow.de: HTTP 404",
+        "platow.de: HTTP 404",
+        "platow.de: HTTP 404",
+        "platow.de: HTTP 404",
+        "platow.de: HTTP 404",
+        "platow.de: HTTP 404",
+        "platow.de: HTTP 404",
+        "platow.de: HTTP 404",
+        "platow.de: HTTP 404",
+        "platow.de: HTTP 404",
+        "platow.de: HTTP 404",
+        "platow.de: HTTP 404",
+        "platow.de: HTTP 404",
+        "platow.de: HTTP 404",
+        "platow.de: HTTP 404",
+        "platow.de: HTTP 404",
+        "platow.de: HTTP 404",
+        "platow.de: HTTP 404",
+        "faz.net: HTTP 302",
+        "dasinvestment.com: HTTP 404",
+        "swissfinanceai.ch: HTTP 403",
+        "exxecnews.org: ConnectionError",
+        "faz.net: HTTP 302",
+        "handelszeitung.ch: HTTP 404"
+      ]
+    },
+    "claude": {
+      "requests": 1,
+      "ok": 0,
+      "errors": 1,
+      "candidates": 0,
+      "notes": [
+        "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go"
+      ]
+    }
+  },
+  "new": [
+    {
+      "date": "2026-06-10",
+      "outlet": "Finews",
+      "title": "Johannes Feist: «Einer meiner unerfüllter Träume ist der Sportfliegerschein»",
+      "link": "https://www.finews.ch/themen/high-end/72456-johannes-feist-einer-meiner-unerfuellter-traeume-ist-der-sportfliegerschein-ceo-global-kapital",
+      "people": [
+        "Johannes Feist"
+      ],
+      "byline": true,
+      "found_via": [
+        "gnews"
+      ],
+      "verified": "volltext"
+    },
+    {
+      "date": "2025-11-07",
+      "outlet": "Frankfurter Rundschau",
+      "title": "Merz in Brasilien: Bundeskanzler fordert „globale Kraftanstrengung“ für Klimaschutz bei COP30",
+      "link": "https://www.fr.de/politik/merz-reist-zur-klimakonferenz-cop30-nach-brasilien-klimapolitik-auf-dem-pruefstein-zr-94025730.html",
+      "people": [
+        "Johannes Feist"
+      ],
+      "byline": false,
+      "found_via": [
+        "gnews"
+      ],
+      "verified": "volltext"
+    },
+    {
+      "date": "2026-03-13",
+      "outlet": "investrends.ch",
+      "title": "Der blinde Fleck der Private-Credit-Debatte",
+      "link": "https://investrends.ch/aktuell/investments/der-blinde-fleck-der-private-credit-debatte/",
+      "people": [
+        "Johannes Feist"
+      ],
+      "byline": true,
+      "found_via": [
+        "gnews"
+      ],
+      "verified": "volltext"
+    },
+    {
+      "date": "2026-10-09",
+      "outlet": "Moneycab",
+      "title": "Die Obligation ist tokenisiert. Doch womit wird sie bezahlt?",
+      "link": "https://www.moneycab.com/dossiers/die-obligation-ist-tokenisiert-doch-womit-wird-sie-bezahlt/",
+      "people": [
+        "Louiza Savchenko"
+      ],
+      "byline": true,
+      "found_via": [
+        "gnews",
+        "site"
+      ],
+      "verified": "volltext"
+    },
+    {
+      "date": "2026-08-17",
+      "outlet": "Finanz und Wirtschaft",
+      "title": "Die Schweiz finanziert Wasserresilienz überall – nur nicht im Inland",
+      "link": "https://www.fuw.ch/wasserrisiko-was-die-schweiz-von-zentralasien-lernen-kann-152625611421",
+      "people": [
+        "Louiza Savchenko"
+      ],
+      "byline": true,
+      "found_via": [
+        "gnews"
+      ],
+      "verified": "volltext"
+    },
+    {
+      "date": "2026-07-31",
+      "outlet": "finanznachrichten.de",
+      "title": "Johannes Feist, CEO MK Global Kapital, im Interview",
+      "link": "https://www.finanznachrichten.de/nachrichten-2026-07/69177994-johannes-feist-ceo-mk-global-kapital-im-interview-095.htm",
+      "people": [
+        "Johannes Feist"
+      ],
+      "byline": false,
+      "found_via": [
+        "bing"
+      ],
+      "verified": "volltext",
+      "syndication_of": "g-1785487014-0"
+    },
+    {
+      "date": "2026-10-16",
+      "outlet": "Windmesse",
+      "title": "COP30: Klimafinanzierung muss endlich in den Unternehmen ankommen",
+      "link": "https://w3.windmesse.de/windenergie/news/48059-cop30-klimafinanzierung-muss-endlich-in-den-unternehmen-ankommen",
+      "people": [
+        "Johannes Feist"
+      ],
+      "byline": true,
+      "found_via": [
+        "bing"
+      ],
+      "verified": "volltext"
+    },
+    {
+      "date": "2026-03-20",
+      "outlet": "BondGuide",
+      "title": "Private Credit ist nicht gleich Private Credit: wo die Risiken wirklich liegen",
+      "link": "https://www.bondguide.de/topnews/private-credit-ist-nicht-gleich-private-credit-wo-die-risiken-wirklich-liegen/",
+      "people": [
+        "Johannes Feist"
+      ],
+      "byline": false,
+      "found_via": [
+        "bing",
+        "site"
+      ],
+      "verified": "volltext",
+      "syndication_of": "fix-8-1774883372"
+    },
+    {
+      "date": "2026-09-08",
+      "outlet": "Private Banking Magazin",
+      "title": "In Usbekistan fehlen kleinen Firmen 6 Milliarden Dollar Kredit. Johannes Feist erklärt, wann Anleger davon profitieren – und wann sie besser Abstand halten.",
+      "link": "https://www.private-banking-magazin.de/private-credit-zentralasien-lokale-unternehmenskredite/",
+      "people": [
+        "Johannes Feist"
+      ],
+      "byline": true,
+      "found_via": [
+        "bing"
+      ],
+      "verified": "volltext"
+    },
+    {
+      "date": "2026-02-16",
+      "outlet": "boerse-social.com",
+      "title": "Börse-Inputs auf Spotify zu u.a. Do&Co, Bawag, Nervigem und Mikrokrediten",
+      "link": "https://boerse-social.com/2026/02/16/borse-inputs_auf_spotify_zu_ua_doco_bawag_nervigem_und_mikrokrediten_1",
+      "people": [
+        "Johannes Feist"
+      ],
+      "byline": false,
+      "found_via": [
+        "bing"
+      ],
+      "verified": "volltext"
+    },
+    {
+      "date": "2026-03-12",
+      "outlet": "Finanzen100.de",
+      "title": "Um den vollen Funktionsumfang dieser Webseite zu erfahren, benötigen Sie JavaScript.",
+      "link": "https://www.finanzen100.de/premium/bernecker-boersenkompass/marktkommentar-der-trugschluss-der-sicheren-haefen_H1356104965_6799449/",
+      "people": [
+        "Johannes Feist"
+      ],
+      "byline": false,
+      "found_via": [
+        "bing"
+      ],
+      "verified": "volltext"
+    },
+    {
+      "date": "2025-12-05",
+      "outlet": "finanznachrichten.de",
+      "title": "Mikro Kapital Management: \"Impact Investing ist kein Charity\"",
+      "link": "https://www.finanznachrichten.de/nachrichten-2025-12/67161108-mikro-kapital-management-impact-investing-ist-kein-charity-144.htm",
+      "people": [
+        "Johannes Feist"
+      ],
+      "byline": false,
+      "found_via": [
+        "bing"
+      ],
+      "verified": "volltext",
+      "syndication_of": "fix-33-1774883372"
+    },
+    {
+      "date": "2026-10-09",
+      "outlet": "finanznachrichten.de",
+      "title": "Die Obligation ist tokenisiert. Doch womit wird sie bezahlt?",
+      "link": "https://www.finanznachrichten.de/nachrichten-2026-10/69801367-die-obligation-ist-tokenisiert-doch-womit-wird-sie-bezahlt-095.htm",
+      "people": [
+        "Louiza Savchenko"
+      ],
+      "byline": true,
+      "found_via": [
+        "bing"
+      ],
+      "verified": "volltext",
+      "syndication_of": "a-1792146256-3"
+    },
+    {
+      "date": "2025-11-06",
+      "outlet": "BondGuide",
+      "title": "Klimafinanzierung bei COP 30: von Zusagen zu Wirkung entfalten",
+      "link": "https://www.bondguide.de/topnews/klimafinanzierung-bei-cop-30-von-zusagen-zu-wirkung-entfalten/",
+      "people": [
+        "Johannes Feist"
+      ],
+      "byline": true,
+      "found_via": [
+        "site"
+      ],
+      "verified": "volltext"
+    },
+    {
+      "date": "2026-05-22",
+      "outlet": "Moneycab",
+      "title": "Nicht die Grösse des Kredits entscheidet, sondern seine Wirkung",
+      "link": "https://www.moneycab.com/dossiers/nicht-die-groesse-des-kredits-entscheidet-sondern-seine-wirkung/",
+      "people": [
+        "Johannes Feist"
+      ],
+      "byline": true,
+      "found_via": [
+        "site"
+      ],
+      "verified": "volltext"
+    },
+    {
+      "date": "2026-04-13",
+      "outlet": "cash-online.de",
+      "title": "Tokenisierte Anleihen: Was sich für Anleger ändert und was nicht",
+      "link": "https://www.cash-online.de/a/tokenisierte-anleihen-was-sich-fuer-anleger-aendert-und-was-nicht-715994/",
+      "people": [
+        "Louiza Savchenko"
+      ],
+      "byline": true,
+      "found_via": [
+        "site"
+      ],
+      "verified": "volltext"
+    },
+    {
+      "date": "2025-12-08",
+      "outlet": "dfpa.info",
+      "title": "MK Global Kapital wird Managementgesellschaft für Impact-Fonds \"Alternative\"",
+      "link": "https://www.dfpa.info/investmentfonds-news/mk-global-kapital-wird-managementgesellschaft-fuer-impact-fonds-alternative/",
+      "people": [
+        "Johannes Feist"
+      ],
+      "byline": false,
+      "found_via": [
+        "site"
+      ],
+      "verified": "volltext"
+    },
+    {
+      "date": "2025-12-04",
+      "outlet": "dfpa.info",
+      "title": "Mikro Kapital platziert erstmals Anleihe an Luxemburger Börse",
+      "link": "https://www.dfpa.info/investmentfonds-news/mikro-kapital-platziert-erstmals-emtn-anleihen-des-fonds-alternative-an-luxemburger-boerse/",
+      "people": [
+        "Johannes Feist"
+      ],
+      "byline": false,
+      "found_via": [
+        "site"
+      ],
+      "verified": "volltext"
+    },
+    {
+      "date": "2026-03-02",
+      "outlet": "dfpa.info",
+      "title": "Unternehmerinnen fehlt weltweit der Zugang zu Kapital",
+      "link": "https://www.dfpa.info/maerkte-studien-news/unternehmerinnen-fehlt-weltweit-der-zugang-zu-kapital/",
+      "people": [
+        "Louiza Savchenko"
+      ],
+      "byline": false,
+      "found_via": [
+        "site"
+      ],
+      "verified": "volltext",
+      "syndication_of": "fix-15-1774883372"
+    },
+    {
+      "date": "2026-09-29",
+      "outlet": "Markt Einblicke",
+      "title": "Nach dem Ernteeinbruch: Warum es jetzt auf die richtige Finanzierung ankommt",
+      "link": "https://markteinblicke.de/133297/2026/09/nach-dem-ernteeinbruch-warum-es-jetzt-auf-die-richtige-finanzierung-ankommt/",
+      "people": [
+        "Johannes Feist"
+      ],
+      "byline": false,
+      "found_via": [
+        "site"
+      ],
+      "verified": "volltext"
+    },
+    {
+      "date": "2026-08-13",
+      "outlet": "Markt Einblicke",
+      "title": "Mikrofinanzanleihen: Worauf es bei Kreditqualität und Struktur ankommt",
+      "link": "https://markteinblicke.de/132318/2026/08/mikrofinanzanleihen-worauf-es-bei-kreditqualitaet-und-struktur-ankommt/",
+      "people": [
+        "Johannes Feist"
+      ],
+      "byline": false,
+      "found_via": [
+        "site"
+      ],
+      "verified": "volltext"
+    },
+    {
+      "date": "2026-08-04",
+      "outlet": "Markt Einblicke",
+      "title": "Euro-Kupon, lokale Cashflows: Wo das Währungsrisiko wirklich liegt",
+      "link": "https://markteinblicke.de/132045/2026/08/euro-kupon-lokale-cashflows-wo-das-waehrungsrisiko-wirklich-liegt/",
+      "people": [
+        "Johannes Feist"
+      ],
+      "byline": false,
+      "found_via": [
+        "site"
+      ],
+      "verified": "volltext"
+    },
+    {
+      "date": "2026-05-27",
+      "outlet": "Markt Einblicke",
+      "title": "Warum der Blick auf den Ölpreis nicht reicht",
+      "link": "https://markteinblicke.de/130696/2026/05/warum-der-blick-auf-den-oelpreis-nicht-reicht/",
+      "people": [
+        "Johannes Feist"
+      ],
+      "byline": false,
+      "found_via": [
+        "site"
+      ],
+      "verified": "volltext"
+    },
+    {
+      "date": "2026-05-07",
+      "outlet": "Markt Einblicke",
+      "title": "Mikrofinanz-Anleihen: Ein wachsender Markt",
+      "link": "https://markteinblicke.de/130263/2026/05/mikrofinanz-anleihen-ein-wachsender-markt/",
+      "people": [
+        "Johannes Feist"
+      ],
+      "byline": false,
+      "found_via": [
+        "site"
+      ],
+      "verified": "volltext"
+    }
+  ],
+  "new_review": [
+    {
+      "link": "https://www.bondguide.de/topnews/bondguide-25-2025-ist-freitagmittag-erschienen/",
+      "title": "¡ BondGuide 25-2025 ist Mittwochmittag erschienen !",
+      "outlet": "BondGuide",
+      "date": "2025-12-17",
+      "people": [
+        "Johannes Feist"
+      ],
+      "reason": "Hinweis auf Heft, Newsletter oder Pressespiegel: eigenes Clipping?",
+      "found_via": [
+        "site"
+      ],
+      "snippet": "ionen +++ Neuemission im Fokus: Nakiki setzt voll auf Bitcoin: fast 10% p.a. mit erster deutscher Bitcoin-Treasury-Anleihe +++ Interview mit Karsten Reetz, reconcept +++ Standpunkt von Kai Jordan, mwb Wertpapierhandelsbank: Unter Druck +++ Interview mit Davide Basile, Redwheel +++ Interview mit Dr. ",
+      "added_at": "2026-10-16T10:24:17"
+    },
+    {
+      "link": "https://www.moneycab.com/dossiers/mikro-kapital-report-esg-a-regulatory-obligation-but-for-some-a-choice-of-transparency/",
+      "title": "Mikro Kapital: Report ESG - a regulatory obligation but for some a choice of transparency",
+      "outlet": "Moneycab",
+      "date": "2022-01-11",
+      "people": [],
+      "reason": "englischsprachig: zählt das? (Regel offen)",
+      "found_via": [
+        "site"
+      ],
+      "snippet": "’s awareness and evolution, we have decided to meet the investor’s need to have a vision as accurate and transparent as possible of the impact that his investments have, to regardless of absence of legal obligations to do so. On top of that, social impact has been in our DNA since the foundation of ",
+      "added_at": "2026-10-16T10:24:17"
+    },
+    {
+      "link": "https://www.moneycab.com/finanz/interview-with-aleksandr-eryomin-ceo-mikro-kapital/",
+      "title": "Interview with Aleksandr Eryomin, CEO Mikro Kapital",
+      "outlet": "Moneycab",
+      "date": "2021-08-02",
+      "people": [],
+      "reason": "englischsprachig: zählt das? (Regel offen)",
+      "found_via": [
+        "site"
+      ],
+      "snippet": "By Helmuth Fuchs Moneycab: Mr. Eryomin, you have been appointed CEO of Mikro Kapital in January 2020. What have been the most important decisions you have made since taking over the role, what have been the most important changes you have introduced? Aleksandr Eryomin: You know, in the Mikro Kapital",
+      "added_at": "2026-10-16T10:24:17"
+    },
+    {
+      "link": "https://www.dfpa.info/pressedigest-news/die-neue-exxecnews-ist-erschienen-78/",
+      "title": "Die neue EXXECNEWS ist erschienen",
+      "outlet": "dfpa.info",
+      "date": "2026-02-24",
+      "people": [
+        "Johannes Feist"
+      ],
+      "reason": "Hinweis auf Heft, Newsletter oder Pressespiegel: eigenes Clipping?",
+      "found_via": [
+        "site"
+      ],
+      "snippet": "h in Entwicklungs- und Schwellenländern. Sie ermöglichen, selbstständig Einnahmen zu erzielen, Wirtschaftswachstum zu fördern und Armut zu reduzieren. EXXEC NEWS stellt diese Form des Impact-Investings vor – Mikrofinanzfonds als ein Teil der Assetklasse Private Debt. Dazu auch ein Interview mit Dr. ",
+      "added_at": "2026-10-16T10:24:17"
+    },
+    {
+      "link": "https://e-fundresearch.com/managers/artikel/60333-experten-umfrage-worueber-im-zweiten-halbjahr-2026-keiner-redet-teil-22",
+      "title": "Experten-Umfrage: Worüber im zweiten Halbjahr 2026 keiner redet (Teil 2/2)",
+      "outlet": "e-fundresearch",
+      "date": "2026-08-10",
+      "people": [
+        "Johannes Feist"
+      ],
+      "reason": "unklar: Claude-Fehler",
+      "found_via": [
+        "gnews"
+      ],
+      "snippet": "Experten-Umfrage: Worüber im zweiten Halbjahr 2026 keiner redet (Teil 2/2) e-fundresearch.com",
+      "added_at": "2026-10-16T10:24:17"
+    },
+    {
+      "link": "https://www.private-banking-magazin.de/peter-peterburs-verlaesst-bny-mellon/",
+      "title": "Peter Peterburs verlässt BNY Mellon",
+      "outlet": "Private Banking Magazin",
+      "date": "2026-09-07",
+      "people": [
+        "Johannes Feist"
+      ],
+      "reason": "unklar: Claude-Fehler",
+      "found_via": [
+        "gnews"
+      ],
+      "snippet": "Peter Peterburs verlässt BNY Mellon private banking magazin",
+      "added_at": "2026-10-16T10:24:17"
+    },
+    {
+      "link": "https://background.tagesspiegel.de/finance/briefing/kreditzugang-ist-mehr-als-ein-score",
+      "title": "Digitale Kreditvergabe : Kreditzugang ist mehr als ein Score",
+      "outlet": "background.tagesspiegel",
+      "date": "2026-06-24",
+      "people": [
+        "Louiza Savchenko"
+      ],
+      "reason": "unklar: Claude-Fehler",
+      "found_via": [
+        "bing"
+      ],
+      "snippet": "Louiza Savchenko, Chief Legal Officer und Board Member bei der Luxemburger Impact-Investing-Fondsgesellschaft MK Global Kapital ...",
+      "added_at": "2026-10-16T10:24:17"
+    }
+  ],
+  "rejected": [
+    {
+      "link": "https://www.finanzen.net/anleihen/a4erda-mikro-kapital-management-anleihe",
+      "title": "A4ERDA | Mikro Kapital Management-Anleihe: 9,500 % bis 19.01.2028",
+      "reason": "Kurs- oder Datenseite, kein Artikel"
+    },
+    {
+      "link": "https://www.finanzen.net/anleihen/a4eds2-mikro-kapital-investment-anleihe",
+      "title": "Mikro Kapital Investment-Anleihe: 12,500 % bis 01.07.2028",
+      "reason": "Kurs- oder Datenseite, kein Artikel"
+    },
+    {
+      "link": "https://www.finanzen.net/anleihen/a3l52p-mikro-kapital-management-anleihe",
+      "title": "Mikro Kapital Management-Anleihe: 12,000 % bis 14.11.2027",
+      "reason": "Kurs- oder Datenseite, kein Artikel"
+    },
+    {
+      "link": "https://www.finanzen.net/anleihen/a3lyna-mikro-kapital-management-anleihe",
+      "title": "Mikro Kapital Management-Anleihe: 13,000 % bis 04.07.2027",
+      "reason": "Kurs- oder Datenseite, kein Artikel"
+    }
+  ],
+  "review_open": 7,
+  "total_clippings": 66,
+  "placements": {
+    "total": 0,
+    "found_now": [],
+    "overdue": [],
+    "open": 0
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "run_at": "2026-10-16T10:26:04+00:00",
+  "status": "error",
+  "problems": [
+    "Google Websuche (Custom Search): alle 1 Anfragen gescheitert (HTTP 403: {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"This project does not have the access to Custom Search JSON API.\",\n    \"errors\": [\n      {\n        \"message\": \"T; Tageskontingent erreicht)",
+    "Claude-Prüfung fehlgeschlagen (BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go). Unklare Fälle liegen in der Prüfliste."
+  ],
+  "warnings": [
+    "Nur 31 von 53 RSS-Feeds liefern Einträge"
+  ],
+  "new": 24,
+  "review_open": 7
+}
