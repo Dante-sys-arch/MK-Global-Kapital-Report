@@ -56,25 +56,57 @@ def _entry_text(entry):
     return strip_html(" ".join(parts)), " ".join(a for a in authors if a)
 
 
-def scan_rss(feeds, matcher, stats, own_domains=()):
+def _load_feed(url):
+    try:
+        resp = http_get(url, timeout=12, retries=1)
+    except Exception as exc:
+        return None, type(exc).__name__
+    if resp.status_code != 200:
+        return None, f"HTTP {resp.status_code}"
+    feed = feedparser.parse(resp.content)
+    if not feed.entries:
+        return None, "keine Einträge"
+    return feed, ""
+
+
+def _discover_feed(url):
+    """Find the outlet's current feed via <link rel="alternate"> on its homepage."""
+    domain = extract_domain(url)
+    try:
+        resp = http_get(f"https://www.{domain}/" if domain.count(".") == 1 else f"https://{domain}/", timeout=15, retries=1)
+    except Exception:
+        return ""
+    if resp.status_code != 200:
+        return ""
+    for m in re.finditer(r"<link[^>]+>", resp.text, re.I):
+        tag = m.group(0)
+        if re.search(r'type=["\']application/(rss|atom)\+xml', tag, re.I):
+            href = re.search(r'href=["\']([^"\']+)', tag)
+            if href and "comments" not in href.group(1):
+                from urllib.parse import urljoin
+                return urljoin(resp.url, href.group(1))
+    return ""
+
+
+def scan_rss(feeds, matcher, stats, own_domains=(), state=None):
     out = []
+    alt = state.data.setdefault("feed_alt", {}) if state else {}
     for url in feeds:
         st = stats.ch("rss")
         st["requests"] += 1
-        try:
-            resp = http_get(url, timeout=12, retries=1)
-        except Exception as exc:
+        feed, err = _load_feed(alt.get(url, url))
+        if feed is None and alt.get(url):
+            feed, err = _load_feed(url)
+        if feed is None:
+            found = _discover_feed(url)
+            if found and found != url:
+                feed, err2 = _load_feed(found)
+                if feed is not None:
+                    alt[url] = found
+                    stats.note("rss", f"{url}: ersetzt durch {found}", limit=80)
+        if feed is None:
             st["errors"] += 1
-            stats.note("rss", f"{extract_domain(url)}: {type(exc).__name__}", limit=80)
-            continue
-        if resp.status_code != 200:
-            st["errors"] += 1
-            stats.note("rss", f"{url}: HTTP {resp.status_code}", limit=80)
-            continue
-        feed = feedparser.parse(resp.content)
-        if not feed.entries:
-            st["errors"] += 1
-            stats.note("rss", f"{url}: keine Einträge", limit=80)
+            stats.note("rss", f"{url}: {err}", limit=80)
             continue
         st["ok"] += 1
         for e in feed.entries:  # all entries, not only the newest 40
@@ -202,7 +234,7 @@ def google_news(queries, stats, editions=GNEWS_EDITIONS, own_domains=()):
                 src = e.get("source") or {}
                 src_href = src.get("href", "") if isinstance(src, dict) else ""
                 src_title = src.get("title", "") if isinstance(src, dict) else ""
-                title = clean_title(e.get("title", ""))
+                title = clean_title(e.get("title", ""), src_title + " " + extract_domain(src_href))
                 key = (title.lower(), src_href)
                 if key in seen:
                     continue
@@ -428,13 +460,25 @@ def _recent_urls(sitemap_url, since, depth=0, budget=None):
             pub = iso_date(u.findtext("news:news/news:publication_date", default="", namespaces=_NS))
             lastmod = iso_date(u.findtext("sm:lastmod", default="", namespaces=_NS))
             d = pub or lastmod
+            title = u.findtext("news:news/news:title", default="", namespaces=_NS) or ""
             if loc and d and d >= since:
-                title = u.findtext("news:news/news:title", default="", namespaces=_NS) or ""
                 out.append((loc, d, title))
+            elif loc and not d:
+                out.append((loc, "", title))  # undated: handled by baseline comparison
     return out
 
 
-def sitemap_crawl(domains, state, stats, days=3, per_domain_cap=40, skip=None, own_domains=()):
+def _h(url):
+    import hashlib
+    return hashlib.sha1(url.encode("utf-8")).hexdigest()[:10]
+
+
+def sitemap_crawl(domains, state, stats, days=3, per_domain_cap=100, skip=None, own_domains=()):
+    """New articles of the home outlets.
+
+    Dated sitemaps: URLs published/modified in the last `days` days.
+    Undated sitemaps: URLs that were not in the sitemap at the previous run (baseline).
+    """
     out = []
     st = stats.ch("sitemap")
     since = (today_utc() - timedelta(days=days)).isoformat()
@@ -449,19 +493,30 @@ def sitemap_crawl(domains, state, stats, days=3, per_domain_cap=40, skip=None, o
                 urls.extend(_recent_urls(sm, since))
         except Exception as exc:
             st["errors"] += 1
-            stats.note("sitemap", f"{domain}: {type(exc).__name__}", limit=60)
+            stats.note("sitemap", f"{domain}: {type(exc).__name__}", limit=80)
             continue
-        if not maps or not urls:
-            if not maps:
-                st["errors"] += 1
-                stats.note("sitemap", f"{domain}: keine Sitemap gefunden", limit=60)
-                info.pop("sitemaps", None)
-            else:
-                stats.note("sitemap", f"{domain}: keine datierten neuen URLs", limit=60)
+        if not maps:
+            st["errors"] += 1
+            stats.note("sitemap", f"{domain}: keine Sitemap gefunden", limit=80)
+            info.pop("sitemaps", None)
+            continue
+        dated = [u for u in urls if u[1]]
+        undated = [u for u in urls if not u[1]]
+        picks = sorted(dated, key=lambda x: x[1], reverse=True)
+        if undated:
+            known = set(info.get("baseline", []))
+            fresh = [u for u in undated if _h(u[0]) not in known]
+            if not known:
+                stats.note("sitemap", f"{domain}: Ausgangsbestand angelegt ({len(undated)} URLs), ab dem nächsten Lauf werden neue geprüft", limit=80)
+                fresh = []
+            info["baseline"] = (list(known) + [_h(u[0]) for u in undated if _h(u[0]) not in known])[-30000:]
+            picks += fresh
+        if not urls:
+            stats.note("sitemap", f"{domain}: Sitemap ohne Einträge", limit=80)
             continue
         st["ok"] += 1
         seen, new = set(), []
-        for loc, d, title in sorted(urls, key=lambda x: x[1], reverse=True):
+        for loc, d, title in picks:
             if loc in seen or is_blocked_domain(loc, own_domains):
                 continue
             seen.add(loc)
@@ -469,7 +524,7 @@ def sitemap_crawl(domains, state, stats, days=3, per_domain_cap=40, skip=None, o
                 continue
             new.append(_cand(loc, title, "sitemap", source=domain, dt=d, query=domain, needs_text_match=True))
         if len(new) > per_domain_cap:
-            stats.note("sitemap", f"{domain}: {len(new)} neue Artikel, nur {per_domain_cap} geprüft", limit=60)
+            stats.note("sitemap", f"{domain}: {len(new)} neue Artikel, {per_domain_cap} in diesem Lauf geprüft, Rest folgt", limit=80)
             new = new[:per_domain_cap]
         out.extend(new)
     st["candidates"] += len(out)

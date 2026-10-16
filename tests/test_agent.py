@@ -85,6 +85,17 @@ class MatcherTests(unittest.TestCase):
         r = self.m.analyse("t", "Gastbeitrag von Dr. Johannes Feist. " + DE_TEXT + " MK Global Kapital", "")
         self.assertTrue(r["byline"])
 
+    def test_founder_needs_brand(self):
+        r = self.m.analyse("Repeople: Wirtschaft wird nachhaltig", "Vincenzo Trani gründete repeople. " + DE_TEXT, "")
+        self.assertEqual(r["decision"], "check")
+        r = self.m.analyse("x", "Vincenzo Trani, Gründer von Mikro Kapital. " + DE_TEXT, "")
+        self.assertEqual(r["decision"], "accept")
+
+    def test_title_suffix(self):
+        self.assertEqual(util.clean_title("Wenn Banken passen - DFPA Deutsche Finanz Presse Agentur", "dfpa.info"), "Wenn Banken passen")
+        self.assertEqual(util.clean_title('Mikro Kapital: Die "neue Normalität" - zurück zur Realwirtschaft', "Moneycab"),
+                         'Mikro Kapital: Die "neue Normalität" - zurück zur Realwirtschaft')
+
     def test_language(self):
         self.assertEqual(detect_language(DE_TEXT * 2), "de")
         fr = "MK Global Kapital deviendra la société de gestion du fonds et les investisseurs pour la croissance dans les marchés " * 3

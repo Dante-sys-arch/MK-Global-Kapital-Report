@@ -49,6 +49,7 @@ class Matcher:
                 "variants": variants,
                 "ambiguous": bool(p.get("ambiguous")),
                 "spokesperson": bool(p.get("spokesperson")),
+                "requires_brand": bool(p.get("requires_brand")),
                 "exclude": [norm_text(x) for x in p.get("exclusion_terms", [])],
             })
         brands = cfg.get("brand_terms") or [k for k in cfg.get("keywords", []) if not any(
@@ -87,7 +88,7 @@ class Matcher:
         author_n = norm_text(author or "")
         brand_hit = [b for b in self.brands if b in full]
         weak_hit = [b for b in self.weak_brands if b in full]
-        people_hit, unique_people, ambiguous_people = [], [], []
+        people_hit, unique_people, ambiguous_people, brand_only_people = [], [], [], []
         excluded = [x for x in self.exclusions if x in full]
         for p in self.people:
             if any(v in full for v in p["variants"]):
@@ -96,6 +97,8 @@ class Matcher:
                 if person_excl:  # namesake signal (e.g. Edeka): never accept directly, let Claude decide
                     excluded.extend(person_excl)
                     ambiguous_people.append(p["name"])
+                elif p["requires_brand"]:
+                    brand_only_people.append(p["name"])
                 else:
                     (ambiguous_people if p["ambiguous"] else unique_people).append(p["name"])
         has_context = any(c in full for c in self.context)
@@ -115,9 +118,9 @@ class Matcher:
         elif ambiguous_people and has_context and not excluded:
             result["decision"] = "accept"
             result["reasons"].append("person+context:" + ambiguous_people[0])
-        elif ambiguous_people or weak_hit:
+        elif ambiguous_people or weak_hit or brand_only_people:
             result["decision"] = "check"
-            result["reasons"].append("ambiguous:" + (ambiguous_people or weak_hit)[0]
+            result["reasons"].append("ambiguous:" + (ambiguous_people or weak_hit or brand_only_people)[0]
                                      + (" excluded:" + excluded[0] if excluded else ""))
         else:
             result["decision"] = "none"

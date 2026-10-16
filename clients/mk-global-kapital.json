@@ -89,34 +89,36 @@
       "name": "Vincenzo Trani",
       "variants": [
         "Vincenzo Trani"
-      ]
+      ],
+      "requires_brand": true
     },
     {
       "name": "Thomas Heinig",
       "variants": [
         "Thomas Heinig"
       ],
-      "ambiguous": true
+      "requires_brand": true
     },
     {
       "name": "Luca Pellegrini",
       "variants": [
         "Luca Pellegrini"
       ],
-      "ambiguous": true
+      "requires_brand": true
     },
     {
       "name": "Nicola Ragusa",
       "variants": [
         "Nicola Ragusa"
       ],
-      "ambiguous": true
+      "requires_brand": true
     },
     {
       "name": "Pape Saliou Ndao",
       "variants": [
         "Pape Saliou Ndao"
-      ]
+      ],
+      "requires_brand": true
     }
   ],
   "brand_terms": [
@@ -278,5 +280,18 @@
     "daily": 45,
     "backfill": 150,
     "enrich": 30
-  }
+  },
+  "earliest_date": "2025-07-01",
+  "blocked_url_patterns": [
+    "finanzen\\.net/(anleihen|aktien|fonds|etf)/",
+    "onvista\\.de/(anleihen|aktien|fonds)",
+    "boerse\\.de/(anleihen|aktien|fonds)",
+    "/wertpapier",
+    "ariva\\.de/.*(anleihe|aktie)",
+    "boerse-frankfurt\\.de/(anleihe|aktie)",
+    "/kurse?/",
+    "northdata",
+    "/stellenangebot",
+    "/jobs?/"
+  ]
 }

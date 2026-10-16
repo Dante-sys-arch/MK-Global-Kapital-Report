@@ -32,6 +32,7 @@ def _sess():
 
 # Seconds between two requests to the same host (politeness). Different hosts run in parallel.
 HOST_DELAY = 0.7
+_host_delay = {}  # hosts that answered 429 get a longer delay
 _last_hit = {}
 _host_locks = {}
 _locks_guard = threading.Lock()
@@ -43,10 +44,11 @@ def _wait_for_host(url):
         lock = _host_locks.setdefault(host, threading.Lock())
     with lock:
         last = _last_hit.get(host)
+        delay = _host_delay.get(host, HOST_DELAY)
         if last is not None:
             gap = time.time() - last
-            if gap < HOST_DELAY:
-                time.sleep(HOST_DELAY - gap)
+            if gap < delay:
+                time.sleep(delay - gap)
         _last_hit[host] = time.time()
 
 
@@ -56,7 +58,17 @@ def http_get(url, params=None, timeout=15, retries=2, headers=None):
     for attempt in range(retries + 1):
         try:
             _wait_for_host(url)
-            return _sess().get(url, params=params, timeout=timeout, headers=headers)
+            resp = _sess().get(url, params=params, timeout=timeout, headers=headers)
+            if resp.status_code == 429 and attempt < retries:
+                host = urlparse(url).netloc
+                _host_delay[host] = min(10.0, max(3.0, _host_delay.get(host, HOST_DELAY) * 2))
+                try:
+                    wait = min(30, int(resp.headers.get("Retry-After", "10")))
+                except ValueError:
+                    wait = 10
+                time.sleep(wait)
+                continue
+            return resp
         except requests.RequestException as exc:
             last_exc = exc
             if attempt < retries:
@@ -131,14 +143,35 @@ def norm_title(title):
     return re.sub(r"\s+", " ", t).strip()
 
 
+_OUTLET_WORDS = ("news", "zeitung", "magazin", "online", "agentur", "presse", "verlag", "invest", "finanz",
+                 ".de", ".ch", ".at", ".com", ".net", ".org", ".info")
+
+
+def _looks_like_outlet(tail, hint=""):
+    t = norm_text(tail)
+    if not t or len(t) > 60:
+        return False
+    if hint:
+        hint_words = {w for w in re.split(r"[\s.]+", norm_text(hint)) if len(w) > 3}
+        if hint_words & set(re.split(r"[\s.]+", t)):
+            return True
+    if any(norm_text(name) == t for name in OUTLET_NAMES.values()):
+        return True
+    return any(w in t for w in _OUTLET_WORDS) and len(t.split()) <= 6
+
+
 def clean_title(title, outlet=""):
-    """Drop trailing ' - Outlet' / ' | Outlet' suffixes added by feeds and search engines."""
+    """Drop a trailing ' - Outlet' / ' | Outlet' suffix, but only if it looks like an outlet name."""
     t = strip_html(title)
-    for sep in (" | ", " - ", " – ", " — "):
-        if sep in t:
-            head, tail = t.rsplit(sep, 1)
-            if len(head) >= 15 and len(tail) <= 45:
-                t = head
+    for _ in range(2):
+        for sep in (" | ", " - ", " – ", " — "):
+            if sep in t:
+                head, tail = t.rsplit(sep, 1)
+                if len(head) >= 15 and _looks_like_outlet(tail, outlet):
+                    t = head
+                    break
+        else:
+            break
     return t.strip()
 
 

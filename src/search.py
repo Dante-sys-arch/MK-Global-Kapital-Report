@@ -10,6 +10,7 @@ Counting rules (TE): every appearance counts, including syndicated copies on
 other outlets; French-language articles from Romandie are not counted.
 """
 import json
+import re
 import time
 from concurrent.futures import ThreadPoolExecutor
 from datetime import date, datetime, timedelta
@@ -21,7 +22,7 @@ from runreport import write_report
 from sources import (CseBudget, GNEWS_EDITIONS, Stats, bing_news, google_cse, google_news,
                      scan_rss, serper, site_search, sitemap_crawl)
 from state import State
-from util import (date_from_url, extract_domain, guess_country, iso_date, norm_title,
+from util import (clean_title, date_from_url, extract_domain, guess_country, iso_date, norm_text, norm_title,
                   normalize_outlet, normalize_url, plausible_date, today_utc)
 
 SEARCH_CHANNELS = {"google", "gnews", "serper", "site", "bing"}
@@ -94,6 +95,11 @@ RSS_FEEDS = [
 ]
 
 
+def _slug(url):
+    path = (url or "").split("?")[0].rstrip("/").rsplit("/", 1)[-1]
+    return re.sub(r"\.(html?|php)$", "", path.lower())
+
+
 def guess_tier(outlet, link, extra=()):
     text = (outlet + " " + link).lower()
     return 1 if any(k in text for k in list(TIER1_KEYWORDS) + list(extra)) else 2
@@ -151,6 +157,14 @@ class Agent:
     def _fetch_many(self, links, workers=8):
         """Load pages in parallel (per-host politeness is kept in util.http_get)."""
         links = list(dict.fromkeys(links))
+        by_host = {}
+        for link in links:
+            by_host.setdefault(extract_domain(link), []).append(link)
+        links = []
+        while any(by_host.values()):
+            for host in list(by_host):
+                if by_host[host]:
+                    links.append(by_host[host].pop(0))
         results = {}
         if not links:
             return results
@@ -178,10 +192,15 @@ class Agent:
                 self.by_title.setdefault(t, []).append(c)
         self.review_urls = {normalize_url(r.get("link", "")) or r.get("gnews_link", "") for r in self.review}
 
-    def _known_title_domain(self, title, domain):
+    def _known_title_domain(self, title, domain, link=""):
         for c in self.by_title.get(norm_title(title), []):
             if domain and extract_domain(c.get("link", "")) == domain:
                 return c
+        slug = _slug(link)
+        if slug and len(slug) >= 25:
+            for c in self.clips:
+                if extract_domain(c.get("link", "")) == domain and _slug(c.get("link", "")) == slug:
+                    return c
         return None
 
     @staticmethod
@@ -195,7 +214,7 @@ class Agent:
         cfg, st = self.cfg, self.state
         cands = []
         feeds = RSS_FEEDS + cfg.get("extra_rss_feeds", [])
-        cands += scan_rss(feeds, self.matcher, self.stats, self.own)
+        cands += scan_rss(feeds, self.matcher, self.stats, self.own, state=st)
         cands += google_news(cfg.get("gnews_queries", []), self.stats, own_domains=self.own)
         cands += bing_news(cfg.get("bing_queries") or cfg.get("gnews_queries", []), self.stats, own_domains=self.own)
         cands += sitemap_crawl(cfg.get("crawl_outlets", []), st, self.stats,
@@ -353,6 +372,7 @@ class Agent:
             self.counts["fetched"] += 1
             if art.get("title") and (not c.get("title") or c["channel"] in ("sitemap", "site")):
                 item["title"] = art["title"]
+            item["title"] = clean_title(item["title"], " ".join([art.get("sitename", ""), extract_domain(link), c.get("source", "")]))
             item["author"] = art.get("author") or c.get("author", "")
             item["sitename"] = art.get("sitename", "")
             item["page_date"] = art.get("date", "")
@@ -385,14 +405,17 @@ class Agent:
             analysis = src_analysis
             reliable = "rss" in channels or "site" in channels
             item["verified"] = ("feed" if "rss" in channels else "archiv") if reliable else "suchausschnitt"
+            transient = art.get("status") in (None, 403, 408, 425, 429, 500, 502, 503, 504) or art.get("status", 0) >= 500
             if analysis["decision"] == "none":
                 if syndication_of:
                     analysis = {"decision": "check", "people": [], "byline": False, "brand": False}
+                elif transient and self._retry_later(key):
+                    return None  # blocked or overloaded right now: try again next run
                 else:
                     self.state.mark_checked(key, "unreadable")
                     return None
-            elif analysis["decision"] == "accept" and not analysis.get("brand") and not reliable:
-                analysis["decision"] = "check"  # person name only in a snippet: let Claude confirm
+            elif analysis["decision"] == "accept" and not reliable:
+                analysis["decision"] = "check"  # only a search snippet, page not readable: Claude confirms
 
         item["people"] = analysis.get("people", [])
         item["byline"] = analysis.get("byline", False)
@@ -404,6 +427,19 @@ class Agent:
             return None
         if lang == "en":
             self._to_review(item, "englischsprachig: zählt das? (Regel offen)")
+            return None
+        url_l = link.lower()
+        if any(re.search(pat, url_l) for pat in self.cfg.get("blocked_url_patterns", [])):
+            self.rejected.append({"link": link, "title": item["title"], "reason": "Kurs- oder Datenseite, kein Artikel"})
+            self.state.mark_checked(key, "rejected-datapage")
+            return None
+        if self._too_old(item):
+            self.state.mark_checked(key, "too-old")
+            self.counts["too_old"] = self.counts.get("too_old", 0) + 1
+            return None
+        if re.search(r"ist (\w+ )?erschienen|neue ausgabe|newsletter|pressespiegel|presse ?digest|inhaltsverzeichnis",
+                     norm_text(item["title"]) + " " + url_l):
+            self._to_review(item, "Hinweis auf Heft, Newsletter oder Pressespiegel: eigenes Clipping?")
             return None
         if analysis["decision"] == "accept":
             self._accept(item)
@@ -421,19 +457,32 @@ class Agent:
                 "channels": channels, "gnews_link": c.get("gnews_link", ""), "query": c.get("query", ""),
                 "source_domain": c.get("source_domain", "")}
 
+    def _retry_later(self, key, attempts=3):
+        fails = self.state.data.setdefault("fetch_fail", {})
+        fails[key] = fails.get(key, 0) + 1
+        if fails[key] < attempts:
+            return True
+        fails.pop(key, None)
+        return False
+
     def _best_date(self, item):
         for d, src in ((item.get("page_date"), "seite"), (item.get("feed_date"), "quelle"),
                        (date_from_url(item.get("link", "")), "url")):
             d = iso_date(d)
-            if plausible_date(d):
+            if plausible_date(d, earliest="2000-01-01"):
                 return d, src
         return "", ""
+
+    def _too_old(self, item):
+        earliest = self.cfg.get("earliest_date")
+        d, _ = self._best_date(item)
+        return bool(earliest and d and d < earliest)
 
     def _accept(self, item):
         link = item["link"]
         domain = extract_domain(link)
         title = item["title"].strip()
-        same = self._known_title_domain(title, domain)
+        same = self._known_title_domain(title, domain, link)
         if same:  # same article under another URL of the same outlet
             for ch in item["channels"]:
                 self._add_channel(same, ch)
@@ -552,12 +601,15 @@ class Agent:
         self._reindex()
 
     # ── enrich existing clippings (speakers, byline) ──
-    def enrich(self, force=False):
+    def enrich(self, force=False, limit=None):
         """Fetch stored clippings once and add people/byline. Never changes date, outlet or title."""
-        done = 0
+        done = tried = 0
         for clip in self.clips:
             if ("people" in clip and not force) or not clip.get("link"):
                 continue
+            if (limit is not None and tried >= limit) or not self._time_left():
+                break
+            tried += 1
             art = fetch_article(clip["link"])
             if not art.get("ok"):
                 self.stats.note("fetch", f"{extract_domain(clip['link'])}: {art.get('error')}", limit=60)
@@ -597,6 +649,9 @@ class Agent:
         else:
             targets = first_wave
         self.syndication_search(targets)
+
+        if mode == "daily":
+            self.enrich(limit=40)  # gradually add speakers to older clippings
 
         from placements import update_placements
         placement_report = update_placements(self.cfg, self.clips, dry_run=self.dry_run)
