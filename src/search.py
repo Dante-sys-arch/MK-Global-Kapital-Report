@@ -484,7 +484,23 @@ class Agent:
         if lang == "en":
             self._to_review(item, "englischsprachig: zählt das? (Regel offen)")
             return None
+        if lang == "it" and extract_domain(link).endswith(".ch"):
+            self._to_review(item, "italienischsprachig aus der Schweiz (Tessin): zählt das? (Regel offen)")
+            return None
+        if lang == "it":
+            self.rejected.append({"link": link, "title": item["title"], "reason": "italienischsprachig, kein DACH-Medium"})
+            self.state.mark_checked(key, "rejected-lang")
+            return None
+        if lang == "other":
+            self.rejected.append({"link": link, "title": item["title"], "reason": "nicht deutschsprachig, kein DACH-Medium"})
+            self.state.mark_checked(key, "rejected-lang")
+            return None
         url_l = link.lower()
+        if re.search(r"/(category|categories|kategorie|tag|tags|schlagwort|author|autor|archiv|archive)(/|$)|nachrichten-medien/", url_l) \
+                or re.search(r"\barchives?\b", item["title"].lower()):
+            self.rejected.append({"link": link, "title": item["title"], "reason": "Übersichts- oder Archivseite, kein Artikel"})
+            self.state.mark_checked(key, "rejected-listing")
+            return None
         if any(re.search(pat, url_l) for pat in self.cfg.get("blocked_url_patterns", [])):
             self.rejected.append({"link": link, "title": item["title"], "reason": "Kurs- oder Datenseite, kein Artikel"})
             self.state.mark_checked(key, "rejected-datapage")

@@ -20,19 +20,27 @@ DEFAULT_CONTEXT_TERMS = [
 _DE = {"der", "die", "und", "das", "nicht", "ist", "mit", "für", "auf", "von", "den", "sich", "im", "zu", "eine", "auch", "wird", "bei"}
 _FR = {"le", "la", "les", "et", "des", "est", "pour", "dans", "une", "du", "que", "sur", "pas", "au", "aux", "qui", "avec"}
 _EN = {"the", "and", "of", "to", "is", "in", "for", "with", "that", "on", "are", "as", "this", "by", "from", "be"}
+_IT = {"il", "di", "che", "e", "la", "per", "un", "una", "sono", "del", "della", "con", "non", "nel", "gli", "le"}
 
 
 def detect_language(text):
-    words = re.findall(r"[a-zäöüéèàçâêîôû]+", (text or "").lower()[:4000])
+    """'de', 'fr', 'en', 'it', 'other' (enough text, none of these) or '' (too little text)."""
+    raw = (text or "")[:4000]
+    if len(re.findall(r"[\u0400-\u04ff]", raw)) > 50:
+        return "other"  # Cyrillic
+    words = re.findall(r"[a-zäöüéèàçâêîôûìò]+", raw.lower())
     if len(words) < 25:
         return ""
     scores = {
         "de": sum(w in _DE for w in words),
         "fr": sum(w in _FR for w in words),
         "en": sum(w in _EN for w in words),
+        "it": sum(w in _IT for w in words),
     }
     lang, best = max(scores.items(), key=lambda kv: kv[1])
-    return lang if best >= 3 else ""
+    if best >= 3:
+        return lang
+    return "other" if len(words) >= 60 else ""
 
 
 class Matcher:

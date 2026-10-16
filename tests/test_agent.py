@@ -98,6 +98,9 @@ class MatcherTests(unittest.TestCase):
 
     def test_language(self):
         self.assertEqual(detect_language(DE_TEXT * 2), "de")
+        self.assertEqual(detect_language("Работа оператором в Узбекистане, вакансии в микрофинансовой организации " * 10), "other")
+        it = "Il fondo di Mikro Kapital per le piccole imprese e la crescita che non si ferma nel mercato della regione " * 3
+        self.assertEqual(detect_language(it), "it")
         fr = "MK Global Kapital deviendra la société de gestion du fonds et les investisseurs pour la croissance dans les marchés " * 3
         self.assertEqual(detect_language(fr), "fr")
 

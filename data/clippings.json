@@ -1,69 +1,5 @@
 [
   {
-    "date": "2026-10-14",
-    "outlet": "Netmilk Studio",
-    "title": "Progetti: siti web, brand identity e packaging",
-    "country": "CH",
-    "type": "Online",
-    "tier": 2,
-    "link": "https://netmilk.ch/progetti/",
-    "people": [],
-    "byline": false,
-    "author": "",
-    "found_via": [
-      "serpapi"
-    ],
-    "verified": "volltext",
-    "date_source": "seite",
-    "added_at": "2026-10-16T13:30:02",
-    "source": "auto",
-    "id": "a-1792157402-2"
-  },
-  {
-    "date": "2026-10-14",
-    "outlet": "Moneycab",
-    "title": "Kommentare Archives",
-    "country": "CH",
-    "type": "Online",
-    "tier": 2,
-    "link": "https://www.moneycab.com/category/kommentare/",
-    "people": [
-      "Louiza Savchenko"
-    ],
-    "byline": false,
-    "author": "",
-    "found_via": [
-      "serpapi"
-    ],
-    "verified": "claude",
-    "date_source": "seite",
-    "added_at": "2026-10-16T13:30:07",
-    "source": "auto",
-    "id": "a-1792157407-3"
-  },
-  {
-    "date": "2026-10-11",
-    "outlet": "finanznachrichten.de",
-    "title": "Moneycab | Nachrichten",
-    "country": "D",
-    "type": "Online",
-    "tier": 2,
-    "link": "https://www.finanznachrichten.de/nachrichten-medien/moneycab.htm",
-    "people": [
-      "Louiza Savchenko"
-    ],
-    "byline": true,
-    "author": "",
-    "found_via": [
-      "serpapi"
-    ],
-    "verified": "claude",
-    "date_source": "quelle",
-    "added_at": "2026-10-16T13:30:07",
-    "source": "auto",
-    "id": "a-1792157407-4"
-  },
-  {
     "date": "2026-10-09",
     "outlet": "Moneycab",
     "title": "Die Obligation ist tokenisiert. Doch womit wird sie bezahlt?",
@@ -110,26 +46,6 @@
     "source": "auto",
     "id": "a-1792146256-12",
     "syndication_of": "a-1792146256-3"
-  },
-  {
-    "date": "2026-10-05",
-    "outlet": "SALES JOBS",
-    "title": "Работа оператором в Узбекистане: 23 вакансии — Call-markaz / operator",
-    "country": "D",
-    "type": "Online",
-    "tier": 2,
-    "link": "https://salesjobs.uz/lavozim/operator",
-    "people": [],
-    "byline": false,
-    "author": "",
-    "found_via": [
-      "serpapi"
-    ],
-    "verified": "volltext",
-    "date_source": "seite",
-    "added_at": "2026-10-16T13:30:02",
-    "source": "auto",
-    "id": "a-1792157402-1"
   },
   {
     "date": "2026-09-29",
