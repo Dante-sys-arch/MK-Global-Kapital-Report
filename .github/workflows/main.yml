@@ -4,6 +4,8 @@ on:
     - cron: '0 6 * * *'
     - cron: '0 12 * * *'
     - cron: '0 18 * * *'
+  push:
+    branches: [agent-v5]
   workflow_dispatch:
     inputs:
       mode:
@@ -46,7 +48,7 @@ jobs:
           MODE: ${{ github.event.inputs.mode || 'daily' }}
           DATE_FROM: ${{ github.event.inputs.date_from }}
           DATE_TO: ${{ github.event.inputs.date_to }}
-          DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
+          DRY_RUN: ${{ github.event.inputs.dry_run || (github.event_name == 'push' && 'true') || 'false' }}
         run: |
           ARGS="--mode $MODE"
           if [ -n "$DATE_FROM" ]; then ARGS="$ARGS --from $DATE_FROM"; fi
