@@ -1,8 +1,10 @@
 {
-  "run_at": "2026-10-16T13:41:54+00:00",
-  "status": "ok",
+  "run_at": "2026-10-17T01:32:53+00:00",
+  "status": "warn",
   "problems": [],
-  "warnings": [],
-  "new": 0,
+  "warnings": [
+    "Nur 31 von 53 RSS-Feeds liefern Einträge"
+  ],
+  "new": 1,
   "review_open": 5
 }

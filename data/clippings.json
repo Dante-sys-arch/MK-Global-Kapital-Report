@@ -48,6 +48,28 @@
     "syndication_of": "a-1792146256-3"
   },
   {
+    "date": "2026-10-04",
+    "outlet": "Spotify",
+    "title": "Mikrokredite als Anlagealternative von Geldmeisterin",
+    "country": "D",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://podcasters.spotify.com/pod/show/geldmeisterin/episodes/Mikrokredite-als-Anlagealternative-e3f11ln",
+    "people": [
+      "Johannes Feist"
+    ],
+    "byline": false,
+    "author": "Der Finanzpodcast mit Julia Kistner Der Finanzpodcast mit Julia Kistner",
+    "found_via": [
+      "rss"
+    ],
+    "verified": "volltext",
+    "date_source": "seite",
+    "added_at": "2026-10-17T01:32:44",
+    "source": "auto",
+    "id": "a-1792200764-0"
+  },
+  {
     "date": "2026-09-29",
     "outlet": "Markt Einblicke",
     "title": "Nach dem Ernteeinbruch: Warum es jetzt auf die richtige Finanzierung ankommt",
@@ -84,7 +106,8 @@
     "byline": true,
     "author": "Johannes Feist",
     "found_via": [
-      "bing"
+      "bing",
+      "gnews"
     ],
     "verified": "volltext",
     "date_source": "seite",
@@ -188,7 +211,10 @@
     "source": "manual",
     "id": "x-20261016-024",
     "imported_from": "20260816_MK_2026_Spokesperson_Coverage.xlsx:Johannes Feist",
-    "format": "Statement / Survey"
+    "format": "Statement / Survey",
+    "found_via": [
+      "gnews"
+    ]
   },
   {
     "date": "2026-08-07",
@@ -1277,7 +1303,10 @@
     "source": "manual",
     "id": "x-20261016-012",
     "imported_from": "20260816_MK_Q2_2026_Coverage.xlsx:Q1 2026 Clippings + 20260816_MK_2026_Spokesperson_Coverage.xlsx:Johannes Feist + 20260816_MK_H1_2026_Coverage.xlsx:H1 2026 Clippings",
-    "format": "Mention / Press digest"
+    "format": "Mention / Press digest",
+    "found_via": [
+      "site"
+    ]
   },
   {
     "date": "2026-02-23",
