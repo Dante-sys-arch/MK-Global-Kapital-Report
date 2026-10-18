@@ -1,4 +1,4 @@
-# Laufbericht mk-global-kapital – 2026-10-17T01:32:53+00:00 (daily)
+# Laufbericht mk-global-kapital – 2026-10-18T01:17:14+00:00 (daily)
 
 **Status: WARNUNG**
 
@@ -9,29 +9,31 @@
 | Kanal | Anfragen | erfolgreich | Fehler | Kandidaten |
 |---|---|---|---|---|
 | RSS-Feeds | 53 | 31 | 22 | 1 |
-| Google News | 125 | 125 | 0 | 30 |
+| Google News | 122 | 122 | 0 | 30 |
 | Bing News | 33 | 33 | 0 | 36 |
-| Neue Artikel der Stammmedien | 36 | 22 | 8 | 467 |
-| Google Websuche (Custom Search) | 1 | 0 | 1 | 0 |
-| SerpApi (Google Web) | 8 | 8 | 0 | 18 |
+| Neue Artikel der Stammmedien | 36 | 22 | 8 | 465 |
+| Google Websuche (Custom Search) | 0 | 0 | 0 | 0 |
+| SerpApi (Google Web) | 8 | 8 | 0 | 28 |
 | Serper (Google Web + News) | 0 | 0 | 0 | 0 |
 | Seitensuche der Stammmedien | 52 | 10 | 2 | 74 |
 | Artikelseiten | 0 | 0 | 0 | 0 |
 | Claude-Prüfung | 1 | 1 | 0 | 0 |
 
-Kandidaten 626, davon eindeutig 466, schon bekannt 52, schon geprüft 48, Seiten geladen 362, nicht lesbar 13, ohne Treffer 356, Google-News-Links offen 0, aus Zeitgründen verschoben 0.
+Kandidaten 634, davon eindeutig 472, schon bekannt 51, schon geprüft 49, Seiten geladen 379, nicht lesbar 1, ohne Treffer 371, Google-News-Links offen 0, aus Zeitgründen verschoben 0.
 
-## Neue Clippings (1)
-- 2026-10-04 | Spotify | Mikrokredite als Anlagealternative von Geldmeisterin | Johannes Feist | via rss | https://podcasters.spotify.com/pod/show/geldmeisterin/episodes/Mikrokredite-als-Anlagealternative-e3f11ln
+## Neue Clippings (0)
 
 ## Neu in der Prüfliste (0, offen gesamt 5)
 
-## Verworfen (5)
-- A4EZ9A | Mikro Kapital Management-Anleihe: 9,500 % bis 25.08.2028 | Kurs- oder Datenseite, kein Artikel | https://www.finanzen.net/anleihen/a4ez9a-mikro-kapital-management-anleihe
-- MK Kredit IFN S.A. aniversează 10 ani de activitate în România | italienischsprachig, kein DACH-Medium | https://www.goldring.ro/ro/news/mk-kredit-ifn-sa-aniverseaza-10-ani-de-activitate-in-romania
-- Contabil , PRISMA SERV COMPANY SRL | italienischsprachig, kein DACH-Medium | https://www.bestjobs.eu/loc-de-munca/contabil-4916
-- advanced_search | Claude: Die Seite ist eine Suchfilter- bzw. Namensliste von allnews.ch mit Namen und Trefferzahlen, kein Artikel. Der Name steht nur in einer Linkliste. | https://www.allnews.ch/advanced_search/%3C
-- Die Sicht des Raiffeisen Chefökonomen: Trauma Velorennen | Claude: Der Artikel ist ein Beitrag des Raiffeisen-Chefökonomen über Velorennen. Savchenko und MK Global Kapital stehen nur in einem Teaser mit Bildunterschrift für einen anderen Beitrag (Tokenisierung) zwischen Teasern anderer Artikel, also in einer Seitenleiste oder Linkliste. Der eigentliche Beitrag mit eigener URL wäre separat zu prüfen. | https://www.moneycab.com/dossiers/die-sicht-des-raiffeisen-chefoekonomen-trauma-velorennen/
+## Verworfen (8)
+- CEO Archives | Übersichts- oder Archivseite, kein Artikel | https://www.moneycab.com/tag/ceo/
+- Invest Archives | Übersichts- oder Archivseite, kein Artikel | https://www.moneycab.com/category/finanz/invest/
+- Escucha Market Mover Podcast | italienischsprachig, kein DACH-Medium | https://www.radio-ecuador.org/podcasts/market-mover
+- отзывы, идеи, предложения | nicht deutschsprachig, kein DACH-Medium | https://otzyvy.by/uslugi/
+- Специалист отдела по взысканию дебиторской задолженности | nicht deutschsprachig, kein DACH-Medium | https://minsk.employmentcenter.ru/vacancy/?action=read2&id=46851118
+- Joburi similare cu Asistent manager/ Document controller | nicht deutschsprachig, kein DACH-Medium | https://www.bestjobs.eu/job/document-controller-asistent-manager/similar
+- Ja zur e-ID: digitalswitzerland geht mit Bund und Wirtschaft in die Umsetzung konkreter Anwendungsfälle | Claude: Der Artikel behandelt die e-ID und digitalswitzerland. Die Erwähnung von Louiza Savchenko steht nur in einem Teaser eines anderen Beitrags (Tokenisierung, Bildunterschrift) auf der Dossier-Seite, also in einer Seitenleiste oder Linkliste. | https://www.moneycab.com/dossiers/ja-zur-e-id-digitalswitzerland-geht-mit-bund-und-wirtschaft-in-die-umsetzung-konkreter-anwendungsfaelle/
+- smzh: Einschätzungen zur geldpolitischen Lagebeurteilung der SNB vom 25.09.2025 | Claude: Der Artikel behandelt die SNB-Lagebeurteilung. Der identische Teaser mit Louiza Savchenko erscheint auch auf der anderen Dossier-Seite und gehört nicht zum Artikeltext, sondern zu einer Seitenleiste oder Linkliste. | https://www.moneycab.com/dossiers/smzh-einschaetzungen-zur-geldpolitischen-lagebeurteilung-der-snb-vom-25-09-2025/
 
 ## Hinweise je Kanal
 - RSS-Feeds: https://www.dasinvestment.com/feed/: HTTP 404
@@ -56,64 +58,26 @@ Kandidaten 626, davon eindeutig 466, schon bekannt 52, schon geprüft 48, Seiten
 - RSS-Feeds: https://fondstrends.ch/feed/: keine Einträge
 - RSS-Feeds: https://www.fundresearch.de/feed/: HTTP 404
 - RSS-Feeds: https://privatemarkets360.com/feed/: HTTP 404
-- Neue Artikel der Stammmedien: moneycab.com: 289 neue Artikel, 100 in diesem Lauf geprüft, Rest folgt
-- Neue Artikel der Stammmedien: fondsexklusiv.de: Ausgangsbestand angelegt (1 URLs), ab dem nächsten Lauf werden neue geprüft
-- Neue Artikel der Stammmedien: fondsexklusiv.at: Ausgangsbestand angelegt (1 URLs), ab dem nächsten Lauf werden neue geprüft
+- Neue Artikel der Stammmedien: moneycab.com: 171 neue Artikel, 100 in diesem Lauf geprüft, Rest folgt
 - Neue Artikel der Stammmedien: private-banking-magazin.de: Sitemap ohne Einträge
 - Neue Artikel der Stammmedien: institutional-money.com: keine Sitemap gefunden
 - Neue Artikel der Stammmedien: fixed-income.org: keine Sitemap gefunden
-- Neue Artikel der Stammmedien: e-fundresearch.com: 371 neue Artikel, 100 in diesem Lauf geprüft, Rest folgt
+- Neue Artikel der Stammmedien: altii.de: 113 neue Artikel, 100 in diesem Lauf geprüft, Rest folgt
+- Neue Artikel der Stammmedien: e-fundresearch.com: 234 neue Artikel, 100 in diesem Lauf geprüft, Rest folgt
 - Neue Artikel der Stammmedien: gruenderkueche.de: Sitemap ohne Einträge
 - Neue Artikel der Stammmedien: exxecnews.org: keine Sitemap gefunden
 - Neue Artikel der Stammmedien: swissfinanceai.ch: Sitemap ohne Einträge
 - Neue Artikel der Stammmedien: handelszeitung.ch: Sitemap ohne Einträge
 - Neue Artikel der Stammmedien: dasinvestment.com: Sitemap ohne Einträge
-- Neue Artikel der Stammmedien: privatemarkets360.com: 371 neue Artikel, 100 in diesem Lauf geprüft, Rest folgt
+- Neue Artikel der Stammmedien: privatemarkets360.com: 234 neue Artikel, 100 in diesem Lauf geprüft, Rest folgt
 - Neue Artikel der Stammmedien: allnews.ch: keine Sitemap gefunden
 - Neue Artikel der Stammmedien: fondsprofessionell.de: keine Sitemap gefunden
 - Neue Artikel der Stammmedien: fondsprofessionell.at: keine Sitemap gefunden
 - Neue Artikel der Stammmedien: citywire.de: keine Sitemap gefunden
 - Neue Artikel der Stammmedien: finanzwelt.de: Sitemap ohne Einträge
 - Neue Artikel der Stammmedien: fondstrends.ch: keine Sitemap gefunden
-- Neue Artikel der Stammmedien: cash.ch: 207 neue Artikel, 100 in diesem Lauf geprüft, Rest folgt
-- Google Websuche (Custom Search): Projekt hat keinen Zugang zur Custom Search API (Google nimmt keine Neukunden an)
-- Google Websuche (Custom Search): Tageskontingent erreicht
-- Google Websuche (Custom Search): Tageskontingent erreicht
-- Google Websuche (Custom Search): Tageskontingent erreicht
-- Google Websuche (Custom Search): Tageskontingent erreicht
-- Google Websuche (Custom Search): Tageskontingent erreicht
-- Google Websuche (Custom Search): Tageskontingent erreicht
-- Google Websuche (Custom Search): Tageskontingent erreicht
-- Google Websuche (Custom Search): Tageskontingent erreicht
-- Google Websuche (Custom Search): Tageskontingent erreicht
-- Google Websuche (Custom Search): Tageskontingent erreicht
-- Google Websuche (Custom Search): Tageskontingent erreicht
-- Google Websuche (Custom Search): Tageskontingent erreicht
-- Google Websuche (Custom Search): Tageskontingent erreicht
-- Google Websuche (Custom Search): Tageskontingent erreicht
-- Google Websuche (Custom Search): Tageskontingent erreicht
-- Google Websuche (Custom Search): Tageskontingent erreicht
-- Google Websuche (Custom Search): Tageskontingent erreicht
-- Google Websuche (Custom Search): Tageskontingent erreicht
-- Google Websuche (Custom Search): Tageskontingent erreicht
-- Google Websuche (Custom Search): Tageskontingent erreicht
-- Google Websuche (Custom Search): Tageskontingent erreicht
-- Google Websuche (Custom Search): Tageskontingent erreicht
-- Google Websuche (Custom Search): Tageskontingent erreicht
-- Google Websuche (Custom Search): Tageskontingent erreicht
+- Google Websuche (Custom Search): Custom Search ohne Zugang (seit 2026-10-17), Kanal aus
 - Serper (Google Web + News): kein SERPER_API_KEY hinterlegt, Kanal aus
 - Seitensuche der Stammmedien: exxecnews.org: ConnectionError
 - Seitensuche der Stammmedien: citywire.de: SSLError
-- Artikelseiten: finanzen.net: HTTP 403
-- Artikelseiten: platow.de: HTTP 404
-- Artikelseiten: platow.de: HTTP 404
-- Artikelseiten: platow.de: HTTP 404
-- Artikelseiten: platow.de: HTTP 404
-- Artikelseiten: platow.de: HTTP 404
-- Artikelseiten: platow.de: HTTP 404
-- Artikelseiten: platow.de: HTTP 404
-- Artikelseiten: platow.de: HTTP 404
-- Artikelseiten: platow.de: HTTP 404
-- Artikelseiten: platow.de: HTTP 404
-- Artikelseiten: allnews.ch: HTTP 403
 - Artikelseiten: background.tagesspiegel.de: HTTP 403

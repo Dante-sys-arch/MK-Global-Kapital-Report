@@ -1,9 +1,9 @@
 {
   "client": "mk-global-kapital",
-  "run_at": "2026-10-17T01:32:53+00:00",
+  "run_at": "2026-10-18T01:17:14+00:00",
   "mode": "daily",
   "dry_run": false,
-  "duration_s": 773,
+  "duration_s": 849,
   "health": {
     "status": "warn",
     "problems": [],
@@ -12,18 +12,17 @@
     ]
   },
   "counts": {
-    "candidates": 626,
-    "unique": 466,
-    "already_known": 52,
-    "already_checked": 48,
-    "fetched": 362,
-    "fetch_failed": 13,
-    "no_match": 356,
+    "candidates": 634,
+    "unique": 472,
+    "already_known": 51,
+    "already_checked": 49,
+    "fetched": 379,
+    "fetch_failed": 1,
+    "no_match": 371,
     "gnews_unresolved": 0,
     "review_decisions": 0,
     "inbox_files": 0,
-    "backfill_month": "2025-08",
-    "too_old": 2,
+    "backfill_month": "2025-09",
     "enriched": 0,
     "deferred": 0
   },
@@ -59,8 +58,8 @@
       ]
     },
     "gnews": {
-      "requests": 125,
-      "ok": 125,
+      "requests": 122,
+      "ok": 122,
       "errors": 0,
       "candidates": 30,
       "notes": []
@@ -76,68 +75,42 @@
       "requests": 36,
       "ok": 22,
       "errors": 8,
-      "candidates": 467,
+      "candidates": 465,
       "notes": [
-        "moneycab.com: 289 neue Artikel, 100 in diesem Lauf geprüft, Rest folgt",
-        "fondsexklusiv.de: Ausgangsbestand angelegt (1 URLs), ab dem nächsten Lauf werden neue geprüft",
-        "fondsexklusiv.at: Ausgangsbestand angelegt (1 URLs), ab dem nächsten Lauf werden neue geprüft",
+        "moneycab.com: 171 neue Artikel, 100 in diesem Lauf geprüft, Rest folgt",
         "private-banking-magazin.de: Sitemap ohne Einträge",
         "institutional-money.com: keine Sitemap gefunden",
         "fixed-income.org: keine Sitemap gefunden",
-        "e-fundresearch.com: 371 neue Artikel, 100 in diesem Lauf geprüft, Rest folgt",
+        "altii.de: 113 neue Artikel, 100 in diesem Lauf geprüft, Rest folgt",
+        "e-fundresearch.com: 234 neue Artikel, 100 in diesem Lauf geprüft, Rest folgt",
         "gruenderkueche.de: Sitemap ohne Einträge",
         "exxecnews.org: keine Sitemap gefunden",
         "swissfinanceai.ch: Sitemap ohne Einträge",
         "handelszeitung.ch: Sitemap ohne Einträge",
         "dasinvestment.com: Sitemap ohne Einträge",
-        "privatemarkets360.com: 371 neue Artikel, 100 in diesem Lauf geprüft, Rest folgt",
+        "privatemarkets360.com: 234 neue Artikel, 100 in diesem Lauf geprüft, Rest folgt",
         "allnews.ch: keine Sitemap gefunden",
         "fondsprofessionell.de: keine Sitemap gefunden",
         "fondsprofessionell.at: keine Sitemap gefunden",
         "citywire.de: keine Sitemap gefunden",
         "finanzwelt.de: Sitemap ohne Einträge",
-        "fondstrends.ch: keine Sitemap gefunden",
-        "cash.ch: 207 neue Artikel, 100 in diesem Lauf geprüft, Rest folgt"
+        "fondstrends.ch: keine Sitemap gefunden"
       ]
     },
     "google": {
-      "requests": 1,
+      "requests": 0,
       "ok": 0,
-      "errors": 1,
+      "errors": 0,
       "candidates": 0,
       "notes": [
-        "Projekt hat keinen Zugang zur Custom Search API (Google nimmt keine Neukunden an)",
-        "Tageskontingent erreicht",
-        "Tageskontingent erreicht",
-        "Tageskontingent erreicht",
-        "Tageskontingent erreicht",
-        "Tageskontingent erreicht",
-        "Tageskontingent erreicht",
-        "Tageskontingent erreicht",
-        "Tageskontingent erreicht",
-        "Tageskontingent erreicht",
-        "Tageskontingent erreicht",
-        "Tageskontingent erreicht",
-        "Tageskontingent erreicht",
-        "Tageskontingent erreicht",
-        "Tageskontingent erreicht",
-        "Tageskontingent erreicht",
-        "Tageskontingent erreicht",
-        "Tageskontingent erreicht",
-        "Tageskontingent erreicht",
-        "Tageskontingent erreicht",
-        "Tageskontingent erreicht",
-        "Tageskontingent erreicht",
-        "Tageskontingent erreicht",
-        "Tageskontingent erreicht",
-        "Tageskontingent erreicht"
+        "Custom Search ohne Zugang (seit 2026-10-17), Kanal aus"
       ]
     },
     "serpapi": {
       "requests": 8,
       "ok": 8,
       "errors": 0,
-      "candidates": 18,
+      "candidates": 28,
       "notes": []
     },
     "serper": {
@@ -165,18 +138,6 @@
       "errors": 0,
       "candidates": 0,
       "notes": [
-        "finanzen.net: HTTP 403",
-        "platow.de: HTTP 404",
-        "platow.de: HTTP 404",
-        "platow.de: HTTP 404",
-        "platow.de: HTTP 404",
-        "platow.de: HTTP 404",
-        "platow.de: HTTP 404",
-        "platow.de: HTTP 404",
-        "platow.de: HTTP 404",
-        "platow.de: HTTP 404",
-        "platow.de: HTTP 404",
-        "allnews.ch: HTTP 403",
         "background.tagesspiegel.de: HTTP 403"
       ]
     },
@@ -188,48 +149,48 @@
       "notes": []
     }
   },
-  "new": [
-    {
-      "date": "2026-10-04",
-      "outlet": "Spotify",
-      "title": "Mikrokredite als Anlagealternative von Geldmeisterin",
-      "link": "https://podcasters.spotify.com/pod/show/geldmeisterin/episodes/Mikrokredite-als-Anlagealternative-e3f11ln",
-      "people": [
-        "Johannes Feist"
-      ],
-      "byline": false,
-      "found_via": [
-        "rss"
-      ],
-      "verified": "volltext"
-    }
-  ],
+  "new": [],
   "new_review": [],
   "rejected": [
     {
-      "link": "https://www.finanzen.net/anleihen/a4ez9a-mikro-kapital-management-anleihe",
-      "title": "A4EZ9A | Mikro Kapital Management-Anleihe: 9,500 % bis 25.08.2028",
-      "reason": "Kurs- oder Datenseite, kein Artikel"
+      "link": "https://www.moneycab.com/tag/ceo/",
+      "title": "CEO Archives",
+      "reason": "Übersichts- oder Archivseite, kein Artikel"
     },
     {
-      "link": "https://www.goldring.ro/ro/news/mk-kredit-ifn-sa-aniverseaza-10-ani-de-activitate-in-romania",
-      "title": "MK Kredit IFN S.A. aniversează 10 ani de activitate în România",
+      "link": "https://www.moneycab.com/category/finanz/invest/",
+      "title": "Invest Archives",
+      "reason": "Übersichts- oder Archivseite, kein Artikel"
+    },
+    {
+      "link": "https://www.radio-ecuador.org/podcasts/market-mover",
+      "title": "Escucha Market Mover Podcast",
       "reason": "italienischsprachig, kein DACH-Medium"
     },
     {
-      "link": "https://www.bestjobs.eu/loc-de-munca/contabil-4916",
-      "title": "Contabil , PRISMA SERV COMPANY SRL",
-      "reason": "italienischsprachig, kein DACH-Medium"
+      "link": "https://otzyvy.by/uslugi/",
+      "title": "отзывы, идеи, предложения",
+      "reason": "nicht deutschsprachig, kein DACH-Medium"
     },
     {
-      "link": "https://www.allnews.ch/advanced_search/%3C",
-      "title": "advanced_search",
-      "reason": "Claude: Die Seite ist eine Suchfilter- bzw. Namensliste von allnews.ch mit Namen und Trefferzahlen, kein Artikel. Der Name steht nur in einer Linkliste."
+      "link": "https://minsk.employmentcenter.ru/vacancy/?action=read2&id=46851118",
+      "title": "Специалист отдела по взысканию дебиторской задолженности",
+      "reason": "nicht deutschsprachig, kein DACH-Medium"
     },
     {
-      "link": "https://www.moneycab.com/dossiers/die-sicht-des-raiffeisen-chefoekonomen-trauma-velorennen/",
-      "title": "Die Sicht des Raiffeisen Chefökonomen: Trauma Velorennen",
-      "reason": "Claude: Der Artikel ist ein Beitrag des Raiffeisen-Chefökonomen über Velorennen. Savchenko und MK Global Kapital stehen nur in einem Teaser mit Bildunterschrift für einen anderen Beitrag (Tokenisierung) zwischen Teasern anderer Artikel, also in einer Seitenleiste oder Linkliste. Der eigentliche Beitrag mit eigener URL wäre separat zu prüfen."
+      "link": "https://www.bestjobs.eu/job/document-controller-asistent-manager/similar",
+      "title": "Joburi similare cu Asistent manager/ Document controller",
+      "reason": "nicht deutschsprachig, kein DACH-Medium"
+    },
+    {
+      "link": "https://www.moneycab.com/dossiers/ja-zur-e-id-digitalswitzerland-geht-mit-bund-und-wirtschaft-in-die-umsetzung-konkreter-anwendungsfaelle/",
+      "title": "Ja zur e-ID: digitalswitzerland geht mit Bund und Wirtschaft in die Umsetzung konkreter Anwendungsfälle",
+      "reason": "Claude: Der Artikel behandelt die e-ID und digitalswitzerland. Die Erwähnung von Louiza Savchenko steht nur in einem Teaser eines anderen Beitrags (Tokenisierung, Bildunterschrift) auf der Dossier-Seite, also in einer Seitenleiste oder Linkliste."
+    },
+    {
+      "link": "https://www.moneycab.com/dossiers/smzh-einschaetzungen-zur-geldpolitischen-lagebeurteilung-der-snb-vom-25-09-2025/",
+      "title": "smzh: Einschätzungen zur geldpolitischen Lagebeurteilung der SNB vom 25.09.2025",
+      "reason": "Claude: Der Artikel behandelt die SNB-Lagebeurteilung. Der identische Teaser mit Louiza Savchenko erscheint auch auf der anderen Dossier-Seite und gehört nicht zum Artikeltext, sondern zu einer Seitenleiste oder Linkliste."
     }
   ],
   "review_open": 5,
