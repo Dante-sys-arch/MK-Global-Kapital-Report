@@ -164,6 +164,7 @@ function render(){
   const maxM=Math.max(...Object.values(s.byMonth),1);
 
   if(tab==="dash"){
+    const recent24=getRecentClips(24);
     el.innerHTML=statusBanner()+`
       <div class="kpi-grid">
         ${[["Total",s.total,"#4f8ff7"],["Online",s.online,"#a78bfa"],["Print/E-Paper",s.print,"#f472b6"],["Medien",s.outlets,"#22d3ee"],...SPOKES.map((p,i)=>[p.split(" ").pop(),s.bySpeaker[p]||0,["#34d399","#fbbf24","#fb923c"][i]])].map(([l,v,c])=>`<div class="card"><div class="kpi-val" style="color:${c}">${v}</div><div class="kpi-label">${esc(l)}</div></div>`).join("")}
@@ -173,8 +174,9 @@ function render(){
           ${Object.entries(s.byMonth).sort().slice(-14).map(([m,c])=>`<div style="flex:1 0 24px;text-align:center"><div style="height:${Math.max(6,(c/maxM)*85)}px;background:linear-gradient(180deg,#4f8ff7,#2563eb);border-radius:4px 4px 0 0"></div><div style="font-size:9px;color:#4a5a6c;margin-top:3px" class="mono">${m.slice(2).replace("-","/")}</div><div style="font-size:12px;color:#98a8b8;font-weight:600">${c}</div></div>`).join("")}
         </div>
       </div>
-      <div class="card" style="margin-top:14px"><h3 class="h3">Neueste Clippings</h3>
-        ${clips.slice(0,6).map((c,i)=>`<div style="padding:8px 0;${i<5?"border-bottom:1px solid #152238":""}">
+      <div class="card" style="margin-top:14px"><h3 class="h3">Neu in den letzten 24 Stunden (${recent24.length})</h3>
+        ${recent24.length?"":`<div style="font-size:13px;color:#5a6a80;padding:6px 0">Keine neuen Treffer in den letzten 24 Stunden. Alle Treffer stehen im Tab Clippings und im Excel.</div>`}
+        ${recent24.map((c,i)=>`<div style="padding:8px 0;${i<recent24.length-1?"border-bottom:1px solid #152238":""}">
           <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
             <span class="mono" style="font-size:10px;color:#4a5a6c;min-width:68px">${fD(c.date)}</span>
             <span style="font-size:11px;color:#4a5a6c">${esc(c.outlet)}</span><span class="pill">${esc(c.type||"Online")}</span>${speakers(c)?`<span class="pill">${esc(speakers(c))}</span>`:""}
@@ -361,11 +363,21 @@ function exportCSV(list,prefix){
   const blob=new Blob(["﻿"+h+"\n"+rows.join("\n")],{type:"text/csv;charset=utf-8;"});
   const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=(prefix||"MK_Clippings_")+fD(new Date().toISOString())+".csv";a.click();
 }
-function getRecentClips(days){
-  const cutoff = new Date();
-  cutoff.setDate(cutoff.getDate() - parseInt(days));
-  const cutoffStr = cutoff.toISOString().slice(0,10);
-  return clips.filter(c => c.date && c.date >= cutoffStr);
+// Neu hinzugekommen = Zeitpunkt, an dem der Agent oder die Eingabe den Treffer gespeichert hat (added_at, UTC),
+// nicht das Erscheinungsdatum. Statistik, Clippings-Tab und Excel zeigen weiter alle Treffer.
+function addedTime(c){
+  const a=c.added_at||"";
+  if(!a) return 0;
+  return Date.parse(/[zZ]|[+-]\d\d:?\d\d$/.test(a)?a:a+"Z")||0;
+}
+function getRecentClips(hours){
+  const cutoff=Date.now()-parseFloat(hours)*3600*1000;
+  return clips.filter(c=>addedTime(c)>=cutoff).sort((a,b)=>(b.date||"").localeCompare(a.date||""));
+}
+function askHours(){
+  const h=prompt("Neu hinzugekommene Clippings der letzten wie vielen Stunden? (Montag nach dem Wochenende z. B. 72)","24");
+  if(!h||!(parseFloat(h)>0)) return null;
+  return h;
 }
 
 function getToday(){
@@ -377,10 +389,10 @@ function getToday(){
 }
 
 function sendMailKunde(){
-  const days = prompt("Clippings der letzten wie vielen Tage?", "3");
-  if(!days) return;
-  const recent = getRecentClips(days);
-  if(!recent.length){ alert("Keine Clippings in diesem Zeitraum."); return; }
+  const hours = askHours();
+  if(!hours) return;
+  const recent = getRecentClips(hours);
+  if(!recent.length){ alert("Keine neuen Clippings in den letzten " + hours + " Stunden."); return; }
   
   const groups = {"D":[],"A":[],"CH":[],"DACH":[]};
   recent.forEach(c => {
@@ -405,10 +417,10 @@ function sendMailKunde(){
 }
 
 function sendMailTeam(){
-  const days = prompt("Clippings der letzten wie vielen Tage?", "3");
-  if(!days) return;
-  const recent = getRecentClips(days);
-  if(!recent.length){ alert("Keine Clippings in diesem Zeitraum."); return; }
+  const hours = askHours();
+  if(!hours) return;
+  const recent = getRecentClips(hours);
+  if(!recent.length){ alert("Keine neuen Clippings in den letzten " + hours + " Stunden."); return; }
   
   let body = "MK Global Kapital (DEAT, CH deutschsprachig):\n\n";
   recent.forEach(c => {
