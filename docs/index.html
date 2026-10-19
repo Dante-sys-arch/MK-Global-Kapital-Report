@@ -77,6 +77,11 @@ const RAW=`https://raw.githubusercontent.com/${OWNER}/${REPO_NAME}/${BRANCH}/`;
 const TOKEN_KEY="mk-gh-token", OLD_LOCAL="mk-page-v1";
 const SPOKES=["Johannes Feist","Louiza Savchenko","Michele Mattioda"];
 let clips=[], review=[], agentStatus=null, tab="dash", search="", loadError="", loading=true, flash="";
+// Vermerk "gemeldet": welche Treffer schon per Mail an Kunde bzw. Team gingen. Liegt im Repo (data/reported.json),
+// damit jedes Gerät und jede Vertretung denselben Stand sieht. baseline: alles, was davor dazukam, gilt als gemeldet.
+const REPORTED_PATH="data/reported.json", PENDING_KEY=REPO_NAME+"-mail-offen", INITIALS_KEY=REPO_NAME+"-kuerzel";
+const CSV_PREFIX=REPO_NAME.startsWith("TRP")?"TRP_Clippings_":"MK_Clippings_";
+let reported={kunde:{},team:{},log:[],baseline:""}, pendingMark=null;
 
 function esc(t){return String(t??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
 // Print, E-Paper, "Print & Online", "Print & Digital" count as print; Online, Newsletter, "TV & Online" as online.
@@ -122,11 +127,13 @@ async function loadAll(manual){
   catch(e){loadError=e.message;clips=[];}
   try{review=await (await ghRaw("data/review.json")).json();}catch(e){review=[];}
   try{agentStatus=await (await ghRaw("docs/status.json")).json();}catch(e){agentStatus=null;}
+  try{reported=Object.assign({kunde:{},team:{},log:[],baseline:""},await (await ghRaw(REPORTED_PATH)).json());}
+  catch(e){reported={kunde:{},team:{},log:[],baseline:"",_missing:true};}
   loading=false;if(manual)flash="Daten neu geladen.";render();
 }
 
 function statusBanner(){
-  let out="";
+  let out=pendingBanner();
   if(loadError) out+=`<div class="err">${esc(loadError)}</div>`;
   if(flash){out+=`<div class="msg">${esc(flash)}</div>`;flash="";}
   if(!agentStatus) return out;
@@ -164,7 +171,7 @@ function render(){
   const maxM=Math.max(...Object.values(s.byMonth),1);
 
   if(tab==="dash"){
-    const recent24=getRecentClips(24);
+    const openK=openClips("kunde"), openT=openClips("team"), lk=lastLog("kunde"), lt=lastLog("team");
     el.innerHTML=statusBanner()+`
       <div class="kpi-grid">
         ${[["Total",s.total,"#4f8ff7"],["Online",s.online,"#a78bfa"],["Print/E-Paper",s.print,"#f472b6"],["Medien",s.outlets,"#22d3ee"],...SPOKES.map((p,i)=>[p.split(" ").pop(),s.bySpeaker[p]||0,["#34d399","#fbbf24","#fb923c"][i]])].map(([l,v,c])=>`<div class="card"><div class="kpi-val" style="color:${c}">${v}</div><div class="kpi-label">${esc(l)}</div></div>`).join("")}
@@ -174,15 +181,20 @@ function render(){
           ${Object.entries(s.byMonth).sort().slice(-14).map(([m,c])=>`<div style="flex:1 0 24px;text-align:center"><div style="height:${Math.max(6,(c/maxM)*85)}px;background:linear-gradient(180deg,#4f8ff7,#2563eb);border-radius:4px 4px 0 0"></div><div style="font-size:9px;color:#4a5a6c;margin-top:3px" class="mono">${m.slice(2).replace("-","/")}</div><div style="font-size:12px;color:#98a8b8;font-weight:600">${c}</div></div>`).join("")}
         </div>
       </div>
-      <div class="card" style="margin-top:14px"><h3 class="h3">Neu in den letzten 24 Stunden (${recent24.length})</h3>
-        ${recent24.length?"":`<div style="font-size:13px;color:#5a6a80;padding:6px 0">Keine neuen Treffer in den letzten 24 Stunden. Alle Treffer stehen im Tab Clippings und im Excel.</div>`}
-        ${recent24.map((c,i)=>`<div style="padding:8px 0;${i<recent24.length-1?"border-bottom:1px solid #152238":""}">
+      <div class="card" style="margin-top:14px"><h3 class="h3">Noch nicht an den Kunden gemeldet (${openK.length})</h3>
+        <div class="note" style="margin:-4px 0 8px">Kunde: ${lk?`zuletzt gemeldet ${fDT(lk.at)} Uhr${lk.by?" von "+esc(lk.by):""} (${lk.count} Treffer)`:"noch keine Meldung über das Dashboard"} · Team: ${openT.length} offen${lt?`, zuletzt ${fDT(lt.at)} Uhr${lt.by?" von "+esc(lt.by):""}`:""}</div>
+        ${openK.length?"":`<div style="font-size:13px;color:#5a6a80;padding:6px 0">Alles gemeldet. Neue Treffer erscheinen hier, bis sie per „Mail Kunde“ verschickt und bestätigt sind. Alle Treffer stehen im Tab Clippings und im Excel.</div>`}
+        ${openK.map((c,i)=>`<div style="padding:8px 0;${i<openK.length-1?"border-bottom:1px solid #152238":""}">
           <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
             <span class="mono" style="font-size:10px;color:#4a5a6c;min-width:68px">${fD(c.date)}</span>
-            <span style="font-size:11px;color:#4a5a6c">${esc(c.outlet)}</span><span class="pill">${esc(c.type||"Online")}</span>${speakers(c)?`<span class="pill">${esc(speakers(c))}</span>`:""}
+            <span style="font-size:11px;color:#4a5a6c">${esc(c.outlet)}</span><span class="pill">${esc(c.type||"Online")}</span>${speakers(c)?`<span class="pill">${esc(speakers(c))}</span>`:""}${addedTime(c)?`<span style="font-size:10px;color:#4a5a6c">gefunden ${fDT(new Date(addedTime(c)).toISOString())}</span>`:""}
           </div>
           <div style="font-size:13px;color:#c8d0dc;margin-top:3px">${c.link?`<a href="${esc(c.link)}" target="_blank">${esc(c.title)}</a>`:esc(c.title)}</div>
         </div>`).join("")}
+        ${(openK.length||openT.length)?`<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+          ${openK.length?`<button class="ghost" onclick="markAllOpen('kunde')">Kunde: alle ${openK.length} ohne Mail als gemeldet markieren</button>`:""}
+          ${openT.length?`<button class="ghost" onclick="markAllOpen('team')">Team: alle ${openT.length} ohne Mail als gemeldet markieren</button>`:""}
+        </div>`:""}
       </div>`;
   }
 
@@ -253,12 +265,12 @@ function render(){
     el.innerHTML=statusBanner()+`
       <input class="inp search" value="${esc(search)}" oninput="search=this.value;render();this.focus()" placeholder="Suche nach Titel, Medium, Typ oder Sprecher...">
       <div style="overflow-x:auto">
-        <table><thead><tr><th>Datum</th><th>Medium</th><th>Titel</th><th>Land</th><th>Typ</th><th>Sprecher</th></tr></thead>
+        <table><thead><tr><th>Datum</th><th>Medium</th><th>Titel</th><th>Land</th><th>Typ</th><th>Sprecher</th><th>Gemeldet</th></tr></thead>
         <tbody>${f.map(c=>`<tr>
           <td class="mono" style="color:#4a5a6c;font-size:11px;white-space:nowrap">${fD(c.date)}</td>
           <td>${esc(c.outlet)}</td>
           <td style="max-width:260px">${c.link?`<a href="${esc(c.link)}" target="_blank">${esc(c.title)}</a>`:esc(c.title)}</td>
-          <td>${esc(c.country)}</td><td>${esc(c.type||"Online")}</td><td>${esc(speakers(c))}</td>
+          <td>${esc(c.country)}</td><td>${esc(c.type||"Online")}</td><td>${esc(speakers(c))}</td><td style="white-space:nowrap">${statusPills(c)}</td>
         </tr>`).join("")}</tbody></table>
         <div style="text-align:center;padding:8px;font-size:11px;color:#3a4a5c">${f.length} von ${clips.length} Clippings</div>
       </div>`;
@@ -357,11 +369,12 @@ async function downloadExcel(){
 }
 function exportCSV(list,prefix){
   list=list||clips;
-  const h="Publication Date;Media Outlet;Title;Country;Type;Spokesperson;Link";
+  const h="Publication Date;Media Outlet;Title;Country;Type;Spokesperson;Link;Gemeldet Kunde;Gemeldet Team";
   const q=v=>'"'+String(v??"").replace(/"/g,'""')+'"';
-  const rows=list.map(c=>[fD(c.date),c.outlet,c.title,c.country,c.type||"Online",(c.people||[]).join(", "),c.link].map(q).join(";"));
+  const st=(c,k)=>{const r=reportedInfo(c,k);return r?(r.baseline?"Altbestand":fDT(r.at)+(r.by?" "+r.by:"")):"offen";};
+  const rows=list.map(c=>[fD(c.date),c.outlet,c.title,c.country,c.type||"Online",(c.people||[]).join(", "),c.link,st(c,"kunde"),st(c,"team")].map(q).join(";"));
   const blob=new Blob(["﻿"+h+"\n"+rows.join("\n")],{type:"text/csv;charset=utf-8;"});
-  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=(prefix||"MK_Clippings_")+fD(new Date().toISOString())+".csv";a.click();
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=(prefix||CSV_PREFIX)+fD(new Date().toISOString())+".csv";a.click();
 }
 // Neu hinzugekommen = Zeitpunkt, an dem der Agent oder die Eingabe den Treffer gespeichert hat (added_at, UTC),
 // nicht das Erscheinungsdatum. Statistik, Clippings-Tab und Excel zeigen weiter alle Treffer.
@@ -380,6 +393,70 @@ function askHours(){
   return h;
 }
 
+function clipKey(c){return c.id||c.link||((c.date||"")+"|"+(c.outlet||"")+"|"+(c.title||""));}
+function fDT(iso){const d=new Date(iso);if(isNaN(d))return "";const p=n=>String(n).padStart(2,"0");return `${p(d.getDate())}.${p(d.getMonth()+1)}., ${p(d.getHours())}:${p(d.getMinutes())}`;}
+function reportedInfo(c,kind){
+  const r=(reported[kind]||{})[clipKey(c)];
+  if(r) return r;
+  const b=reported.baseline?Date.parse(reported.baseline):0;
+  if(b&&addedTime(c)<b) return {at:reported.baseline,by:"",baseline:true}; // vor Einführung des Vermerks
+  return null;
+}
+function openClips(kind){return clips.filter(c=>!reportedInfo(c,kind)).sort((a,b)=>(b.date||"").localeCompare(a.date||""));}
+function lastLog(kind){const l=(reported.log||[]).filter(x=>x.kind===kind);return l.length?l[l.length-1]:null;}
+function statusPills(c){
+  return ["kunde","team"].map(k=>{const r=reportedInfo(c,k),l=k==="kunde"?"Kunde":"Team";
+    if(!r) return `<span class="pill" style="background:#78350f;color:#fde68a">${l} offen</span>`;
+    return `<span class="pill">${l} ${r.baseline?"Altbestand":esc(fDT(r.at).slice(0,6))}</span>`;}).join("");
+}
+function savePending(p){pendingMark=p;try{p?localStorage.setItem(PENDING_KEY,JSON.stringify(p)):localStorage.removeItem(PENDING_KEY);}catch(e){}}
+function loadPending(){try{const d=localStorage.getItem(PENDING_KEY);pendingMark=d?JSON.parse(d):null;}catch(e){pendingMark=null;}}
+function initials(){
+  let k="";try{k=localStorage.getItem(INITIALS_KEY)||"";}catch(e){}
+  if(!k){k=(prompt("Dein Kürzel für den Vermerk (z. B. SDJ). Wird auf diesem Gerät gespeichert.","")||"").trim().toUpperCase().slice(0,6);
+    if(k){try{localStorage.setItem(INITIALS_KEY,k);}catch(e){}}}
+  return k;
+}
+async function markReported(kind,keys){
+  if(!token()){alert("Zum Markieren braucht dieses Gerät den Zugang (Tab Zugang).");return false;}
+  const by=initials();
+  for(let attempt=0;attempt<3;attempt++){
+    let f;
+    try{f=await ghFile(REPORTED_PATH);}catch(e){alert("Meldestand nicht lesbar: "+e.message);return false;}
+    let data={kunde:{},team:{},log:[],baseline:""};
+    try{if(f.text) data=Object.assign(data,JSON.parse(f.text));}catch(e){}
+    const at=new Date().toISOString().slice(0,19)+"Z";
+    data[kind]=data[kind]||{};
+    let n=0;keys.forEach(k=>{if(!data[kind][k]){data[kind][k]={at,by};n++;}});
+    data.log=(data.log||[]).concat([{kind,at,by,count:n}]).slice(-500);
+    try{
+      await ghPut(REPORTED_PATH,b64utf8(JSON.stringify(data,null,1)),`${kind==="kunde"?"Kunden":"Team"}-Mail: ${n} Treffer als gemeldet markiert (${by||"ohne Kürzel"})`,f.sha);
+      reported=data;return true;
+    }catch(e){if(e.status===409||e.status===422)continue;alert("Speichern fehlgeschlagen: "+e.message);return false;}
+  }
+  alert("Speichern fehlgeschlagen, bitte erneut versuchen.");return false;
+}
+async function confirmPending(yes){
+  const p=pendingMark;if(!p)return;
+  if(yes){if(!(await markReported(p.kind,p.keys)))return;
+    flash=`${p.keys.length} Treffer als an ${p.kind==="kunde"?"den Kunden":"das Team"} gemeldet markiert.`;}
+  savePending(null);render();
+}
+async function markAllOpen(kind){
+  const list=openClips(kind);if(!list.length)return;
+  if(!confirm(`${list.length} offene Treffer ohne Mail als an ${kind==="kunde"?"den Kunden":"das Team"} gemeldet markieren? Nur nutzen, wenn sie schon anders verschickt wurden.`))return;
+  if(await markReported(kind,list.map(clipKey))){flash=`${list.length} Treffer als gemeldet markiert.`;render();}
+}
+function pendingBanner(){
+  if(!pendingMark) return "";
+  const p=pendingMark;
+  return `<div class="card" style="border-color:#f59e0b;background:#1c1405;margin-bottom:12px">
+    <div style="font-size:14px;color:#fde68a;font-weight:600">${p.kind==="kunde"?"Kunden-Mail":"Team-Mail"} mit ${p.keys.length} Treffern verschickt?</div>
+    <div class="note" style="margin:4px 0 8px">Erstellt ${fDT(p.created)} Uhr. Erst bestätigen, wenn die Mail in Outlook raus ist. Dann gelten die Treffer als gemeldet, für alle sichtbar.</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn okb" onclick="confirmPending(true)">Ja, verschickt</button><button class="ghost" onclick="confirmPending(false)">Nein, nicht verschickt</button></div>
+  </div>`;
+}
+
 function getToday(){
   const today = new Date();
   const dd = String(today.getDate()).padStart(2,'0');
@@ -389,10 +466,9 @@ function getToday(){
 }
 
 function sendMailKunde(){
-  const hours = askHours();
-  if(!hours) return;
-  const recent = getRecentClips(hours);
-  if(!recent.length){ alert("Keine neuen Clippings in den letzten " + hours + " Stunden."); return; }
+  if(reported._missing){ alert("Der Meldestand konnte nicht geladen werden. Bitte „Neu laden“ und erneut versuchen."); return; }
+  const recent = openClips("kunde");
+  if(!recent.length){ alert("Alle Treffer sind schon an den Kunden gemeldet."); return; }
   
   const groups = {"D":[],"A":[],"CH":[],"DACH":[]};
   recent.forEach(c => {
@@ -413,14 +489,14 @@ function sendMailKunde(){
   body += "\nBest regards,\nDante";
   
   const subject = "MK Global Kapital - Media Coverage / " + getToday();
+  savePending({kind:"kunde",keys:recent.map(clipKey),created:new Date().toISOString()}); render();
   window.location.href = "ms-outlook://compose?from=sdj%40te-communications.de&subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
 }
 
 function sendMailTeam(){
-  const hours = askHours();
-  if(!hours) return;
-  const recent = getRecentClips(hours);
-  if(!recent.length){ alert("Keine neuen Clippings in den letzten " + hours + " Stunden."); return; }
+  if(reported._missing){ alert("Der Meldestand konnte nicht geladen werden. Bitte „Neu laden“ und erneut versuchen."); return; }
+  const recent = openClips("team");
+  if(!recent.length){ alert("Alle Treffer sind schon an das Team gemeldet."); return; }
   
   let body = "MK Global Kapital (DEAT, CH deutschsprachig):\n\n";
   recent.forEach(c => {
@@ -428,12 +504,15 @@ function sendMailTeam(){
   });
   
   const subject = "Monitoring " + getToday();
+  savePending({kind:"team",keys:recent.map(clipKey),created:new Date().toISOString()}); render();
   window.location.href = "ms-outlook://compose?from=sdj%40te-communications.de&subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
 }
 
 // Init
+loadPending();
 render();
 loadAll();
+document.addEventListener("visibilitychange",()=>{if(!document.hidden){loadPending();render();}});
 </script>
 </body>
 </html>
