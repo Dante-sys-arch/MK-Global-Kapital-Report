@@ -1,9 +1,9 @@
 {
   "client": "mk-global-kapital",
-  "run_at": "2026-10-18T01:17:14+00:00",
+  "run_at": "2026-10-19T01:28:33+00:00",
   "mode": "daily",
   "dry_run": false,
-  "duration_s": 849,
+  "duration_s": 678,
   "health": {
     "status": "warn",
     "problems": [],
@@ -12,17 +12,18 @@
     ]
   },
   "counts": {
-    "candidates": 634,
-    "unique": 472,
+    "candidates": 581,
+    "unique": 381,
     "already_known": 51,
-    "already_checked": 49,
-    "fetched": 379,
-    "fetch_failed": 1,
-    "no_match": 371,
+    "already_checked": 44,
+    "fetched": 288,
+    "fetch_failed": 5,
+    "no_match": 282,
     "gnews_unresolved": 0,
     "review_decisions": 0,
     "inbox_files": 0,
-    "backfill_month": "2025-09",
+    "backfill_month": "2025-10",
+    "too_old": 2,
     "enriched": 0,
     "deferred": 0
   },
@@ -58,42 +59,42 @@
       ]
     },
     "gnews": {
-      "requests": 122,
-      "ok": 122,
+      "requests": 125,
+      "ok": 125,
       "errors": 0,
-      "candidates": 30,
+      "candidates": 28,
       "notes": []
     },
     "bing": {
       "requests": 33,
       "ok": 33,
       "errors": 0,
-      "candidates": 36,
+      "candidates": 39,
       "notes": []
     },
     "sitemap": {
       "requests": 36,
-      "ok": 22,
+      "ok": 20,
       "errors": 8,
-      "candidates": 465,
+      "candidates": 422,
       "notes": [
-        "moneycab.com: 171 neue Artikel, 100 in diesem Lauf geprüft, Rest folgt",
+        "payoff.ch: Sitemap ohne Einträge",
         "private-banking-magazin.de: Sitemap ohne Einträge",
         "institutional-money.com: keine Sitemap gefunden",
         "fixed-income.org: keine Sitemap gefunden",
-        "altii.de: 113 neue Artikel, 100 in diesem Lauf geprüft, Rest folgt",
-        "e-fundresearch.com: 234 neue Artikel, 100 in diesem Lauf geprüft, Rest folgt",
+        "e-fundresearch.com: 167 neue Artikel, 100 in diesem Lauf geprüft, Rest folgt",
         "gruenderkueche.de: Sitemap ohne Einträge",
         "exxecnews.org: keine Sitemap gefunden",
         "swissfinanceai.ch: Sitemap ohne Einträge",
         "handelszeitung.ch: Sitemap ohne Einträge",
         "dasinvestment.com: Sitemap ohne Einträge",
-        "privatemarkets360.com: 234 neue Artikel, 100 in diesem Lauf geprüft, Rest folgt",
+        "privatemarkets360.com: 167 neue Artikel, 100 in diesem Lauf geprüft, Rest folgt",
         "allnews.ch: keine Sitemap gefunden",
         "fondsprofessionell.de: keine Sitemap gefunden",
         "fondsprofessionell.at: keine Sitemap gefunden",
         "citywire.de: keine Sitemap gefunden",
         "finanzwelt.de: Sitemap ohne Einträge",
+        "procontra-online.de: Sitemap ohne Einträge",
         "fondstrends.ch: keine Sitemap gefunden"
       ]
     },
@@ -110,7 +111,7 @@
       "requests": 8,
       "ok": 8,
       "errors": 0,
-      "candidates": 28,
+      "candidates": 22,
       "notes": []
     },
     "serper": {
@@ -123,11 +124,12 @@
       ]
     },
     "site": {
-      "requests": 52,
-      "ok": 10,
+      "requests": 48,
+      "ok": 9,
       "errors": 2,
       "candidates": 74,
       "notes": [
+        "payoff.ch: keine WordPress-Suche (HTTP 500)",
         "exxecnews.org: ConnectionError",
         "citywire.de: SSLError"
       ]
@@ -138,7 +140,11 @@
       "errors": 0,
       "candidates": 0,
       "notes": [
-        "background.tagesspiegel.de: HTTP 403"
+        "finanzen.net: HTTP 403",
+        "platow.de: HTTP 404",
+        "platow.de: HTTP 404",
+        "platow.de: HTTP 404",
+        "rabota.md: HTTP 403"
       ]
     },
     "claude": {
@@ -149,52 +155,81 @@
       "notes": []
     }
   },
-  "new": [],
-  "new_review": [],
+  "new": [
+    {
+      "date": "2026-09-10",
+      "outlet": "Börsen-Zeitung",
+      "title": "Private Debt: Wenn Diversifikation nur auf dem Papier besteht",
+      "link": "https://www.boersen-zeitung.de/boersen-zeitung-spezial/private-debt-wenn-diversifikation-nur-auf-dem-papier-besteht",
+      "people": [
+        "Johannes Feist"
+      ],
+      "byline": true,
+      "found_via": [
+        "gnews"
+      ],
+      "verified": "volltext"
+    }
+  ],
+  "new_review": [
+    {
+      "id": "r-bac06938c0",
+      "link": "https://www.bestjobs.eu/job/associate-f-a-ap-5a/similar",
+      "title": "Joburi similare cu Associate - F&A",
+      "outlet": "Bestjobs.eu",
+      "date": "2026-09-15",
+      "people": [],
+      "reason": "englischsprachig: zählt das? (Regel offen)",
+      "found_via": [
+        "serpapi"
+      ],
+      "medium": "Online",
+      "country": "",
+      "source_kind": "",
+      "source_file": "",
+      "snippet": "Economist. Economist. MIKRO KAPITAL IFN. 1105 - 1220 (Estimare). Iași, România. Aplică & Începe interviul. Customer Agent with Italian & English- Iasi ...",
+      "added_at": "2026-10-19T01:28:26"
+    },
+    {
+      "id": "r-0bfd2ebc0c",
+      "link": "https://www.moneycab.com/finanz/reyl-market-insight-uae-maerkte-2025-dynamik-im-finanzzentrum-dubai/",
+      "title": "Reyl Market Insight: UAE-Märkte 2025",
+      "outlet": "Moneycab",
+      "date": "2025-10-07",
+      "people": [
+        "Louiza Savchenko"
+      ],
+      "reason": "unklar: Die Fundstelle ist ein Reyl-Artikel zu den UAE-Märkten. Louiza Savchenko (MK Global Kapital) steht nur in einer Bildunterschrift, die zu einem anderen Teaser auf der Seite gehört (tokenisierte Obligation). Das sieht nach einem Teaser oder einer Linkliste aus. Ob der verlinkte Artikel von ihr stammt oder sie zitiert, ist unklar. Bitte Seite bzw. den anderen Artikel prüfen.",
+      "found_via": [
+        "gnews"
+      ],
+      "medium": "Online",
+      "country": "",
+      "source_kind": "",
+      "source_file": "",
+      "snippet": "Reyl Market Insight: UAE-Märkte 2025 – Dynamik im Finanzzentrum Dubai Moneycab",
+      "added_at": "2026-10-19T01:28:31"
+    }
+  ],
   "rejected": [
     {
-      "link": "https://www.moneycab.com/tag/ceo/",
-      "title": "CEO Archives",
-      "reason": "Übersichts- oder Archivseite, kein Artikel"
-    },
-    {
-      "link": "https://www.moneycab.com/category/finanz/invest/",
-      "title": "Invest Archives",
-      "reason": "Übersichts- oder Archivseite, kein Artikel"
-    },
-    {
-      "link": "https://www.radio-ecuador.org/podcasts/market-mover",
-      "title": "Escucha Market Mover Podcast",
+      "link": "https://www.milanofinanza.it/newsmarketdriver/market-driver-mk-global-kapital-202604161828011380",
+      "title": "MARKET DRIVER: (Mk Global Kapital)",
       "reason": "italienischsprachig, kein DACH-Medium"
     },
     {
-      "link": "https://otzyvy.by/uslugi/",
-      "title": "отзывы, идеи, предложения",
+      "link": "http://sedinte.curteadeapelsuceava.ro/sedinte/314/16.03.2026",
+      "title": "Judecătoria Suceava modifică data",
       "reason": "nicht deutschsprachig, kein DACH-Medium"
     },
     {
-      "link": "https://minsk.employmentcenter.ru/vacancy/?action=read2&id=46851118",
-      "title": "Специалист отдела по взысканию дебиторской задолженности",
-      "reason": "nicht deutschsprachig, kein DACH-Medium"
-    },
-    {
-      "link": "https://www.bestjobs.eu/job/document-controller-asistent-manager/similar",
-      "title": "Joburi similare cu Asistent manager/ Document controller",
-      "reason": "nicht deutschsprachig, kein DACH-Medium"
-    },
-    {
-      "link": "https://www.moneycab.com/dossiers/ja-zur-e-id-digitalswitzerland-geht-mit-bund-und-wirtschaft-in-die-umsetzung-konkreter-anwendungsfaelle/",
-      "title": "Ja zur e-ID: digitalswitzerland geht mit Bund und Wirtschaft in die Umsetzung konkreter Anwendungsfälle",
-      "reason": "Claude: Der Artikel behandelt die e-ID und digitalswitzerland. Die Erwähnung von Louiza Savchenko steht nur in einem Teaser eines anderen Beitrags (Tokenisierung, Bildunterschrift) auf der Dossier-Seite, also in einer Seitenleiste oder Linkliste."
-    },
-    {
-      "link": "https://www.moneycab.com/dossiers/smzh-einschaetzungen-zur-geldpolitischen-lagebeurteilung-der-snb-vom-25-09-2025/",
-      "title": "smzh: Einschätzungen zur geldpolitischen Lagebeurteilung der SNB vom 25.09.2025",
-      "reason": "Claude: Der Artikel behandelt die SNB-Lagebeurteilung. Der identische Teaser mit Louiza Savchenko erscheint auch auf der anderen Dossier-Seite und gehört nicht zum Artikeltext, sondern zu einer Seitenleiste oder Linkliste."
+      "link": "https://www.rabota.md/ru/locuri-de-munca/ofiter-de-credite-soroca-experienta-in-sectorul-creditarii-bancare-nebancare/130173",
+      "title": "Ofițer de credite, Soroca (experiență în sectorul creditării ...",
+      "reason": "Claude: Stellenanzeige (Ofițer de credite) auf einem Jobportal, die MK Global Kapital nur als Arbeitgeber nennt."
     }
   ],
-  "review_open": 5,
-  "total_clippings": 133,
+  "review_open": 7,
+  "total_clippings": 134,
   "placements": {
     "total": 0,
     "found_now": [],

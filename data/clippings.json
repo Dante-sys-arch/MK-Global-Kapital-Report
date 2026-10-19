@@ -93,6 +93,28 @@
     "id": "a-1792146257-19"
   },
   {
+    "date": "2026-09-10",
+    "outlet": "Börsen-Zeitung",
+    "title": "Private Debt: Wenn Diversifikation nur auf dem Papier besteht",
+    "country": "D",
+    "type": "Online",
+    "tier": 1,
+    "link": "https://www.boersen-zeitung.de/boersen-zeitung-spezial/private-debt-wenn-diversifikation-nur-auf-dem-papier-besteht",
+    "people": [
+      "Johannes Feist"
+    ],
+    "byline": true,
+    "author": "Johannes Feist",
+    "found_via": [
+      "gnews"
+    ],
+    "verified": "volltext",
+    "date_source": "seite",
+    "added_at": "2026-10-19T01:28:25",
+    "source": "auto",
+    "id": "a-1792373305-0"
+  },
+  {
     "date": "2026-09-08",
     "outlet": "Private Banking Magazin",
     "title": "Private Credit in Zentralasien",

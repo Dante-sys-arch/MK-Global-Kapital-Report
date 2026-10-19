@@ -82,5 +82,43 @@
     "source_file": "20261016-test-text.json",
     "snippet": "Marktkommentar von Johannes Feist, CEO von MK Global Kapital; Autorenangabe auf der Seite: Raja; Text im Eingang abgeschnitten",
     "added_at": "2026-10-16T13:41:54"
+  },
+  {
+    "id": "r-bac06938c0",
+    "link": "https://www.bestjobs.eu/job/associate-f-a-ap-5a/similar",
+    "title": "Joburi similare cu Associate - F&A",
+    "outlet": "Bestjobs.eu",
+    "date": "2026-09-15",
+    "people": [],
+    "reason": "englischsprachig: zählt das? (Regel offen)",
+    "found_via": [
+      "serpapi"
+    ],
+    "medium": "Online",
+    "country": "",
+    "source_kind": "",
+    "source_file": "",
+    "snippet": "Economist. Economist. MIKRO KAPITAL IFN. 1105 - 1220 (Estimare). Iași, România. Aplică & Începe interviul. Customer Agent with Italian & English- Iasi ...",
+    "added_at": "2026-10-19T01:28:26"
+  },
+  {
+    "id": "r-0bfd2ebc0c",
+    "link": "https://www.moneycab.com/finanz/reyl-market-insight-uae-maerkte-2025-dynamik-im-finanzzentrum-dubai/",
+    "title": "Reyl Market Insight: UAE-Märkte 2025",
+    "outlet": "Moneycab",
+    "date": "2025-10-07",
+    "people": [
+      "Louiza Savchenko"
+    ],
+    "reason": "unklar: Die Fundstelle ist ein Reyl-Artikel zu den UAE-Märkten. Louiza Savchenko (MK Global Kapital) steht nur in einer Bildunterschrift, die zu einem anderen Teaser auf der Seite gehört (tokenisierte Obligation). Das sieht nach einem Teaser oder einer Linkliste aus. Ob der verlinkte Artikel von ihr stammt oder sie zitiert, ist unklar. Bitte Seite bzw. den anderen Artikel prüfen.",
+    "found_via": [
+      "gnews"
+    ],
+    "medium": "Online",
+    "country": "",
+    "source_kind": "",
+    "source_file": "",
+    "snippet": "Reyl Market Insight: UAE-Märkte 2025 – Dynamik im Finanzzentrum Dubai Moneycab",
+    "added_at": "2026-10-19T01:28:31"
   }
 ]
