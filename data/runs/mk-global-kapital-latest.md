@@ -1,4 +1,4 @@
-# Laufbericht mk-global-kapital – 2026-10-19T01:28:33+00:00 (daily)
+# Laufbericht mk-global-kapital – 2026-10-20T02:01:42+00:00 (daily)
 
 **Status: WARNUNG**
 
@@ -9,29 +9,28 @@
 | Kanal | Anfragen | erfolgreich | Fehler | Kandidaten |
 |---|---|---|---|---|
 | RSS-Feeds | 53 | 31 | 22 | 1 |
-| Google News | 125 | 125 | 0 | 28 |
-| Bing News | 33 | 33 | 0 | 39 |
-| Neue Artikel der Stammmedien | 36 | 20 | 8 | 422 |
+| Google News | 125 | 125 | 0 | 23 |
+| Bing News | 33 | 33 | 0 | 36 |
+| Neue Artikel der Stammmedien | 36 | 21 | 8 | 435 |
 | Google Websuche (Custom Search) | 0 | 0 | 0 | 0 |
-| SerpApi (Google Web) | 8 | 8 | 0 | 22 |
+| SerpApi (Google Web) | 8 | 8 | 0 | 26 |
 | Serper (Google Web + News) | 0 | 0 | 0 | 0 |
-| Seitensuche der Stammmedien | 48 | 9 | 2 | 74 |
+| Seitensuche der Stammmedien | 47 | 9 | 2 | 74 |
 | Artikelseiten | 0 | 0 | 0 | 0 |
 | Claude-Prüfung | 1 | 1 | 0 | 0 |
 
-Kandidaten 581, davon eindeutig 381, schon bekannt 51, schon geprüft 44, Seiten geladen 288, nicht lesbar 5, ohne Treffer 282, Google-News-Links offen 0, aus Zeitgründen verschoben 0.
+Kandidaten 595, davon eindeutig 451, schon bekannt 51, schon geprüft 46, Seiten geladen 359, nicht lesbar 2, ohne Treffer 356, Google-News-Links offen 0, aus Zeitgründen verschoben 0.
 
 ## Neue Clippings (1)
-- 2026-09-10 | Börsen-Zeitung | Private Debt: Wenn Diversifikation nur auf dem Papier besteht | Johannes Feist | via gnews | https://www.boersen-zeitung.de/boersen-zeitung-spezial/private-debt-wenn-diversifikation-nur-auf-dem-papier-besteht
+- 2026-10-20 | Allnews | L'eau, un risque financier sous-estimé | Louiza Savchenko | via serpapi | https://www.allnews.ch/content/points-de-vue/leau-un-risque-financier-sous-estime
 
-## Neu in der Prüfliste (2, offen gesamt 7)
-- 2026-09-15 | Bestjobs.eu | Joburi similare cu Associate - F&A | englischsprachig: zählt das? (Regel offen) | https://www.bestjobs.eu/job/associate-f-a-ap-5a/similar
-- 2025-10-07 | Moneycab | Reyl Market Insight: UAE-Märkte 2025 | unklar: Die Fundstelle ist ein Reyl-Artikel zu den UAE-Märkten. Louiza Savchenko (MK Global Kapital) steht nur in einer Bildunterschrift, die zu einem anderen Teaser auf der Seite gehört (tokenisierte Obligation). Das sieht nach einem Teaser oder einer Linkliste aus. Ob der verlinkte Artikel von ihr stammt oder sie zitiert, ist unklar. Bitte Seite bzw. den anderen Artikel prüfen. | https://www.moneycab.com/finanz/reyl-market-insight-uae-maerkte-2025-dynamik-im-finanzzentrum-dubai/
+## Neu in der Prüfliste (0, offen gesamt 7)
 
-## Verworfen (3)
-- MARKET DRIVER: (Mk Global Kapital) | italienischsprachig, kein DACH-Medium | https://www.milanofinanza.it/newsmarketdriver/market-driver-mk-global-kapital-202604161828011380
-- Judecătoria Suceava modifică data | nicht deutschsprachig, kein DACH-Medium | http://sedinte.curteadeapelsuceava.ro/sedinte/314/16.03.2026
-- Ofițer de credite, Soroca (experiență în sectorul creditării ... | Claude: Stellenanzeige (Ofițer de credite) auf einem Jobportal, die MK Global Kapital nur als Arbeitgeber nennt. | https://www.rabota.md/ru/locuri-de-munca/ofiter-de-credite-soroca-experienta-in-sectorul-creditarii-bancare-nebancare/130173
+## Verworfen (4)
+- 7 | nicht deutschsprachig, kein DACH-Medium | https://www.cnews.ru/book/pagination/142013/auto_pages/3/240?preview=1
+- Aberdeen Investments: Der blinde Fleck der Märkte | Claude: Der Artikel handelt von Aberdeen Investments. Savchenko und MK Global Kapital stehen nur im Teaser eines anderen Artikels (Seitenleiste/Linkliste) auf der Seite. | https://www.moneycab.com/finanz/aberdeen-investments-der-blinde-fleck-der-maerkte/
+- Vibrational Mode Assignments and Substituent Effects | Claude: Namensvetter: Johannes Feist ist hier Autor einer physikalisch-chemischen Forschungsarbeit, ohne Bezug zu MK Global Kapital. | https://www.researchgate.net/publication/415925392_Theoretical_Study_on_Vibronically_Resolved_Spectra_of_Six_Heteroatom-Doped_Benzannulated_4Helicenes_Vibrational_Mode_Assignments_and_Substituent_Effects
+- Bellevue Asset Management: Medtech – Operativ stark, an der Börse unterschätzt | Claude: Der Artikel handelt von Bellevue Asset Management und Medtech. Savchenko steht nur im Teaser eines anderen Artikels (Seitenleiste/Linkliste) auf der Seite. | https://www.moneycab.com/dossiers/bellevue-asset-management-medtech-operativ-stark-an-der-boerse-unterschaetzt/
 
 ## Hinweise je Kanal
 - RSS-Feeds: https://www.dasinvestment.com/feed/: HTTP 404
@@ -56,17 +55,14 @@ Kandidaten 581, davon eindeutig 381, schon bekannt 51, schon geprüft 44, Seiten
 - RSS-Feeds: https://fondstrends.ch/feed/: keine Einträge
 - RSS-Feeds: https://www.fundresearch.de/feed/: HTTP 404
 - RSS-Feeds: https://privatemarkets360.com/feed/: HTTP 404
-- Neue Artikel der Stammmedien: payoff.ch: Sitemap ohne Einträge
 - Neue Artikel der Stammmedien: private-banking-magazin.de: Sitemap ohne Einträge
 - Neue Artikel der Stammmedien: institutional-money.com: keine Sitemap gefunden
 - Neue Artikel der Stammmedien: fixed-income.org: keine Sitemap gefunden
-- Neue Artikel der Stammmedien: e-fundresearch.com: 167 neue Artikel, 100 in diesem Lauf geprüft, Rest folgt
 - Neue Artikel der Stammmedien: gruenderkueche.de: Sitemap ohne Einträge
 - Neue Artikel der Stammmedien: exxecnews.org: keine Sitemap gefunden
 - Neue Artikel der Stammmedien: swissfinanceai.ch: Sitemap ohne Einträge
 - Neue Artikel der Stammmedien: handelszeitung.ch: Sitemap ohne Einträge
 - Neue Artikel der Stammmedien: dasinvestment.com: Sitemap ohne Einträge
-- Neue Artikel der Stammmedien: privatemarkets360.com: 167 neue Artikel, 100 in diesem Lauf geprüft, Rest folgt
 - Neue Artikel der Stammmedien: allnews.ch: keine Sitemap gefunden
 - Neue Artikel der Stammmedien: fondsprofessionell.de: keine Sitemap gefunden
 - Neue Artikel der Stammmedien: fondsprofessionell.at: keine Sitemap gefunden
@@ -74,13 +70,10 @@ Kandidaten 581, davon eindeutig 381, schon bekannt 51, schon geprüft 44, Seiten
 - Neue Artikel der Stammmedien: finanzwelt.de: Sitemap ohne Einträge
 - Neue Artikel der Stammmedien: procontra-online.de: Sitemap ohne Einträge
 - Neue Artikel der Stammmedien: fondstrends.ch: keine Sitemap gefunden
+- Neue Artikel der Stammmedien: cash.ch: 131 neue Artikel, 100 in diesem Lauf geprüft, Rest folgt
 - Google Websuche (Custom Search): Custom Search ohne Zugang (seit 2026-10-17), Kanal aus
 - Serper (Google Web + News): kein SERPER_API_KEY hinterlegt, Kanal aus
-- Seitensuche der Stammmedien: payoff.ch: keine WordPress-Suche (HTTP 500)
 - Seitensuche der Stammmedien: exxecnews.org: ConnectionError
 - Seitensuche der Stammmedien: citywire.de: SSLError
-- Artikelseiten: finanzen.net: HTTP 403
-- Artikelseiten: platow.de: HTTP 404
-- Artikelseiten: platow.de: HTTP 404
-- Artikelseiten: platow.de: HTTP 404
-- Artikelseiten: rabota.md: HTTP 403
+- Artikelseiten: researchgate.net: HTTP 403
+- Artikelseiten: allnews.ch: HTTP 403

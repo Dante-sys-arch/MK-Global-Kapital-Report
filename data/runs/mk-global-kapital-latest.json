@@ -1,9 +1,9 @@
 {
   "client": "mk-global-kapital",
-  "run_at": "2026-10-19T01:28:33+00:00",
+  "run_at": "2026-10-20T02:01:42+00:00",
   "mode": "daily",
   "dry_run": false,
-  "duration_s": 678,
+  "duration_s": 677,
   "health": {
     "status": "warn",
     "problems": [],
@@ -12,18 +12,17 @@
     ]
   },
   "counts": {
-    "candidates": 581,
-    "unique": 381,
+    "candidates": 595,
+    "unique": 451,
     "already_known": 51,
-    "already_checked": 44,
-    "fetched": 288,
-    "fetch_failed": 5,
-    "no_match": 282,
+    "already_checked": 46,
+    "fetched": 359,
+    "fetch_failed": 2,
+    "no_match": 356,
     "gnews_unresolved": 0,
     "review_decisions": 0,
     "inbox_files": 0,
-    "backfill_month": "2025-10",
-    "too_old": 2,
+    "backfill_month": "2025-11",
     "enriched": 0,
     "deferred": 0
   },
@@ -62,40 +61,38 @@
       "requests": 125,
       "ok": 125,
       "errors": 0,
-      "candidates": 28,
+      "candidates": 23,
       "notes": []
     },
     "bing": {
       "requests": 33,
       "ok": 33,
       "errors": 0,
-      "candidates": 39,
+      "candidates": 36,
       "notes": []
     },
     "sitemap": {
       "requests": 36,
-      "ok": 20,
+      "ok": 21,
       "errors": 8,
-      "candidates": 422,
+      "candidates": 435,
       "notes": [
-        "payoff.ch: Sitemap ohne Einträge",
         "private-banking-magazin.de: Sitemap ohne Einträge",
         "institutional-money.com: keine Sitemap gefunden",
         "fixed-income.org: keine Sitemap gefunden",
-        "e-fundresearch.com: 167 neue Artikel, 100 in diesem Lauf geprüft, Rest folgt",
         "gruenderkueche.de: Sitemap ohne Einträge",
         "exxecnews.org: keine Sitemap gefunden",
         "swissfinanceai.ch: Sitemap ohne Einträge",
         "handelszeitung.ch: Sitemap ohne Einträge",
         "dasinvestment.com: Sitemap ohne Einträge",
-        "privatemarkets360.com: 167 neue Artikel, 100 in diesem Lauf geprüft, Rest folgt",
         "allnews.ch: keine Sitemap gefunden",
         "fondsprofessionell.de: keine Sitemap gefunden",
         "fondsprofessionell.at: keine Sitemap gefunden",
         "citywire.de: keine Sitemap gefunden",
         "finanzwelt.de: Sitemap ohne Einträge",
         "procontra-online.de: Sitemap ohne Einträge",
-        "fondstrends.ch: keine Sitemap gefunden"
+        "fondstrends.ch: keine Sitemap gefunden",
+        "cash.ch: 131 neue Artikel, 100 in diesem Lauf geprüft, Rest folgt"
       ]
     },
     "google": {
@@ -111,7 +108,7 @@
       "requests": 8,
       "ok": 8,
       "errors": 0,
-      "candidates": 22,
+      "candidates": 26,
       "notes": []
     },
     "serper": {
@@ -124,12 +121,11 @@
       ]
     },
     "site": {
-      "requests": 48,
+      "requests": 47,
       "ok": 9,
       "errors": 2,
       "candidates": 74,
       "notes": [
-        "payoff.ch: keine WordPress-Suche (HTTP 500)",
         "exxecnews.org: ConnectionError",
         "citywire.de: SSLError"
       ]
@@ -140,11 +136,8 @@
       "errors": 0,
       "candidates": 0,
       "notes": [
-        "finanzen.net: HTTP 403",
-        "platow.de: HTTP 404",
-        "platow.de: HTTP 404",
-        "platow.de: HTTP 404",
-        "rabota.md: HTTP 403"
+        "researchgate.net: HTTP 403",
+        "allnews.ch: HTTP 403"
       ]
     },
     "claude": {
@@ -157,79 +150,45 @@
   },
   "new": [
     {
-      "date": "2026-09-10",
-      "outlet": "Börsen-Zeitung",
-      "title": "Private Debt: Wenn Diversifikation nur auf dem Papier besteht",
-      "link": "https://www.boersen-zeitung.de/boersen-zeitung-spezial/private-debt-wenn-diversifikation-nur-auf-dem-papier-besteht",
-      "people": [
-        "Johannes Feist"
-      ],
-      "byline": true,
-      "found_via": [
-        "gnews"
-      ],
-      "verified": "volltext"
-    }
-  ],
-  "new_review": [
-    {
-      "id": "r-bac06938c0",
-      "link": "https://www.bestjobs.eu/job/associate-f-a-ap-5a/similar",
-      "title": "Joburi similare cu Associate - F&A",
-      "outlet": "Bestjobs.eu",
-      "date": "2026-09-15",
-      "people": [],
-      "reason": "englischsprachig: zählt das? (Regel offen)",
-      "found_via": [
-        "serpapi"
-      ],
-      "medium": "Online",
-      "country": "",
-      "source_kind": "",
-      "source_file": "",
-      "snippet": "Economist. Economist. MIKRO KAPITAL IFN. 1105 - 1220 (Estimare). Iași, România. Aplică & Începe interviul. Customer Agent with Italian & English- Iasi ...",
-      "added_at": "2026-10-19T01:28:26"
-    },
-    {
-      "id": "r-0bfd2ebc0c",
-      "link": "https://www.moneycab.com/finanz/reyl-market-insight-uae-maerkte-2025-dynamik-im-finanzzentrum-dubai/",
-      "title": "Reyl Market Insight: UAE-Märkte 2025",
-      "outlet": "Moneycab",
-      "date": "2025-10-07",
+      "date": "2026-10-20",
+      "outlet": "Allnews",
+      "title": "L'eau, un risque financier sous-estimé",
+      "link": "https://www.allnews.ch/content/points-de-vue/leau-un-risque-financier-sous-estime",
       "people": [
         "Louiza Savchenko"
       ],
-      "reason": "unklar: Die Fundstelle ist ein Reyl-Artikel zu den UAE-Märkten. Louiza Savchenko (MK Global Kapital) steht nur in einer Bildunterschrift, die zu einem anderen Teaser auf der Seite gehört (tokenisierte Obligation). Das sieht nach einem Teaser oder einer Linkliste aus. Ob der verlinkte Artikel von ihr stammt oder sie zitiert, ist unklar. Bitte Seite bzw. den anderen Artikel prüfen.",
+      "byline": false,
       "found_via": [
-        "gnews"
+        "serpapi"
       ],
-      "medium": "Online",
-      "country": "",
-      "source_kind": "",
-      "source_file": "",
-      "snippet": "Reyl Market Insight: UAE-Märkte 2025 – Dynamik im Finanzzentrum Dubai Moneycab",
-      "added_at": "2026-10-19T01:28:31"
+      "verified": "claude"
     }
   ],
+  "new_review": [],
   "rejected": [
     {
-      "link": "https://www.milanofinanza.it/newsmarketdriver/market-driver-mk-global-kapital-202604161828011380",
-      "title": "MARKET DRIVER: (Mk Global Kapital)",
-      "reason": "italienischsprachig, kein DACH-Medium"
-    },
-    {
-      "link": "http://sedinte.curteadeapelsuceava.ro/sedinte/314/16.03.2026",
-      "title": "Judecătoria Suceava modifică data",
+      "link": "https://www.cnews.ru/book/pagination/142013/auto_pages/3/240?preview=1",
+      "title": "7",
       "reason": "nicht deutschsprachig, kein DACH-Medium"
     },
     {
-      "link": "https://www.rabota.md/ru/locuri-de-munca/ofiter-de-credite-soroca-experienta-in-sectorul-creditarii-bancare-nebancare/130173",
-      "title": "Ofițer de credite, Soroca (experiență în sectorul creditării ...",
-      "reason": "Claude: Stellenanzeige (Ofițer de credite) auf einem Jobportal, die MK Global Kapital nur als Arbeitgeber nennt."
+      "link": "https://www.moneycab.com/finanz/aberdeen-investments-der-blinde-fleck-der-maerkte/",
+      "title": "Aberdeen Investments: Der blinde Fleck der Märkte",
+      "reason": "Claude: Der Artikel handelt von Aberdeen Investments. Savchenko und MK Global Kapital stehen nur im Teaser eines anderen Artikels (Seitenleiste/Linkliste) auf der Seite."
+    },
+    {
+      "link": "https://www.researchgate.net/publication/415925392_Theoretical_Study_on_Vibronically_Resolved_Spectra_of_Six_Heteroatom-Doped_Benzannulated_4Helicenes_Vibrational_Mode_Assignments_and_Substituent_Effects",
+      "title": "Vibrational Mode Assignments and Substituent Effects",
+      "reason": "Claude: Namensvetter: Johannes Feist ist hier Autor einer physikalisch-chemischen Forschungsarbeit, ohne Bezug zu MK Global Kapital."
+    },
+    {
+      "link": "https://www.moneycab.com/dossiers/bellevue-asset-management-medtech-operativ-stark-an-der-boerse-unterschaetzt/",
+      "title": "Bellevue Asset Management: Medtech – Operativ stark, an der Börse unterschätzt",
+      "reason": "Claude: Der Artikel handelt von Bellevue Asset Management und Medtech. Savchenko steht nur im Teaser eines anderen Artikels (Seitenleiste/Linkliste) auf der Seite."
     }
   ],
   "review_open": 7,
-  "total_clippings": 134,
+  "total_clippings": 135,
   "placements": {
     "total": 0,
     "found_now": [],

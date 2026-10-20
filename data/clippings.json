@@ -1,5 +1,27 @@
 [
   {
+    "date": "2026-10-20",
+    "outlet": "Allnews",
+    "title": "L'eau, un risque financier sous-estimé",
+    "country": "CH",
+    "type": "Online",
+    "tier": 2,
+    "link": "https://www.allnews.ch/content/points-de-vue/leau-un-risque-financier-sous-estime",
+    "people": [
+      "Louiza Savchenko"
+    ],
+    "byline": false,
+    "author": "",
+    "found_via": [
+      "serpapi"
+    ],
+    "verified": "claude",
+    "date_source": "quelle",
+    "added_at": "2026-10-20T02:01:40",
+    "source": "auto",
+    "id": "a-1792461700-0"
+  },
+  {
     "date": "2026-10-09",
     "outlet": "Moneycab",
     "title": "Die Obligation ist tokenisiert. Doch womit wird sie bezahlt?",
