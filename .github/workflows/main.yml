@@ -3,10 +3,13 @@ on:
   # Ein Tageslauf pro Tag (Berliner Datum), Ergebnisse vor 08:30 Uhr. GitHub startet geplante Läufe
   # oft Stunden zu spät, deshalb ein früher Termin (23:17 UTC = nachts in Berlin) plus zwei Ersatztermine.
   # Die Ersatztermine laufen nur, wenn der Tageslauf für das Berliner Datum noch fehlt.
-  schedule:
-    - cron: '17 23 * * *'
-    - cron: '13 2 * * *'
-    - cron: '41 4 * * *'
+  # PAUSIERT seit 20.10.2026 auf Wunsch von Samir: keine nächtlichen Läufe, damit das SerpApi-Kontingent
+  # (Gratis-Paket, 250 Suchen/Monat) für den T. Rowe Price-Agenten frei ist. Zum Wiedereinschalten die
+  # drei Zeilen unter "schedule:" wieder aktivieren (Rautezeichen entfernen).
+  # schedule:
+  #   - cron: '17 23 * * *'
+  #   - cron: '13 2 * * *'
+  #   - cron: '41 4 * * *'
   # Sofortlauf: Upload/Formular in data/inbox/ oder Prüflisten-Entscheidung -> Eingang verarbeiten (ohne Suche);
   # Änderung an .github/run-now -> Suche ohne Tagesjobs.
   push:
