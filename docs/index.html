@@ -57,8 +57,8 @@ textarea.inp{min-height:90px;font-family:inherit}
     <div><h1>MK Clipping Agent</h1><p class="sub">MK Global Kapital — DACH Media Monitor</p></div>
     <div style="display:flex;gap:6px;flex-wrap:wrap">
       <button class="btn" style="font-size:12px;padding:5px 14px" onclick="showTab('add')">+ Eingabe</button>
-      <button class="btn" style="font-size:12px;padding:5px 14px;background:#059669" onclick="sendMailKunde()">Mail Kunde</button>
-      <button class="btn" style="font-size:12px;padding:5px 14px;background:#7c3aed" onclick="sendMailTeam()">Mail Team</button>
+      <button class="btn" style="font-size:12px;padding:5px 14px;background:#059669" onclick="sendMailKunde()">Mail extern</button>
+      <button class="btn" style="font-size:12px;padding:5px 14px;background:#7c3aed" onclick="sendMailTeam()">Mail intern</button>
       <button class="ghost" onclick="downloadExcel()">Excel</button>
       <button class="ghost" onclick="exportCSV()">CSV</button>
       <button class="ghost" onclick="loadAll(true)">Neu laden</button>
@@ -77,8 +77,8 @@ const RAW=`https://raw.githubusercontent.com/${OWNER}/${REPO_NAME}/${BRANCH}/`;
 const TOKEN_KEY="mk-gh-token", OLD_LOCAL="mk-page-v1";
 const SPOKES=["Johannes Feist","Louiza Savchenko","Michele Mattioda"];
 let clips=[], review=[], agentStatus=null, tab="dash", search="", loadError="", loading=true, flash="";
-// Vermerk "gemeldet": welche Treffer schon per Mail an Kunde bzw. Team gingen. Liegt im Repo (data/reported.json),
-// damit jedes Gerät und jede Vertretung denselben Stand sieht. baseline: alles, was davor dazukam, gilt als gemeldet.
+// Vermerk "versendet": welche Treffer schon per Mail extern bzw. intern gingen. Liegt im Repo (data/reported.json),
+// damit jedes Gerät und jede Vertretung denselben Stand sieht. baseline: alles, was davor dazukam, gilt als versendet.
 const REPORTED_PATH="data/reported.json", PENDING_KEY=REPO_NAME+"-mail-offen", INITIALS_KEY=REPO_NAME+"-kuerzel";
 const CSV_PREFIX=REPO_NAME.startsWith("TRP")?"TRP_Clippings_":"MK_Clippings_";
 let reported={kunde:{},team:{},log:[],baseline:""}, pendingMark=null;
@@ -181,9 +181,9 @@ function render(){
           ${Object.entries(s.byMonth).sort().slice(-14).map(([m,c])=>`<div style="flex:1 0 24px;text-align:center"><div style="height:${Math.max(6,(c/maxM)*85)}px;background:linear-gradient(180deg,#4f8ff7,#2563eb);border-radius:4px 4px 0 0"></div><div style="font-size:9px;color:#4a5a6c;margin-top:3px" class="mono">${m.slice(2).replace("-","/")}</div><div style="font-size:12px;color:#98a8b8;font-weight:600">${c}</div></div>`).join("")}
         </div>
       </div>
-      <div class="card" style="margin-top:14px"><h3 class="h3">Noch nicht an den Kunden gemeldet (${openK.length})</h3>
-        <div class="note" style="margin:-4px 0 8px">Kunde: ${lk?`zuletzt gemeldet ${fDT(lk.at)} Uhr${lk.by?" von "+esc(lk.by):""} (${lk.count} Treffer)`:"noch keine Meldung über das Dashboard"} · Team: ${openT.length} offen${lt?`, zuletzt ${fDT(lt.at)} Uhr${lt.by?" von "+esc(lt.by):""}`:""}</div>
-        ${openK.length?"":`<div style="font-size:13px;color:#5a6a80;padding:6px 0">Alles gemeldet. Neue Treffer erscheinen hier, bis sie per „Mail Kunde“ verschickt und bestätigt sind. Alle Treffer stehen im Tab Clippings und im Excel.</div>`}
+      <div class="card" style="margin-top:14px"><h3 class="h3">Noch nicht versendet (${openK.length})</h3>
+        <div class="note" style="margin:-4px 0 8px">Extern: ${lk?`zuletzt versendet ${fDT(lk.at)} Uhr${lk.by?" von "+esc(lk.by):""} (${lk.count} Treffer)`:"noch kein Versand über das Dashboard"} · Intern: ${openT.length} offen${lt?`, zuletzt ${fDT(lt.at)} Uhr${lt.by?" von "+esc(lt.by):""}`:""}</div>
+        ${openK.length?"":`<div style="font-size:13px;color:#5a6a80;padding:6px 0">Alles versendet. Neue Treffer erscheinen hier, bis sie per „Mail extern“ verschickt und bestätigt sind. Alle Treffer stehen im Tab Clippings und im Excel.</div>`}
         ${openK.map((c,i)=>`<div style="padding:8px 0;${i<openK.length-1?"border-bottom:1px solid #152238":""}">
           <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
             <span class="mono" style="font-size:10px;color:#4a5a6c;min-width:68px">${fD(c.date)}</span>
@@ -192,8 +192,8 @@ function render(){
           <div style="font-size:13px;color:#c8d0dc;margin-top:3px">${c.link?`<a href="${esc(c.link)}" target="_blank">${esc(c.title)}</a>`:esc(c.title)}</div>
         </div>`).join("")}
         ${(openK.length||openT.length)?`<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
-          ${openK.length?`<button class="ghost" onclick="markAllOpen('kunde')">Kunde: alle ${openK.length} ohne Mail als gemeldet markieren</button>`:""}
-          ${openT.length?`<button class="ghost" onclick="markAllOpen('team')">Team: alle ${openT.length} ohne Mail als gemeldet markieren</button>`:""}
+          ${openK.length?`<button class="ghost" onclick="markAllOpen('kunde')">Extern: alle ${openK.length} ohne Mail als versendet markieren</button>`:""}
+          ${openT.length?`<button class="ghost" onclick="markAllOpen('team')">Intern: alle ${openT.length} ohne Mail als versendet markieren</button>`:""}
         </div>`:""}
       </div>`;
   }
@@ -265,7 +265,7 @@ function render(){
     el.innerHTML=statusBanner()+`
       <input class="inp search" value="${esc(search)}" oninput="search=this.value;render();this.focus()" placeholder="Suche nach Titel, Medium, Typ oder Sprecher...">
       <div style="overflow-x:auto">
-        <table><thead><tr><th>Datum</th><th>Medium</th><th>Titel</th><th>Land</th><th>Typ</th><th>Sprecher</th><th>Gemeldet</th></tr></thead>
+        <table><thead><tr><th>Datum</th><th>Medium</th><th>Titel</th><th>Land</th><th>Typ</th><th>Sprecher</th><th>Versand</th></tr></thead>
         <tbody>${f.map(c=>`<tr>
           <td class="mono" style="color:#4a5a6c;font-size:11px;white-space:nowrap">${fD(c.date)}</td>
           <td>${esc(c.outlet)}</td>
@@ -369,7 +369,7 @@ async function downloadExcel(){
 }
 function exportCSV(list,prefix){
   list=list||clips;
-  const h="Publication Date;Media Outlet;Title;Country;Type;Spokesperson;Link;Gemeldet Kunde;Gemeldet Team";
+  const h="Publication Date;Media Outlet;Title;Country;Type;Spokesperson;Link;Versand extern;Versand intern";
   const q=v=>'"'+String(v??"").replace(/"/g,'""')+'"';
   const st=(c,k)=>{const r=reportedInfo(c,k);return r?(r.baseline?"Altbestand":fDT(r.at)+(r.by?" "+r.by:"")):"offen";};
   const rows=list.map(c=>[fD(c.date),c.outlet,c.title,c.country,c.type||"Online",(c.people||[]).join(", "),c.link,st(c,"kunde"),st(c,"team")].map(q).join(";"));
@@ -405,7 +405,7 @@ function reportedInfo(c,kind){
 function openClips(kind){return clips.filter(c=>!reportedInfo(c,kind)).sort((a,b)=>(b.date||"").localeCompare(a.date||""));}
 function lastLog(kind){const l=(reported.log||[]).filter(x=>x.kind===kind);return l.length?l[l.length-1]:null;}
 function statusPills(c){
-  return ["kunde","team"].map(k=>{const r=reportedInfo(c,k),l=k==="kunde"?"Kunde":"Team";
+  return ["kunde","team"].map(k=>{const r=reportedInfo(c,k),l=k==="kunde"?"Extern":"Intern";
     if(!r) return `<span class="pill" style="background:#78350f;color:#fde68a">${l} offen</span>`;
     return `<span class="pill">${l} ${r.baseline?"Altbestand":esc(fDT(r.at).slice(0,6))}</span>`;}).join("");
 }
@@ -422,7 +422,7 @@ async function markReported(kind,keys){
   const by=initials();
   for(let attempt=0;attempt<3;attempt++){
     let f;
-    try{f=await ghFile(REPORTED_PATH);}catch(e){alert("Meldestand nicht lesbar: "+e.message);return false;}
+    try{f=await ghFile(REPORTED_PATH);}catch(e){alert("Versandstand nicht lesbar: "+e.message);return false;}
     let data={kunde:{},team:{},log:[],baseline:""};
     try{if(f.text) data=Object.assign(data,JSON.parse(f.text));}catch(e){}
     const at=new Date().toISOString().slice(0,19)+"Z";
@@ -430,7 +430,7 @@ async function markReported(kind,keys){
     let n=0;keys.forEach(k=>{if(!data[kind][k]){data[kind][k]={at,by};n++;}});
     data.log=(data.log||[]).concat([{kind,at,by,count:n}]).slice(-500);
     try{
-      await ghPut(REPORTED_PATH,b64utf8(JSON.stringify(data,null,1)),`${kind==="kunde"?"Kunden":"Team"}-Mail: ${n} Treffer als gemeldet markiert (${by||"ohne Kürzel"})`,f.sha);
+      await ghPut(REPORTED_PATH,b64utf8(JSON.stringify(data,null,1)),`Mail ${kind==="kunde"?"extern":"intern"}: ${n} Treffer als versendet markiert (${by||"ohne Kürzel"})`,f.sha);
       reported=data;return true;
     }catch(e){if(e.status===409||e.status===422)continue;alert("Speichern fehlgeschlagen: "+e.message);return false;}
   }
@@ -439,20 +439,20 @@ async function markReported(kind,keys){
 async function confirmPending(yes){
   const p=pendingMark;if(!p)return;
   if(yes){if(!(await markReported(p.kind,p.keys)))return;
-    flash=`${p.keys.length} Treffer als an ${p.kind==="kunde"?"den Kunden":"das Team"} gemeldet markiert.`;}
+    flash=`${p.keys.length} Treffer als ${p.kind==="kunde"?"extern":"intern"} versendet markiert.`;}
   savePending(null);render();
 }
 async function markAllOpen(kind){
   const list=openClips(kind);if(!list.length)return;
-  if(!confirm(`${list.length} offene Treffer ohne Mail als an ${kind==="kunde"?"den Kunden":"das Team"} gemeldet markieren? Nur nutzen, wenn sie schon anders verschickt wurden.`))return;
-  if(await markReported(kind,list.map(clipKey))){flash=`${list.length} Treffer als gemeldet markiert.`;render();}
+  if(!confirm(`${list.length} offene Treffer ohne Mail als ${kind==="kunde"?"extern":"intern"} versendet markieren? Nur nutzen, wenn sie schon anders verschickt wurden.`))return;
+  if(await markReported(kind,list.map(clipKey))){flash=`${list.length} Treffer als versendet markiert.`;render();}
 }
 function pendingBanner(){
   if(!pendingMark) return "";
   const p=pendingMark;
   return `<div class="card" style="border-color:#f59e0b;background:#1c1405;margin-bottom:12px">
-    <div style="font-size:14px;color:#fde68a;font-weight:600">${p.kind==="kunde"?"Kunden-Mail":"Team-Mail"} mit ${p.keys.length} Treffern verschickt?</div>
-    <div class="note" style="margin:4px 0 8px">Erstellt ${fDT(p.created)} Uhr. Erst bestätigen, wenn die Mail in Outlook raus ist. Dann gelten die Treffer als gemeldet, für alle sichtbar.</div>
+    <div style="font-size:14px;color:#fde68a;font-weight:600">${p.kind==="kunde"?"Externe Mail":"Interne Mail"} mit ${p.keys.length} Treffern verschickt?</div>
+    <div class="note" style="margin:4px 0 8px">Erstellt ${fDT(p.created)} Uhr. Erst bestätigen, wenn die Mail in Outlook raus ist. Dann gelten die Treffer als versendet, für alle sichtbar.</div>
     <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn okb" onclick="confirmPending(true)">Ja, verschickt</button><button class="ghost" onclick="confirmPending(false)">Nein, nicht verschickt</button></div>
   </div>`;
 }
@@ -466,9 +466,9 @@ function getToday(){
 }
 
 function sendMailKunde(){
-  if(reported._missing){ alert("Der Meldestand konnte nicht geladen werden. Bitte „Neu laden“ und erneut versuchen."); return; }
+  if(reported._missing){ alert("Der Versandstand konnte nicht geladen werden. Bitte „Neu laden“ und erneut versuchen."); return; }
   const recent = openClips("kunde");
-  if(!recent.length){ alert("Alle Treffer sind schon an den Kunden gemeldet."); return; }
+  if(!recent.length){ alert("Alle Treffer sind schon extern versendet."); return; }
   
   const groups = {"D":[],"A":[],"CH":[],"DACH":[]};
   recent.forEach(c => {
@@ -494,9 +494,9 @@ function sendMailKunde(){
 }
 
 function sendMailTeam(){
-  if(reported._missing){ alert("Der Meldestand konnte nicht geladen werden. Bitte „Neu laden“ und erneut versuchen."); return; }
+  if(reported._missing){ alert("Der Versandstand konnte nicht geladen werden. Bitte „Neu laden“ und erneut versuchen."); return; }
   const recent = openClips("team");
-  if(!recent.length){ alert("Alle Treffer sind schon an das Team gemeldet."); return; }
+  if(!recent.length){ alert("Alle Treffer sind schon intern versendet."); return; }
   
   let body = "MK Global Kapital (DEAT, CH deutschsprachig):\n\n";
   recent.forEach(c => {
