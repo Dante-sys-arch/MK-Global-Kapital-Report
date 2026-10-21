@@ -185,7 +185,7 @@ function render(){
         ${openK.map((c,i)=>`<div style="padding:8px 0;${i<openK.length-1?"border-bottom:1px solid #152238":""}">
           <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
             <span class="mono" style="font-size:10px;color:#4a5a6c;min-width:68px">${fD(c.date)}</span>
-            <span style="font-size:11px;color:#4a5a6c">${esc(c.outlet)}</span><span class="pill">${esc(c.type||"Online")}</span>${speakers(c)?`<span class="pill">${esc(speakers(c))}</span>`:""}${addedTime(c)?`<span style="font-size:10px;color:#4a5a6c">gefunden ${fDT(new Date(addedTime(c)).toISOString())}</span>`:""}
+            <span style="font-size:11px;color:#4a5a6c">${esc(c.outlet)}</span><span class="pill">${esc(c.type||"Online")}</span>${speakers(c)?`<span class="pill">${esc(speakers(c))}</span>`:""}${isLate(c)?`<span class="pill" style="background:#3b2f0b;color:#fcd34d" title="Erschienen am ${fD(c.date)}, vom Agenten erst später gefunden">Nachtrag</span>`:""}${addedTime(c)?`<span style="font-size:10px;color:#4a5a6c">gefunden ${fDT(new Date(addedTime(c)).toISOString())}</span>`:""}
           </div>
           <div style="font-size:13px;color:#c8d0dc;margin-top:3px">${c.link?`<a href="${esc(c.link)}" target="_blank">${esc(c.title)}</a>`:esc(c.title)}</div>
         </div>`).join("")}
@@ -400,6 +400,7 @@ function reportedInfo(c,kind){
   if(b&&addedTime(c)<b) return {at:reported.baseline,by:"",baseline:true}; // vor Einführung des Vermerks
   return null;
 }
+function isLate(c){const a=addedTime(c),p=Date.parse((c.date||"").slice(0,10));return !!(a&&p&&(a-p)>3.5*864e5);} // erschienen deutlich vor dem Fund
 function openClips(kind){return clips.filter(c=>!reportedInfo(c,kind)).sort((a,b)=>(b.date||"").localeCompare(a.date||""));}
 function lastLog(kind){const l=(reported.log||[]).filter(x=>x.kind===kind);return l.length?l[l.length-1]:null;}
 function statusPills(c){
