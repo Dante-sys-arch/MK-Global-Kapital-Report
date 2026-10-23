@@ -362,7 +362,7 @@ async function downloadExcel(){
   try{
     if(!token()){window.location.href="latest_report.xlsx";return;}
     const blob=await (await ghRaw("docs/latest_report.xlsx")).blob();
-    const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="MK_Clipping_Report_"+fD(new Date().toISOString())+".xlsx";a.click();
+    const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=(REPO_NAME.startsWith("TRP")?"TRP_DACH_Clipping_Report_":"MK_Clipping_Report_")+fD(new Date().toISOString())+".xlsx";a.click();
   }catch(e){loadError="Excel nicht abrufbar: "+e.message;render();}
 }
 function exportCSV(list,prefix){
