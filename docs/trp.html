@@ -9,42 +9,42 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{overflow-x:hidden;background:#080e1b;color:#c8d0dc;font-family:'DM Sans',sans-serif;-webkit-text-size-adjust:100%}
-a{color:#60a5fa;text-decoration:none}
-.header{background:linear-gradient(145deg,#0b1828,#101f35);border-bottom:1px solid #18293f;padding:16px 18px 0}
+body{overflow-x:hidden;background:#f4f6f9;color:#1f2937;font-family:'DM Sans',sans-serif;-webkit-text-size-adjust:100%}
+a{color:#1d4ed8;text-decoration:none}
+.header{background:#ffffff;border-bottom:1px solid #e3e8ef;padding:16px 18px 0}
 .hInner{max-width:1060px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
-h1{font-size:19px;font-weight:700;color:#fff;letter-spacing:-0.02em}
-.sub{font-size:10px;color:#3a4a5c;font-family:'JetBrains Mono';margin-top:2px}
+h1{font-size:19px;font-weight:700;color:#0f172a;letter-spacing:-0.02em}
+.sub{font-size:10px;color:#6b7280;font-family:'JetBrains Mono';margin-top:2px}
 .nav{display:flex;gap:0;max-width:1060px;margin:12px auto 0;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
 .nav::-webkit-scrollbar{display:none}
-.tab{flex:0 0 auto;white-space:nowrap;padding:6px 13px;font-size:12px;border:none;cursor:pointer;background:transparent;color:#3a4a5c;border-radius:5px 5px 0 0;font-family:'DM Sans'}
-.tab.active{background:#080e1b;color:#fff;font-weight:600}
+.tab{flex:0 0 auto;white-space:nowrap;padding:6px 13px;font-size:12px;border:none;cursor:pointer;background:transparent;color:#6b7280;border-radius:5px 5px 0 0;font-family:'DM Sans'}
+.tab.active{background:#f4f6f9;color:#0f172a;font-weight:600;border:1px solid #e3e8ef;border-bottom-color:#f4f6f9}
 main{max-width:1060px;margin:0 auto;padding:18px}
-.card{background:#0c1525;border-radius:8px;padding:16px;border:1px solid #18293f;margin-bottom:12px}
+.card{background:#ffffff;border-radius:8px;padding:16px;border:1px solid #e3e8ef;margin-bottom:12px}
 .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:8px;margin-bottom:12px}
 .kpi-val{font-size:28px;font-weight:700;font-family:'JetBrains Mono'}
-.kpi-label{font-size:9px;color:#3a4a5c;text-transform:uppercase;letter-spacing:0.08em;margin-top:2px}
-.h3{margin:0 0 10px;font-size:12px;color:#5a6a80;font-weight:500}
+.kpi-label{font-size:9px;color:#6b7280;text-transform:uppercase;letter-spacing:0.08em;margin-top:2px}
+.h3{margin:0 0 10px;font-size:12px;color:#64748b;font-weight:500}
 .tier{font-size:9px;padding:1px 5px;border-radius:3px;font-weight:600}
-.t1{background:#064e3b;color:#6ee7b7}.t2{background:#78350f;color:#fcd34d}
+.t1{background:#d1fae5;color:#065f46}.t2{background:#fef3c7;color:#92400e}
 .btn{background:#2563eb;color:#fff;border:none;border-radius:5px;padding:8px 18px;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans'}
-.ghost{background:#101f35;color:#5a6a80;border:1px solid #18293f;border-radius:5px;padding:5px 12px;font-size:11px;cursor:pointer}
-.inp{width:100%;background:#050a14;border:1px solid #18293f;border-radius:4px;color:#c8d0dc;padding:6px 8px;font-size:12px;outline:none;box-sizing:border-box}
-.lbl{font-size:9px;color:#3a4a5c;text-transform:uppercase;letter-spacing:0.06em;display:block;margin-bottom:2px}
+.ghost{background:#ffffff;color:#475569;border:1px solid #d5dce5;border-radius:5px;padding:5px 12px;font-size:11px;cursor:pointer}
+.inp{width:100%;background:#ffffff;border:1px solid #e3e8ef;border-radius:4px;color:#1f2937;padding:6px 8px;font-size:12px;outline:none;box-sizing:border-box}
+.lbl{font-size:9px;color:#6b7280;text-transform:uppercase;letter-spacing:0.06em;display:block;margin-bottom:2px}
 table{width:100%;border-collapse:collapse}
-th{padding:7px 5px;text-align:left;border-bottom:2px solid #18293f;color:#3a4a5c;font-weight:500;text-transform:uppercase;letter-spacing:0.06em;font-size:9px}
-td{padding:6px 5px;color:#98a8b8;font-size:12px;border-bottom:1px solid #152238}
+th{padding:7px 5px;text-align:left;border-bottom:2px solid #e3e8ef;color:#6b7280;font-weight:500;text-transform:uppercase;letter-spacing:0.06em;font-size:9px}
+td{padding:6px 5px;color:#374151;font-size:12px;border-bottom:1px solid #edf0f4}
 .mono{font-family:'JetBrains Mono'}
-.bar{height:14px;background:#1e3a5f;border-radius:3px}
-.msg{background:#064e3b;color:#6ee7b7;padding:8px 12px;border-radius:6px;font-size:12px;margin-bottom:12px}
+.bar{height:14px;background:#bfd3f2;border-radius:3px}
+.msg{background:#d1fae5;color:#065f46;padding:8px 12px;border-radius:6px;font-size:12px;margin-bottom:12px}
 .search{width:100%;padding:8px 12px;font-size:13px;margin-bottom:12px}
 .act{background:none;border:none;cursor:pointer;font-size:14px;padding:1px 3px}
 .hidden{display:none}
-.err{background:#450a0a;color:#fca5a5;padding:8px 12px;border-radius:6px;font-size:12px;margin-bottom:12px}
-.pill{font-size:9px;padding:1px 6px;border-radius:9px;background:#1e293b;color:#94a3b8;margin-left:4px}
+.err{background:#fee2e2;color:#991b1b;padding:8px 12px;border-radius:6px;font-size:12px;margin-bottom:12px}
+.pill{font-size:9px;padding:1px 6px;border-radius:9px;background:#eef2f7;color:#475569;margin-left:4px}
 .okb{background:#059669}.nob{background:#b91c1c}
 textarea.inp{min-height:90px;font-family:inherit}
-.note{color:#4a6a8c;font-size:12px;line-height:1.6}
+.note{color:#475569;font-size:12px;line-height:1.6}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .form-grid .full{grid-column:1/-1}
 .flex-row{display:flex;gap:8px}
@@ -138,11 +138,11 @@ function statusBanner(){
   const ageH=(Date.now()-new Date(agentStatus.run_at).getTime())/3600000;
   const stale=ageH>30;
   const bad=agentStatus.status==="error"||stale, warn=agentStatus.status==="warn";
-  const col=bad?"#f87171":warn?"#fbbf24":"#34d399";
+  const col=bad?"#dc2626":warn?"#d97706":"#059669";
   const head=stale?"Agent läuft nicht: letzter Lauf vor "+Math.round(ageH)+" Std.":bad?"Agent-Fehler":warn?"Agent mit Warnungen":"Agent läuft";
-  const items=[...(agentStatus.problems||[]),...(agentStatus.warnings||[])].map(x=>`<div style="font-size:12px;color:#c8d0dc;margin-top:3px">• ${esc(x)}</div>`).join("");
+  const items=[...(agentStatus.problems||[]),...(agentStatus.warnings||[])].map(x=>`<div style="font-size:12px;color:#1f2937;margin-top:3px">• ${esc(x)}</div>`).join("");
   return out+`<div class="card" style="border-left:4px solid ${col};margin-bottom:14px"><div style="color:${col};font-weight:700">${head}</div>
-    <div style="font-size:11px;color:#4a5a6c">Letzter Lauf: ${new Date(agentStatus.run_at).toLocaleString("de-DE")} · neu: ${agentStatus.new} · Prüfliste: ${agentStatus.review_open}</div>${items}</div>`;
+    <div style="font-size:11px;color:#64748b">Letzter Lauf: ${new Date(agentStatus.run_at).toLocaleString("de-DE")} · neu: ${agentStatus.new} · Prüfliste: ${agentStatus.review_open}</div>${items}</div>`;
 }
 
 function stats(){
@@ -172,22 +172,22 @@ function render(){
     const openK=openClips("kunde"), openT=openClips("team"), lk=lastLog("kunde"), lt=lastLog("team");
     el.innerHTML=statusBanner()+`
       <div class="kpi-grid">
-        ${[["Total",s.total,"#4f8ff7"],["Online",s.online,"#a78bfa"],["Print/E-Paper",s.print,"#f472b6"],["Medien",s.outlets,"#22d3ee"],...SPOKES.map((p,i)=>[p.split(" ").pop(),s.bySpeaker[p]||0,["#34d399","#fbbf24","#fb923c"][i]])].map(([l,v,c])=>`<div class="card"><div class="kpi-val" style="color:${c}">${v}</div><div class="kpi-label">${esc(l)}</div></div>`).join("")}
+        ${[["Total",s.total,"#2563eb"],["Online",s.online,"#7c3aed"],["Print/E-Paper",s.print,"#db2777"],["Medien",s.outlets,"#0891b2"],...SPOKES.map((p,i)=>[p.split(" ").pop(),s.bySpeaker[p]||0,["#059669","#d97706","#ea580c"][i]])].map(([l,v,c])=>`<div class="card"><div class="kpi-val" style="color:${c}">${v}</div><div class="kpi-label">${esc(l)}</div></div>`).join("")}
       </div>
       <div class="card"><h3 class="h3">Clippings pro Monat</h3>
         <div style="display:flex;gap:8px;align-items:flex-end;height:110px">
-          ${Object.entries(s.byMonth).sort().slice(-14).map(([m,c])=>`<div style="flex:1;text-align:center"><div style="height:${Math.max(6,(c/maxM)*85)}px;background:linear-gradient(180deg,#4f8ff7,#2563eb);border-radius:4px 4px 0 0"></div><div style="font-size:9px;color:#4a5a6c;margin-top:3px" class="mono">${m.slice(2).replace("-","/")}</div><div style="font-size:12px;color:#98a8b8;font-weight:600">${c}</div></div>`).join("")}
+          ${Object.entries(s.byMonth).sort().slice(-14).map(([m,c])=>`<div style="flex:1;text-align:center"><div style="height:${Math.max(6,(c/maxM)*85)}px;background:linear-gradient(180deg,#1d4ed8,#2563eb);border-radius:4px 4px 0 0"></div><div style="font-size:9px;color:#64748b;margin-top:3px" class="mono">${m.slice(2).replace("-","/")}</div><div style="font-size:12px;color:#374151;font-weight:600">${c}</div></div>`).join("")}
         </div>
       </div>
       <div class="card" style="margin-top:14px"><h3 class="h3">Noch nicht bearbeitet (${openK.length})</h3>
         <div class="note" style="margin:-4px 0 8px">Extern: ${lk?`zuletzt bearbeitet ${fDT(lk.at)} Uhr${lk.by?" von "+esc(lk.by):""} (${lk.count} Treffer)`:"noch nichts über das Dashboard bearbeitet"} · Intern: ${openT.length} offen${lt?`, zuletzt ${fDT(lt.at)} Uhr${lt.by?" von "+esc(lt.by):""}`:""}</div>
-        ${openK.length?"":`<div style="font-size:13px;color:#5a6a80;padding:6px 0">Alles bearbeitet. Neue Treffer erscheinen hier, bis sie per „Mail extern“ verschickt und bestätigt oder als bearbeitet markiert sind. Alle Treffer stehen im Tab Clippings und im Excel.</div>`}
-        ${openK.map((c,i)=>`<div style="padding:8px 0;${i<openK.length-1?"border-bottom:1px solid #152238":""}">
+        ${openK.length?"":`<div style="font-size:13px;color:#64748b;padding:6px 0">Alles bearbeitet. Neue Treffer erscheinen hier, bis sie per „Mail extern“ verschickt und bestätigt oder als bearbeitet markiert sind. Alle Treffer stehen im Tab Clippings und im Excel.</div>`}
+        ${openK.map((c,i)=>`<div style="padding:8px 0;${i<openK.length-1?"border-bottom:1px solid #edf0f4":""}">
           <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
-            <span class="mono" style="font-size:10px;color:#4a5a6c;min-width:68px">${fD(c.date)}</span>
-            <span style="font-size:11px;color:#4a5a6c">${esc(c.outlet)}</span><span class="pill">${esc(c.type||"Online")}</span>${speakers(c)?`<span class="pill">${esc(speakers(c))}</span>`:""}${isLate(c)?`<span class="pill" style="background:#3b2f0b;color:#fcd34d" title="Erschienen am ${fD(c.date)}, vom Agenten erst später gefunden">Nachtrag</span>`:""}${addedTime(c)?`<span style="font-size:10px;color:#4a5a6c">gefunden ${fDT(new Date(addedTime(c)).toISOString())}</span>`:""}
+            <span class="mono" style="font-size:10px;color:#64748b;min-width:68px">${fD(c.date)}</span>
+            <span style="font-size:11px;color:#64748b">${esc(c.outlet)}</span><span class="pill">${esc(c.type||"Online")}</span>${speakers(c)?`<span class="pill">${esc(speakers(c))}</span>`:""}${isLate(c)?`<span class="pill" style="background:#fef3c7;color:#92400e" title="Erschienen am ${fD(c.date)}, vom Agenten erst später gefunden">Nachtrag</span>`:""}${addedTime(c)?`<span style="font-size:10px;color:#64748b">gefunden ${fDT(new Date(addedTime(c)).toISOString())}</span>`:""}
           </div>
-          <div style="font-size:13px;color:#c8d0dc;margin-top:3px">${c.link?`<a href="${esc(c.link)}" target="_blank">${esc(c.title)}</a>`:esc(c.title)}</div>
+          <div style="font-size:13px;color:#1f2937;margin-top:3px">${c.link?`<a href="${esc(c.link)}" target="_blank">${esc(c.title)}</a>`:esc(c.title)}</div>
         </div>`).join("")}
         ${(openK.length||openT.length)?`<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
           ${openK.length?`<button class="ghost" onclick="markAllOpen('kunde')">Extern: alle ${openK.length} ohne Mail als bearbeitet markieren</button>`:""}
@@ -199,20 +199,20 @@ function render(){
   else if(tab==="review"){
     el.innerHTML=statusBanner()+`<div class="card"><h3 class="h3">Prüfliste: bitte bestätigen oder verwerfen</h3>
       <p class="note" style="margin:0 0 10px">Hier landen unklare Treffer und alles, was aus Uploads ausgelesen wurde. Deine Entscheidung startet sofort einen kurzen Lauf, der sie übernimmt.</p>
-      ${review.length?review.map((r,i)=>`<div style="padding:8px 0;${i<review.length-1?"border-bottom:1px solid #152238":""}">
-        <div style="font-size:11px;color:#4a5a6c"><span class="mono">${fD(r.date)}</span> · ${esc(r.outlet)} · <span class="pill">${esc(r.medium||"Online")}</span> ${esc((r.people||[]).join(", "))}</div>
-        <div style="font-size:13px;color:#c8d0dc;margin-top:3px">${r.link?`<a href="${esc(r.link)}" target="_blank">${esc(r.title||r.link)}</a>`:esc(r.title)}</div>
-        <div style="font-size:11px;color:#fbbf24;margin-top:2px">${esc(r.reason)}${r.snippet?` · <span style="color:#5a6a80">${esc(r.snippet.slice(0,140))}</span>`:""}</div>
+      ${review.length?review.map((r,i)=>`<div style="padding:8px 0;${i<review.length-1?"border-bottom:1px solid #edf0f4":""}">
+        <div style="font-size:11px;color:#64748b"><span class="mono">${fD(r.date)}</span> · ${esc(r.outlet)} · <span class="pill">${esc(r.medium||"Online")}</span> ${esc((r.people||[]).join(", "))}</div>
+        <div style="font-size:13px;color:#1f2937;margin-top:3px">${r.link?`<a href="${esc(r.link)}" target="_blank">${esc(r.title||r.link)}</a>`:esc(r.title)}</div>
+        <div style="font-size:11px;color:#d97706;margin-top:2px">${esc(r.reason)}${r.snippet?` · <span style="color:#64748b">${esc(r.snippet.slice(0,140))}</span>`:""}</div>
         <div style="margin-top:6px;display:flex;gap:6px">${r._pending?`<span class="note">${r._pending==="ja"?"Wird übernommen …":"Wird verworfen …"}</span>`:
           `<button class="btn okb" style="padding:4px 12px;font-size:12px" onclick="decide(${i},'ja')">Übernehmen</button><button class="btn nob" style="padding:4px 12px;font-size:12px" onclick="decide(${i},'nein')">Verwerfen</button>`}</div>
-      </div>`).join(""):`<div style="color:#4a5a6c;font-size:13px">Keine offenen Fälle.</div>`}</div>`;
+      </div>`).join(""):`<div style="color:#64748b;font-size:13px">Keine offenen Fälle.</div>`}</div>`;
   }
 
   else if(tab==="add"){
     const can=!!token();
     el.innerHTML=statusBanner()+(can?"":`<div class="err">Zum Speichern braucht dieses Gerät einmalig einen Zugang. Bitte im Tab <b>Zugang</b> einrichten.</div>`)+`
       <div id="addmsg"></div>
-      <div class="card"><h3 class="h3" style="color:#fff;font-size:15px">1. Clipping erfassen (geht direkt in die Clippings)</h3>
+      <div class="card"><h3 class="h3" style="color:#0f172a;font-size:15px">1. Clipping erfassen (geht direkt in die Clippings)</h3>
         <div class="form-grid">
           <label><span class="lbl">Datum *</span><input type="date" id="nDate" class="inp"></label>
           <label><span class="lbl">Medium *</span><input id="nOutlet" class="inp" placeholder="z. B. Börsen-Zeitung"></label>
@@ -227,16 +227,16 @@ function render(){
           <div class="full"><button class="btn" style="width:100%" ${can?"":"disabled"} onclick="submitForm()">Clipping speichern</button></div>
         </div>
       </div>
-      <div class="card"><h3 class="h3" style="color:#fff;font-size:15px">2. Freitext oder Links (Claude liest aus, Bestätigung in der Prüfliste)</h3>
+      <div class="card"><h3 class="h3" style="color:#0f172a;font-size:15px">2. Freitext oder Links (Claude liest aus, Bestätigung in der Prüfliste)</h3>
         <textarea id="nText" class="inp" placeholder="Links, kopierte Trefferliste oder Notizen, eine Fundstelle pro Zeile"></textarea>
         <button class="btn" style="width:100%;margin-top:8px" ${can?"":"disabled"} onclick="submitText()">Text senden</button>
       </div>
-      <div class="card"><h3 class="h3" style="color:#fff;font-size:15px">3. Datei hochladen (Claude liest aus, Bestätigung in der Prüfliste)</h3>
+      <div class="card"><h3 class="h3" style="color:#0f172a;font-size:15px">3. Datei hochladen (Claude liest aus, Bestätigung in der Prüfliste)</h3>
         <p class="note" style="margin-bottom:8px">Screenshot, PDF (E-Paper, Pressespiegel) oder Excel/CSV-Trefferliste, z. B. von PMG. Mehrere Dateien möglich, je bis 20 MB.</p>
         <input type="file" id="nFiles" multiple accept="image/*,.heic,.pdf,.xlsx,.xlsm,.csv,.tsv,.txt" class="inp">
         <button class="btn" style="width:100%;margin-top:8px" ${can?"":"disabled"} onclick="submitFiles()">Hochladen</button>
       </div>
-      <div class="card" style="background:#0a1220;border-color:#1a3050"><h3 class="h3">So läuft es</h3>
+      <div class="card" style="background:#f8fafc;border-color:#e3e8ef"><h3 class="h3">So läuft es</h3>
         <p class="note">Der Agent sucht einmal pro Nacht. Die Ergebnisse stehen vor 08:30 Uhr bereit. Eingaben von hier verarbeitet er sofort in einem kurzen Lauf, das dauert ein paar Minuten. Danach „Neu laden“.<br>
         Ohne Dashboard: auf GitHub im Repo den Ordner <span class="mono">data/inbox</span> öffnen, „Add file“ → „Upload files“.</p>
       </div>`;
@@ -244,8 +244,8 @@ function render(){
 
   else if(tab==="access"){
     const t=token(), old=oldLocal();
-    el.innerHTML=statusBanner()+`<div class="card"><h3 class="h3" style="color:#fff;font-size:15px">Zugang für dieses Gerät</h3>
-      <p class="note">Status: ${t?"<b style='color:#34d399'>eingerichtet</b> (Token liegt nur in diesem Browser)":"<b style='color:#f87171'>nicht eingerichtet</b>"}</p>
+    el.innerHTML=statusBanner()+`<div class="card"><h3 class="h3" style="color:#0f172a;font-size:15px">Zugang für dieses Gerät</h3>
+      <p class="note">Status: ${t?"<b style='color:#059669'>eingerichtet</b> (Token liegt nur in diesem Browser)":"<b style='color:#dc2626'>nicht eingerichtet</b>"}</p>
       <label class="full" style="display:block;margin-top:10px"><span class="lbl">Fein abgestufter GitHub-Token</span><input id="tok" type="password" class="inp" placeholder="github_pat_..." autocomplete="off"></label>
       <div class="flex-row" style="margin-top:8px"><button class="btn" onclick="saveToken()">Speichern und prüfen</button>${t?`<button class="ghost" onclick="dropToken()">Token entfernen</button>`:""}</div>
       <div id="tokmsg" style="margin-top:8px"></div>
@@ -265,12 +265,12 @@ function render(){
       <div style="overflow-x:auto">
         <table><thead><tr><th>Datum</th><th>Medium</th><th>Titel</th><th>Land</th><th>Typ</th><th>Sprecher</th><th>Bearbeitet</th></tr></thead>
         <tbody>${f.map(c=>`<tr>
-          <td class="mono" style="color:#4a5a6c;font-size:11px;white-space:nowrap">${fD(c.date)}</td>
+          <td class="mono" style="color:#64748b;font-size:11px;white-space:nowrap">${fD(c.date)}</td>
           <td>${esc(c.outlet)}</td>
           <td style="max-width:260px">${c.link?`<a href="${esc(c.link)}" target="_blank">${esc(c.title)}</a>`:esc(c.title)}</td>
           <td>${esc(c.country)}</td><td>${esc(c.type||"Online")}</td><td>${esc(speakers(c))}</td><td style="white-space:nowrap">${statusPills(c)}</td>
         </tr>`).join("")}</tbody></table>
-        <div style="text-align:center;padding:8px;font-size:11px;color:#3a4a5c">${f.length} von ${clips.length} Clippings</div>
+        <div style="text-align:center;padding:8px;font-size:11px;color:#6b7280">${f.length} von ${clips.length} Clippings</div>
       </div>`;
   }
 
@@ -279,20 +279,20 @@ function render(){
     el.innerHTML=statusBanner()+`
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px">
         <div class="card"><h3 class="h3">Nach Sprecher</h3>
-          ${SPOKES.map(p=>`<div style="display:flex;justify-content:space-between;padding:3px 0;font-size:12px"><span style="color:#98a8b8">${esc(p)}</span><span class="mono" style="color:#4f8ff7;font-weight:600">${s.bySpeaker[p]||0}</span></div>`).join("")}
+          ${SPOKES.map(p=>`<div style="display:flex;justify-content:space-between;padding:3px 0;font-size:12px"><span style="color:#374151">${esc(p)}</span><span class="mono" style="color:#2563eb;font-weight:600">${s.bySpeaker[p]||0}</span></div>`).join("")}
         </div>
         <div class="card"><h3 class="h3">Nach Land</h3>
-          ${Object.entries(s.byCountry).sort((a,b)=>b[1]-a[1]).map(([c,n])=>`<div style="display:flex;justify-content:space-between;padding:3px 0;font-size:12px"><span style="color:#98a8b8">${esc(c)}</span><span class="mono" style="color:#4f8ff7;font-weight:600">${n}</span></div>`).join("")}
+          ${Object.entries(s.byCountry).sort((a,b)=>b[1]-a[1]).map(([c,n])=>`<div style="display:flex;justify-content:space-between;padding:3px 0;font-size:12px"><span style="color:#374151">${esc(c)}</span><span class="mono" style="color:#2563eb;font-weight:600">${n}</span></div>`).join("")}
         </div>
       </div>
       <div class="card" style="margin-top:14px"><h3 class="h3">Top Medien</h3>
-        ${Object.entries(s.byOutlet).sort((a,b)=>b[1]-a[1]).map(([o,n])=>`<div style="display:flex;align-items:center;gap:8px;padding:3px 0"><div class="bar" style="width:${Math.max(4,(n/maxO)*180)}px"></div><span class="mono" style="font-size:11px;color:#98a8b8;min-width:18px">${n}</span><span style="font-size:11px;color:#c8d0dc">${esc(o)}</span></div>`).join("")}
+        ${Object.entries(s.byOutlet).sort((a,b)=>b[1]-a[1]).map(([o,n])=>`<div style="display:flex;align-items:center;gap:8px;padding:3px 0"><div class="bar" style="width:${Math.max(4,(n/maxO)*180)}px"></div><span class="mono" style="font-size:11px;color:#374151;min-width:18px">${n}</span><span style="font-size:11px;color:#1f2937">${esc(o)}</span></div>`).join("")}
       </div>
       <div class="card" style="margin-top:14px"><h3 class="h3">Monatliches Detail</h3>
         <table><thead><tr><th>Monat</th><th>Gesamt</th><th>Online</th><th>Print/E-Paper</th></tr></thead>
         <tbody>${Object.entries(s.byMonth).sort().map(([m,c])=>{
           const on=clips.filter(cl=>cl.date&&cl.date.startsWith(m)&&(cl.type||"Online")==="Online").length;
-          return `<tr><td class="mono">${m}</td><td style="font-weight:600;color:#4f8ff7">${c}</td><td>${on}</td><td>${c-on}</td></tr>`;
+          return `<tr><td class="mono">${m}</td><td style="font-weight:600;color:#2563eb">${c}</td><td>${on}</td><td>${c-on}</td></tr>`;
         }).join("")}</tbody></table>
       </div>`;
   }
@@ -405,7 +405,7 @@ function openClips(kind){return clips.filter(c=>!reportedInfo(c,kind)).sort((a,b
 function lastLog(kind){const l=(reported.log||[]).filter(x=>x.kind===kind);return l.length?l[l.length-1]:null;}
 function statusPills(c){
   return ["kunde","team"].map(k=>{const r=reportedInfo(c,k),l=k==="kunde"?"Extern":"Intern";
-    if(!r) return `<span class="pill" style="background:#78350f;color:#fde68a">${l} offen</span>`;
+    if(!r) return `<span class="pill" style="background:#fef3c7;color:#92400e">${l} offen</span>`;
     return `<span class="pill">${l} ${r.baseline?"Altbestand":esc(fDT(r.at).slice(0,6))}</span>`;}).join("");
 }
 function savePending(p){pendingMark=p;try{p?localStorage.setItem(PENDING_KEY,JSON.stringify(p)):localStorage.removeItem(PENDING_KEY);}catch(e){}}
@@ -449,8 +449,8 @@ async function markAllOpen(kind){
 function pendingBanner(){
   if(!pendingMark) return "";
   const p=pendingMark;
-  return `<div class="card" style="border-color:#f59e0b;background:#1c1405;margin-bottom:12px">
-    <div style="font-size:14px;color:#fde68a;font-weight:600">${p.kind==="kunde"?"Externe Mail":"Interne Mail"} mit ${p.keys.length} Treffern verschickt?</div>
+  return `<div class="card" style="border-color:#f59e0b;background:#fffbeb;margin-bottom:12px">
+    <div style="font-size:14px;color:#92400e;font-weight:600">${p.kind==="kunde"?"Externe Mail":"Interne Mail"} mit ${p.keys.length} Treffern verschickt?</div>
     <div class="note" style="margin:4px 0 8px">Erstellt ${fDT(p.created)} Uhr. Erst bestätigen, wenn die Mail in Outlook raus ist. Dann gelten die Treffer als bearbeitet, für alle sichtbar.</div>
     <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn okb" onclick="confirmPending(true)">Ja, verschickt</button><button class="ghost" onclick="confirmPending(false)">Nein, nicht verschickt</button></div>
   </div>`;
