@@ -124,6 +124,8 @@ async function loadAll(manual){
   try{clips=await (await ghRaw("data/clippings.json")).json();clips.sort((a,b)=>(b.date||"").localeCompare(a.date||""));}
   catch(e){loadError=e.message;clips=[];}
   try{review=await (await ghRaw("data/review.json")).json();}catch(e){review=[];}
+  // neue Treffer zuerst, dann Zweifelsfälle; jeweils neueste oben
+  review.sort((a,b)=>(b.date||"").localeCompare(a.date||"")).sort((a,b)=>(a.kind==="treffer"?0:1)-(b.kind==="treffer"?0:1));
   try{agentStatus=await (await ghRaw("docs/status.json")).json();}catch(e){agentStatus=null;}
   try{reported=Object.assign({kunde:{},team:{},log:[],baseline:""},await (await ghRaw(REPORTED_PATH)).json());}
   catch(e){reported={kunde:{},team:{},log:[],baseline:"",_missing:true};}
@@ -175,13 +177,21 @@ function render(){
         ${[["Total",s.total,"#2563eb"],["Online",s.online,"#7c3aed"],["Print/E-Paper",s.print,"#db2777"],["Medien",s.outlets,"#0891b2"],...SPOKES.map((p,i)=>[p.split(" ").pop(),s.bySpeaker[p]||0,["#059669","#d97706","#ea580c"][i]])].map(([l,v,c])=>`<div class="card"><div class="kpi-val" style="color:${c}">${v}</div><div class="kpi-label">${esc(l)}</div></div>`).join("")}
       </div>
       <div class="card"><h3 class="h3">Clippings pro Monat</h3>
+        ${Object.keys(s.byMonth).length?"":`<div style="font-size:13px;color:#64748b">Noch keine freigegebenen Clippings.</div>`}
         <div style="display:flex;gap:8px;align-items:flex-end;height:110px">
           ${Object.entries(s.byMonth).sort().slice(-14).map(([m,c])=>`<div style="flex:1;max-width:80px;text-align:center"><div style="height:${Math.max(6,(c/maxM)*85)}px;background:linear-gradient(180deg,#1d4ed8,#2563eb);border-radius:4px 4px 0 0"></div><div style="font-size:9px;color:#64748b;margin-top:3px" class="mono">${m.slice(2).replace("-","/")}</div><div style="font-size:12px;color:#374151;font-weight:600">${c}</div></div>`).join("")}
         </div>
       </div>
-      <div class="card" style="margin-top:14px"><h3 class="h3">Noch nicht bearbeitet (${openK.length})</h3>
+      <div class="card" style="margin-top:14px;border-color:${review.length?"#86efac":"#e3e8ef"}"><h3 class="h3">Zur Freigabe (${review.length})</h3>
+        ${review.length?review.slice(0,8).map((r,i)=>`<div style="padding:6px 0;${i<Math.min(review.length,8)-1?"border-bottom:1px solid #edf0f4":""}">
+          <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">${kindPill(r)}<span class="mono" style="font-size:10px;color:#64748b">${fD(r.date)}</span><span style="font-size:11px;color:#64748b">${esc(r.outlet)}</span></div>
+          <div style="font-size:13px;color:#1f2937;margin-top:3px">${r.link?`<a href="${esc(r.link)}" target="_blank">${esc(r.title||r.link)}</a>`:esc(r.title)}</div></div>`).join("")
+          +`<div style="margin-top:10px"><button class="btn okb" style="padding:5px 14px;font-size:12px" onclick="showTab('review')">Zur Prüfliste: freigeben oder verwerfen</button></div>`
+          :`<div style="font-size:13px;color:#64748b;padding:4px 0">Keine neuen Treffer zur Freigabe.</div>`}
+      </div>
+      <div class="card" style="margin-top:14px"><h3 class="h3">Freigegeben, noch nicht bearbeitet (${openK.length})</h3>
         <div class="note" style="margin:-4px 0 8px">Extern: ${lk?`zuletzt bearbeitet ${fDT(lk.at)} Uhr${lk.by?" von "+esc(lk.by):""} (${lk.count} Treffer)`:"noch nichts über das Dashboard bearbeitet"} · Intern: ${openT.length} offen${lt?`, zuletzt ${fDT(lt.at)} Uhr${lt.by?" von "+esc(lt.by):""}`:""}</div>
-        ${openK.length?"":`<div style="font-size:13px;color:#64748b;padding:6px 0">Alles bearbeitet. Neue Treffer erscheinen hier, bis sie per „Mail extern“ verschickt und bestätigt oder als bearbeitet markiert sind. Alle Treffer stehen im Tab Clippings und im Excel.</div>`}
+        ${openK.length?"":`<div style="font-size:13px;color:#64748b;padding:6px 0">Alles bearbeitet. Freigegebene Treffer erscheinen hier, bis sie per „Mail extern“ verschickt und bestätigt oder als bearbeitet markiert sind. Alle Treffer stehen im Tab Clippings und im Excel.</div>`}
         ${openK.map((c,i)=>`<div style="padding:8px 0;${i<openK.length-1?"border-bottom:1px solid #edf0f4":""}">
           <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
             <span class="mono" style="font-size:10px;color:#64748b;min-width:68px">${fD(c.date)}</span>
@@ -197,14 +207,14 @@ function render(){
   }
 
   else if(tab==="review"){
-    el.innerHTML=statusBanner()+`<div class="card"><h3 class="h3">Prüfliste: bitte bestätigen oder verwerfen</h3>
-      <p class="note" style="margin:0 0 10px">Hier landen unklare Treffer und alles, was aus Uploads ausgelesen wurde. Deine Entscheidung startet sofort einen kurzen Lauf, der sie übernimmt.</p>
+    el.innerHTML=statusBanner()+`<div class="card"><h3 class="h3">Prüfliste: neue Treffer freigeben, Zweifelsfälle entscheiden</h3>
+      <p class="note" style="margin:0 0 10px">Alle neuen Treffer des Agenten landen zuerst hier, dazu Zweifelsfälle und alles aus Uploads. Erst nach „Freigeben“ kommen sie in die Clippings, ins Excel und in die Mail extern. Deine Entscheidung startet sofort einen kurzen Lauf, der sie übernimmt (etwa 1 Minute).</p>
       ${review.length?review.map((r,i)=>`<div style="padding:8px 0;${i<review.length-1?"border-bottom:1px solid #edf0f4":""}">
-        <div style="font-size:11px;color:#64748b"><span class="mono">${fD(r.date)}</span> · ${esc(r.outlet)} · <span class="pill">${esc(r.medium||"Online")}</span> ${esc((r.people||[]).join(", "))}</div>
+        <div style="font-size:11px;color:#64748b">${kindPill(r)} <span class="mono">${fD(r.date)}</span> · ${esc(r.outlet)} · <span class="pill">${esc(r.medium||"Online")}</span> ${esc((r.people||[]).join(", "))}</div>
         <div style="font-size:13px;color:#1f2937;margin-top:3px">${r.link?`<a href="${esc(r.link)}" target="_blank">${esc(r.title||r.link)}</a>`:esc(r.title)}</div>
-        <div style="font-size:11px;color:#d97706;margin-top:2px">${esc(r.reason)}${r.snippet?` · <span style="color:#64748b">${esc(r.snippet.slice(0,140))}</span>`:""}</div>
-        <div style="margin-top:6px;display:flex;gap:6px">${r._pending?`<span class="note">${r._pending==="ja"?"Wird übernommen …":"Wird verworfen …"}</span>`:
-          `<button class="btn okb" style="padding:4px 12px;font-size:12px" onclick="decide(${i},'ja')">Übernehmen</button><button class="btn nob" style="padding:4px 12px;font-size:12px" onclick="decide(${i},'nein')">Verwerfen</button>`}</div>
+        <div style="font-size:11px;color:${r.kind==="treffer"?"#065f46":"#d97706"};margin-top:2px">${esc(r.reason)}${r.snippet?` · <span style="color:#64748b">${esc(r.snippet.slice(0,140))}</span>`:""}</div>
+        <div style="margin-top:6px;display:flex;gap:6px">${r._pending?`<span class="note">${r._pending==="ja"?"Wird freigegeben …":"Wird verworfen …"}</span>`:
+          `<button class="btn okb" style="padding:4px 12px;font-size:12px" onclick="decide(${i},'ja')">Freigeben</button><button class="btn nob" style="padding:4px 12px;font-size:12px" onclick="decide(${i},'nein')">Verwerfen</button>`}</div>
       </div>`).join(""):`<div style="color:#64748b;font-size:13px">Keine offenen Fälle.</div>`}</div>`;
   }
 
@@ -401,6 +411,7 @@ function reportedInfo(c,kind){
   return null;
 }
 function isLate(c){const a=addedTime(c),p=Date.parse((c.date||"").slice(0,10));return !!(a&&p&&(a-p)>3.5*864e5);} // erschienen deutlich vor dem Fund
+function kindPill(r){return r.kind==="treffer"?`<span class="pill" style="margin-left:0;background:#d1fae5;color:#065f46">Treffer</span>`:`<span class="pill" style="margin-left:0;background:#fef3c7;color:#92400e">Zweifelsfall</span>`;}
 function openClips(kind){return clips.filter(c=>!reportedInfo(c,kind)).sort((a,b)=>(b.date||"").localeCompare(a.date||""));}
 function lastLog(kind){const l=(reported.log||[]).filter(x=>x.kind===kind);return l.length?l[l.length-1]:null;}
 function statusPills(c){
