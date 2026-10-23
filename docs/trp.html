@@ -176,7 +176,7 @@ function render(){
       </div>
       <div class="card"><h3 class="h3">Clippings pro Monat</h3>
         <div style="display:flex;gap:8px;align-items:flex-end;height:110px">
-          ${Object.entries(s.byMonth).sort().slice(-14).map(([m,c])=>`<div style="flex:1;text-align:center"><div style="height:${Math.max(6,(c/maxM)*85)}px;background:linear-gradient(180deg,#1d4ed8,#2563eb);border-radius:4px 4px 0 0"></div><div style="font-size:9px;color:#64748b;margin-top:3px" class="mono">${m.slice(2).replace("-","/")}</div><div style="font-size:12px;color:#374151;font-weight:600">${c}</div></div>`).join("")}
+          ${Object.entries(s.byMonth).sort().slice(-14).map(([m,c])=>`<div style="flex:1;max-width:80px;text-align:center"><div style="height:${Math.max(6,(c/maxM)*85)}px;background:linear-gradient(180deg,#1d4ed8,#2563eb);border-radius:4px 4px 0 0"></div><div style="font-size:9px;color:#64748b;margin-top:3px" class="mono">${m.slice(2).replace("-","/")}</div><div style="font-size:12px;color:#374151;font-weight:600">${c}</div></div>`).join("")}
         </div>
       </div>
       <div class="card" style="margin-top:14px"><h3 class="h3">Noch nicht bearbeitet (${openK.length})</h3>
